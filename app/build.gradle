@@ -3,18 +3,67 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
+
+    repositories {
+        jcenter()
+    }
+
+    def hockeyDebugKey
+    def hockeyStageKey
+    def hockeyLiveKey
+    def buildCode = 1
+
+    if (project.rootProject.file('local.properties').exists()) {
+        Properties properties = new Properties();
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        hockeyDebugKey = properties.getProperty('hockey.debug.key');
+        hockeyStageKey = properties.getProperty('hockey.stage.key');
+        hockeyLiveKey = properties.getProperty('hockey.live.key');
+    } else {
+        hockeyDebugKey = System.getenv('HOCKEY_DEBUG_KEY');
+        hockeyStageKey = System.getenv('HOCKEY_STAGE_KEY');
+        hockeyLiveKey = System.getenv('HOCKEY_LIVE_KEY');
+        buildCode = System.getenv('CIRCLE_BUILD_NUM').toInteger()
+    }
+
+
     defaultConfig {
         applicationId "com.dentacoin.dentacare"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode buildCode
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+
+    signingConfigs {
+        debug {
+        }
         release {
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        dev {
+            applicationIdSuffix ".dev"
+            resValue "string", "hockey_app_id", hockeyDebugKey
+        }
+        staging {
+            applicationIdSuffix ".stage"
+            resValue "string", "hockey_app_id", hockeyStageKey
+        }
+        live {
+            resValue "string", "hockey_app_id", hockeyLiveKey
         }
     }
 }
@@ -26,5 +75,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'net.hockeyapp.android:HockeySDK:4.1.4'
     testCompile 'junit:junit:4.12'
 }
