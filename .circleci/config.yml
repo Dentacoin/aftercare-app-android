@@ -11,7 +11,8 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run: |
-          echo 'export KEYSTORE=$CIRCLE_WORKING_DIRECTORY/$KEYSTORE_FILE' >> $BASH_ENV
+          touch ${CIRCLE_WORKING_DIRECTORY}/${KEYSTORE_FILE}
+          export KEYSTORE=$CIRCLE_WORKING_DIRECTORY/$KEYSTORE_FILE
           echo KEYSTORE: $KEYSTORE
           echo KEYSTORE_URI: $KEYSTORE_URI
       - run:
