@@ -10,14 +10,15 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run: echo 'export KEYSTORE=$CIRCLE_WORKING_DIRECTORY/$KEYSTORE_FILE' >> $BASH_ENV
+      - run: |
+        echo 'export KEYSTORE=$CIRCLE_WORKING_DIRECTORY/$KEYSTORE_FILE' >> $BASH_ENV
+        echo KEYSTORE: $KEYSTORE
+        echo KEYSTORE_URI: $KEYSTORE_URI
       - run:
           name: Download Dependencies
           command: |
-            echo ./gradlew androidDependencies
-            echo KEYSTORE: $KEYSTORE
-            echo KEYSTORE_URI: $KEYSTORE_URI
             curl -L -o ${KEYSTORE} ${KEYSTORE_URI}
+            echo ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
