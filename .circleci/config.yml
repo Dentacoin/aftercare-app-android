@@ -6,7 +6,7 @@ jobs:
       - image: circleci/android:api-26-alpha
     environment:
       JVM_OPTS: -Xmx3200m
-      KEYSTORE: "test.jks"
+      KEYSTORE: "${CIRCLE_WORKING_DIRECTORY}/${CIRCLE_PROJECT_REPONAME}/${KEYSTORE_FILE}"
     steps:
       - checkout
       - restore_cache:
