@@ -10,7 +10,7 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run: echo 'export KEYSTORE=$CIRCLE_WORKING_DIRECTORY/$CIRCLE_PROJECT_REPONAME/$KEYSTORE_FILE' >> $BASH_ENV
+      - run: echo 'export KEYSTORE=$HOME/$CIRCLE_PROJECT_REPONAME/$KEYSTORE_FILE' >> $BASH_ENV
       - run:
           name: Download Dependencies
           command: |
