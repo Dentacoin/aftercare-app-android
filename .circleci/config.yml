@@ -14,8 +14,8 @@ jobs:
       - run:
           name: Download Dependencies
           command: |
-          gradlew androidDependencies
-          curl -L -o ${KEYSTORE} ${KEYSTORE_URI}
+            echo ./gradlew androidDependencies
+            curl -L -o ${KEYSTORE} ${KEYSTORE_URI}
       - save_cache:
           paths:
             - ~/.gradle
