@@ -12,6 +12,10 @@ android {
     def hockeyStageKey
     def hockeyLiveKey
     def buildCode = 1
+    def keystore
+    def keystorePassword
+    def alias
+    def password
 
     if (project.rootProject.file('local.properties').exists()) {
         Properties properties = new Properties();
@@ -19,11 +23,19 @@ android {
         hockeyDebugKey = properties.getProperty('hockey.debug.key');
         hockeyStageKey = properties.getProperty('hockey.stage.key');
         hockeyLiveKey = properties.getProperty('hockey.live.key');
+        keystore = file(properties.getProperty('keystore'))
+        keystorePassword = properties.getProperty('keystore.password')
+        alias = properties.getProperty('key.alias')
+        password = properties.getProperty('key.password')
     } else {
         hockeyDebugKey = System.getenv('HOCKEY_DEBUG_KEY');
         hockeyStageKey = System.getenv('HOCKEY_STAGE_KEY');
         hockeyLiveKey = System.getenv('HOCKEY_LIVE_KEY');
         buildCode = System.getenv('CIRCLE_BUILD_NUM').toInteger()
+        keystore = file(System.getenv("KEYSTORE"))
+        keystorePassword = System.getenv("KEYSTORE_PASSWORD")
+        alias = System.getenv("KEY_ALIAS")
+        password = System.getenv("KEY_PASSWORD")
     }
 
 
@@ -39,6 +51,10 @@ android {
         debug {
         }
         release {
+            storeFile keystore
+            storePassword keystorePassword
+            keyAlias alias
+            keyPassword password
         }
     }
 

@@ -1,0 +1,81 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-26-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+      KEYSTORE: ${HOME}/${CIRCLE_PROJECT_REPONAME}/${KEYSTORE_FILE}
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Download Dependencies
+          command: |
+          ./gradlew androidDependencies
+          curl -L -o ${KEYSTORE} ${KEYSTORE_URI}
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Run Tests
+          command: ./gradlew lint test
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+      - store_test_results:
+          path: app/build/test-results
+      - run:
+          name: Build Target
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "develop" ]
+            then
+              echo "Building Dev Release Build"
+              ./gradlew assembleDevRelease
+            elif [ "${CIRCLE_BRANCH}" == "master" ]
+            then
+              rtagx="release-.*"
+              if [[ "${CIRCLE_TAG}" =~  $rtagx ]]
+              then
+                echo "Building Live Release Build"
+                ./gradlew assembleLiveRelease
+              else
+                echo "Building Stage Release Build"
+                ./gradlew assembleStagingRelease
+              fi
+            fi
+      - deploy:
+          name: Deploying Build
+          command: |
+            gitCommitMessage=\"$(git log --pretty=tformat:"%s | %cr" -n 1 $CIRCLE_SHA1)\"
+            sleep 5
+            if [ "${CIRCLE_BRANCH}" == "develop" ]
+            then
+              ipa="@app/build/outputs/apk/app-dev-release.apk"
+            elif [ "${CIRCLE_BRANCH}" == "master" ]
+            then
+              rtagx="release-.*"
+              if [[ "${CIRCLE_TAG}" =~  $rtagx ]]
+              then
+                ipa="@app/build/outputs/apk/app-live-release.apk"
+              else
+                ipa="@app/build/outputs/apk/app-staging-release.apk"
+              fi
+            fi
+
+            if [ $ipa ]
+            then
+              curl \
+                -F "status=2" \
+                -F "notify=1" \
+                -F "notes=$gitCommitMessage" \
+                -F "notes_type=0" \
+                -F "ipa=$ipa" \
+                -H "X-HockeyAppToken: ${HOCKEY_TOKEN}" \
+                https://rink.hockeyapp.net/api/2/apps/upload
+            else
+              echo "Something went wrong... no builds uploaded!"
+            fi
