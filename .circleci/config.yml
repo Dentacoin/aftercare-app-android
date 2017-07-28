@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Retrieve keystore
           command: |
-            sudo curl ${KEYSTORE_URI} > ${KEYSTORE}
+            sudo curl -L ${KEYSTORE_URI} > ${KEYSTORE}
       - run:
           name: Run Tests
           command: |
