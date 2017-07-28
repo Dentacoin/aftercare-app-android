@@ -21,7 +21,7 @@ jobs:
       - run:
           name: Retrieve keystore
           command: |
-            echo 'export KEYSTORE=${HOME}/${KEYSTORE_FILE}' >> $BASH_ENV
+            echo "export KEYSTORE=${HOME}/${KEYSTORE_FILE}" >> $BASH_ENV
             sudo curl ${KEYSTORE_URI} > ${KEYSTORE}
       - run:
           name: Run Tests
