@@ -6,6 +6,7 @@ jobs:
       - image: circleci/android:api-26-alpha
     environment:
       JVM_OPTS: -Xmx3200m
+      KEYSTORE: /home/circleci/keystore.jks
     steps:
       - checkout
       - restore_cache:
@@ -21,7 +22,6 @@ jobs:
       - run:
           name: Retrieve keystore
           command: |
-            echo 'export KEYSTORE="${HOME}"/"${KEYSTORE_FILE}"' >> $BASH_ENV
             sudo curl ${KEYSTORE_URI} > ${KEYSTORE}
       - run:
           name: Run Tests
