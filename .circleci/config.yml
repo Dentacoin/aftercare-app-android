@@ -19,6 +19,11 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
+          name: Retrieve keystore
+          command: |
+            export KEYSTORE=${HOME}/${CIRCLE_PROJECT_REPONAME}/${KEYSTORE_FILE}
+            curl -L -o ${KEYSTORE} ${KEYSTORE_URI}
+      - run:
           name: Run Tests
           command: ./gradlew lint test
       - store_artifacts:
@@ -29,8 +34,6 @@ jobs:
       - run:
           name: Build Target
           command: |
-            export KEYSTORE=${HOME}/${CIRCLE_PROJECT_REPONAME}/${KEYSTORE_FILE}
-            curl -L -o ${KEYSTORE} ${KEYSTORE_URI}
             if [ "${CIRCLE_BRANCH}" == "develop" ]
             then
               echo "Building Dev Release Build"
