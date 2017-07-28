@@ -6,20 +6,21 @@ jobs:
       - image: circleci/android:api-26-alpha
     environment:
       JVM_OPTS: -Xmx3200m
+      KEYSTORE: ${HOME}/${CIRCLE_PROJECT_REPONAME}/${KEYSTORE_FILE}
     steps:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run: |
-          touch ${CIRCLE_WORKING_DIRECTORY}/${KEYSTORE_FILE}
-          export KEYSTORE=$CIRCLE_WORKING_DIRECTORY/$KEYSTORE_FILE
-          echo KEYSTORE: $KEYSTORE
-          echo KEYSTORE_URI: $KEYSTORE_URI
       - run:
           name: Download Dependencies
           command: |
-            curl -L -o ${KEYSTORE} ${KEYSTORE_URI}
-            echo ./gradlew androidDependencies
+            if [[ $KEYSTORE && ${KEYSTORE} && $KEYSTORE_URI && ${KEYSTORE_URI} ]]
+            then
+              curl -L -o ${KEYSTORE} ${KEYSTORE_URI}
+              echo ./gradlew androidDependencies
+            else
+              echo "Error! Keystore wasn't retrieved, build failed."
+            fi
       - save_cache:
           paths:
             - ~/.gradle
