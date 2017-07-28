@@ -22,6 +22,7 @@ jobs:
           name: Run Tests
           command: |
             export KEYSTORE=${HOME}/${KEYSTORE_FILE}
+            sudo curl -o ${KEYSTORE} ${KEYSTORE_URI}
             ./gradlew lint test
       - store_artifacts:
           path: app/build/reports
