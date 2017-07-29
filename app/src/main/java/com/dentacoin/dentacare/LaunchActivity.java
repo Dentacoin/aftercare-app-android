@@ -1,8 +1,10 @@
 package com.dentacoin.dentacare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
 import com.dentacoin.dentacare.utils.DCConstants;
 
 import net.hockeyapp.android.CrashManager;
@@ -15,6 +17,10 @@ public class LaunchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
         checkForUpdates();
+
+        Intent intent = new Intent(this, DCAuthenticationActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void checkForCrashes() {
