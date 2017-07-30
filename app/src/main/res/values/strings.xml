@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Dentacare</string>
+    <string name="btn_auth_login">Login</string>
+    <string name="btn_auth_signup">Sign up</string>
 </resources>

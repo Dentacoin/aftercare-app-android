@@ -17,7 +17,7 @@ public class LaunchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
         checkForUpdates();
-
+        
         Intent intent = new Intent(this, DCAuthenticationActivity.class);
         startActivity(intent);
         finish();

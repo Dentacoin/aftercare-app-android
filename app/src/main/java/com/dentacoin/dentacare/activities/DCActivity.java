@@ -7,5 +7,5 @@ import android.support.v7.app.AppCompatActivity;
  */
 
 public class DCActivity extends AppCompatActivity {
-    private static final String TAG = DCActivity.class.getSimpleName();
+    protected static final String TAG = DCActivity.class.getSimpleName();
 }

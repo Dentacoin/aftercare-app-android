@@ -7,5 +7,5 @@ import android.app.Fragment;
  */
 
 public class DCFragment extends Fragment {
-    public static final String TAG = DCFragment.class.getSimpleName();
+    protected static final String TAG = DCFragment.class.getSimpleName();
 }

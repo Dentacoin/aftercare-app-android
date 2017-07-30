@@ -16,4 +16,23 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
+
+    <style name="DCButton">
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="DCButton.Auth" parent="DCButton">
+        <item name="android:layout_width">@dimen/button_auth_width</item>
+        <item name="android:layout_height">@dimen/button_auth_height</item>
+    </style>
+
+    <style name="DCButton.Auth.Signup" parent="DCButton.Auth">
+        <item name="android:background">@drawable/bg_button_signup</item>
+        <item name="android:textColor">@color/ceruleanBlue</item>
+    </style>
+
+    <style name="DCButton.Auth.Login" parent="DCButton.Auth">
+        <item name="android:background">@drawable/bg_button_login</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>
