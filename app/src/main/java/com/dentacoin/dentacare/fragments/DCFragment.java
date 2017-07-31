@@ -8,4 +8,10 @@ import android.app.Fragment;
 
 public class DCFragment extends Fragment {
     protected static final String TAG = DCFragment.class.getSimpleName();
+
+    protected void onBackPressed() {
+        if (getActivity() != null) {
+            getActivity().onBackPressed();
+        }
+    }
 }

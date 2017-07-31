@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#ffffff</color>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">@color/ceruleanBlue</color>
+    <color name="colorPrimaryDark">#0847b2</color>
     <color name="colorAccent">#FF4081</color>
     <color name="brightSkyBlue">#09c9fd</color>
     <color name="ceruleanBlue">#0a5df1</color>

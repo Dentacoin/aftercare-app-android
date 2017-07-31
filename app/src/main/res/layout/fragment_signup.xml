@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rectangle_gradient_blue">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true">
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_big"
+            android:layout_gravity="center"
+            android:paddingTop="50dp"/>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="31dp"
+            fresco:placeholderImage="@drawable/add_profile_image"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="20dp"
+                android:src="@drawable/user_icon"/>
+
+            <com.dentacoin.dentacare.widgets.DCTextInputLayout
+                android:theme="@style/DCTextInputLayout.Auth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.dentacoin.dentacare.widgets.DCEditText
+                    style="@style/DCEditText.Auth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name"
+                    android:singleLine="true"/>
+            </com.dentacoin.dentacare.widgets.DCTextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="20dp"
+                android:src="@drawable/email_icon"/>
+            
+            <com.dentacoin.dentacare.widgets.DCTextInputLayout
+                android:theme="@style/DCTextInputLayout.Auth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    style="@style/DCEditText.Auth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="email"
+                    android:singleLine="true"/>
+            </com.dentacoin.dentacare.widgets.DCTextInputLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingRight="20dp"
+                android:src="@drawable/padlock_icon"/>
+
+            <com.dentacoin.dentacare.widgets.DCTextInputLayout
+                android:theme="@style/DCTextInputLayout.Auth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    style="@style/DCEditText.Auth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="password"
+                    android:singleLine="true"
+                    android:password="true"/>
+            </com.dentacoin.dentacare.widgets.DCTextInputLayout>
+        </LinearLayout>
+
+        <com.dentacoin.dentacare.widgets.DCButton
+            style="@style/DCButton.Auth"
+            android:text="Create"
+            android:layout_gravity="center"
+            android:layout_marginTop="46dp"/>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_login_or_connect_with"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:paddingBottom="30dp">
+
+            <com.dentacoin.dentacare.widgets.DCButton
+                android:id="@+id/btn_login_facebook"
+                style="@style/DCButton.Social"
+                android:background="@drawable/btn_facebook"/>
+
+            <com.dentacoin.dentacare.widgets.DCButton
+                android:id="@+id/btn_login_twitter"
+                style="@style/DCButton.Social"
+                android:background="@drawable/btn_twitter"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"/>
+
+            <com.dentacoin.dentacare.widgets.DCButton
+                android:id="@+id/btn_login_google"
+                style="@style/DCButton.Social"
+                android:background="@drawable/btn_google"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_signup_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"/>
+</RelativeLayout>

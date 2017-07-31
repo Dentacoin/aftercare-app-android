@@ -5,6 +5,7 @@ package com.dentacoin.dentacare.utils;
  */
 
 public class DCConstants {
+    //Build types & flavors
     public static final String BUILD_FLAVOR_DEV = "dev";
     public static final String BUILD_FLAVOR_STAGING = "staging";
     public static final String BUILD_FALVOR_LIVE = "live";

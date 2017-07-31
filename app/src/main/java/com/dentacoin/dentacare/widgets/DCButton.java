@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.support.v7.widget.AppCompatButton;
 
+import com.dentacoin.dentacare.utils.DCFonts;
+
 /**
  * Created by Atanas Chervarov on 7/29/17.
  */
@@ -25,5 +27,6 @@ public class DCButton extends AppCompatButton {
     }
 
     private void init() {
+        setTypeface(DCFonts.getFont(getContext(), DCFonts.FONT_LATO_REGULAR));
     }
 }

@@ -10,7 +10,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentTop="true">
+
         <ImageView
+            android:id="@+id/iv_auth_dentacoin_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/dentacoin_logo"
@@ -18,6 +20,7 @@
             android:paddingTop="50dp"/>
 
         <ImageView
+            android:id="@+id/iv_auth_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/login_logo"
@@ -33,14 +36,17 @@
         android:paddingBottom="50dp">
 
         <com.dentacoin.dentacare.widgets.DCButton
-            style="@style/DCButton.Auth.Signup"
+            android:id="@+id/btn_auth_signup"
+            style="@style/DCButton.Auth"
+            android:background="@drawable/bg_button_pressed"
+            android:textColor="@color/ceruleanBlue"
             android:text="@string/btn_auth_signup"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"/>
 
         <com.dentacoin.dentacare.widgets.DCButton
-            android:id="@+id/DCButton"
-            style="@style/DCButton.Auth.Login"
+            android:id="@+id/btn_auth_login"
+            style="@style/DCButton.Auth"
             android:layout_gravity="center"
             android:text="@string/btn_auth_login" />
     </LinearLayout>
