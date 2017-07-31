@@ -43,7 +43,7 @@
                     style="@style/DCEditText.Auth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="e-mail"/>
+                    android:hint="@string/signup_hnt_email"/>
 
             </com.dentacoin.dentacare.widgets.DCTextInputLayout>
         </LinearLayout>
@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:password="true"
-                    android:hint="password"/>
+                    android:hint="@string/signup_hnt_password"/>
             </com.dentacoin.dentacare.widgets.DCTextInputLayout>
         </LinearLayout>
 

@@ -4,4 +4,9 @@
     <string name="btn_auth_signup">Sign Up</string>
     <string name="txt_login_forgot_password">Forgot password?</string>
     <string name="txt_login_or_connect_with">Or connect with</string>
+    <string name="signup_txt_signup">Sign Up</string>
+    <string name="signup_hnt_name">Name</string>
+    <string name="signup_hnt_email">email</string>
+    <string name="signup_hnt_password">password</string>
+    <string name="signup_btn_create">Create</string>
 </resources>

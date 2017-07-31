@@ -15,7 +15,7 @@
         <com.dentacoin.dentacare.widgets.DCTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign Up"
+            android:text="@string/signup_txt_signup"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_big"
             android:layout_gravity="center"
@@ -58,7 +58,7 @@
                     style="@style/DCEditText.Auth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name"
+                    android:hint="@string/signup_hnt_name"
                     android:singleLine="true"/>
             </com.dentacoin.dentacare.widgets.DCTextInputLayout>
         </LinearLayout>
@@ -83,7 +83,7 @@
                     style="@style/DCEditText.Auth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="email"
+                    android:hint="@string/signup_hnt_email"
                     android:singleLine="true"/>
             </com.dentacoin.dentacare.widgets.DCTextInputLayout>
         </LinearLayout>
@@ -107,7 +107,7 @@
                     style="@style/DCEditText.Auth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="password"
+                    android:hint="@string/signup_hnt_password"
                     android:singleLine="true"
                     android:password="true"/>
             </com.dentacoin.dentacare.widgets.DCTextInputLayout>
@@ -115,7 +115,7 @@
 
         <com.dentacoin.dentacare.widgets.DCButton
             style="@style/DCButton.Auth"
-            android:text="Create"
+            android:text="@string/signup_btn_create"
             android:layout_gravity="center"
             android:layout_marginTop="46dp"/>
 
