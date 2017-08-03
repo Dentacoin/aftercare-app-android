@@ -24,6 +24,16 @@ jobs:
           command: |
             sudo curl -L ${KEYSTORE_URI} > ${KEYSTORE}
       - run:
+          name: Setup Google Services Json
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "develop" ]
+            then
+              echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > ${HOME}/google-services.json
+            elif [ "${CIRCLE_BRANCH}" == "master" ]
+            then
+                echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > ${HOME}/google-services.json
+            fi
+      - run:
           name: Run Tests
           command: |
             ./gradlew lint test
@@ -37,12 +47,10 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "develop" ]
             then
-              echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > ${HOME}/google-services.json
               echo "Building Dev Release Build"
               ./gradlew assembleDevRelease
             elif [ "${CIRCLE_BRANCH}" == "master" ]
             then
-              echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > ${HOME}/google-services.json
               rtagx="release-.*"
               if [[ "${CIRCLE_TAG}" =~  $rtagx ]]
               then
