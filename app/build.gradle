@@ -1,11 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
 
     repositories {
         jcenter()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 
     def hockeyDebugKey
@@ -14,8 +16,14 @@ android {
     def buildCode = 1
     def keystore
     def keystorePassword
-    def alias
-    def password
+    def debugAlias
+    def releaseAlias
+    def debugPassword
+    def releasePassword
+    def facebookAppId
+    def facebookLoginProtocolScheme
+    def twitterConsumerKey
+    def twitterConsumerSecret
 
     if (project.rootProject.file('local.properties').exists()) {
         Properties properties = new Properties();
@@ -25,8 +33,14 @@ android {
         hockeyLiveKey = properties.getProperty('hockey.live.key');
         keystore = file(properties.getProperty('keystore'))
         keystorePassword = properties.getProperty('keystore.password')
-        alias = properties.getProperty('key.alias')
-        password = properties.getProperty('key.password')
+        debugAlias = properties.getProperty('key.debugAlias')
+        debugPassword = properties.getProperty('key.debugPassword')
+        releaseAlias = properties.getProperty('key.releaseAlias')
+        releasePassword = properties.getProperty('key.releasePassword')
+        facebookAppId = properties.getProperty('facebook.app.id')
+        facebookLoginProtocolScheme = properties.getProperty('facebook.login.protocol.scheme')
+        twitterConsumerKey = properties.getProperty('twitter.consumer.key')
+        twitterConsumerSecret = properties.getProperty('twitter.consumer.secret')
     } else {
         hockeyDebugKey = System.getenv('HOCKEY_DEBUG_KEY');
         hockeyStageKey = System.getenv('HOCKEY_STAGE_KEY');
@@ -34,27 +48,40 @@ android {
         buildCode = System.getenv('CIRCLE_BUILD_NUM').toInteger()
         keystore = file(System.getenv("KEYSTORE"))
         keystorePassword = System.getenv("KEYSTORE_PASSWORD")
-        alias = System.getenv("KEY_ALIAS")
-        password = System.getenv("KEY_PASSWORD")
+        debugAlias = System.getenv('KEY_DEBUG_ALIAS')
+        debugPassword = System.getenv('KEY_DEBUG_PASSWORD')
+        releaseAlias = System.getenv('KEY_RELEASE_ALIAS')
+        releasePassword = System.getenv('KEY_RELEASE_PASSWORD')
+        facebookAppId = System.getenv('FACEBOOK_APP_ID')
+        facebookLoginProtocolScheme = System.getenv('FACEBOOK_LOGIN_PROTOCOL_SCHEME')
+        twitterConsumerKey = System.getenv('TWITTER_CONSUMER_KEY')
+        twitterConsumerSecret = System.getenv('TWITTER_CONSUMER_SECRET')
     }
-
 
     defaultConfig {
         applicationId "com.dentacoin.dentacare"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 25
         versionCode buildCode
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        resValue "string", "facebook_app_id", facebookAppId
+        resValue "string", "fb_login_protocol_scheme", facebookLoginProtocolScheme
+        resValue "string", "com.twitter.sdk.android.CONSUMER_KEY", twitterConsumerKey
+        resValue "string", "com.twitter.sdk.android.CONSUMER_SECRET", twitterConsumerSecret
     }
 
     signingConfigs {
         debug {
+            storeFile keystore
+            storePassword keystorePassword
+            keyAlias debugAlias
+            keyPassword debugPassword
         }
         release {
             storeFile keystore
             storePassword keystorePassword
-            keyAlias alias
-            keyPassword password
+            keyAlias releaseAlias
+            keyPassword releasePassword
         }
     }
 
@@ -89,10 +116,16 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:design:26+'
-    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'net.hockeyapp.android:HockeySDK:4.1.4'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.facebook.fresco:fresco:1.4.0'
+    compile 'com.twitter.sdk.android:twitter-core:3.1.0'
+    compile 'com.google.android.gms:play-services-auth:9.8.0'
+    compile 'com.github.matecode:Snacky:1.0.2'
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -35,7 +35,7 @@
 
     <style name="DCButton.Social" parent="DCButton">
         <item name="android:layout_width">@dimen/button_auth_social_width</item>
-        <item name="android:layout_height">@dimen/button_auth_social_width</item>
+        <item name="android:layout_height">@dimen/button_auth_social_height</item>
     </style>
 
     <style name="DCEditText">

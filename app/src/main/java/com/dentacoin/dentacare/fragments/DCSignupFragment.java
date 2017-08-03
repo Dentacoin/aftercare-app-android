@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.dentacoin.dentacare.R;
+import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
+import com.dentacoin.dentacare.widgets.DCButton;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
@@ -20,6 +22,10 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
     private ImageView ivSignupBack;
     private SimpleDraweeView sdvSignupProfileImage;
 
+    private DCButton btnSignupFacebook;
+    private DCButton btnSignupTwitter;
+    private DCButton btnSignupGoogle;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
@@ -29,6 +35,15 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
         sdvSignupProfileImage = (SimpleDraweeView) view.findViewById(R.id.sdv_signup_profile_image);
         sdvSignupProfileImage.setOnClickListener(this);
 
+        btnSignupFacebook = (DCButton) view.findViewById(R.id.btn_signup_facebook);
+        btnSignupFacebook.setOnClickListener(this);
+
+        btnSignupTwitter = (DCButton) view.findViewById(R.id.btn_signup_twitter);
+        btnSignupTwitter.setOnClickListener(this);
+
+        btnSignupGoogle = (DCButton) view.findViewById(R.id.btn_signup_google);
+        btnSignupGoogle.setOnClickListener(this);
+        
         return view;
     }
 
@@ -40,7 +55,16 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
                 break;
             case R.id.sdv_signup_profile_image:
                 pickAvatar();
-                return;
+                break;
+            case R.id.btn_signup_facebook:
+                ((DCAuthenticationActivity)getActivity()).onFacebookLogin();
+                break;
+            case R.id.btn_signup_twitter:
+                ((DCAuthenticationActivity)getActivity()).onTwitterLogin();
+                break;
+            case R.id.btn_signup_google:
+                ((DCAuthenticationActivity)getActivity()).onGoogleLogin();
+                break;
         }
     }
 

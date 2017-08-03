@@ -137,19 +137,19 @@
             android:paddingBottom="30dp">
 
             <com.dentacoin.dentacare.widgets.DCButton
-                android:id="@+id/btn_login_facebook"
+                android:id="@+id/btn_signup_facebook"
                 style="@style/DCButton.Social"
                 android:background="@drawable/btn_facebook"/>
 
             <com.dentacoin.dentacare.widgets.DCButton
-                android:id="@+id/btn_login_twitter"
+                android:id="@+id/btn_signup_twitter"
                 style="@style/DCButton.Social"
                 android:background="@drawable/btn_twitter"
                 android:layout_marginLeft="18dp"
                 android:layout_marginRight="18dp"/>
 
             <com.dentacoin.dentacare.widgets.DCButton
-                android:id="@+id/btn_login_google"
+                android:id="@+id/btn_signup_google"
                 style="@style/DCButton.Social"
                 android:background="@drawable/btn_google"/>
         </LinearLayout>

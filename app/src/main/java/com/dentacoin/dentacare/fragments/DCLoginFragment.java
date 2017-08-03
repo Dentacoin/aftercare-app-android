@@ -1,6 +1,5 @@
 package com.dentacoin.dentacare.fragments;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.dentacoin.dentacare.R;
+import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
+import com.dentacoin.dentacare.widgets.DCButton;
 
 /**
  * Created by Atanas Chervarov on 7/29/17.
@@ -18,19 +19,32 @@ import com.dentacoin.dentacare.R;
 public class DCLoginFragment extends DCFragment implements View.OnClickListener {
 
     public static final String TAG = DCLoginFragment.class.getSimpleName();
-    private ImageView iv_login_logo;
-    private ImageView iv_login_back;
+    private ImageView ivLoginLogo;
+    private ImageView ivLoginBack;
+
+    private DCButton btnLoginFacebook;
+    private DCButton btnLoginTwitter;
+    private DCButton btnLoginGoogle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        iv_login_logo = (ImageView) view.findViewById(R.id.iv_login_logo);
+        ivLoginLogo = (ImageView) view.findViewById(R.id.iv_login_logo);
         Animation loginLogoAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.login_logo_animation);
-        iv_login_logo.startAnimation(loginLogoAnimation);
+        ivLoginLogo.startAnimation(loginLogoAnimation);
 
-        iv_login_back = (ImageView) view.findViewById(R.id.iv_login_back);
-        iv_login_back.setOnClickListener(this);
+        ivLoginBack = (ImageView) view.findViewById(R.id.iv_login_back);
+        ivLoginBack.setOnClickListener(this);
+
+        btnLoginFacebook = (DCButton) view.findViewById(R.id.btn_login_facebook);
+        btnLoginFacebook.setOnClickListener(this);
+
+        btnLoginGoogle = (DCButton) view.findViewById(R.id.btn_login_google);
+        btnLoginGoogle.setOnClickListener(this);
+
+        btnLoginTwitter = (DCButton) view.findViewById(R.id.btn_login_twitter);
+        btnLoginTwitter.setOnClickListener(this);
 
         return view;
     }
@@ -41,6 +55,13 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener 
             case R.id.iv_login_back:
                 onBackPressed();
                 break;
+            case R.id.btn_login_facebook:
+                ((DCAuthenticationActivity) getActivity()).onFacebookLogin();
+                break;
+            case R.id.btn_login_twitter:
+                ((DCAuthenticationActivity) getActivity()).onTwitterLogin();
+            case R.id.btn_login_google:
+                ((DCAuthenticationActivity) getActivity()).onGoogleLogin();
         }
     }
 }
