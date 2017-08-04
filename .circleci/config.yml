@@ -45,14 +45,17 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "develop" ]
             then
+              echo "Running Dev Release lint test"
               ./gradlew lintDevRelease test
             elif [ "${CIRCLE_BRANCH}" == "master" ]
             then
               rtagx="release-.*"
               if [[ "${CIRCLE_TAG}" =~  $rtagx ]]
               then
+                echo "Running Live Release lint test"
                 ./gradlew lintLiveRelease test
               else
+                echo "Running Staging Release lint test"
                 ./gradlew lintStagingRelease test
               fi
             fi
