@@ -29,10 +29,15 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "develop" ]
             then
               echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > /home/circleci/code/google-services.json
+              echo "Done! Using develop google-services.json"
             elif [ "${CIRCLE_BRANCH}" == "master" ]
             then
               echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/google-services.json
+              echo "Done! Using release google-services.json"
+            else
+              echo "Error! No google-services file created!"
             fi
+
       - run:
           name: Run Tests
           command: |
