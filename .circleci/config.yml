@@ -27,11 +27,15 @@ jobs:
           name: Setup Google Services Json
           command: |
             echo "Setting up google services json files"
-            mkdir -p /home/circleci/code/app/src/debug/
+            mkdir -p /home/circleci/code/app/src/dev/debug/
+            mkdir -p /home/circleci/code/app/src/stage/debug/
+            mkdir -p /home/circleci/code/app/src/live/debug/
             mkdir -p /home/circleci/code/app/src/dev/release/
             mkdir -p /home/circleci/code/app/src/stage/release/
             mkdir -p /home/circleci/code/app/src/live/release/
-            echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > /home/circleci/code/app/src/debug/google-services.json
+            echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > /home/circleci/code/app/src/dev/debug/google-services.json
+            echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/stage/debug/google-services.json
+            echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/live/debug/google-services.json
             echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > /home/circleci/code/app/src/dev/release/google-services.json
             echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/stage/release/google-services.json
             echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/live/release/google-services.json
