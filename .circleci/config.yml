@@ -43,7 +43,19 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            ./gradlew lint test
+            if [ "${CIRCLE_BRANCH}" == "develop" ]
+            then
+              ./gradlew lintDevRelease test
+            elif [ "${CIRCLE_BRANCH}" == "master" ]
+            then
+              rtagx="release-.*"
+              if [[ "${CIRCLE_TAG}" =~  $rtagx ]]
+              then
+                ./gradlew lintLiveRelease test
+              else
+                ./gradlew lintStagingRelease test
+              fi
+            fi
       - store_artifacts:
           path: app/build/reports
           destination: reports
