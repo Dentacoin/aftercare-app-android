@@ -28,10 +28,12 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "develop" ]
             then
+              mkdir -p /home/circleci/code/app/src/release
               echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > /home/circleci/code/app/src/release/google-services.json
               echo "Done! Using develop google-services.json"
             elif [ "${CIRCLE_BRANCH}" == "master" ]
             then
+              mkdir -p /home/circleci/code/app/src/release
               echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/release/google-services.json
               echo "Done! Using release google-services.json"
             else
