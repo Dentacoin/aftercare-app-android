@@ -37,7 +37,6 @@ jobs:
             else
               echo "Error! No google-services file created!"
             fi
-
       - run:
           name: Run Tests
           command: |
