@@ -28,10 +28,10 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "develop" ]
             then
-              echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > ${CIRCLE_WORKING_DIRECTORY}/google-services.json
+              echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > /home/circleci/code/google-services.json
             elif [ "${CIRCLE_BRANCH}" == "master" ]
             then
-                echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > ${CIRCLE_WORKING_DIRECTORY}/google-services.json
+              echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/google-services.json
             fi
       - run:
           name: Run Tests
