@@ -34,10 +34,10 @@ jobs:
             mkdir -p /home/circleci/code/app/src/staging/release/
             mkdir -p /home/circleci/code/app/src/live/release/
             echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > /home/circleci/code/app/src/dev/debug/google-services.json
-            echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/staging/debug/google-services.json
+            echo $GOOGLE_SERVICES_STAGE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/staging/debug/google-services.json
             echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/live/debug/google-services.json
             echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > /home/circleci/code/app/src/dev/release/google-services.json
-            echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/staging/release/google-services.json
+            echo $GOOGLE_SERVICES_STAGE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/staging/release/google-services.json
             echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/live/release/google-services.json
             echo "All Done!"
       - run:
