@@ -27,12 +27,11 @@ jobs:
           name: Setup Google Services Json
           command: |
             echo "Setting up google services json files"
-            mkdir -p /home/circleci/code/app/src/debug/release
-            mkdir -p /home/circleci/code/app/src/stage/release
-            mkdir -p /home/circleci/code/app/src/live/release
-            echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > /home/circleci/code/app/src/debug/release/google-services.json
-            echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/stage/release/google-services.json
-            echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/live/release/google-services.json
+            mkdir -p /home/circleci/code/app/src/debug/
+            mkdir -p /home/circleci/code/app/src/live/
+            echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > /home/circleci/code/app/src/debug/google-services.json
+            echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/live/google-services.json
+            echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/live/google-services.json
             echo "All Done!"
       - run:
           name: Run Tests
