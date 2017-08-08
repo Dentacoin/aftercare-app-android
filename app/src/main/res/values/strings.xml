@@ -9,4 +9,8 @@
     <string name="signup_hnt_email">email</string>
     <string name="signup_hnt_password">password</string>
     <string name="signup_btn_create">Create</string>
+    <string name="error_txt_error_picking_image">An error occurred while trying to retrieve the picture!</string>
+    <string name="signup_txt_permission_avatar">You need to grant us \"Storage\" permission in order to setup an avatar</string>
+    <string name="signup_txt_settings">Settings</string>
+
 </resources>

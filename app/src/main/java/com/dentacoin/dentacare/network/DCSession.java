@@ -1,4 +1,4 @@
-package com.dentacoin.dentacare.connectivity;
+package com.dentacoin.dentacare.network;
 
 
 /**
@@ -7,7 +7,7 @@ package com.dentacoin.dentacare.connectivity;
 
 public class DCSession {
 
-    public static DCSession instance;
+    private static DCSession instance;
 
     public synchronized static DCSession getInstance() {
         if (instance == null)

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.anthonycr.grant.PermissionsManager;
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.fragments.DCAuthenticationFragment;
 import com.dentacoin.dentacare.fragments.DCLoginFragment;
@@ -30,10 +31,10 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import java.util.Arrays;
 
+
 /**
  * Created by Atanas Chervarov on 7/29/17.
  */
-
 public class DCAuthenticationActivity extends DCActivity implements FacebookCallback<LoginResult>, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int REQUEST_CODE_GOOGLE_SIGN_IN = 101;
@@ -119,6 +120,7 @@ public class DCAuthenticationActivity extends DCActivity implements FacebookCall
         }
     }
 
+
     private void handleGoogleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
@@ -148,5 +150,10 @@ public class DCAuthenticationActivity extends DCActivity implements FacebookCall
     @Override
     public void onError(FacebookException exception) {
         //TODO:
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        PermissionsManager.getInstance().notifyPermissionsChange(permissions, grantResults);
     }
 }

@@ -5,6 +5,7 @@
     android:versionName="0.1.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -49,6 +50,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
     </application>
 
 </manifest>

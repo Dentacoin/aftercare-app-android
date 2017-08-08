@@ -11,4 +11,8 @@ public class DCConstants {
     public static final String BUILD_FALVOR_LIVE = "live";
     public static final String BUILD_TYPE_DEBUG = "debug";
     public static final String BUILD_TYPE_RELEASE = "release";
+
+    public static final int AVATAR_DEFAULT_SIZE_WIDTH = 512;
+    public static final int AVATAR_DEFAULT_SIZE_HEIGHT = 512;
+
 }
