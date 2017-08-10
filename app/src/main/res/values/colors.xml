@@ -8,4 +8,5 @@
     <color name="ceruleanBlue">#0a5df1</color>
     <color name="iceBlue">#fbfdff</color>
     <color name="paleSkyBlue">#c9ebfc</color>
+    <color name="greyTransparent">#80d7d7d7</color>
 </resources>

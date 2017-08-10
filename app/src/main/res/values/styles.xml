@@ -56,4 +56,7 @@
         <item name="colorControlActivated">@color/white</item>
         <item name="colorControlHighlight">@color/white</item>
     </style>
+    
+    <style name="DCTextStyle">
+    </style>
 </resources>

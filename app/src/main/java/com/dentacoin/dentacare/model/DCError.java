@@ -5,4 +5,6 @@ package com.dentacoin.dentacare.model;
  */
 
 public class DCError {
+    private int code;
+    private String message;
 }

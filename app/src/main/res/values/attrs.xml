@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DCTextView">
+        <attr name="fontType" format="enum">
+            <enum name="regular" value="0"/>
+            <enum name="light" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>
