@@ -31,6 +31,7 @@ public class DCWelcomeFragment extends DCFragment {
         tvWelcome = (DCTextView) view.findViewById(R.id.tv_welcome);
         tvWelcomeName = (DCTextView) view.findViewById(R.id.tv_welcome_name);
 
+        //TODO: remove
         sdvWelcomeAvatar.setImageURI("http://lorempixel.com/512/512/people/");
 
         Resources r = getResources();
