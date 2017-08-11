@@ -8,4 +8,5 @@
     <dimen name="text_size_small">15sp</dimen>
     <dimen name="text_size_normal">20sp</dimen>
     <dimen name="text_size_big">32sp</dimen>
+    <dimen name="text_size_actionbar_title">22sp</dimen>
 </resources>

@@ -2,9 +2,10 @@
 <resources>
     <color name="white">#ffffff</color>
     <color name="colorPrimary">@color/ceruleanBlue</color>
-    <color name="colorPrimaryDark">#0847b2</color>
+    <color name="colorPrimaryDark">@color/lightBlue</color>
     <color name="colorAccent">#FF4081</color>
     <color name="brightSkyBlue">#09c9fd</color>
+    <color name="lightBlue">#0a93f7</color>
     <color name="ceruleanBlue">#0a5df1</color>
     <color name="iceBlue">#fbfdff</color>
     <color name="paleSkyBlue">#c9ebfc</color>

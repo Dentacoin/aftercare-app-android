@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
+import com.dentacoin.dentacare.activities.DCDashboardActivity;
 import com.dentacoin.dentacare.utils.DCConstants;
 
 import net.hockeyapp.android.CrashManager;
@@ -18,7 +19,7 @@ public class LaunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_launch);
         checkForUpdates();
 
-        Intent intent = new Intent(this, DCAuthenticationActivity.class);
+        Intent intent = new Intent(this, DCDashboardActivity.class);
         startActivity(intent);
         finish();
     }

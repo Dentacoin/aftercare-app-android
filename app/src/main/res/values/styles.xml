@@ -1,20 +1,27 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="DCSplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/bg_splash</item>
+    <style name="AppTheme.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="titleTextColor">@color/white</item>
     </style>
 
-    <style name="DCFullscreen" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="DCFullscreen" parent="AppTheme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="DCSplashTheme" parent="DCFullscreen">
+        <item name="android:windowBackground">@drawable/bg_splash</item>
     </style>
 
     <style name="DCAuthentication" parent="DCFullscreen">
