@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
 import com.dentacoin.dentacare.activities.DCDashboardActivity;
+import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCConstants;
 
 import net.hockeyapp.android.CrashManager;
@@ -18,10 +19,6 @@ public class LaunchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
         checkForUpdates();
-
-        Intent intent = new Intent(this, DCDashboardActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     private void checkForCrashes() {
@@ -46,6 +43,7 @@ public class LaunchActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         checkForCrashes();
+        checkSession();
     }
 
     @Override
@@ -58,5 +56,19 @@ public class LaunchActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         unregisterManagers();
+    }
+
+    private void checkSession() {
+        if (DCSession.getInstance().isValid()) {
+            final Intent intent = new Intent(this, DCDashboardActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        } else {
+            final Intent intent = new Intent(this, DCAuthenticationActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        }
     }
 }

@@ -5,14 +5,27 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     android:background="@drawable/rectangle_gradient_blue">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="center"
+        android:layout_centerInParent="true"
         android:src="@drawable/shape"
         android:layout_marginTop="20dp"/>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_welcome_avatar"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"
+        fresco:backgroundImage="@drawable/welcome_avatar_holder"
+        fresco:roundAsCircle="true"
+        fresco:fadeDuration="1000"
+        fresco:roundingBorderWidth="5dp"
+        fresco:roundingBorderColor="@color/greyTransparent"/>
 
     <com.dentacoin.dentacare.widgets.DCTextView
         android:id="@+id/tv_welcome"
@@ -24,30 +37,17 @@
         app:fontType="regular"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:layout_marginTop="110dp"/>
-    
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/sdv_welcome_avatar"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tv_welcome"
-        fresco:backgroundImage="@drawable/welcome_avatar_holder"
-        fresco:roundAsCircle="true"
-        fresco:fadeDuration="1000"
-        fresco:roundingBorderWidth="5dp"
-        fresco:roundingBorderColor="@color/greyTransparent"
-        android:layout_marginTop="80dp"/>
+        android:layout_above="@id/sdv_welcome_avatar"
+        android:layout_marginBottom="100dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTextView
         android:id="@+id/tv_welcome_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="32sp"
-        android:text="John Doe"
         android:textColor="@color/white"
         app:fontType="light"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/sdv_welcome_avatar"
-        android:layout_marginTop="60dp"/>
+        android:layout_marginTop="40dp"/>
 </RelativeLayout>

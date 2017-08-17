@@ -1,5 +1,7 @@
 package com.dentacoin.dentacare.network;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -27,30 +29,47 @@ public class DCResponseHandler<T> implements Callback {
     }
 
     @Override
-    public void onFailure(Call call, IOException e) {
-        if (responseListener != null)
-            responseListener.onFailure(new DCError());
+    public void onFailure(Call call, final IOException e) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (responseListener != null)
+                    responseListener.onFailure(new DCError(DCError.DCErrorType.NETWORK));
+            }
+        });
     }
 
     @Override
-    public void onResponse(Call call, Response response) throws IOException {
-        if (responseListener != null) {
-            if (response.body() != null) {
-                try {
-                    String jsonString = response.body().string();
-                    Log.d("RESPONSE", jsonString);
+    public void onResponse(Call call, final Response response) throws IOException {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (responseListener != null) {
+                    if (response.body() != null) {
+                        try {
+                            String jsonString = response.body().string();
+                            Log.d("RESPONSE", jsonString);
 
-                    if (response.code() == 200 || response.code() == 201) {
-                        T object = DCApiManager.gson.fromJson(jsonString, clazz);
-                        responseListener.onResponse(object);
-                    } else {
-                        responseListener.onFailure(new DCError());
+                            if (response.code() == 200 || response.code() == 201) {
+                                T object = DCApiManager.gson.fromJson(jsonString, clazz);
+                                responseListener.onResponse(object);
+                            } else {
+                                DCError error = DCApiManager.gson.fromJson(jsonString, DCError.class);
+                                responseListener.onFailure(error);
+                            }
+
+                            if (response.code() == 401) {
+                                //TODO: LOGOUT USER
+                            }
+
+                        } catch (IOException | JsonSyntaxException | IllegalStateException e) {
+                            responseListener.onFailure(new DCError(DCError.DCErrorType.UNKNOWN));
+                        }
                     }
-
-                } catch (IOException | JsonSyntaxException | IllegalStateException e) {
-                    responseListener.onFailure(new DCError());
                 }
             }
-        }
+        });
     }
 }

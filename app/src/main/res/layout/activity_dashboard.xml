@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-</LinearLayout>
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="30dp"
+        android:indeterminate="false"
+        android:max="1000"
+        android:progress="1000"
+        android:secondaryProgress="550"
+        android:layout_centerInParent="true"
+        android:progressDrawable="@drawable/circular_progressbar_background" />
+</RelativeLayout>

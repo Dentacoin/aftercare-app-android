@@ -27,6 +27,9 @@ android {
     def hostDev
     def hostStage
     def hostLive
+    def googleClientIDDev
+    def googleClientIDStage
+    def googleClientIDLive
 
     if (project.rootProject.file('local.properties').exists()) {
         Properties properties = new Properties();
@@ -47,6 +50,9 @@ android {
         hostDev = properties.getProperty('host.dev')
         hostStage = properties.getProperty('host.stage')
         hostLive = properties.getProperty('host.live')
+        googleClientIDDev = properties.getProperty('google.client.id.dev')
+        googleClientIDStage = properties.getProperty('google.client.id.stage')
+        googleClientIDLive = properties.getProperty('google.client.id.live')
     } else {
         hockeyDebugKey = System.getenv('HOCKEY_DEBUG_KEY');
         hockeyStageKey = System.getenv('HOCKEY_STAGE_KEY');
@@ -65,6 +71,9 @@ android {
         hostDev = System.getenv('HOST_DEV')
         hostStage = System.getenv('HOST_STAGE')
         hostLive = System.getenv('HOST_LIVE')
+        googleClientIDDev = System.getenv('GOOGLE_CLIENT_ID_DEV')
+        googleClientIDStage = System.getenv('GOOGLE_CLIENT_ID_STAGE')
+        googleClientIDLive = System.getenv('GOOGLE_CLIENT_ID_LIVE')
     }
 
     defaultConfig {
@@ -109,15 +118,18 @@ android {
         dev {
             applicationIdSuffix ".dev"
             resValue "string", "hockey_app_id", hockeyDebugKey
+            resValue "string", "google_client_id", googleClientIDDev
             buildConfigField 'String', 'HOST', hostDev
         }
         staging {
             applicationIdSuffix ".stage"
             resValue "string", "hockey_app_id", hockeyStageKey
+            resValue "string", "google_client_id", googleClientIDStage
             buildConfigField 'String', 'HOST', hostStage
         }
         live {
             resValue "string", "hockey_app_id", hockeyLiveKey
+            resValue "string", "google_client_id", googleClientIDLive
             buildConfigField 'String', 'HOST', hostLive
         }
     }
@@ -135,7 +147,7 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.facebook.fresco:fresco:1.4.0'
     compile 'com.twitter.sdk.android:twitter-core:3.1.0'
-    compile 'com.google.android.gms:play-services-auth:9.8.0'
+    compile 'com.google.android.gms:play-services-auth:11.0.4'
     compile 'com.github.matecode:Snacky:1.0.2'
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
     compile 'com.google.code.gson:gson:2.8.1'

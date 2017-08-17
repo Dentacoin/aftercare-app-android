@@ -8,7 +8,7 @@ import android.util.DisplayMetrics;
  */
 
 public class DCAvatar {
-    private int avatar_id;
+    private String avatar_id;
     private String avatar_random_id;
     private String xhdpi_link;
     private String hdpi_link;

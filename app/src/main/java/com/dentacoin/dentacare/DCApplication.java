@@ -2,6 +2,7 @@ package com.dentacoin.dentacare;
 
 import android.app.Application;
 
+import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.twitter.sdk.android.core.Twitter;
 
@@ -15,5 +16,6 @@ public class DCApplication extends Application {
         super.onCreate();
         Fresco.initialize(this);
         Twitter.initialize(this);
+        DCSharedPreferences.initialize(this);
     }
 }

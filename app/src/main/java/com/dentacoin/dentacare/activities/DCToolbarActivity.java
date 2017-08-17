@@ -17,7 +17,7 @@ import com.dentacoin.dentacare.widgets.DCTextView;
 
 public class DCToolbarActivity extends DCActivity {
 
-    private Toolbar toolbar;
+    protected Toolbar toolbar;
     private ActionBar actionBar;
     private FrameLayout container;
     private DCTextView actionbarTitle;
@@ -25,14 +25,11 @@ public class DCToolbarActivity extends DCActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_toolbar);
-
+        setContentView(getContentView());
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         container = (FrameLayout) findViewById(R.id.container);
-
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-
         if (actionBar != null) {
             actionBar.setDisplayShowCustomEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
@@ -57,5 +54,13 @@ public class DCToolbarActivity extends DCActivity {
      */
     protected final void addContentView(int resourceId) {
         container.addView(View.inflate(this, resourceId, null));
+    }
+
+    /**
+     * Returns a view resource to be inflated
+     * @return
+     */
+    protected int getContentView() {
+        return R.layout.activity_toolbar;
     }
 }

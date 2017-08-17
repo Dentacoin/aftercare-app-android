@@ -35,16 +35,16 @@
                 android:src="@drawable/email_icon"/>
 
             <com.dentacoin.dentacare.widgets.DCTextInputLayout
+                android:id="@+id/til_login_email"
                 android:theme="@style/DCTextInputLayout.Auth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputEditText
+                <com.dentacoin.dentacare.widgets.DCTextInputEditText
+                    android:id="@+id/tiet_login_email"
                     style="@style/DCEditText.Auth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/signup_hnt_email"/>
-
             </com.dentacoin.dentacare.widgets.DCTextInputLayout>
         </LinearLayout>
 
@@ -61,11 +61,12 @@
                 android:src="@drawable/padlock_icon"/>
 
             <com.dentacoin.dentacare.widgets.DCTextInputLayout
+                android:id="@+id/til_login_password"
                 android:theme="@style/DCTextInputLayout.Auth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputEditText
+                <com.dentacoin.dentacare.widgets.DCTextInputEditText
+                    android:id="@+id/tiet_login_password"
                     style="@style/DCEditText.Auth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -85,6 +86,7 @@
             android:layout_gravity="right"/>
 
         <com.dentacoin.dentacare.widgets.DCButton
+            android:id="@+id/btn_login_login"
             android:layout_gravity="center"
             android:layout_marginTop="80dp"
             style="@style/DCButton.Auth"
@@ -105,7 +107,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
-            android:paddingBottom="30dp">
+            android:paddingBottom="16dp">
 
             <com.dentacoin.dentacare.widgets.DCButton
                 android:id="@+id/btn_login_facebook"
@@ -125,16 +127,4 @@
                 android:background="@drawable/btn_google"/>
         </LinearLayout>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/iv_login_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/back_button"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"/>
 </RelativeLayout>

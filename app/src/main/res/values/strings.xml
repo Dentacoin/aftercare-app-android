@@ -5,7 +5,8 @@
     <string name="txt_login_forgot_password">Forgot password?</string>
     <string name="txt_login_or_connect_with">Or connect with</string>
     <string name="signup_txt_signup">Sign Up</string>
-    <string name="signup_hnt_name">Name</string>
+    <string name="signup_hnt_first_name">First name</string>
+    <string name="signup_hnt_last_name">Last name</string>
     <string name="signup_hnt_email">email</string>
     <string name="signup_hnt_password">password</string>
     <string name="signup_btn_create">Create</string>
@@ -13,4 +14,26 @@
     <string name="signup_txt_permission_avatar">You need to grant us \"Storage\" permission in order to setup an avatar</string>
     <string name="signup_txt_settings">Settings</string>
     <string name="welcome_txt_welcome">Welcome</string>
+    <string name="drawer_nav_home">Home</string>
+    <string name="drawer_nav_goals">Goals</string>
+    <string name="drawer_nav_dentacoin">Dentacoin</string>
+    <string name="drawer_nav_emergency">Emergency</string>
+    <string name="drawer_nav_oral_health">Oral Health</string>
+    <string name="drawer_nav_settings">Settings</string>
+    <string name="drawer_nav_about">About</string>
+    <string name="drawer_nav_signout">Sign out</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="error_txt_first_name_required">First name is required!</string>
+    <string name="error_txt_first_name_too_short">First name is too short!</string>
+    <string name="error_txt_first_name_too_long">First name is too long!</string>
+    <string name="error_txt_last_name_too_long">Last name is too long!</string>
+    <string name="error_txt_name_not_valid">Not a valid name!</string>
+    <string name="error_txt_email_required">Email is required!</string>
+    <string name="error_txt_email_not_valid">Please provide a valid email!</string>
+    <string name="error_txt_password_short">Please provide a password at with least 8 characters</string>
+    <string name="error_txt_failed_upload_avatar">Failed to upload avatar!</string>
+    <string name="error_txt_something_went_wrong">Something went wrong..</string>
+    <string name="error_txt_offline">You\'re offline. Please connect to the internet and try again.</string>
 </resources>

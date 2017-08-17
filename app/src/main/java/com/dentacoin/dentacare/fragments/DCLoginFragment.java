@@ -1,6 +1,7 @@
 package com.dentacoin.dentacare.fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,22 +10,33 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.dentacoin.dentacare.R;
+import com.dentacoin.dentacare.activities.DCActivity;
 import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
+import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCUser;
+import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.widgets.DCButton;
+import com.dentacoin.dentacare.widgets.DCTextInputEditText;
+import com.dentacoin.dentacare.widgets.DCTextInputLayout;
 
 /**
  * Created by Atanas Chervarov on 7/29/17.
  */
 
-public class DCLoginFragment extends DCFragment implements View.OnClickListener {
+public class DCLoginFragment extends DCFragment implements View.OnClickListener, View.OnFocusChangeListener {
 
     public static final String TAG = DCLoginFragment.class.getSimpleName();
     private ImageView ivLoginLogo;
-    private ImageView ivLoginBack;
 
     private DCButton btnLoginFacebook;
     private DCButton btnLoginTwitter;
     private DCButton btnLoginGoogle;
+    private DCButton btnLogin;
+
+    private DCTextInputLayout tilLoginEmail;
+    private DCTextInputEditText tietLoginEmail;
+    private DCTextInputLayout tilLoginPassword;
+    private DCTextInputEditText tietLoginPassword;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -33,9 +45,6 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener 
         ivLoginLogo = (ImageView) view.findViewById(R.id.iv_login_logo);
         Animation loginLogoAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.login_logo_animation);
         ivLoginLogo.startAnimation(loginLogoAnimation);
-
-        ivLoginBack = (ImageView) view.findViewById(R.id.iv_login_back);
-        ivLoginBack.setOnClickListener(this);
 
         btnLoginFacebook = (DCButton) view.findViewById(R.id.btn_login_facebook);
         btnLoginFacebook.setOnClickListener(this);
@@ -46,22 +55,75 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener 
         btnLoginTwitter = (DCButton) view.findViewById(R.id.btn_login_twitter);
         btnLoginTwitter.setOnClickListener(this);
 
+        btnLogin = (DCButton) view.findViewById(R.id.btn_login_login);
+        btnLogin.setOnClickListener(this);
+
+        tilLoginEmail = (DCTextInputLayout) view.findViewById(R.id.til_login_email);
+        tietLoginEmail = (DCTextInputEditText) view.findViewById(R.id.tiet_login_email);
+        tietLoginEmail.setOnFocusChangeListener(this);
+
+        tilLoginPassword = (DCTextInputLayout) view.findViewById(R.id.til_login_password);
+        tietLoginPassword = (DCTextInputEditText) view.findViewById(R.id.tiet_login_password);
+
         return view;
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        switch (v.getId()) {
+            case R.id.tiet_login_email:
+                if (TextUtils.isEmpty(tietLoginEmail.getText().toString())) {
+                    tilLoginEmail.setErrorEnabled(true);
+                    tilLoginEmail.setError(getString(R.string.error_txt_email_required));
+                }
+                else if (!DCUtils.isValidEmail(tietLoginEmail.getText().toString())) {
+                    tilLoginEmail.setErrorEnabled(true);
+                    tilLoginEmail.setError(getString(R.string.error_txt_email_not_valid));
+                }
+                else {
+                    tilLoginEmail.setErrorEnabled(false);
+                }
+                break;
+        }
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_login_back:
-                onBackPressed();
+            case R.id.btn_login_login:
+                login();
                 break;
             case R.id.btn_login_facebook:
                 ((DCAuthenticationActivity) getActivity()).onFacebookLogin();
                 break;
             case R.id.btn_login_twitter:
                 ((DCAuthenticationActivity) getActivity()).onTwitterLogin();
+                break;
             case R.id.btn_login_google:
                 ((DCAuthenticationActivity) getActivity()).onGoogleLogin();
+                break;
         }
+    }
+
+    private void login() {
+        if (validate()) {
+            final DCUser user = new DCUser();
+            user.setEmail(tietLoginEmail.getText().toString());
+            user.setPassword(tietLoginPassword.getText().toString());
+            ((DCAuthenticationActivity) getActivity()).loginUser(user);
+        }
+    }
+
+    private boolean validate() {
+        if (TextUtils.isEmpty(tietLoginEmail.getText().toString())) {
+            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_email_required));
+            return false;
+        }
+        else if (!DCUtils.isValidEmail(tietLoginEmail.getText().toString())) {
+            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_name_not_valid));
+            return false;
+        }
+
+        return true;
     }
 }

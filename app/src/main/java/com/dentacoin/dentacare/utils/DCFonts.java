@@ -2,7 +2,11 @@ package com.dentacoin.dentacare.utils;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
+import java.lang.reflect.Type;
 import java.util.Hashtable;
 
 /**
@@ -24,5 +28,21 @@ public class DCFonts {
             fonts.put(name, typeface);
         }
         return typeface;
+    }
+
+    public static void overrideFonts(final Context context, final View view, final Typeface typeface) {
+        try {
+            if (view instanceof ViewGroup) {
+                ViewGroup viewGroup = (ViewGroup) view;
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                    View child = viewGroup.getChildAt(i);
+                    overrideFonts(context, child, typeface);
+                }
+            } else if (view instanceof TextView) {
+                ((TextView) view).setTypeface(typeface);
+            }
+        } catch (Exception e) {
+
+        }
     }
 }
