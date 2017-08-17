@@ -52,6 +52,10 @@ public class DCSession {
         return null;
     }
 
+    /**
+     * Returns if the current session is valid
+     * @return
+     */
     public boolean isValid() {
         return getAuthToken() != null && getAuthToken().isValid();
     }

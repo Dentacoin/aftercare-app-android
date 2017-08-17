@@ -23,6 +23,7 @@ import okhttp3.RequestBody;
 
 /**
  * Created by Atanas Chervarov on 8/6/17.
+ * Singleton class for managing the Api requests
  */
 
 public class DCApiManager {

@@ -224,6 +224,10 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
         }
     }
 
+    /**
+     * Checks if the fields are valid, shows error for the first invalid field
+     * @return
+     */
     private boolean validate() {
         if (TextUtils.isEmpty(tietSignupFirstName.getText().toString())) {
             ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_first_name_required));
@@ -265,6 +269,9 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
         return true;
     }
 
+    /**
+     * Pick avatar image, request permissions first
+     */
     private void pickAvatar() {
         PermissionsManager.getInstance().requestPermissionsIfNecessaryForResult(getActivity(),
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -303,24 +310,26 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //Crop the selected avatar image
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == Activity.RESULT_OK) {
                 Uri resultUri = result.getUri();
                 if (resultUri != null) {
+                    //Upload the cropped image
                     File file = new File(resultUri.getPath());
                     DCApiManager.getInstance().uploadAvatar(file, new DCResponseListener<DCAvatar>() {
                         @Override
                         public void onFailure(DCError error) {
                             if (error == null)
                                 error = new DCError(R.string.error_txt_failed_upload_avatar);
-
                             ((DCActivity)getActivity()).onError(error);
                         }
 
                         @Override
                         public void onResponse(DCAvatar object) {
                             if (object != null) {
+                                //set & display the uploaded image
                                 avatar = object;
                                 sdvSignupProfileImage.setImageURI(object.getAvatarUrl(getActivity()));
                             }

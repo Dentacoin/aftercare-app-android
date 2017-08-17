@@ -64,6 +64,10 @@ public class DCWelcomeFragment extends DCFragment {
         return view;
     }
 
+    /**
+     * Load the user object, load up the name & avatar
+     * Handle any error or display image & name when successful and remove itself from the current activity
+     */
     private void loadUser() {
         DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
             @Override

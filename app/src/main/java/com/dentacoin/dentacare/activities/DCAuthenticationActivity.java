@@ -83,6 +83,9 @@ public class DCAuthenticationActivity extends DCActivity {
                 .build();
     }
 
+    /**
+     * Shows the signup fragment
+     */
     public void showSignupFragment() {
         final FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
@@ -91,6 +94,9 @@ public class DCAuthenticationActivity extends DCActivity {
         transaction.commit();
     }
 
+    /**
+     * Shows the Login Fragment
+     */
     public void showLoginFragment() {
         final FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.slide_in_left, R.animator.slide_out_right);
@@ -328,6 +334,7 @@ public class DCAuthenticationActivity extends DCActivity {
         });
     }
 
+    //TODO: Redirect to dashboard!
     private void handleAuthentication(DCAuthToken token) {
         DCSession.getInstance().setAuthToken(token);
         if (DCSession.getInstance().getAuthToken() != null && DCSession.getInstance().getAuthToken().isValid()) {

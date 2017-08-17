@@ -12,6 +12,7 @@ import de.mateware.snacky.Snacky;
 
 /**
  * Created by Atanas Chervarov on 7/29/17.
+ * Basic Activity
  */
 
 public class DCActivity extends AppCompatActivity {
@@ -26,6 +27,11 @@ public class DCActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    /**
+     * Basic method for handling errors
+     * If the error type is NETWORK it will check if the device has lost connectivity
+     * @param error
+     */
     public void onError(DCError error) {
         if (error != null) {
             if (error.getCode() == DCError.DCErrorType.NETWORK.getCode()) {
@@ -41,6 +47,10 @@ public class DCActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Clear the flags, launch the LaunchActivity so the authentication process can start again
+     * Call this after clearing the session data
+     */
     public void onLogout() {
         final Intent intent = new Intent(this, LaunchActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

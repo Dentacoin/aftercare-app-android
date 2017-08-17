@@ -16,6 +16,7 @@ import okhttp3.Response;
 
 /**
  * Created by Atanas Chervarov on 8/7/17.
+ * Helper class for handling & parsing the API responses
  */
 
 public class DCResponseHandler<T> implements Callback {

@@ -13,6 +13,7 @@ import com.dentacoin.dentacare.widgets.DCTextView;
 
 /**
  * Created by Atanas Chervarov on 7/29/17.
+ * Basic Activity with Actionbar
  */
 
 public class DCToolbarActivity extends DCActivity {

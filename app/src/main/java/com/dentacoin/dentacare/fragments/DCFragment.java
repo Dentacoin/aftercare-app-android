@@ -4,6 +4,7 @@ import android.app.Fragment;
 
 /**
  * Created by Atanas Chervarov on 7/29/17.
+ * Basic Fragment
  */
 
 public class DCFragment extends Fragment {
