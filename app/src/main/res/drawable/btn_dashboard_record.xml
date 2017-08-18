@@ -9,5 +9,5 @@
         android:state_focused="true"/>
 
     <item
-        android:drawable="@drawable/bg_button_default"/>
+        android:drawable="@drawable/bg_button_gradient_blue"/>
 </selector>

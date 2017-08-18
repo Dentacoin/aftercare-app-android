@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rl_timer_progress_holder">
+        <ProgressBar
+            android:id="@+id/pb_timer_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="@dimen/timer_size_big"
+            android:layout_height="@dimen/timer_size_big"
+            android:indeterminate="false"
+            android:max="1000"
+            android:progress="1000"
+            android:secondaryProgress="550"
+            android:layout_centerInParent="true"
+            android:progressDrawable="@drawable/circular_big_progressbar_background" />
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_timer_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/darkSkyBlue"
+            android:layout_centerInParent="true"
+            android:textSize="58sp"
+            app:fontType="regular"/>
+    </RelativeLayout>
+
+    <com.dentacoin.dentacare.widgets.DCTextView
+        android:id="@+id/tv_timer_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:textSize="@dimen/timer_text_size_small_title"
+        android:layout_below="@+id/rl_timer_progress_holder"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

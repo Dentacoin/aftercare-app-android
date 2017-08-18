@@ -11,4 +11,6 @@
     <color name="paleSkyBlue">#c9ebfc</color>
     <color name="lightGrey">#dadbdc</color>
     <color name="greyTransparent">#80d7d7d7</color>
+    <color name="dark">#1d1d26</color>
+    <color name="darkSkyBlue">#4990e2</color>
 </resources>

@@ -110,6 +110,8 @@ public class DCUser {
         this.twitterAccessTokenSecret = twitterAccessTokenSecret;
     }
 
+    public String getEmail() { return email; }
+
     public String getFirstname() {
         return firstname;
     }

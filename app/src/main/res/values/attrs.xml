@@ -6,4 +6,13 @@
             <enum name="light" value="1"/>
         </attr>
     </declare-styleable>
+    <declare-styleable name="DCTimerView">
+        <attr name="type" format="enum">
+            <enum name="bigProgress" value="0"/>
+            <enum name="smallProgress" value="1"/>
+            <enum name="smallInfo" value="2"/>
+        </attr>
+        <attr name="title" format="string"/>
+        <attr name="text" format="string"/>
+    </declare-styleable>
 </resources>

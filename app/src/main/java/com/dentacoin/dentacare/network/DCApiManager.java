@@ -7,6 +7,7 @@ import android.net.Uri;
 
 import com.dentacoin.dentacare.BuildConfig;
 import com.dentacoin.dentacare.model.DCAvatar;
+import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
 import com.google.gson.Gson;
@@ -149,10 +150,28 @@ public class DCApiManager {
      * Retrieve data for the current user
      * @param responseListener
      */
-    public void getUser(DCResponseListener<DCUser> responseListener) {
+    public void getUser(final DCResponseListener<DCUser> responseListener) {
         String endpoint = buildPath(ENDPOINT_USER, null);
         Request request = buildRequest(RequestMethod.GET, endpoint, null);
-        client.newCall(request).enqueue(new DCResponseHandler<>(responseListener, DCUser.class));
+
+        DCResponseListener<DCUser> listener = new DCResponseListener<DCUser>() {
+            @Override
+            public void onFailure(DCError error) {
+                if (responseListener != null)
+                    responseListener.onFailure(error);
+            }
+
+            @Override
+            public void onResponse(DCUser object) {
+                if (object != null)
+                    DCSession.getInstance().setUser(object);
+
+                if (responseListener != null)
+                    responseListener.onResponse(object);
+            }
+        };
+
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCUser.class));
     }
 
     /**

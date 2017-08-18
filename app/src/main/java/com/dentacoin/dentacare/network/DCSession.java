@@ -25,6 +25,14 @@ public class DCSession {
 
     private DCSession() { }
 
+    public void setUser(DCUser user) {
+        this.user = user;
+    }
+
+    public DCUser getUser() {
+        return user;
+    }
+
     public void setAuthToken(DCAuthToken authToken) {
         this.authToken = authToken;
         if (authToken != null) {
@@ -64,7 +72,8 @@ public class DCSession {
      * Clear the session
      */
     public void clear() {
-        DCSharedPreferences.removeString(DCSharedPreferences.DCSharedKey.AUTH_TOKEN);
+        DCSharedPreferences.removeKey(DCSharedPreferences.DCSharedKey.AUTH_TOKEN);
+        DCSharedPreferences.removeKey(DCSharedPreferences.DCSharedKey.WELCOME_SCREEN);
         authToken = null;
         user = null;
     }

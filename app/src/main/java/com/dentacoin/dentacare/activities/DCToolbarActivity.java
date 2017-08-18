@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.dentacoin.dentacare.R;
@@ -63,5 +64,11 @@ public class DCToolbarActivity extends DCActivity {
      */
     protected int getContentView() {
         return R.layout.activity_toolbar;
+    }
+
+
+    protected void setFullscreen() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        toolbar.setVisibility(View.GONE);
     }
 }

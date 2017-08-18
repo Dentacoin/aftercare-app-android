@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.text.SpannableString;
@@ -15,9 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.dentacoin.dentacare.R;
+import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCUser;
+import com.dentacoin.dentacare.network.DCApiManager;
+import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCCustomTypefaceSpan;
 import com.dentacoin.dentacare.utils.DCFonts;
+import com.dentacoin.dentacare.widgets.DCTextView;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
  * Created by Atanas Chervarov on 8/11/17.
@@ -30,12 +37,20 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
     private NavigationView nvNavigation;
     private ActionBarDrawerToggle toggle;
 
+    private DCTextView tvDrawerHeaderFullname;
+    private DCTextView tvDrawerHeaderEmail;
+    private SimpleDraweeView sdvDrawerHeaderAvatar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         nvNavigation = (NavigationView) findViewById(R.id.nv_navigation);
+
+        tvDrawerHeaderFullname = (DCTextView) nvNavigation.getHeaderView(0).findViewById(R.id.tv_drawer_header_fullname);
+        tvDrawerHeaderEmail = (DCTextView) nvNavigation.getHeaderView(0).findViewById(R.id.tv_drawer_header_email);
+        sdvDrawerHeaderAvatar = (SimpleDraweeView) nvNavigation.getHeaderView(0).findViewById(R.id.sdv_drawer_header_avatar);
 
         toggle = new ActionBarDrawerToggle(
                 this,
@@ -54,6 +69,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                loadUserData();
             }
         };
 
@@ -70,6 +86,35 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
         }
 
         toggle.syncState();
+        loadUserData();
+    }
+
+    /**
+     * Retrieves the user data for the navigation header
+     */
+    private void loadUserData() {
+        if (DCSession.getInstance().getUser() == null) {
+            DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
+                @Override
+                public void onFailure(DCError error) {
+                }
+
+                @Override
+                public void onResponse(DCUser object) {
+                    updateNavigationHeader(object);
+                }
+            });
+        } else {
+            updateNavigationHeader(DCSession.getInstance().getUser());
+        }
+    }
+
+    private void updateNavigationHeader(DCUser user) {
+        if (user != null) {
+            sdvDrawerHeaderAvatar.setImageURI(user.getAvatarUrl(DCDrawerActivity.this));
+            tvDrawerHeaderFullname.setText(user.getFullName());
+            tvDrawerHeaderEmail.setText(user.getEmail());
+        }
     }
 
     @Override
@@ -102,11 +147,10 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 //TODO: go to about
                 break;
             case R.id.drawer_nav_signout:
-                //TODO: add to locos
                 final AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle("Sign out?")
-                        .setMessage("Are you sure you want to logout?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.drawer_hdl_signout)
+                        .setMessage(R.string.drawer_txt_signout)
+                        .setPositiveButton(R.string.txt_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -114,7 +158,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                                 onLogout();
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.txt_no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -126,6 +170,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
             default:
                 break;
         }
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 }

@@ -16,26 +16,27 @@
         android:paddingBottom="8dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_drawer_header_avatar"
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:roundAsCircle="true"
             app:placeholderImage="@drawable/welcome_avatar_holder"/>
 
         <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_drawer_header_fullname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             app:fontType="regular"
             android:textSize="14sp"
-            android:textColor="@color/white"
-            android:text="John Doe"/>
+            android:textColor="@color/white"/>
 
         <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_drawer_header_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fontType="light"
             android:textSize="14sp"
-            android:textColor="@color/white"
-            android:text="john@mail.com"/>
+            android:textColor="@color/white"/>
     </LinearLayout>
 </RelativeLayout>

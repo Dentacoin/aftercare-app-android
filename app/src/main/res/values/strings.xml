@@ -36,4 +36,11 @@
     <string name="error_txt_failed_upload_avatar">Failed to upload avatar!</string>
     <string name="error_txt_something_went_wrong">Something went wrong..</string>
     <string name="error_txt_offline">You\'re offline. Please connect to the internet and try again.</string>
+    <string name="drawer_hdl_signout">Sign out?</string>
+    <string name="drawer_txt_signout">Are you sure you want to logout?</string>
+    <string name="txt_yes">Yes</string>
+    <string name="txt_no">No</string>
+    <string name="txt_cancel">Cancel</string>
+
+    <string name="dashboard_hdl_dentacare">Dentacare</string>
 </resources>

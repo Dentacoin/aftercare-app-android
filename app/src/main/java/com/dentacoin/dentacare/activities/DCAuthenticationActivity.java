@@ -334,14 +334,13 @@ public class DCAuthenticationActivity extends DCActivity {
         });
     }
 
-    //TODO: Redirect to dashboard!
     private void handleAuthentication(DCAuthToken token) {
         DCSession.getInstance().setAuthToken(token);
-        if (DCSession.getInstance().getAuthToken() != null && DCSession.getInstance().getAuthToken().isValid()) {
-            final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
-            transaction.replace(R.id.fragment_container, new DCWelcomeFragment());
-            transaction.commit();
+        if (DCSession.getInstance().isValid()) {
+            final Intent intent = new Intent(this, DCDashboardActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
         }
     }
 }

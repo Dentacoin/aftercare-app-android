@@ -1,5 +1,6 @@
 package com.dentacoin.dentacare.fragments;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
+import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -26,10 +28,15 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 public class DCWelcomeFragment extends DCFragment {
 
+    public interface DCWelcomeFragmentInterface {
+        void onWelcomeFragmentRemoved();
+    }
+
     private SimpleDraweeView sdvWelcomeAvatar;
     private DCTextView tvWelcome;
     private DCTextView tvWelcomeName;
     private final Handler handler = new Handler();
+    private DCWelcomeFragmentInterface listener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -61,6 +68,7 @@ public class DCWelcomeFragment extends DCFragment {
 
         loadUser();
 
+        DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.WELCOME_SCREEN, true);
         return view;
     }
 
@@ -73,6 +81,10 @@ public class DCWelcomeFragment extends DCFragment {
             @Override
             public void onFailure(DCError error) {
                 ((DCActivity)getActivity()).onError(error);
+
+                if (listener != null)
+                    listener.onWelcomeFragmentRemoved();
+
                 getActivity().getFragmentManager().beginTransaction().remove(DCWelcomeFragment.this).commit();
             }
 
@@ -86,11 +98,23 @@ public class DCWelcomeFragment extends DCFragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (getActivity() != null)
+                        if (getActivity() != null) {
+                            if (listener != null)
+                                listener.onWelcomeFragmentRemoved();
+
                             getActivity().getFragmentManager().beginTransaction().remove(DCWelcomeFragment.this).commit();
+                        }
                     }
                 }, 4000);
             }
         });
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof DCWelcomeFragmentInterface) {
+            listener = (DCWelcomeFragmentInterface) context;
+        }
     }
 }
