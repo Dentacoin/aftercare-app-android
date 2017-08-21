@@ -73,14 +73,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingRight="20dp"
-                android:src="@drawable/user_icon"/>
+            android:orientation="horizontal"
+            android:paddingLeft="45dp"
+            android:paddingStart="45dp">
 
             <com.dentacoin.dentacare.widgets.DCTextInputLayout
                 android:id="@+id/til_signup_last_name"

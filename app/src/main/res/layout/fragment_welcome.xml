@@ -23,9 +23,9 @@
         android:layout_centerInParent="true"
         fresco:backgroundImage="@drawable/welcome_avatar_holder"
         fresco:roundAsCircle="true"
+        app:roundingBorderColor="@color/white"
         fresco:fadeDuration="1000"
-        fresco:roundingBorderWidth="5dp"
-        fresco:roundingBorderColor="@color/greyTransparent"/>
+        fresco:roundingBorderWidth="5dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTextView
         android:id="@+id/tv_welcome"

@@ -1,12 +1,17 @@
 package com.dentacoin.dentacare.fragments;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
 import com.dentacoin.dentacare.R;
@@ -43,8 +48,21 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener,
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         ivLoginLogo = (ImageView) view.findViewById(R.id.iv_login_logo);
-        Animation loginLogoAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.login_logo_animation);
-        ivLoginLogo.startAnimation(loginLogoAnimation);
+
+        Resources r = getResources();
+        float translationPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, r.getDisplayMetrics());
+
+        AlphaAnimation logoAlphaAnimation = new AlphaAnimation(0, 1);
+        logoAlphaAnimation.setDuration(500);
+
+        TranslateAnimation logoTranslateAnimation = new TranslateAnimation(0, 0, translationPx, 0);
+        logoTranslateAnimation.setDuration(500);
+
+        AnimationSet logoAnimationSet = new AnimationSet(true);
+        logoAnimationSet.addAnimation(logoAlphaAnimation);
+        logoAnimationSet.addAnimation(logoTranslateAnimation);
+
+        ivLoginLogo.startAnimation(logoAnimationSet);
 
         btnLoginFacebook = (DCButton) view.findViewById(R.id.btn_login_facebook);
         btnLoginFacebook.setOnClickListener(this);
