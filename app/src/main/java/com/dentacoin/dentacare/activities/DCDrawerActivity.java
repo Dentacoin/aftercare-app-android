@@ -14,6 +14,7 @@ import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.model.DCError;
@@ -23,6 +24,7 @@ import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCCustomTypefaceSpan;
 import com.dentacoin.dentacare.utils.DCFonts;
+import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -40,6 +42,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
     private DCTextView tvDrawerHeaderFullname;
     private DCTextView tvDrawerHeaderEmail;
     private SimpleDraweeView sdvDrawerHeaderAvatar;
+    private RelativeLayout rlDrawerHeader;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +54,13 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
         tvDrawerHeaderFullname = (DCTextView) nvNavigation.getHeaderView(0).findViewById(R.id.tv_drawer_header_fullname);
         tvDrawerHeaderEmail = (DCTextView) nvNavigation.getHeaderView(0).findViewById(R.id.tv_drawer_header_email);
         sdvDrawerHeaderAvatar = (SimpleDraweeView) nvNavigation.getHeaderView(0).findViewById(R.id.sdv_drawer_header_avatar);
+        rlDrawerHeader = (RelativeLayout) nvNavigation.getHeaderView(0).findViewById(R.id.rl_drawer_header);
+
+        rlDrawerHeader.setPadding(
+                (int) getResources().getDimension(R.dimen.drawer_header_padding),
+                DCUtils.getStatusBarHeight(this) + (int) getResources().getDimension(R.dimen.drawer_header_padding),
+                (int) getResources().getDimension(R.dimen.drawer_header_padding),
+                (int) getResources().getDimension(R.dimen.drawer_header_padding));
 
         toggle = new ActionBarDrawerToggle(
                 this,

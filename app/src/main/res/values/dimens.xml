@@ -22,4 +22,5 @@
     <dimen name="timer_text_size_small_info">14sp</dimen>
 
     <dimen name="timer_text_size_small_title">11sp</dimen>
+    <dimen name="drawer_header_padding">25dp</dimen>
 </resources>

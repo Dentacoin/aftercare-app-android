@@ -1,5 +1,6 @@
 package com.dentacoin.dentacare.utils;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Patterns;
 
@@ -28,5 +29,16 @@ public class DCUtils {
             return Patterns.EMAIL_ADDRESS.matcher(email).matches();
         }
         return false;
+    }
+
+    public static int getStatusBarHeight(Context context) {
+        int result = 0;
+        if (context != null) {
+            int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                result = context.getResources().getDimensionPixelSize(resourceId);
+            }
+        }
+        return result;
     }
 }

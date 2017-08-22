@@ -83,9 +83,8 @@
     <style name="DCTextStyle">"
     </style>
 
-    <style name="DCNavigationItem">
+    <style name="DCNavigationView">
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFamily"></item>
     </style>
 
     <style name="DCDashboardTabTextAppearance" parent="TextAppearance.Design.Tab">

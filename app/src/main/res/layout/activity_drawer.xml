@@ -17,6 +17,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/view_drawer_header"
-        app:menu="@menu/menu_drawer"/>
+        app:menu="@menu/menu_drawer"
+        android:fitsSystemWindows="true"
+        style="@style/DCNavigationView"/>
 
 </android.support.v4.widget.DrawerLayout>

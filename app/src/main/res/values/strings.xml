@@ -16,6 +16,7 @@
     <string name="welcome_txt_welcome">Welcome</string>
     <string name="drawer_nav_home">Home</string>
     <string name="drawer_nav_goals">Goals</string>
+    <string name="drawer_nav_statistics">Statistics</string>
     <string name="drawer_nav_dentacoin">Dentacoin</string>
     <string name="drawer_nav_emergency">Emergency</string>
     <string name="drawer_nav_oral_health">Oral Health</string>
