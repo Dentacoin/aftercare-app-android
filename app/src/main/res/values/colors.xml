@@ -14,4 +14,6 @@
     <color name="whiteTransparent">#48ffffff</color>
     <color name="dark">#1d1d26</color>
     <color name="darkSkyBlue">#4990e2</color>
+    <color name="midBlue">#0093f0</color>
+    <color name="whiteBlue">#83b0f3</color>
 </resources>

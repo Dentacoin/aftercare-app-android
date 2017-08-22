@@ -32,6 +32,7 @@ public class DCToolbarActivity extends DCActivity {
         container = (FrameLayout) findViewById(R.id.container);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
+
         if (actionBar != null) {
             actionBar.setDisplayShowCustomEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);

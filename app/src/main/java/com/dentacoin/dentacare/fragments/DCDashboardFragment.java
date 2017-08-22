@@ -51,10 +51,8 @@ public class DCDashboardFragment extends DCFragment {
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
                     case BottomSheetBehavior.STATE_COLLAPSED:
-                        drawableTransition.startTransition(100);
+                        drawableTransition.startTransition(50);
                         reverseAnimStarted = false;
-                        break;
-                    case BottomSheetBehavior.STATE_SETTLING:
                         break;
                     default:
                         if (!reverseAnimStarted) {
