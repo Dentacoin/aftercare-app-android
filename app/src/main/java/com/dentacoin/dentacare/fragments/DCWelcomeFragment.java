@@ -28,15 +28,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 public class DCWelcomeFragment extends DCFragment {
 
-    public interface DCWelcomeFragmentInterface {
-        void onWelcomeFragmentRemoved();
-    }
-
     private SimpleDraweeView sdvWelcomeAvatar;
     private DCTextView tvWelcome;
     private DCTextView tvWelcomeName;
     private final Handler handler = new Handler();
-    private DCWelcomeFragmentInterface listener;
+    private IDCFragmentInterface listener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -83,7 +79,7 @@ public class DCWelcomeFragment extends DCFragment {
                 ((DCActivity)getActivity()).onError(error);
 
                 if (listener != null)
-                    listener.onWelcomeFragmentRemoved();
+                    listener.onFragmentRemoved();
 
                 getActivity().getFragmentManager().beginTransaction().remove(DCWelcomeFragment.this).commit();
             }
@@ -100,7 +96,7 @@ public class DCWelcomeFragment extends DCFragment {
                     public void run() {
                         if (getActivity() != null) {
                             if (listener != null)
-                                listener.onWelcomeFragmentRemoved();
+                                listener.onFragmentRemoved();
 
                             getActivity().getFragmentManager().beginTransaction().remove(DCWelcomeFragment.this).commit();
                         }
@@ -113,8 +109,8 @@ public class DCWelcomeFragment extends DCFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof DCWelcomeFragmentInterface) {
-            listener = (DCWelcomeFragmentInterface) context;
+        if (context instanceof IDCFragmentInterface) {
+            listener = (IDCFragmentInterface) context;
         }
     }
 }

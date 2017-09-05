@@ -9,13 +9,14 @@ import android.view.View;
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.adapters.DCDashboardPagerAdapter;
 import com.dentacoin.dentacare.fragments.DCWelcomeFragment;
+import com.dentacoin.dentacare.fragments.IDCFragmentInterface;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
 
 /**
  * Created by Atanas Chervarov on 8/10/17.
  */
 
-public class DCDashboardActivity extends DCDrawerActivity implements DCWelcomeFragment.DCWelcomeFragmentInterface {
+public class DCDashboardActivity extends DCDrawerActivity implements IDCFragmentInterface {
 
     private TabLayout tlDashboardTabs;
     private ViewPager vpDashboardPager;
@@ -41,7 +42,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements DCWelcomeFr
     }
 
     @Override
-    public void onWelcomeFragmentRemoved() {
+    public void onFragmentRemoved() {
         toolbar.setVisibility(View.VISIBLE);
     }
 }

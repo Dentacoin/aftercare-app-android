@@ -11,7 +11,6 @@ import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.fragments.DCAuthenticationFragment;
 import com.dentacoin.dentacare.fragments.DCLoginFragment;
 import com.dentacoin.dentacare.fragments.DCSignupFragment;
-import com.dentacoin.dentacare.fragments.DCWelcomeFragment;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.DCApiManager;
@@ -62,6 +61,7 @@ public class DCAuthenticationActivity extends DCActivity {
         setContentView(R.layout.activity_authentication);
         if (savedInstanceState != null)
             return;
+
         getFragmentManager().beginTransaction().add(R.id.fragment_container, new DCAuthenticationFragment()).commit();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

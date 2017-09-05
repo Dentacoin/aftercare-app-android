@@ -2,6 +2,7 @@ package com.dentacoin.dentacare.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.dentacoin.dentacare.R;
@@ -33,7 +35,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
  * Basic Drawer Activity
  */
 
-public class DCDrawerActivity extends DCToolbarActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class DCDrawerActivity extends DCToolbarActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private DrawerLayout drawerLayout;
     private NavigationView nvNavigation;
@@ -43,6 +45,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
     private DCTextView tvDrawerHeaderEmail;
     private SimpleDraweeView sdvDrawerHeaderAvatar;
     private RelativeLayout rlDrawerHeader;
+    private LinearLayout llDrawerHeaderUserInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +57,10 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
         tvDrawerHeaderFullname = (DCTextView) nvNavigation.getHeaderView(0).findViewById(R.id.tv_drawer_header_fullname);
         tvDrawerHeaderEmail = (DCTextView) nvNavigation.getHeaderView(0).findViewById(R.id.tv_drawer_header_email);
         sdvDrawerHeaderAvatar = (SimpleDraweeView) nvNavigation.getHeaderView(0).findViewById(R.id.sdv_drawer_header_avatar);
+        sdvDrawerHeaderAvatar.setOnClickListener(this);
         rlDrawerHeader = (RelativeLayout) nvNavigation.getHeaderView(0).findViewById(R.id.rl_drawer_header);
+        llDrawerHeaderUserInfo = (LinearLayout) nvNavigation.getHeaderView(0).findViewById(R.id.ll_drawer_header_userInfo);
+        llDrawerHeaderUserInfo.setOnClickListener(this);
 
         rlDrawerHeader.setPadding(
                 (int) getResources().getDimension(R.dimen.drawer_header_padding),
@@ -99,6 +105,19 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
         loadUserData();
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_drawer_header_userInfo:
+            case R.id.sdv_drawer_header_avatar:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                final Intent profileIntent = new Intent(this, DCProfileActivity.class);
+                startActivity(profileIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                break;
+        }
+    }
+
     /**
      * Retrieves the user data for the navigation header
      */
@@ -136,7 +155,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.drawer_nav_home:
-                //TODO: go to dashboard
+                drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.drawer_nav_goals:
                 //TODO: go to goals
@@ -145,7 +164,9 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 //TODO: go to dentacoins
                 break;
             case R.id.drawer_nav_emergency:
-                //TODO: go to emergency
+                final Intent emergencyIntent = new Intent(this, DCEmergencyActivity.class);
+                startActivity(emergencyIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case R.id.drawer_nav_oral_health:
                 //TODO: go to oral health
@@ -154,7 +175,9 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 //TODO: go to settings
                 break;
             case R.id.drawer_nav_about:
-                //TODO: go to about
+                final Intent aboutIntent = new Intent(this, DCAboutActivity.class);
+                startActivity(aboutIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case R.id.drawer_nav_signout:
                 final AlertDialog dialog = new AlertDialog.Builder(this)
@@ -182,5 +205,15 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return;
+        }
+
+        super.onBackPressed();
     }
 }

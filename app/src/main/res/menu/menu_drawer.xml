@@ -28,7 +28,8 @@
             android:icon="@drawable/nav_emergency"/>
         <item
             android:id="@+id/drawer_nav_about"
-            android:title="@string/drawer_nav_about"/>
+            android:title="@string/drawer_nav_about"
+            android:icon="@drawable/nav_about"/>
     </group>
     <group
         android:id="@+id/menu_drawer_bottom">

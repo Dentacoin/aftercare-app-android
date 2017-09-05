@@ -15,4 +15,7 @@ public class DCConstants {
     public static final int AVATAR_DEFAULT_SIZE_WIDTH = 512;
     public static final int AVATAR_DEFAULT_SIZE_HEIGHT = 512;
 
+    public static final String EMERGENCY_EMAIL = "emergency@dentacoin.com";
+    public static final String DENTACARE_WEBSITE = "http://www.dentacare.com/";
+
 }

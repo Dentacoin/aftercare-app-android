@@ -17,7 +17,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center"
-            app:text="0:32"
+            app:text="0:00"
             app:type="bigProgress"/>
 
         <LinearLayout
@@ -30,7 +30,7 @@
             <com.dentacoin.dentacare.widgets.DCTimerView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:text="0:32"
+                app:text="0:00"
                 app:title="Last brush"
                 app:type="smallInfo"/>
 
@@ -39,14 +39,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"
                 android:layout_marginRight="35dp"
-                app:text="1"
+                app:text="3"
                 app:title="Brush left"
                 app:type="smallInfo"/>
 
             <com.dentacoin.dentacare.widgets.DCTimerView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:text="12,3"
+                app:text="0"
                 app:title="DCN Earned"
                 app:type="smallInfo"/>
         </LinearLayout>
@@ -129,14 +129,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:type="smallProgress"
-                app:text="12"
+                app:text="0"
                 app:title="Times rinsed"/>
 
             <com.dentacoin.dentacare.widgets.DCTimerView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:type="smallProgress"
-                app:text="3:28"
+                app:text="0:00"
                 app:title="time left"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"/>
@@ -145,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:type="smallProgress"
-                app:text="2:32"
+                app:text="0:00"
                 app:title="average time"/>
         </LinearLayout>
     </LinearLayout>

@@ -1,8 +1,15 @@
 package com.dentacoin.dentacare.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,5 +47,18 @@ public class DCUtils {
             }
         }
         return result;
+    }
+
+    public static Bitmap loadBitmapFromView(View v) {
+        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.WHITE);
+        v.draw(canvas);
+        return bitmap;
+    }
+
+    public static void openURL(Context context, String url) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(browserIntent);
     }
 }

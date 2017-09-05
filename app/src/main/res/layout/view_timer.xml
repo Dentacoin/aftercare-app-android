@@ -17,7 +17,7 @@
             android:indeterminate="false"
             android:max="1000"
             android:progress="1000"
-            android:secondaryProgress="550"
+            android:secondaryProgress="0"
             android:layout_centerInParent="true"
             android:progressDrawable="@drawable/circular_big_progressbar_background" />
 

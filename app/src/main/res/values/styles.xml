@@ -45,13 +45,15 @@
         <item name="android:layout_height">@dimen/button_auth_social_height</item>
     </style>
 
-    <style name="DCButton.Dashboard" parent="DCButton">
+    <style name="DCButton.Default" parent="DCButton">
         <item name="android:layout_width">@dimen/button_default_width</item>
         <item name="android:layout_height">@dimen/button_default_height</item>
         <item name="android:background">@drawable/btn_dashboard_record</item>
         <item name="android:textColor">@drawable/color_default_button</item>
         <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="DCButton.Dashboard" parent="DCButton.Default"/>
 
     <style name="DCButton.Statistics">
         <item name="android:layout_width">@dimen/button_dashboard_statistics_width</item>

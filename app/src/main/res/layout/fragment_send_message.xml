@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <com.dentacoin.dentacare.widgets.DCTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/emergency_hdl_describe"
+        android:textAlignment="center"
+        android:textSize="32sp"
+        android:textColor="@color/ceruleanBlue"
+        app:fontType="light"
+        android:padding="20dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lightGrey"/>
+
+    <EditText
+        android:id="@+id/et_emergency_message"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:hint="@string/emergency_hnt_write_message"
+        android:gravity="top"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:textSize="14sp"
+        android:background="@color/white"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/rectangle_gradient_blue"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You can add a phone to the message so we can contact you faster"
+            android:textColor="@color/white"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            app:fontType="light"/>
+
+        <com.dentacoin.dentacare.widgets.DCTextInputLayout
+            android:theme="@style/DCTextInputLayout.Auth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp">
+
+            <com.dentacoin.dentacare.widgets.DCTextInputEditText
+                android:id="@+id/tiet_emergency_phone"
+                style="@style/DCEditText.Auth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:phoneNumber="true"
+                android:hint="@string/emergency_hnt_phone"/>
+
+        </com.dentacoin.dentacare.widgets.DCTextInputLayout>
+
+        <com.dentacoin.dentacare.widgets.DCButton
+            android:id="@+id/btn_emergency_send"
+            android:layout_marginTop="30dp"
+            style="@style/DCButton.Auth"
+            android:layout_gravity="center"
+            android:text="@string/txt_send"/>
+
+    </LinearLayout>
+</LinearLayout>
