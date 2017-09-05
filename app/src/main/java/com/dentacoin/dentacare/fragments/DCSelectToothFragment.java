@@ -1,10 +1,10 @@
 package com.dentacoin.dentacare.fragments;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.dentacoin.dentacare.R;
@@ -54,12 +54,12 @@ public class DCSelectToothFragment extends DCFragment implements View.OnClickLis
     }
 
     @Override
-    public void onToothSelected(ImageView view) {
+    public void onToothSelected(AppCompatImageView view) {
         updateNextButton();
     }
 
     @Override
-    public void onToothDeselected(ImageView view) {
+    public void onToothDeselected(AppCompatImageView view) {
         updateNextButton();
     }
 

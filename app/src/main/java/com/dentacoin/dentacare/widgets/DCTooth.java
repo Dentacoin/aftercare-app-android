@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
+import android.support.v7.widget.AppCompatImageView;
 
 import com.dentacoin.dentacare.R;
 
@@ -12,11 +12,11 @@ import com.dentacoin.dentacare.R;
  * Created by Atanas Chervarov on 8/31/17.
  */
 
-public class DCTooth extends ImageView implements View.OnClickListener {
+public class DCTooth extends AppCompatImageView implements View.OnClickListener {
 
     public interface IDCToothListener {
-        void onToothSelected(ImageView view);
-        void onToothDeselected(ImageView view);
+        void onToothSelected(AppCompatImageView view);
+        void onToothDeselected(AppCompatImageView view);
     }
 
     private boolean visible = false;
