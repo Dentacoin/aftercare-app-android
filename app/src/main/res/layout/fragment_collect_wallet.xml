@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/dentacoin"
+                    android:layout_gravity="center"/>
+
+                <com.dentacoin.dentacare.widgets.DCTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/collect_wallet_hdl_create"
+                    android:textSize="24sp"
+                    android:layout_gravity="center"/>
+
+                <com.dentacoin.dentacare.widgets.DCTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/collect_wallet_url_ether"
+                    android:textColor="@color/ceruleanBlue"
+                    android:layout_gravity="center"
+                    android:padding="10dp"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/dentacoin"
+                    android:layout_gravity="center"/>
+
+                <com.dentacoin.dentacare.widgets.DCTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/collect_wallet_hdl_send_us"
+                    android:textSize="24sp"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+
+            <com.dentacoin.dentacare.widgets.DCTextInputLayout
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp"
+                android:theme="@style/DCTextInputLayout.Collect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.dentacoin.dentacare.widgets.DCTextInputEditText
+                    style="@style/DCEditText.Collect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/collect_wallet_hnt_address"/>
+            </com.dentacoin.dentacare.widgets.DCTextInputLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <com.dentacoin.dentacare.widgets.DCButton
+        android:id="@+id/collect_btn_send"
+        style="@style/DCButton.Dashboard"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="20dp"
+        android:textAllCaps="true"
+        android:text="@string/txt_send"/>
+</LinearLayout>

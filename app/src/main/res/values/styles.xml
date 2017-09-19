@@ -64,11 +64,16 @@
     </style>
 
     <style name="DCEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:singleLine">true</item>
     </style>
 
     <style name="DCEditText.Auth" parent="DCEditText">
-        <item name="android:singleLine">true</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="DCEditText.Collect" parent="DCEditText">
+        <item name="android:textColor">@color/charcoalGrey</item>
+        <item name="android:textColorHint">@color/charcoalGrey</item>
     </style>
 
     <style name="DCTextInputLayout" parent="Widget.Design.TextInputLayout">
@@ -81,7 +86,31 @@
         <item name="colorControlActivated">@color/white</item>
         <item name="colorControlHighlight">@color/white</item>
     </style>
-    
+
+    <style name="DCTextInputLayout.Collect" parent="DCTextInputLayout">
+        <item name="android:textColorHint">@color/charcoalGrey</item>
+        <item name="android:textColorHighlight">@color/charcoalGrey</item>
+        <item name="colorAccent">@color/charcoalGrey</item>
+        <item name="colorControlNormal">@color/lightGrey</item>
+        <item name="colorControlActivated">@color/lightGrey</item>
+        <item name="colorControlHighlight">@color/lightGrey</item>
+    </style>
+
+    <style name="DCSwitch" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="colorAccent">@color/ceruleanBlue</item>
+        <item name="colorControlNormal">@color/ceruleanBlue</item>
+        <item name="colorControlActivated">@color/ceruleanBlue</item>
+        <item name="colorControlHighlight">@color/ceruleanBlue</item>
+    </style>
+
+    <style name="DCListItem">
+        <item name="android:background">@color/white</item>
+        <item name="android:minHeight">50dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginBottom">1dp</item>
+    </style>
+
+
     <style name="DCTextStyle">"
     </style>
 

@@ -161,7 +161,9 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 //TODO: go to goals
                 break;
             case R.id.drawer_nav_dentacoin:
-                //TODO: go to dentacoins
+                final Intent collectIntent = new Intent(this, DCCollectActivity.class);
+                startActivity(collectIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case R.id.drawer_nav_emergency:
                 final Intent emergencyIntent = new Intent(this, DCEmergencyActivity.class);
@@ -172,7 +174,9 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 //TODO: go to oral health
                 break;
             case R.id.drawer_nav_settings:
-                //TODO: go to settings
+                final Intent settingsIntent = new Intent(this, DCSettingsActivity.class);
+                startActivity(settingsIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case R.id.drawer_nav_about:
                 final Intent aboutIntent = new Intent(this, DCAboutActivity.class);

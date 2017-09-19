@@ -1,7 +1,9 @@
 package com.dentacoin.dentacare.model;
 
 import android.content.Context;
+import android.content.Intent;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -19,7 +21,7 @@ public class DCUser {
     private String firstname;
     private String lastname;
     private Date birthday;
-    private int postalCode;
+    private Integer postalCode;
     private String country;
     private String city;
     private String gender;
@@ -76,6 +78,10 @@ public class DCUser {
         } else {
             this.gender = gender;
         }
+    }
+
+    public String getGender() {
+        return gender;
     }
 
     public void setAvatar(DCAvatar avatar) {
@@ -138,5 +144,60 @@ public class DCUser {
         }
 
         return null;
+    }
+
+    /**
+     * Retrieve users full address
+     * @return  null if none of the address was setup
+     */
+    public String getFullAddress() {
+        String address = "";
+
+        if (postalCode != null) {
+            address += postalCode;
+            address += " ";
+        }
+
+        if (city == null && country == null)
+            return null;
+        else {
+            if (city != null) {
+                address += city;
+            }
+            if (country != null) {
+                address += ", ";
+                address += country;
+            }
+        }
+
+        return address;
+    }
+
+    /**
+     * Retrieve users age in years
+     * @return  null if user did not set his burthday
+     */
+    public Integer getAge() {
+        return null;
+        //TODO:
+//        if (birthday != null) {
+//            Calendar nowCalendar = Calendar.getInstance();
+//            nowCalendar.setTime(new Date());
+//
+//            Calendar birthdayCalendar = Calendar.getInstance();
+//            birthdayCalendar.setTime(birthday);
+//
+//            int yearDiff = nowCalendar.get(Calendar.YEAR) - birthdayCalendar.get(Calendar.YEAR);
+//
+//            if (birthdayCalendar.get(Calendar.MONTH) > nowCalendar.get(Calendar.MONTH) ||
+//                birthdayCalendar.get(Calendar.MONTH) == nowCalendar.get(Calendar.MONTH) &&
+//                birthdayCalendar.get(Calendar.DATE) > nowCalendar.get(Calendar.DATE)) {
+//                yearDiff --;
+//            }
+//
+//            return yearDiff;
+//        }
+//
+//        return null;
     }
 }

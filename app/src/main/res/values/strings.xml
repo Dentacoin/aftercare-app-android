@@ -44,6 +44,12 @@
     <string name="txt_no">No</string>
     <string name="txt_cancel">Cancel</string>
     <string name="txt_send">Send</string>
+    <string name="txt_dcn">%d dcn</string>
+    <string name="txt_save">Save</string>
+    <string name="txt_update">Update</string>
+
+    <string name="gender_female">female</string>
+    <string name="gender_male">male</string>
 
     <string name="dashboard_hdl_dentacare">Dentacare</string>
     <string name="emergency_hdl_emergency">Emergency</string>
@@ -65,4 +71,34 @@
 
     <string name="profile_hdl_my_profile">My profile</string>
     <string name="profile_btn_edit">Edit profile</string>
+    <string name="profile_txt_years_old">%1$s years old</string>
+
+    <string name="profile_hnt_zip">Zip Code</string>
+    <string name="profile_hnt_city">City</string>
+    <string name="profile_hnt_country">Country</string>
+    
+    <string name="collect_wallet_hdl_create">Create your crypto wallet at:</string>
+    <string name="collect_wallet_url_ether">www.myetherwallet.com</string>
+    <string name="collect_wallet_hdl_send_us">Send us your crypto\nwallet address</string>
+    <string name="collect_wallet_hnt_address">Crypto wallet address</string>
+
+    <string name="collect_hdl_collect">Collect</string>
+    <string name="collect_wallet_hdl_collected">Collected DCN in Wallet</string>
+    <string name="collect_wallet_hdl_balance">Current Balance in App</string>
+    <string name="collect_wallet_hnt_amount">Amount</string>
+    <string name="collect_wallet_btn_collect">Collect</string>
+    <string name="collect_wallet_txt_what_is">What is Dentacoin?</string>
+
+    <string name="error_not_implemented">Feature not yet implemented!</string>
+
+    <string name="settings_hdl_settings">Notifications</string>
+
+    <string name="settings_lbl_daily_brushing">Daily brushing</string>
+    <string name="settings_lbl_change_brush">Change brush</string>
+    <string name="settings_lbl_visit_dentist">Visit dentist</string>
+    <string name="settings_lbl_collect_dentacoins">Collect dentacoins</string>
+    <string name="settings_lbl_reminder_visit">Reminder to visit</string>
+    <string name="settings_lbl_healthy_habits">Healthy habits</string>
+    <string name="settings_lbl_upon_no_activity">Upon no activity</string>
+    <string name="settings_lbl_daily_inspiration">Daily inspiration</string>
 </resources>

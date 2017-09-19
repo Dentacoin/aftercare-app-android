@@ -6,13 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dentacoin.dentacare.R;
+import com.dentacoin.dentacare.activities.DCProfileActivity;
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.facebook.drawee.view.SimpleDraweeView;
-
-import de.mateware.snacky.Snacky;
 
 /**
  * Created by Atanas Chervarov on 9/5/17.
@@ -51,7 +50,36 @@ public class DCProfileOverviewFragment extends DCFragment implements View.OnClic
             sdvProfileAvatar.setImageURI(user.getAvatarUrl(getActivity()));
             tvProfileFullname.setText(user.getFullName());
             tvProfileEmail.setText(user.getEmail());
-            //TODO: address, gender, age
+
+            tvProfileAddress.setVisibility(View.GONE);
+            tvProfileAge.setVisibility(View.GONE);
+            tvProfileGender.setVisibility(View.GONE);
+
+            if (user.getFullAddress() != null) {
+                tvProfileAddress.setText(user.getFullAddress());
+                tvProfileAddress.setVisibility(View.VISIBLE);
+            }
+
+            if (user.getAge() != null) {
+                tvProfileAge.setText(getString(R.string.profile_txt_years_old, Integer.toString(user.getAge())));
+                tvProfileAge.setVisibility(View.VISIBLE);
+            }
+
+            if (user.getGender() != null) {
+                tvProfileGender.setVisibility(View.VISIBLE);
+
+                switch (user.getGender()) {
+                    case DCUser.GENDER_MALE:
+                        tvProfileGender.setText(R.string.gender_male);
+                        break;
+                    case DCUser.GENDER_FEMALE:
+                        tvProfileGender.setText(R.string.gender_female);
+                        break;
+                    default:
+                        tvProfileGender.setVisibility(View.GONE);
+                        break;
+                }
+            }
         }
     }
 
@@ -59,8 +87,7 @@ public class DCProfileOverviewFragment extends DCFragment implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_profile_edit:
-                //TODO: show edit fragment
-                Snacky.builder().setActivty(getActivity()).error().setText("Not yet implemented").show();
+                ((DCProfileActivity) getActivity()).editProfile();
                 break;
         }
     }

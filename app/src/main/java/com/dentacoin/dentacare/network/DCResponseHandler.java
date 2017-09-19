@@ -50,7 +50,7 @@ public class DCResponseHandler<T> implements Callback {
                 if (responseListener != null) {
                     if (response.body() != null) {
                         try {
-                            String jsonString = response.body().string();
+                            final String jsonString = response.body().string();
                             Log.d("RESPONSE", jsonString);
 
                             if (response.code() == 200 || response.code() == 201) {
@@ -59,10 +59,6 @@ public class DCResponseHandler<T> implements Callback {
                             } else {
                                 DCError error = DCApiManager.gson.fromJson(jsonString, DCError.class);
                                 responseListener.onFailure(error);
-                            }
-
-                            if (response.code() == 401) {
-                                //TODO: LOGOUT USER
                             }
 
                         } catch (IOException | JsonSyntaxException | IllegalStateException e) {

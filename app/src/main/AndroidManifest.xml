@@ -53,6 +53,14 @@
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme"/>
         <activity
+            android:name=".activities.DCCollectActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activities.DCSettingsActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme"/>
+        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"/>
