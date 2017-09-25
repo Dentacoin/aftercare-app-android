@@ -6,6 +6,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -58,6 +59,10 @@
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".activities.DCSettingsActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activities.DCQRScannerActivity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme"/>
         <activity

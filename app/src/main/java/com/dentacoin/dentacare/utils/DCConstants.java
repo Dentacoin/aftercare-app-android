@@ -1,5 +1,7 @@
 package com.dentacoin.dentacare.utils;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by Atanas Chervarov on 7/26/17.
  */
@@ -18,4 +20,7 @@ public class DCConstants {
     public static final String EMERGENCY_EMAIL = "emergency@dentacoin.com";
     public static final String DENTACARE_WEBSITE = "http://www.dentacare.com/";
 
+    public static final Pattern ADDRESS_PATTERN = Pattern.compile("^0x[a-fA-F0-9]{40}");
+    public static final Pattern IBAN_LONG_PATTERN = Pattern.compile("[A-Z0-9]{35}");
+    public static final Pattern IBAN_SHORT_PATTERN = Pattern.compile("[A-Z0-9]{34}");
 }

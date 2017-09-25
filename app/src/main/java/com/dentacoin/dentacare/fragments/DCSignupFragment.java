@@ -3,6 +3,8 @@ package com.dentacoin.dentacare.fragments;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -10,22 +12,21 @@ import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.anthonycr.grant.PermissionsManager;
 import com.anthonycr.grant.PermissionsResultAction;
-import com.dentacoin.dentacare.activities.DCActivity;
-import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.R;
+import com.dentacoin.dentacare.activities.DCActivity;
 import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
-import com.dentacoin.dentacare.model.DCAvatar;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCUser;
-import com.dentacoin.dentacare.network.DCApiManager;
-import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.utils.DCConstants;
+import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCTextInputEditText;
 import com.dentacoin.dentacare.widgets.DCTextInputLayout;
@@ -33,6 +34,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import de.mateware.snacky.Snacky;
@@ -63,7 +65,7 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
     private DCTextInputLayout tilSignupPassword;
     private DCTextInputEditText tietSignupPassword;
 
-    private DCAvatar avatar;
+    private Uri avatarUri;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -214,7 +216,18 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
     private void signup() {
         if (validate()) {
             DCUser user = new DCUser();
-            user.setAvatar(avatar);
+
+            //TODO: setup avatar
+
+//            if (avatarUri != null) {
+//                Bitmap bm = BitmapFactory.decodeFile(avatarUri.getPath());
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+//                byte[] b = baos.toByteArray();
+//                String res = Base64.encodeToString(b, Base64.DEFAULT);
+//                Log.d(TAG, res);
+//                user.setAvatar(res);
+//            }
             user.setFirstname(tietSignupFirstName.getText().toString());
             user.setLastname(tietSignupLastname.getText().toString());
             user.setEmail(tietSignupEmail.getText().toString());
@@ -314,28 +327,9 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == Activity.RESULT_OK) {
-                Uri resultUri = result.getUri();
-                if (resultUri != null) {
-                    //Upload the cropped image
-                    File file = new File(resultUri.getPath());
-                    DCApiManager.getInstance().uploadAvatar(file, new DCResponseListener<DCAvatar>() {
-                        @Override
-                        public void onFailure(DCError error) {
-                            if (error == null)
-                                error = new DCError(R.string.error_txt_failed_upload_avatar);
-                            ((DCActivity)getActivity()).onError(error);
-                        }
-
-                        @Override
-                        public void onResponse(DCAvatar object) {
-                            if (object != null) {
-                                //set & display the uploaded image
-                                avatar = object;
-                                sdvSignupProfileImage.setImageURI(object.getAvatarUrl(getActivity()));
-                            }
-                        }
-                    });
-                }
+                //TODO: ssetup avatar
+                avatarUri = result.getUri();
+                sdvSignupProfileImage.setImageURI(avatarUri);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_error_picking_image));
             }

@@ -191,8 +191,20 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                DCSession.getInstance().clear();
-                                onLogout();
+                                DCApiManager.getInstance().logout(new DCResponseListener<Void>() {
+                                    @Override
+                                    public void onFailure(DCError error) {
+                                        if (error != null) {
+                                            error.show(DCDrawerActivity.this);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onResponse(Void object) {
+                                        DCSession.getInstance().clear();
+                                        onLogout();
+                                    }
+                                });
                             }
                         })
                         .setNegativeButton(R.string.txt_no, new DialogInterface.OnClickListener() {

@@ -9,8 +9,8 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
-import android.view.ViewGroup;
 
+import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,5 +60,31 @@ public class DCUtils {
     public static void openURL(Context context, String url) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         context.startActivity(browserIntent);
+    }
+
+    /**
+     * Converts IBAN to eth address
+     * @param iban
+     * @return
+     */
+    public static String ibanToAdress(String iban) {
+        if (iban != null && (iban.length() == 34 || iban.length() == 35)) {
+            String base36 = iban.substring(4);
+
+            try {
+                BigInteger asBn = new BigInteger(base36, 36);
+                String result = asBn.toString(16);
+
+                if (result != null) {
+                    while (result.length() < 40) {
+                        result = "0" + result;
+                    }
+                }
+
+                return "0x" + result;
+            } catch (NullPointerException | NumberFormatException e) { }
+        }
+
+        return null;
     }
 }

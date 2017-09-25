@@ -12,7 +12,8 @@ public class DCSharedPreferences {
 
     public enum DCSharedKey {
         AUTH_TOKEN("AUTH_TOKEN"),
-        WELCOME_SCREEN("WELCOME_SCREEN");
+        WELCOME_SCREEN("WELCOME_SCREEN"),
+        DEFAULT_WALLET("DEFAULT_WALLET");
 
         private String key;
 

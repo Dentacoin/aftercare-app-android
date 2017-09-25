@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -22,10 +23,11 @@
                 android:orientation="vertical"
                 android:layout_centerVertical="true">
 
-                <ImageView
+                <com.dentacoin.dentacare.widgets.DCTimerView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/dentacoin"
+                    app:text="1"
+                    app:type="smallInfo"
                     android:layout_gravity="center"/>
 
                 <com.dentacoin.dentacare.widgets.DCTextView
@@ -56,10 +58,11 @@
                 android:orientation="vertical"
                 android:layout_centerVertical="true">
 
-                <ImageView
+                <com.dentacoin.dentacare.widgets.DCTimerView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/dentacoin"
+                    app:text="2"
+                    app:type="smallInfo"
                     android:layout_gravity="center"/>
 
                 <com.dentacoin.dentacare.widgets.DCTextView
@@ -78,19 +81,33 @@
             android:layout_height="0dp"
             android:layout_weight="0.5">
 
-            <com.dentacoin.dentacare.widgets.DCTextInputLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingLeft="40dp"
                 android:paddingRight="40dp"
-                android:theme="@style/DCTextInputLayout.Collect"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <com.dentacoin.dentacare.widgets.DCTextInputEditText
-                    style="@style/DCEditText.Collect"
-                    android:layout_width="match_parent"
+                android:orientation="horizontal">
+                <com.dentacoin.dentacare.widgets.DCTextInputLayout
+                    android:theme="@style/DCTextInputLayout.Collect"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/collect_wallet_hnt_address"/>
-            </com.dentacoin.dentacare.widgets.DCTextInputLayout>
+                    android:layout_weight="1">
+                    <com.dentacoin.dentacare.widgets.DCTextInputEditText
+                        android:id="@+id/tiet_collect_wallet"
+                        style="@style/DCEditText.Collect"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/collect_wallet_hnt_address"/>
+                </com.dentacoin.dentacare.widgets.DCTextInputLayout>
 
+                <ImageView
+                    android:id="@+id/iv_collect_qr_scan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_qrcode_scan"/>
+            </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
 

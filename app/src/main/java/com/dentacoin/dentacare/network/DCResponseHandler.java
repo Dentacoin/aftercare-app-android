@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.utils.DCErrorType;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
@@ -36,37 +37,45 @@ public class DCResponseHandler<T> implements Callback {
             @Override
             public void run() {
                 if (responseListener != null)
-                    responseListener.onFailure(new DCError(DCError.DCErrorType.NETWORK));
+                    responseListener.onFailure(new DCError(DCErrorType.NETWORK));
             }
         });
     }
 
     @Override
     public void onResponse(Call call, final Response response) throws IOException {
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (responseListener != null) {
-                    if (response.body() != null) {
-                        try {
-                            final String jsonString = response.body().string();
-                            Log.d("RESPONSE", jsonString);
+        if (responseListener != null) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            if (response.body() != null) {
+                try {
+                    final String jsonString = response.body().string();
+                    Log.d("RESPONSE", jsonString);
 
-                            if (response.code() == 200 || response.code() == 201) {
-                                T object = DCApiManager.gson.fromJson(jsonString, clazz);
-                                responseListener.onResponse(object);
-                            } else {
-                                DCError error = DCApiManager.gson.fromJson(jsonString, DCError.class);
-                                responseListener.onFailure(error);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (response.code() >= 200 && response.code() < 300) {
+                                    T object = DCApiManager.gson.fromJson(jsonString, clazz);
+                                    responseListener.onResponse(object);
+                                } else {
+                                    DCError error = DCApiManager.gson.fromJson(jsonString, DCError.class);
+                                    responseListener.onFailure(error);
+                                }
+                            } catch (JsonSyntaxException | IllegalStateException e) {
+                                responseListener.onFailure(new DCError(DCErrorType.JSONSYNTAX));
                             }
-
-                        } catch (IOException | JsonSyntaxException | IllegalStateException e) {
-                            responseListener.onFailure(new DCError(DCError.DCErrorType.UNKNOWN));
                         }
-                    }
+                    });
+                } catch (NullPointerException e) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            responseListener.onFailure(new DCError(DCErrorType.UNKNOWN));
+                        }
+                    });
                 }
             }
-        });
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.dentacoin.dentacare.model;
 
 import android.content.Context;
-import android.content.Intent;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -178,26 +177,24 @@ public class DCUser {
      * @return  null if user did not set his burthday
      */
     public Integer getAge() {
+        if (birthday != null) {
+            Calendar nowCalendar = Calendar.getInstance();
+            nowCalendar.setTime(new Date());
+
+            Calendar birthdayCalendar = Calendar.getInstance();
+            birthdayCalendar.setTime(birthday);
+
+            int yearDiff = nowCalendar.get(Calendar.YEAR) - birthdayCalendar.get(Calendar.YEAR);
+
+            if (birthdayCalendar.get(Calendar.MONTH) > nowCalendar.get(Calendar.MONTH) ||
+                birthdayCalendar.get(Calendar.MONTH) == nowCalendar.get(Calendar.MONTH) &&
+                birthdayCalendar.get(Calendar.DATE) > nowCalendar.get(Calendar.DATE)) {
+                yearDiff --;
+            }
+
+            return yearDiff;
+        }
+
         return null;
-        //TODO:
-//        if (birthday != null) {
-//            Calendar nowCalendar = Calendar.getInstance();
-//            nowCalendar.setTime(new Date());
-//
-//            Calendar birthdayCalendar = Calendar.getInstance();
-//            birthdayCalendar.setTime(birthday);
-//
-//            int yearDiff = nowCalendar.get(Calendar.YEAR) - birthdayCalendar.get(Calendar.YEAR);
-//
-//            if (birthdayCalendar.get(Calendar.MONTH) > nowCalendar.get(Calendar.MONTH) ||
-//                birthdayCalendar.get(Calendar.MONTH) == nowCalendar.get(Calendar.MONTH) &&
-//                birthdayCalendar.get(Calendar.DATE) > nowCalendar.get(Calendar.DATE)) {
-//                yearDiff --;
-//            }
-//
-//            return yearDiff;
-//        }
-//
-//        return null;
     }
 }

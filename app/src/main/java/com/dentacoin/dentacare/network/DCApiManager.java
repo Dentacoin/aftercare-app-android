@@ -55,9 +55,10 @@ public class DCApiManager {
     private static final String ENDPOINT_UPLOAD_AVATAR = "upload_avatar";
     private static final String ENDPOINT_REGISTER_USER = "userreg";
     private static final String ENDPOINT_LOGIN_USER = "login";
+    private static final String ENDPOINT_LOGOUT = "logout";
     private static final String ENDPOINT_USER = "user";
 
-    private static final String HEADER_KEY_TOKEN = "token";
+    private static final String HEADER_KEY_TOKEN = "Authorization";
 
 
     public static final Gson gson = new GsonBuilder().create();
@@ -105,6 +106,7 @@ public class DCApiManager {
      * @param avatar    Avatar file
      * @param responseListener  DCResponseListener for handling the response
      */
+    @Deprecated
     public void uploadAvatar(File avatar,  DCResponseListener<DCAvatar> responseListener) {
         String endpoint = buildPath(ENDPOINT_UPLOAD_AVATAR, null);
 
@@ -175,6 +177,16 @@ public class DCApiManager {
     }
 
     /**
+     * Logout the current user / invalidate the jwt token
+     * @param listener
+     */
+    public void logout(final DCResponseListener<Void> listener) {
+        String endpoint = buildPath(ENDPOINT_LOGOUT, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
      * Create a http request
      * @param method
      * @param endpoint
@@ -187,7 +199,7 @@ public class DCApiManager {
         builder.method(method.getMethod(), body);
 
         if (DCSession.getInstance().getAuthTokenString() != null)
-            builder.addHeader(HEADER_KEY_TOKEN, DCSession.getInstance().getAuthTokenString());
+            builder.addHeader(HEADER_KEY_TOKEN, "Bearer " + DCSession.getInstance().getAuthTokenString());
 
         return builder.build();
     }
