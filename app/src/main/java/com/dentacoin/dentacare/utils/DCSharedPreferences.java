@@ -12,6 +12,7 @@ public class DCSharedPreferences {
 
     public enum DCSharedKey {
         AUTH_TOKEN("AUTH_TOKEN"),
+        USER("USER"),
         WELCOME_SCREEN("WELCOME_SCREEN"),
         DEFAULT_WALLET("DEFAULT_WALLET");
 
@@ -55,5 +56,15 @@ public class DCSharedPreferences {
 
     public static boolean removeKey(DCSharedKey key) {
         return  getInstance().preferences.edit().remove(key.getKey()).commit();
+    }
+
+    /**
+     * Cleans all saved user data
+     */
+    public static void clean() {
+        removeKey(DCSharedKey.AUTH_TOKEN);
+        removeKey(DCSharedKey.USER);
+        removeKey(DCSharedKey.WELCOME_SCREEN);
+        removeKey(DCSharedKey.DEFAULT_WALLET);
     }
 }

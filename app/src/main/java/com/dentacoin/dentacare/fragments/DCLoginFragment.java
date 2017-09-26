@@ -132,11 +132,11 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener,
 
     private boolean validate() {
         if (TextUtils.isEmpty(tietLoginEmail.getText().toString())) {
-            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_email_required));
+            onError(new DCError(R.string.error_txt_email_required));
             return false;
         }
         else if (!DCUtils.isValidEmail(tietLoginEmail.getText().toString())) {
-            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_name_not_valid));
+            onError(new DCError(R.string.error_txt_name_not_valid));
             return false;
         }
 

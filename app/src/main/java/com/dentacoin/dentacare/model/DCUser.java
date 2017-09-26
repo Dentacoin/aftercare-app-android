@@ -1,6 +1,10 @@
 package com.dentacoin.dentacare.model;
 
 import android.content.Context;
+import android.content.Intent;
+
+import com.google.gson.annotations.Expose;
+import com.mukesh.countrypicker.Country;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -25,6 +29,7 @@ public class DCUser {
     private String city;
     private String gender;
     private DCAvatar avatar;
+    private String avatar_64;
     private String facebookID;
     private String facebookAccessToken;
     private String googleID;
@@ -53,9 +58,13 @@ public class DCUser {
         this.birthday = birthday;
     }
 
+    public Date getBirthday() { return birthday; }
+
     public void setPostalCode(int postalCode) {
         this.postalCode = postalCode;
     }
+
+    public Integer getPostalCode() { return postalCode; }
 
     public void setCountry(String country) {
         this.country = country;
@@ -81,6 +90,14 @@ public class DCUser {
 
     public String getGender() {
         return gender;
+    }
+
+    public void setAvatar_64(String avatar_64) {
+        this.avatar_64 = avatar_64;
+    }
+
+    public String getAvatar_64() {
+        return avatar_64;
     }
 
     public void setAvatar(DCAvatar avatar) {
@@ -195,6 +212,20 @@ public class DCUser {
             return yearDiff;
         }
 
+        return null;
+    }
+
+    /**
+     * Get full locaiton
+     * @return  null if city & country are not set
+     */
+    public String getLocation() {
+        if (city != null && country != null) {
+            Country co = Country.getCountryByISO(country);
+            if (co != null) {
+                return city + ", " + co.getName();
+            }
+        }
         return null;
     }
 }

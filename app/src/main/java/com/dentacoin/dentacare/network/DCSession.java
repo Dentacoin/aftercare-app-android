@@ -27,9 +27,21 @@ public class DCSession {
 
     public void setUser(DCUser user) {
         this.user = user;
+        if (user != null) {
+            DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.USER, DCApiManager.gson.toJson(user));
+        }
     }
 
     public DCUser getUser() {
+        if (user == null) {
+            String userString = DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.USER);
+            if (userString != null) {
+                try {
+                    user = DCApiManager.gson.fromJson(userString, DCUser.class);
+                } catch (JsonSyntaxException e) {
+                }
+            }
+        }
         return user;
     }
 
@@ -46,8 +58,7 @@ public class DCSession {
             if (token != null) {
                 try {
                     authToken = DCApiManager.gson.fromJson(token, DCAuthToken.class);
-                } catch (JsonSyntaxException e) {
-                }
+                } catch (JsonSyntaxException e) { }
             }
         }
         return authToken;
@@ -72,8 +83,7 @@ public class DCSession {
      * Clear the session
      */
     public void clear() {
-        DCSharedPreferences.removeKey(DCSharedPreferences.DCSharedKey.AUTH_TOKEN);
-        DCSharedPreferences.removeKey(DCSharedPreferences.DCSharedKey.WELCOME_SCREEN);
+        DCSharedPreferences.clean();
         authToken = null;
         user = null;
     }

@@ -60,8 +60,9 @@ public class DCApiManager {
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
 
-
-    public static final Gson gson = new GsonBuilder().create();
+    public static final Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd HH:mm:ss")
+            .create();
 
     public static synchronized DCApiManager getInstance() {
         if (instance == null)
@@ -142,6 +143,7 @@ public class DCApiManager {
     public void loginUSer(DCUser user, DCResponseListener<DCAuthToken> responseListener) {
         if (user == null)
             return;
+
         String endpoint = buildPath(ENDPOINT_LOGIN_USER, null);
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(user));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
@@ -155,6 +157,39 @@ public class DCApiManager {
     public void getUser(final DCResponseListener<DCUser> responseListener) {
         String endpoint = buildPath(ENDPOINT_USER, null);
         Request request = buildRequest(RequestMethod.GET, endpoint, null);
+
+        DCResponseListener<DCUser> listener = new DCResponseListener<DCUser>() {
+            @Override
+            public void onFailure(DCError error) {
+                if (responseListener != null)
+                    responseListener.onFailure(error);
+            }
+
+            @Override
+            public void onResponse(DCUser object) {
+                if (object != null)
+                    DCSession.getInstance().setUser(object);
+
+                if (responseListener != null)
+                    responseListener.onResponse(object);
+            }
+        };
+
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCUser.class));
+    }
+
+    /**
+     * Update the user object
+     * @param user
+     * @param responseListener
+     */
+    public void patchUser(DCUser user, final DCResponseListener<DCUser> responseListener) {
+        if (user == null)
+            return;
+
+        String endpoint = buildPath(ENDPOINT_USER, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(user));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
 
         DCResponseListener<DCUser> listener = new DCResponseListener<DCUser>() {
             @Override

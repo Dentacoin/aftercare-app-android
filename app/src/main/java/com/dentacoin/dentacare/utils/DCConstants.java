@@ -1,5 +1,7 @@
 package com.dentacoin.dentacare.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
@@ -23,4 +25,10 @@ public class DCConstants {
     public static final Pattern ADDRESS_PATTERN = Pattern.compile("^0x[a-fA-F0-9]{40}");
     public static final Pattern IBAN_LONG_PATTERN = Pattern.compile("[A-Z0-9]{35}");
     public static final Pattern IBAN_SHORT_PATTERN = Pattern.compile("[A-Z0-9]{34}");
+
+    public static final SimpleDateFormat DATE_FORMAT_BIRTHDAY = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+
+    public static final int MIN_AGE = 13;
+    public static final int MAX_AGE = 99;
+
 }

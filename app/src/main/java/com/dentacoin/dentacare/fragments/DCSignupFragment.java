@@ -13,7 +13,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import android.view.ViewGroup;
 import com.anthonycr.grant.PermissionsManager;
 import com.anthonycr.grant.PermissionsResultAction;
 import com.dentacoin.dentacare.R;
-import com.dentacoin.dentacare.activities.DCActivity;
 import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCUser;
@@ -216,23 +214,11 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
     private void signup() {
         if (validate()) {
             DCUser user = new DCUser();
-
-            //TODO: setup avatar
-
-//            if (avatarUri != null) {
-//                Bitmap bm = BitmapFactory.decodeFile(avatarUri.getPath());
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-//                byte[] b = baos.toByteArray();
-//                String res = Base64.encodeToString(b, Base64.DEFAULT);
-//                Log.d(TAG, res);
-//                user.setAvatar(res);
-//            }
+            user.setAvatar_64(DCUtils.base64Bitmap(avatarUri));
             user.setFirstname(tietSignupFirstName.getText().toString());
             user.setLastname(tietSignupLastname.getText().toString());
             user.setEmail(tietSignupEmail.getText().toString());
             user.setPassword(tietSignupPassword.getText().toString());
-
             ((DCAuthenticationActivity) getActivity()).signupUser(user);
         }
     }
@@ -243,39 +229,39 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
      */
     private boolean validate() {
         if (TextUtils.isEmpty(tietSignupFirstName.getText().toString())) {
-            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_first_name_required));
+            onError(new DCError(R.string.error_txt_first_name_required));
             return false;
         }
         else if (tietSignupFirstName.getText().toString().length() < 2) {
-            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_first_name_too_short));
+            onError(new DCError(R.string.error_txt_first_name_too_short));
             return false;
         }
         else if (tietSignupFirstName.getText().toString().length() > 40) {
-            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_first_name_too_long));
+            onError(new DCError(R.string.error_txt_first_name_too_long));
             return false;
         }
         else if (!DCUtils.isValidName(tietSignupFirstName.getText().toString())) {
-            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_name_not_valid));
+            onError(new DCError(R.string.error_txt_name_not_valid));
             return false;
         }
         else if (tietSignupLastname.getText().toString().length() > 40) {
-            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_last_name_too_long));
+            onError(new DCError(R.string.error_txt_last_name_too_long));
             return false;
         }
         else if (tietSignupLastname.getText().toString().length() > 0 && !DCUtils.isValidName(tietSignupLastname.getText().toString())) {
-            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_name_not_valid));
+            onError(new DCError(R.string.error_txt_name_not_valid));
             return false;
         }
         else if (TextUtils.isEmpty(tietSignupEmail.getText().toString())) {
-            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_email_required));
+            onError(new DCError(R.string.error_txt_email_required));
             return false;
         }
         else if (!DCUtils.isValidEmail(tietSignupEmail.getText().toString())) {
-            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_email_not_valid));
+            onError(new DCError(R.string.error_txt_email_not_valid));
             return false;
         }
         else if (tietSignupPassword.getText().toString().length() < 8) {
-            ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_password_short));
+            onError(new DCError(R.string.error_txt_password_short));
             return false;
         }
 
@@ -327,18 +313,17 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == Activity.RESULT_OK) {
-                //TODO: ssetup avatar
                 avatarUri = result.getUri();
                 sdvSignupProfileImage.setImageURI(avatarUri);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_error_picking_image));
+                onError(new DCError(R.string.error_txt_error_picking_image));
             }
         }
 
         EasyImage.handleActivityResult(requestCode, resultCode, data, getActivity(), new DefaultCallback() {
             @Override
             public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
-                ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_error_picking_image));
+                onError(new DCError(R.string.error_txt_error_picking_image));
             }
 
             @Override
@@ -350,7 +335,7 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
                             .setRequestedSize(DCConstants.AVATAR_DEFAULT_SIZE_WIDTH, DCConstants.AVATAR_DEFAULT_SIZE_HEIGHT, CropImageView.RequestSizeOptions.RESIZE_INSIDE)
                             .start(getActivity(), DCSignupFragment.this);
                 } else {
-                    ((DCActivity)getActivity()).onError(new DCError(R.string.error_txt_error_picking_image));
+                    onError(new DCError(R.string.error_txt_error_picking_image));
                 }
             }
 

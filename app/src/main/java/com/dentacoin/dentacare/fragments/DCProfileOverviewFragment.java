@@ -6,8 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dentacoin.dentacare.R;
+import com.dentacoin.dentacare.activities.DCActivity;
 import com.dentacoin.dentacare.activities.DCProfileActivity;
+import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCUser;
+import com.dentacoin.dentacare.network.DCApiManager;
+import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCTextView;
@@ -40,9 +44,27 @@ public class DCProfileOverviewFragment extends DCFragment implements View.OnClic
         btnProfileEdit = (DCButton) view.findViewById(R.id.btn_profile_edit);
         btnProfileEdit.setOnClickListener(this);
 
-        setupUI(DCSession.getInstance().getUser());
+        loadUser();
 
         return view;
+    }
+
+    private void loadUser() {
+        if (DCSession.getInstance().getUser() != null) {
+            setupUI(DCSession.getInstance().getUser());
+        }
+
+        DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
+            @Override
+            public void onFailure(DCError error) {
+                onError(error);
+            }
+
+            @Override
+            public void onResponse(DCUser object) {
+                setupUI(DCSession.getInstance().getUser());
+            }
+        });
     }
 
     private void setupUI(DCUser user) {

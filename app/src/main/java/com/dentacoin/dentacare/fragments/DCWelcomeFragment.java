@@ -76,7 +76,7 @@ public class DCWelcomeFragment extends DCFragment {
         DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
             @Override
             public void onFailure(DCError error) {
-                ((DCActivity)getActivity()).onError(error);
+                onError(error);
 
                 if (listener != null)
                     listener.onFragmentRemoved();
