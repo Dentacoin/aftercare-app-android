@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -174,5 +175,14 @@ public class DCUtils {
             return Base64.encodeToString(b, Base64.DEFAULT);
         }
         return null;
+    }
+
+    public static String secondsToMinutesString(int seconds) {
+        if (seconds >= 0) {
+            int minutes = seconds / 60;
+            int sec = seconds % 60;
+            return String.format(Locale.ENGLISH, "%d:%02d", minutes, sec);
+        }
+        return "0:00";
     }
 }

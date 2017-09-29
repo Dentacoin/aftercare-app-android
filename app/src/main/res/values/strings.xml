@@ -45,6 +45,7 @@
     <string name="txt_no">No</string>
     <string name="txt_cancel">Cancel</string>
     <string name="txt_send">Send</string>
+    <string name="txt_collect">Collect</string>
     <string name="txt_dcn">%d dcn</string>
     <string name="txt_save">Save</string>
     <string name="txt_update">Update</string>
@@ -90,9 +91,9 @@
     <string name="collect_wallet_hnt_amount">Amount</string>
     <string name="collect_wallet_btn_collect">Collect</string>
     <string name="collect_wallet_txt_what_is">What is Dentacoin?</string>
+    <string name="collect_wallet_sent_collect_request">Successfully sent collect request. You will receive your DCN shortly.</string>
 
     <string name="error_not_implemented">Feature not yet implemented!</string>
-
     <string name="settings_hdl_settings">Notifications</string>
 
     <string name="settings_lbl_daily_brushing">Daily brushing</string>
@@ -108,5 +109,45 @@
     <string name="collect_txt_permission_camera_settings">Settings</string>
     <string name="collect_txt_found_wallet">Scan success!</string>
     <string name="collect_txt_wallet_copied">Wallet copied!</string>
+    <string name="collect_txt_what_is_dentacoin">What is Dentacoin?</string>
+    <string name="collect_hdl_collected_dcn">Collected DCN in Wallet</string>
+    <string name="collect_hdl_current_balance">Current Balance in App</string>
+    <string name="collect_hnt_amount">Amount</string>
+    <string name="collect_error_retrieving_data">There was an error trying to retrieve your data. Please try again later.</string>
+    <string name="collect_error_not_enough">Sorry but you don\'t have such amount of DCN yet!</string>
 
+    <string name="dashboard_tab_floss">FLOSS</string>
+    <string name="dashboard_tab_brush">BRUSH</string>
+    <string name="dashboard_tab_rinse">RINSE</string>
+
+    <string name="dashboard_lbl_average_time">average time</string>
+    <string name="dashboard_lbl_time_left">time left</string>
+    <string name="dashboard_lbl_times_rinsed">times rinsed</string>
+    <string name="dashboard_lbl_times_flossed">times flossed</string>
+    <string name="dashboard_lbl_times_brushed">times brushed</string>
+    <string name="dashboard_btn_daily">daily</string>
+    <string name="dashboard_btn_weekly">weekly</string>
+    <string name="dashboard_btn_monthly">monthly</string>
+    <string name="dashboard_lbl_rinse_statistics">Rinse Statistics</string>
+    <string name="dashboard_lbl_floss_statistics">Floss Statistics</string>
+    <string name="dashboard_lbl_brush_statistics">Brush Statistics</string>
+
+    <string name="dashboard_btn_start_floss">Floss</string>
+    <string name="dashboard_btn_start_rinse">Rinse</string>
+    <string name="dashboard_btn_start_brush">Brush</string>
+    <string name="dashboard_btn_stop">Stop</string>
+
+    <string name="dashboard_lbl_dcn_earned">DCN Earned</string>
+
+    <string name="dashboard_lbl_brush_left">Brush left</string>
+    <string name="dashboard_lbl_floss_left">Floss left</string>
+    <string name="dashboard_lbl_rinse_left">Rinse left</string>
+
+    <string name="dashboard_lbl_last_brush">Last brush</string>
+    <string name="dashboard_lbl_last_floss">Last floss</string>
+    <string name="dashboard_lbl_last_rinse">Last rinse</string>
+
+    <string name="dashboard_warning_sync_needed">Your data was not synchronized. Do you want to do this now?</string>
+    <string name="dashboard_success_sync">Sync successful!</string>
+    <string name="dashboard_too_short_record">Aww come on! You can do better that this!</string>
 </resources>

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.anthonycr.grant.PermissionsManager;
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.fragments.DCAuthenticationFragment;
 import com.dentacoin.dentacare.fragments.DCLoginFragment;
@@ -299,12 +298,6 @@ public class DCAuthenticationActivity extends DCActivity {
                 onError(new DCError(result.getStatus().getStatusMessage()));
         }
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        PermissionsManager.getInstance().notifyPermissionsChange(permissions, grantResults);
-    }
-
 
     public void loginUser(DCUser user) {
         DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {

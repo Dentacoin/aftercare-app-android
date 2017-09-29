@@ -48,12 +48,15 @@
     <style name="DCButton.Default" parent="DCButton">
         <item name="android:layout_width">@dimen/button_default_width</item>
         <item name="android:layout_height">@dimen/button_default_height</item>
-        <item name="android:background">@drawable/btn_dashboard_record</item>
+        <item name="android:background">@drawable/btn_default</item>
         <item name="android:textColor">@drawable/color_default_button</item>
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="DCButton.Dashboard" parent="DCButton.Default"/>
+    <style name="DCButton.Dashboard" parent="DCButton.Default">
+        <item name="android:background">@drawable/btn_dashboard_record</item>
+        <item name="android:textColor">@drawable/color_record_button</item>
+    </style>
 
     <style name="DCButton.Statistics">
         <item name="android:layout_width">@dimen/button_dashboard_statistics_width</item>
@@ -72,8 +75,11 @@
     </style>
 
     <style name="DCEditText.Collect" parent="DCEditText">
+        <item name="backgroundTint">@color/lightGrey</item>
         <item name="android:textColor">@color/charcoalGrey</item>
-        <item name="android:textColorHint">@color/charcoalGrey</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColorHighlight">@color/lightGrey</item>
+        <item name="android:colorActivatedHighlight">@color/lightGrey</item>
     </style>
 
     <style name="DCTextInputLayout" parent="Widget.Design.TextInputLayout">

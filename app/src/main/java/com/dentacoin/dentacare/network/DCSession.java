@@ -2,6 +2,7 @@ package com.dentacoin.dentacare.network;
 
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
+import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.google.gson.JsonSyntaxException;
 
@@ -84,6 +85,7 @@ public class DCSession {
      */
     public void clear() {
         DCSharedPreferences.clean();
+        DCDashboardDataProvider.getInstance().clear();
         authToken = null;
         user = null;
     }

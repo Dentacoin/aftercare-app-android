@@ -21,6 +21,7 @@ public class DCConstants {
 
     public static final String EMERGENCY_EMAIL = "emergency@dentacoin.com";
     public static final String DENTACARE_WEBSITE = "http://www.dentacare.com/";
+    public static final String DENTACOIN_WEBSITE = "https://www.dentacoin.com/";
 
     public static final Pattern ADDRESS_PATTERN = Pattern.compile("^0x[a-fA-F0-9]{40}");
     public static final Pattern IBAN_LONG_PATTERN = Pattern.compile("[A-Z0-9]{35}");
@@ -30,5 +31,10 @@ public class DCConstants {
 
     public static final int MIN_AGE = 13;
     public static final int MAX_AGE = 99;
+
+    public static final int COUNTDOWN_AMOUNT = 3 * 60 * 1000;
+
+    public enum DCActivityType { FLOSS, BRUSH, RINSE }
+    public enum DCStatisticsType { DAILY, WEEKLY, MONTHLY }
 
 }

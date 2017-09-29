@@ -1,26 +1,45 @@
 package com.dentacoin.dentacare.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BaseTransientBottomBar;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.adapters.DCDashboardPagerAdapter;
 import com.dentacoin.dentacare.fragments.DCWelcomeFragment;
 import com.dentacoin.dentacare.fragments.IDCFragmentInterface;
+import com.dentacoin.dentacare.model.DCActivityRecord;
+import com.dentacoin.dentacare.model.DCDashboard;
+import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
+import com.dentacoin.dentacare.utils.IDCDashboardObserver;
+import com.dentacoin.dentacare.widgets.DCTextView;
+import com.dentacoin.dentacare.widgets.DCVIewPager;
+
+import de.mateware.snacky.Snacky;
 
 /**
  * Created by Atanas Chervarov on 8/10/17.
  */
 
-public class DCDashboardActivity extends DCDrawerActivity implements IDCFragmentInterface {
+public class DCDashboardActivity extends DCDrawerActivity implements IDCFragmentInterface, IDCDashboardObserver {
 
     private TabLayout tlDashboardTabs;
-    private ViewPager vpDashboardPager;
+    private DCVIewPager vpDashboardPager;
+    private DCTextView tvDashboardDcnTotal;
+    private LinearLayout llDashboardDcnTotal;
+
     private DCDashboardPagerAdapter adapter;
+    private boolean syncWarningVisible = false;
+    private boolean inRecord = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,15 +53,98 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             getFragmentManager().beginTransaction().add(R.id.container, new DCWelcomeFragment()).commit();
         }
 
+        tvDashboardDcnTotal = (DCTextView) findViewById(R.id.tv_dashboard_dcn_total);
         tlDashboardTabs = (TabLayout) findViewById(R.id.tl_dashboard_tabs);
-        vpDashboardPager = (ViewPager) findViewById(R.id.vp_dashboard_pager);
+        vpDashboardPager = (DCVIewPager) findViewById(R.id.vp_dashboard_pager);
+        llDashboardDcnTotal = (LinearLayout) findViewById(R.id.ll_dashboard_dcn_total);
+        llDashboardDcnTotal.setOnClickListener(this);
+
         adapter = new DCDashboardPagerAdapter(getFragmentManager());
         vpDashboardPager.setAdapter(adapter);
         tlDashboardTabs.setupWithViewPager(vpDashboardPager);
+        vpDashboardPager.setCurrentItem(1);
+        DCDashboardDataProvider.getInstance().updateDashboard(true);
     }
 
     @Override
     public void onFragmentRemoved() {
         toolbar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DCDashboardDataProvider.getInstance().addObserver(this);
+        DCDashboardDataProvider.getInstance().updateDashboard(true);
+    }
+
+    @Override
+    public void onPause() {
+        DCDashboardDataProvider.getInstance().removeObserver(this);
+        super.onPause();
+    }
+
+    @Override
+    public void onDashboardUpdated(DCDashboard dashboard) {
+        tvDashboardDcnTotal.setText(getString(R.string.txt_dcn, dashboard.getTotalDCN()));
+    }
+
+    @Override
+    public void onDashboardError(DCError error) {
+        onError(error);
+    }
+
+    @Override
+    public void onSyncNeeded(DCActivityRecord[] records) {
+        if (records != null && !syncWarningVisible) {
+            syncWarningVisible = true;
+            Snacky.builder().setActivty(this).setText(R.string.dashboard_warning_sync_needed).warning().setAction(R.string.txt_yes, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DCDashboardDataProvider.getInstance().sync(false);
+                }
+            }).setDuration(Snacky.LENGTH_INDEFINITE).addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                @Override
+                public void onDismissed(Snackbar transientBottomBar, int event) {
+                    super.onDismissed(transientBottomBar, event);
+                    syncWarningVisible = false;
+                }
+            }).show();
+        }
+    }
+
+    @Override
+    public void onSyncSuccess() {
+        Snacky.builder().setActivty(this).setText(R.string.dashboard_success_sync).success().show();
+    }
+
+    @Override
+    public void onClick(View view) {
+        super.onClick(view);
+
+        switch (view.getId()) {
+            case R.id.ll_dashboard_dcn_total:
+                if (!inRecord) {
+                    final Intent collectIntent = new Intent(this, DCCollectActivity.class);
+                    startActivity(collectIntent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
+                break;
+        }
+    }
+
+    public void toggleRecordMode(boolean inRecord) {
+        this.inRecord = inRecord;
+        if (inRecord) {
+            toolbar.setVisibility(View.GONE);
+            tlDashboardTabs.setVisibility(View.GONE);
+            vpDashboardPager.setSwipeEnabled(false);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } else {
+            toolbar.setVisibility(View.VISIBLE);
+            tlDashboardTabs.setVisibility(View.VISIBLE);
+            vpDashboardPager.setSwipeEnabled(true);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
     }
 }

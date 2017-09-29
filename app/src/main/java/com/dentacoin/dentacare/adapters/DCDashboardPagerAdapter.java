@@ -5,7 +5,10 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
+import com.dentacoin.dentacare.fragments.DCBrushFragment;
 import com.dentacoin.dentacare.fragments.DCDashboardFragment;
+import com.dentacoin.dentacare.fragments.DCFlossFragment;
+import com.dentacoin.dentacare.fragments.DCRinseFragment;
 
 /**
  * Created by Atanas Chervarov on 8/18/17.
@@ -26,7 +29,15 @@ public class DCDashboardPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new DCDashboardFragment();
+        switch (position) {
+            case 0:
+                return new DCFlossFragment();
+            case 1:
+                return new DCBrushFragment();
+            case 2:
+                return new DCRinseFragment();
+        }
+        return null;
     }
 
     @Override

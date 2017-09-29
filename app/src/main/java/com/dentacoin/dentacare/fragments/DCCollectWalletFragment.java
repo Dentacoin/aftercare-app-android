@@ -16,10 +16,12 @@ import android.widget.ImageView;
 import com.anthonycr.grant.PermissionsManager;
 import com.anthonycr.grant.PermissionsResultAction;
 import com.dentacoin.dentacare.R;
+import com.dentacoin.dentacare.activities.DCCollectActivity;
 import com.dentacoin.dentacare.activities.DCQRScannerActivity;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.widgets.DCButton;
+import com.dentacoin.dentacare.widgets.DCEditText;
 import com.dentacoin.dentacare.widgets.DCTextInputEditText;
 
 import java.util.regex.Matcher;
@@ -36,8 +38,7 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
 
     private DCButton btnCollectSend;
     private ImageView ivCollectQrScan;
-
-    private DCTextInputEditText tietCollectWallet;
+    private DCEditText etCollectWallet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -48,9 +49,9 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
 
         ivCollectQrScan = (ImageView) view.findViewById(R.id.iv_collect_qr_scan);
         ivCollectQrScan.setOnClickListener(this);
-        tietCollectWallet = (DCTextInputEditText) view.findViewById(R.id.tiet_collect_wallet);
+        etCollectWallet = (DCEditText) view.findViewById(R.id.et_collect_wallet);
 
-        tietCollectWallet.addTextChangedListener(new TextWatcher() {
+        etCollectWallet.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -72,7 +73,7 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
             }
         });
 
-        tietCollectWallet.setText(DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.DEFAULT_WALLET));
+        etCollectWallet.setText(DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.DEFAULT_WALLET));
         return view;
     }
 
@@ -80,7 +81,13 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.collect_btn_send:
-                Snacky.builder().setActivty(getActivity()).warning().setText(R.string.error_not_implemented).show();
+                if (!etCollectWallet.getText().toString().isEmpty()) {
+                    Matcher addressMatcher = DCConstants.ADDRESS_PATTERN.matcher(etCollectWallet.getText().toString());
+                    if (addressMatcher.matches()) {
+                        DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.DEFAULT_WALLET, etCollectWallet.getText().toString());
+                        ((DCCollectActivity) getActivity()).showCollectDCN();
+                    }
+                }
                 break;
             case R.id.iv_collect_qr_scan:
                 scanQRCode();
@@ -123,7 +130,6 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
                 });
     }
 
-
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -131,8 +137,7 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
             if (data != null) {
                 String wallet = data.getStringExtra(DCQRScannerActivity.KEY_SCANNED_WALLET);
                 if (wallet != null) {
-                    tietCollectWallet.setText(wallet);
-                    DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.DEFAULT_WALLET, wallet);
+                    etCollectWallet.setText(wallet);
                     Snacky.builder().setActivty(getActivity()).success().setText(R.string.collect_txt_wallet_copied).setDuration(Snacky.LENGTH_SHORT).show();
                 }
             }

@@ -82,6 +82,10 @@ public class DCTimerView extends RelativeLayout {
         pbTimerProgress.setProgress(progress);
     }
 
+    public void setSecondaryProgress(int secondaryProgress) {
+        pbTimerProgress.setSecondaryProgress(secondaryProgress);
+    }
+
     public void setTitle(String title) {
         tvTimerTitle.setText(title);
     }

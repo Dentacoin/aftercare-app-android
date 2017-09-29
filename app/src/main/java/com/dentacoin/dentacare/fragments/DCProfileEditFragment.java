@@ -219,10 +219,7 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
         if (tietProfileZipcode.getText().toString().length() > 0) {
             try {
                 Integer zip = Integer.parseInt(tietProfileZipcode.getText().toString());
-
-                if (zip != null) {
-                    user.setPostalCode(zip);
-                }
+                user.setPostalCode(zip);
             } catch (NumberFormatException e) { }
         }
 

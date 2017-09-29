@@ -22,6 +22,7 @@
             app:tabTextColor="@color/white"/>
 
         <LinearLayout
+            android:id="@+id/ll_dashboard_dcn_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -47,11 +48,12 @@
                     android:textSize="11sp"
                     android:textAllCaps="true"/>
                 <com.dentacoin.dentacare.widgets.DCTextView
+                    android:id="@+id/tv_dashboard_dcn_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0 DCN"
                     android:textColor="@color/ceruleanBlue"
                     app:fontType="regular"
+                    android:textAllCaps="true"
                     android:textSize="20sp"/>
             </LinearLayout>
         </LinearLayout>
@@ -63,7 +65,7 @@
             android:layout_marginRight="20dp"
             android:background="@color/lightGrey"/>
 
-        <android.support.v4.view.ViewPager
+        <com.dentacoin.dentacare.widgets.DCVIewPager
             android:id="@+id/vp_dashboard_pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"

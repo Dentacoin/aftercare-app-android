@@ -6,9 +6,13 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 
 import com.dentacoin.dentacare.BuildConfig;
+import com.dentacoin.dentacare.model.DCActivityRecord;
 import com.dentacoin.dentacare.model.DCAvatar;
+import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.model.DCUser;
+import com.dentacoin.dentacare.network.response.DCActivityRecordsResponse;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -57,6 +61,9 @@ public class DCApiManager {
     private static final String ENDPOINT_LOGIN_USER = "login";
     private static final String ENDPOINT_LOGOUT = "logout";
     private static final String ENDPOINT_USER = "user";
+    private static final String ENDPOINT_DASHBOARD = "dashboard";
+    private static final String ENDPOINT_RECORDS = "records";
+    private static final String ENDPOINT_TRANSACTIONS = "transactions";
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
 
@@ -218,6 +225,57 @@ public class DCApiManager {
     public void logout(final DCResponseListener<Void> listener) {
         String endpoint = buildPath(ENDPOINT_LOGOUT, null);
         Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
+     * Retrieve current dashboard data
+     * @param listener
+     */
+    public void getDashboard(final DCResponseListener<DCDashboard> listener) {
+        String endpoint = buildPath(ENDPOINT_DASHBOARD, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCDashboard.class));
+    }
+
+    /**
+     * Retrieves list of user records
+     * @param listener
+     */
+    public void getRecords(DCResponseListener<DCActivityRecordsResponse> listener) {
+        String endpoint = buildPath(ENDPOINT_RECORDS, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCActivityRecordsResponse.class));
+    }
+
+    /**
+     * Adds an activity records
+     * @param record
+     * @param listener
+     */
+    public void postRecord(DCActivityRecord record, DCResponseListener<DCActivityRecord> listener) {
+        if (record == null)
+            return;
+
+        String endpoint = buildPath(ENDPOINT_RECORDS, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(record));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCActivityRecord.class));
+    }
+
+    /**
+     * Enqueues a transaction request
+     * @param transaction
+     * @param listener
+     */
+    public void postTransaction(DCTransaction transaction, DCResponseListener<Void> listener) {
+        if (transaction == null)
+            return;
+
+        String endpoint = buildPath(ENDPOINT_TRANSACTIONS, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(transaction));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
     }
 

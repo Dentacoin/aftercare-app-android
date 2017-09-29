@@ -1,8 +1,10 @@
 package com.dentacoin.dentacare.activities;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
+import com.anthonycr.grant.PermissionsManager;
 import com.dentacoin.dentacare.LaunchActivity;
 import com.dentacoin.dentacare.model.DCError;
 
@@ -42,5 +44,10 @@ public class DCActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        PermissionsManager.getInstance().notifyPermissionsChange(permissions, grantResults);
     }
 }

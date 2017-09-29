@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.dentacoin.dentacare.network.DCApiManager;
+import com.google.gson.JsonSyntaxException;
+
 /**
  * Created by Atanas Chervarov on 8/16/17.
  */
@@ -14,7 +17,10 @@ public class DCSharedPreferences {
         AUTH_TOKEN("AUTH_TOKEN"),
         USER("USER"),
         WELCOME_SCREEN("WELCOME_SCREEN"),
-        DEFAULT_WALLET("DEFAULT_WALLET");
+        DEFAULT_WALLET("DEFAULT_WALLET"),
+        DASHBOARD("DASHBOARD"),
+        RECORDS("RECORDS"),
+        COLLECTED("COLLECTED");
 
         private String key;
 
@@ -58,6 +64,15 @@ public class DCSharedPreferences {
         return  getInstance().preferences.edit().remove(key.getKey()).commit();
     }
 
+    public static int loadInt(DCSharedKey key) {
+        return getInstance().preferences.getInt(key.getKey(), 0);
+    }
+
+    public static boolean saveInt(DCSharedKey key, int value) {
+        return getInstance().preferences.edit().putInt(key.getKey(), value).commit();
+    }
+
+
     /**
      * Cleans all saved user data
      */
@@ -66,5 +81,7 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.USER);
         removeKey(DCSharedKey.WELCOME_SCREEN);
         removeKey(DCSharedKey.DEFAULT_WALLET);
+        removeKey(DCSharedKey.DASHBOARD);
+        removeKey(DCSharedKey.RECORDS);
     }
 }

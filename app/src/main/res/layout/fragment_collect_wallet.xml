@@ -87,18 +87,14 @@
                 android:paddingLeft="40dp"
                 android:paddingRight="40dp"
                 android:orientation="horizontal">
-                <com.dentacoin.dentacare.widgets.DCTextInputLayout
-                    android:theme="@style/DCTextInputLayout.Collect"
+
+                <com.dentacoin.dentacare.widgets.DCEditText
+                    android:id="@+id/et_collect_wallet"
+                    style="@style/DCEditText.Collect"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
-                    <com.dentacoin.dentacare.widgets.DCTextInputEditText
-                        android:id="@+id/tiet_collect_wallet"
-                        style="@style/DCEditText.Collect"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/collect_wallet_hnt_address"/>
-                </com.dentacoin.dentacare.widgets.DCTextInputLayout>
+                    android:singleLine="true"
+                    android:layout_weight="1"/>
 
                 <ImageView
                     android:id="@+id/iv_collect_qr_scan"
