@@ -177,11 +177,18 @@ public class DCUtils {
         return null;
     }
 
-    public static String secondsToMinutesString(int seconds) {
-        if (seconds >= 0) {
-            int minutes = seconds / 60;
-            int sec = seconds % 60;
-            return String.format(Locale.ENGLISH, "%d:%02d", minutes, sec);
+    public static String secondsToTime(int seconds) {
+        if (seconds > 0) {
+
+            int h = seconds / 3600;
+            int m = (seconds % 3600) / 60;
+            int s = (seconds % 3600) % 60;
+
+            if (h > 0) {
+                return String.format(Locale.ENGLISH, "%dh %02d", h, m);
+            } else {
+                return String.format(Locale.ENGLISH, "%d:%02d", m, s);
+            }
         }
         return "0:00";
     }

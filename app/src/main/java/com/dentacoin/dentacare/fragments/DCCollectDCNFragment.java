@@ -1,9 +1,6 @@
 package com.dentacoin.dentacare.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,7 +100,6 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
                             Snacky.builder().setActivty(getActivity()).error().setText(R.string.collect_error_not_enough).show();
                         }
                     } catch (NumberFormatException e) {
-                        Log.d(TAG, "test");
                     }
                 }
                 break;

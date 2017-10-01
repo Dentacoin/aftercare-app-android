@@ -93,7 +93,6 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
 
         tilProfileEmail = (DCTextInputLayout) view.findViewById(R.id.til_profile_email);
         tietProfileEmail = (DCTextInputEditText) view.findViewById(R.id.tiet_profile_email);
-        tietProfileEmail.setOnFocusChangeListener(this);
 
         tilProfilePassword = (DCTextInputLayout) view.findViewById(R.id.til_profile_password);
         tietProfilePassword = (DCTextInputEditText) view.findViewById(R.id.tiet_profile_password);
@@ -211,7 +210,6 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
         user.setAvatar_64(DCUtils.base64Bitmap(avatarUri));
         user.setFirstname(tietProfileFirstname.getText().toString());
         user.setLastname(tietProfileLastname.getText().toString());
-        user.setEmail(tietProfileEmail.getText().toString());
         if (tietProfilePassword.getText().toString().length() > 0) {
             user.setPassword(tietProfilePassword.getText().toString());
         }
@@ -279,19 +277,6 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
                         tilProfileLastname.setErrorEnabled(false);
                     }
                     break;
-                case R.id.tiet_profile_email:
-                    if (TextUtils.isEmpty(tietProfileEmail.getText().toString())) {
-                        tilProfileEmail.setErrorEnabled(true);
-                        tilProfileEmail.setError(getString(R.string.error_txt_email_required));
-                    }
-                    else if (!DCUtils.isValidEmail(tietProfileEmail.getText().toString())) {
-                        tilProfileEmail.setErrorEnabled(true);
-                        tilProfileEmail.setError(getString(R.string.error_txt_email_not_valid));
-                    }
-                    else {
-                        tilProfileEmail.setErrorEnabled(false);
-                    }
-                    break;
                 case R.id.tiet_profile_password:
                     if (tietProfilePassword.getText().toString().length() > 0 && tietProfilePassword.getText().toString().length() < 8) {
                         tilProfilePassword.setErrorEnabled(true);
@@ -328,14 +313,6 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
         }
         else if (tietProfileLastname.getText().toString().length() > 0 && !DCUtils.isValidName(tietProfileLastname.getText().toString())) {
             onError(new DCError(R.string.error_txt_name_not_valid));
-            return false;
-        }
-        else if (TextUtils.isEmpty(tietProfileEmail.getText().toString())) {
-            onError(new DCError(R.string.error_txt_email_required));
-            return false;
-        }
-        else if (!DCUtils.isValidEmail(tietProfileEmail.getText().toString())) {
-            onError(new DCError(R.string.error_txt_email_not_valid));
             return false;
         }
         else if (tietProfilePassword.getText().toString().length() > 0 && tietProfilePassword.getText().toString().length() < 8) {

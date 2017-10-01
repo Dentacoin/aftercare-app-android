@@ -181,25 +181,25 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
     protected void updateView() {
         if (dashboardItem != null) {
-            timerDashboardLast.setTimerDisplay(DCUtils.secondsToMinutesString(dashboardItem.getLastTime()));
+            timerDashboardLast.setTimerDisplay(DCUtils.secondsToTime(dashboardItem.getLastTime()));
             timerDashboardleft.setTimerDisplay(Integer.toString(dashboardItem.getLeft()));
             timerDashboardEarned.setTimerDisplay(Integer.toString(dashboardItem.getEarned()));
 
             switch (selectedStatistics) {
                 case WEEKLY:
                     timerDashboardTimes.setTimerDisplay(Integer.toString(dashboardItem.getWeekly().getTimes()));
-                    timerDashboardTimeLeft.setTimerDisplay(DCUtils.secondsToMinutesString(dashboardItem.getWeekly().getLeft()));
-                    timerDashboardAverageTime.setTimerDisplay(DCUtils.secondsToMinutesString(dashboardItem.getWeekly().getAverage()));
+                    timerDashboardTimeLeft.setTimerDisplay(DCUtils.secondsToTime(dashboardItem.getWeekly().getLeft()));
+                    timerDashboardAverageTime.setTimerDisplay(DCUtils.secondsToTime(dashboardItem.getWeekly().getAverage()));
                     break;
                 case MONTHLY:
                     timerDashboardTimes.setTimerDisplay(Integer.toString(dashboardItem.getMonthly().getTimes()));
-                    timerDashboardTimeLeft.setTimerDisplay(DCUtils.secondsToMinutesString(dashboardItem.getMonthly().getLeft()));
-                    timerDashboardAverageTime.setTimerDisplay(DCUtils.secondsToMinutesString(dashboardItem.getMonthly().getAverage()));
+                    timerDashboardTimeLeft.setTimerDisplay(DCUtils.secondsToTime(dashboardItem.getMonthly().getLeft()));
+                    timerDashboardAverageTime.setTimerDisplay(DCUtils.secondsToTime(dashboardItem.getMonthly().getAverage()));
                     break;
                 default:
                     timerDashboardTimes.setTimerDisplay(Integer.toString(dashboardItem.getDaily().getTimes()));
-                    timerDashboardTimeLeft.setTimerDisplay(DCUtils.secondsToMinutesString(dashboardItem.getDaily().getLeft()));
-                    timerDashboardAverageTime.setTimerDisplay(DCUtils.secondsToMinutesString(dashboardItem.getDaily().getAverage()));
+                    timerDashboardTimeLeft.setTimerDisplay(DCUtils.secondsToTime(dashboardItem.getDaily().getLeft()));
+                    timerDashboardAverageTime.setTimerDisplay(DCUtils.secondsToTime(dashboardItem.getDaily().getAverage()));
                     break;
             }
 
@@ -236,7 +236,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                 btnDashboardRecord.setSelected(false);
                 timerDashboard.setSecondaryProgress(0);
                 timerDashboard.setProgress(1000);
-                timerDashboard.setTimerDisplay(DCUtils.secondsToMinutesString(0));
+                timerDashboard.setTimerDisplay(DCUtils.secondsToTime(0));
             }
             
             ((DCDashboardActivity)getActivity()).toggleRecordMode(trackingTime);
@@ -312,7 +312,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         float t = (DCConstants.COUNTDOWN_AMOUNT - millisUntilFinished) / 1000.0f;
         if (timerDashboard != null) {
             timerDashboard.setSecondaryProgress((int) (t * 5.5f));
-            timerDashboard.setTimerDisplay(DCUtils.secondsToMinutesString((int)t));
+            timerDashboard.setTimerDisplay(DCUtils.secondsToTime((int)t));
         }
     }
 

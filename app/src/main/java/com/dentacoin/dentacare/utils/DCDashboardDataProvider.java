@@ -25,6 +25,7 @@ public class DCDashboardDataProvider {
     private DCDashboard dashboard;
     private final List<DCActivityRecord> records = Collections.synchronizedList(new ArrayList<DCActivityRecord>());
     private ArrayList<IDCDashboardObserver> dashboardObservers;
+
     private boolean inRequest = false;
 
     public static synchronized DCDashboardDataProvider getInstance() {
