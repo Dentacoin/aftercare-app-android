@@ -50,6 +50,7 @@
     <string name="txt_save">Save</string>
     <string name="txt_update">Update</string>
     <string name="txt_try_again">Try again</string>
+    <string name="txt_loading">Loading...</string>
 
     <string name="gender_female">female</string>
     <string name="gender_male">male</string>

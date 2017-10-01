@@ -67,6 +67,7 @@ public class DCStatisticsActivity extends DCToolbarActivity implements View.OnCl
         tvStatisticsRinseLeft = (DCTimerView) findViewById(R.id.tv_statistics_rinse_left);
         tvStatisticsRinseAverage = (DCTimerView) findViewById(R.id.tv_statistics_rinse_average);
 
+
         DCDashboardDataProvider.getInstance().updateDashboard(false);
         DCDashboardDataProvider.getInstance().updateDashboard(true);
 

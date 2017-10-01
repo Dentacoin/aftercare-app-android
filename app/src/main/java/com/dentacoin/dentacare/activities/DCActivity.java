@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.anthonycr.grant.PermissionsManager;
 import com.dentacoin.dentacare.LaunchActivity;
+import com.dentacoin.dentacare.fragments.DCLoadingFragment;
 import com.dentacoin.dentacare.model.DCError;
 
 /**
@@ -50,4 +51,16 @@ public class DCActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         PermissionsManager.getInstance().notifyPermissionsChange(permissions, grantResults);
     }
+
+    /**
+     * Show a loading dialog
+     * Remember to dismiss it when your loading has finished
+     * @return
+     */
+    final public DCLoadingFragment showLoading() {
+        final DCLoadingFragment loadingFragment = new DCLoadingFragment();
+        loadingFragment.show(getFragmentManager(), DCLoadingFragment.TAG);
+        return loadingFragment;
+    }
+
 }
