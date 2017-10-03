@@ -210,6 +210,8 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
         user.setAvatar_64(DCUtils.base64Bitmap(avatarUri));
         user.setFirstname(tietProfileFirstname.getText().toString());
         user.setLastname(tietProfileLastname.getText().toString());
+        user.setEmail(null);
+
         if (tietProfilePassword.getText().toString().length() > 0) {
             user.setPassword(tietProfilePassword.getText().toString());
         }
