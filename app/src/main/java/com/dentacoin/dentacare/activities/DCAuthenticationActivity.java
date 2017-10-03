@@ -107,7 +107,8 @@ public class DCAuthenticationActivity extends DCActivity {
     public void onFacebookLogin() {
         if (facebookCallbackManager == null)
             facebookCallbackManager = CallbackManager.Factory.create();
-
+        
+        LoginManager.getInstance().logOut();
         LoginManager.getInstance().registerCallback(facebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {

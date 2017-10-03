@@ -12,5 +12,8 @@
         android:textColor="@color/white"
         android:layout_centerVertical="true"
         app:fontType="light"
+        android:lines="1"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:textSize="@dimen/text_size_actionbar_title"/>
 </RelativeLayout>

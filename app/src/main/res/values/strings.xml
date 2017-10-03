@@ -153,4 +153,7 @@
     <string name="dashboard_too_short_record">Aww come on! You can do better that this!</string>
 
     <string name="statistics_hdl_statistics">Statistics</string>
+
+    <string name="oral_health_hdl_oral_health">Oral health</string>
+    <string name="oral_health_txt_no_posts_found">No posts found!</string>
 </resources>

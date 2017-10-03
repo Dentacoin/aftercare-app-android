@@ -91,43 +91,33 @@ public class DCStatisticsActivity extends DCToolbarActivity implements View.OnCl
                 break;
         }
 
-
         if (dashboard != null) {
-            switch (selectedType) {
-                case DAILY:
-                    tvStatisticsFlossTimes.setTimerDisplay(Integer.toString(dashboard.getFlossed().getDaily().getTimes()));
-                    tvStatisticsFlossLeft.setTimerDisplay(DCUtils.secondsToTime(dashboard.getFlossed().getDaily().getLeft()));
-                    tvStatisticsFlossAverage.setTimerDisplay(DCUtils.secondsToTime(dashboard.getFlossed().getDaily().getAverage()));
-                    tvStatisticsBrushTimes.setTimerDisplay(Integer.toString(dashboard.getBrush().getDaily().getTimes()));
-                    tvStatisticsBrushLeft.setTimerDisplay(DCUtils.secondsToTime(dashboard.getBrush().getDaily().getLeft()));
-                    tvStatisticsBrushAverage.setTimerDisplay(DCUtils.secondsToTime(dashboard.getBrush().getDaily().getAverage()));
-                    tvStatisticsRinseTimes.setTimerDisplay(Integer.toString(dashboard.getRinsed().getDaily().getTimes()));
-                    tvStatisticsRinseLeft.setTimerDisplay(DCUtils.secondsToTime(dashboard.getRinsed().getDaily().getLeft()));
-                    tvStatisticsRinseAverage.setTimerDisplay(DCUtils.secondsToTime(dashboard.getRinsed().getDaily().getAverage()));
-                    break;
-                case WEEKLY:
-                    tvStatisticsFlossTimes.setTimerDisplay(Integer.toString(dashboard.getFlossed().getWeekly().getTimes()));
-                    tvStatisticsFlossLeft.setTimerDisplay(DCUtils.secondsToTime(dashboard.getFlossed().getWeekly().getLeft()));
-                    tvStatisticsFlossAverage.setTimerDisplay(DCUtils.secondsToTime(dashboard.getFlossed().getWeekly().getAverage()));
-                    tvStatisticsBrushTimes.setTimerDisplay(Integer.toString(dashboard.getBrush().getWeekly().getTimes()));
-                    tvStatisticsBrushLeft.setTimerDisplay(DCUtils.secondsToTime(dashboard.getBrush().getWeekly().getLeft()));
-                    tvStatisticsBrushAverage.setTimerDisplay(DCUtils.secondsToTime(dashboard.getBrush().getWeekly().getAverage()));
-                    tvStatisticsRinseTimes.setTimerDisplay(Integer.toString(dashboard.getRinsed().getWeekly().getTimes()));
-                    tvStatisticsRinseLeft.setTimerDisplay(DCUtils.secondsToTime(dashboard.getRinsed().getWeekly().getLeft()));
-                    tvStatisticsRinseAverage.setTimerDisplay(DCUtils.secondsToTime(dashboard.getRinsed().getWeekly().getAverage()));
-                    break;
-                default:
-                    tvStatisticsFlossTimes.setTimerDisplay(Integer.toString(dashboard.getFlossed().getMonthly().getTimes()));
-                    tvStatisticsFlossLeft.setTimerDisplay(DCUtils.secondsToTime(dashboard.getFlossed().getMonthly().getLeft()));
-                    tvStatisticsFlossAverage.setTimerDisplay(DCUtils.secondsToTime(dashboard.getFlossed().getMonthly().getAverage()));
-                    tvStatisticsBrushTimes.setTimerDisplay(Integer.toString(dashboard.getBrush().getMonthly().getTimes()));
-                    tvStatisticsBrushLeft.setTimerDisplay(DCUtils.secondsToTime(dashboard.getBrush().getMonthly().getLeft()));
-                    tvStatisticsBrushAverage.setTimerDisplay(DCUtils.secondsToTime(dashboard.getBrush().getMonthly().getAverage()));
-                    tvStatisticsRinseTimes.setTimerDisplay(Integer.toString(dashboard.getRinsed().getMonthly().getTimes()));
-                    tvStatisticsRinseLeft.setTimerDisplay(DCUtils.secondsToTime(dashboard.getRinsed().getMonthly().getLeft()));
-                    tvStatisticsRinseAverage.setTimerDisplay(DCUtils.secondsToTime(dashboard.getRinsed().getMonthly().getAverage()));
-                    break;
-            }
+            tvStatisticsFlossTimes.setTimerDisplay(Integer.toString(dashboard.getFlossed().getPeriod(selectedType).getTimes()));
+            tvStatisticsFlossTimes.setSecondaryProgress(dashboard.getFlossed().getPeriod(selectedType).getTimesProgress(selectedType));
+
+            tvStatisticsFlossLeft.setTimerDisplay(DCUtils.secondsToTime(dashboard.getFlossed().getPeriod(selectedType).getLeft()));
+            tvStatisticsFlossLeft.setSecondaryProgress(dashboard.getFlossed().getPeriod(selectedType).getLeftProgress(selectedType));
+
+            tvStatisticsFlossAverage.setTimerDisplay(DCUtils.secondsToTime(dashboard.getFlossed().getPeriod(selectedType).getAverage()));
+            tvStatisticsFlossAverage.setSecondaryProgress(dashboard.getFlossed().getPeriod(selectedType).getAverageProgress(selectedType));
+
+            tvStatisticsBrushTimes.setTimerDisplay(Integer.toString(dashboard.getBrush().getPeriod(selectedType).getTimes()));
+            tvStatisticsBrushTimes.setSecondaryProgress(dashboard.getBrush().getPeriod(selectedType).getTimesProgress(selectedType));
+
+            tvStatisticsBrushLeft.setTimerDisplay(DCUtils.secondsToTime(dashboard.getBrush().getPeriod(selectedType).getLeft()));
+            tvStatisticsBrushLeft.setSecondaryProgress(dashboard.getBrush().getPeriod(selectedType).getLeftProgress(selectedType));
+
+            tvStatisticsBrushAverage.setTimerDisplay(DCUtils.secondsToTime(dashboard.getBrush().getPeriod(selectedType).getAverage()));
+            tvStatisticsBrushAverage.setSecondaryProgress(dashboard.getBrush().getPeriod(selectedType).getAverageProgress(selectedType));
+
+            tvStatisticsRinseTimes.setTimerDisplay(Integer.toString(dashboard.getRinsed().getPeriod(selectedType).getTimes()));
+            tvStatisticsRinseTimes.setSecondaryProgress(dashboard.getRinsed().getPeriod(selectedType).getTimesProgress(selectedType));
+
+            tvStatisticsRinseLeft.setTimerDisplay(DCUtils.secondsToTime(dashboard.getRinsed().getPeriod(selectedType).getLeft()));
+            tvStatisticsRinseLeft.setSecondaryProgress(dashboard.getRinsed().getPeriod(selectedType).getLeftProgress(selectedType));
+
+            tvStatisticsRinseAverage.setTimerDisplay(DCUtils.secondsToTime(dashboard.getRinsed().getPeriod(selectedType).getAverage()));
+            tvStatisticsRinseAverage.setSecondaryProgress(dashboard.getRinsed().getPeriod(selectedType).getAverageProgress(selectedType));
         }
     }
 

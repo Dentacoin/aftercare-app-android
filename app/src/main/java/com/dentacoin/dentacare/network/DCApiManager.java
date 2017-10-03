@@ -10,10 +10,12 @@ import com.dentacoin.dentacare.model.DCActivityRecord;
 import com.dentacoin.dentacare.model.DCAvatar;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCOralHealthItem;
 import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.response.DCActivityRecordsResponse;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
+import com.dentacoin.dentacare.network.response.DCOralHealthResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -64,6 +66,7 @@ public class DCApiManager {
     private static final String ENDPOINT_DASHBOARD = "dashboard";
     private static final String ENDPOINT_RECORDS = "records";
     private static final String ENDPOINT_TRANSACTIONS = "transactions";
+    private static final String ENDPOINT_ORAL_HEALTH = "oralhealth";
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
 
@@ -277,6 +280,16 @@ public class DCApiManager {
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(transaction));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
+     * Retrieve oral health news
+     * @param listener
+     */
+    public void getOralHealth(DCResponseListener<DCOralHealthItem[]> listener) {
+        String endpoint = buildPath(ENDPOINT_ORAL_HEALTH, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCOralHealthItem[].class));
     }
 
     /**

@@ -83,6 +83,11 @@ public class DCTimerView extends RelativeLayout {
     }
 
     public void setSecondaryProgress(int secondaryProgress) {
+        if (secondaryProgress < 0) {
+            secondaryProgress = 0;
+        } else if (secondaryProgress > 1000) {
+            secondaryProgress = 1000;
+        }
         pbTimerProgress.setSecondaryProgress(secondaryProgress);
     }
 

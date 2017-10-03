@@ -55,11 +55,28 @@ public class DCToolbarActivity extends DCActivity {
     }
 
     /**
+     * Set the action bar title
+     * @param
+     */
+    protected final void setActionBarTitle(String title) {
+        if (actionbarTitle != null)
+            actionbarTitle.setText(title);
+    }
+
+    /**
      * Inflates a given view and adds it to the container
      * @param resourceId
      */
     protected final void addContentView(int resourceId) {
         container.addView(View.inflate(this, resourceId, null));
+    }
+
+    /**
+     * Adds a given view to the container
+     * @param view
+     */
+    protected final void addContentView(View view) {
+        container.addView(view);
     }
 
     /**

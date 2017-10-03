@@ -29,6 +29,7 @@ import com.dentacoin.dentacare.utils.DCFonts;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.login.LoginManager;
 
 /**
  * Created by Atanas Chervarov on 8/11/17.
@@ -176,7 +177,9 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case R.id.drawer_nav_oral_health:
-                //TODO: go to oral health
+                final Intent oralHealthIntent = new Intent(this, DCOralHealthActivity.class);
+                startActivity(oralHealthIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case R.id.drawer_nav_settings:
                 final Intent settingsIntent = new Intent(this, DCSettingsActivity.class);
@@ -207,6 +210,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                                     @Override
                                     public void onResponse(Void object) {
                                         DCSession.getInstance().clear();
+                                        LoginManager.getInstance().logOut();
                                         onLogout();
                                     }
                                 });
