@@ -12,16 +12,22 @@ import android.widget.LinearLayout;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.adapters.DCDashboardPagerAdapter;
+import com.dentacoin.dentacare.fragments.DCGoalDialogFragment;
 import com.dentacoin.dentacare.fragments.DCWelcomeFragment;
 import com.dentacoin.dentacare.fragments.IDCFragmentInterface;
 import com.dentacoin.dentacare.model.DCActivityRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCGoal;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
+import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
+import com.dentacoin.dentacare.utils.IDCGoalsObserver;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.dentacoin.dentacare.widgets.DCVIewPager;
+
+import java.util.ArrayList;
 
 import de.mateware.snacky.Snacky;
 
@@ -29,7 +35,7 @@ import de.mateware.snacky.Snacky;
  * Created by Atanas Chervarov on 8/10/17.
  */
 
-public class DCDashboardActivity extends DCDrawerActivity implements IDCFragmentInterface, IDCDashboardObserver {
+public class DCDashboardActivity extends DCDrawerActivity implements IDCFragmentInterface, IDCDashboardObserver, IDCGoalsObserver {
 
     private TabLayout tlDashboardTabs;
     private DCVIewPager vpDashboardPager;
@@ -75,11 +81,14 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         super.onResume();
         DCDashboardDataProvider.getInstance().addObserver(this);
         DCDashboardDataProvider.getInstance().updateDashboard(true);
+        DCGoalsDataProvider.getInstance().addObserver(this);
+        DCGoalsDataProvider.getInstance().updateGoals(true);
     }
 
     @Override
     public void onPause() {
         DCDashboardDataProvider.getInstance().removeObserver(this);
+        DCGoalsDataProvider.getInstance().removeObserver(this);
         super.onPause();
     }
 
@@ -145,5 +154,22 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             vpDashboardPager.setSwipeEnabled(true);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+    }
+
+    @Override
+    public void onGoalsUpdated(ArrayList<DCGoal> goals) {
+    }
+
+    @Override
+    public void onGoalAchieved(DCGoal goal) {
+        DCGoalDialogFragment goalFragment = new DCGoalDialogFragment();
+        Bundle arguments = new Bundle();
+        arguments.putSerializable(DCGoalDialogFragment.KEY_REACHED_GOAL, goal);
+        goalFragment.setArguments(arguments);
+        goalFragment.show(getFragmentManager(), DCGoalDialogFragment.TAG);
+    }
+
+    @Override
+    public void onGoalsError(DCError error) {
     }
 }

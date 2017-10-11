@@ -7,8 +7,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.dentacoin.dentacare.R;
+import com.dentacoin.dentacare.fragments.DCAgreementFragment;
 import com.dentacoin.dentacare.fragments.DCAuthenticationFragment;
 import com.dentacoin.dentacare.fragments.DCLoginFragment;
+import com.dentacoin.dentacare.fragments.DCResetPasswordFragment;
 import com.dentacoin.dentacare.fragments.DCSignupFragment;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCUser;
@@ -103,6 +105,15 @@ public class DCAuthenticationActivity extends DCActivity {
         transaction.addToBackStack(DCLoginFragment.TAG);
         transaction.commit();
     }
+
+    public void showPasswordResetFragment() {
+        final FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.slide_in_left, R.animator.slide_out_right);
+        transaction.add(R.id.fragment_container, new DCResetPasswordFragment());
+        transaction.addToBackStack(DCResetPasswordFragment.TAG);
+        transaction.commit();
+    }
+
 
     public void onFacebookLogin() {
         if (facebookCallbackManager == null)
@@ -242,6 +253,7 @@ public class DCAuthenticationActivity extends DCActivity {
     }
 
     public void onGoogleLogin() {
+        Auth.GoogleSignInApi.signOut(googleApiClient);
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(signInIntent, REQUEST_CODE_GOOGLE_SIGN_IN);
     }
@@ -314,18 +326,30 @@ public class DCAuthenticationActivity extends DCActivity {
         });
     }
 
-    public void signupUser(DCUser user) {
-        DCApiManager.getInstance().registerUser(user, new DCResponseListener<DCAuthToken>() {
+    public void signupUser(final DCUser user) {
+        DCAgreementFragment agreementFragment = new DCAgreementFragment();
+        agreementFragment.setListener(new DCAgreementFragment.IDCAgreementListener() {
             @Override
-            public void onFailure(DCError error) {
-                onError(error);
-            }
+            public void onAgreementAccepted() {
+                DCApiManager.getInstance().registerUser(user, new DCResponseListener<DCAuthToken>() {
+                    @Override
+                    public void onFailure(DCError error) {
+                        onError(error);
+                    }
 
-            @Override
-            public void onResponse(DCAuthToken object) {
-                handleAuthentication(object);
+                    @Override
+                    public void onResponse(DCAuthToken object) {
+                        handleAuthentication(object);
+                    }
+                });
             }
         });
+
+        final FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+        transaction.add(R.id.fragment_container, agreementFragment);
+        transaction.addToBackStack(DCAgreementFragment.TAG);
+        transaction.commit();
     }
 
     private void handleAuthentication(DCAuthToken token) {

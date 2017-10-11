@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_goal_item"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:paddingTop="16dp">
+
+    <ImageView
+        android:id="@+id/iv_goal_item"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/goals_not_completed_first_brush"
+        android:layout_gravity="center"/>
+
+    <com.dentacoin.dentacare.widgets.DCTextView
+        android:id="@+id/tv_goal_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        app:fontType="regular"
+        android:layout_gravity="center"
+        android:paddingTop="10dp"/>
+</LinearLayout>

@@ -22,6 +22,7 @@ import com.dentacoin.dentacare.model.DCDashboardItem;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
+import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.widgets.DCButton;
@@ -306,6 +307,8 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         }
 
         updateView();
+
+        DCGoalsDataProvider.getInstance().updateGoals(true);
     }
 
     private void handleClockTick(long millisUntilFinished) {

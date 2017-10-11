@@ -20,6 +20,8 @@ public class DCSharedPreferences {
         DEFAULT_WALLET("DEFAULT_WALLET"),
         DASHBOARD("DASHBOARD"),
         RECORDS("RECORDS"),
+        GOALS("GOALS"),
+        GOALS_REACHED("GOALS_REACHED"),
         COLLECTED("COLLECTED");
 
         private String key;
@@ -83,5 +85,7 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.DEFAULT_WALLET);
         removeKey(DCSharedKey.DASHBOARD);
         removeKey(DCSharedKey.RECORDS);
+        removeKey(DCSharedKey.COLLECTED);
+        removeKey(DCSharedKey.GOALS_REACHED);
     }
 }

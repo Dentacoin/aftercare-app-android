@@ -13,7 +13,6 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
 import com.dentacoin.dentacare.R;
-import com.dentacoin.dentacare.activities.DCActivity;
 import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCUser;
@@ -21,6 +20,7 @@ import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCTextInputEditText;
 import com.dentacoin.dentacare.widgets.DCTextInputLayout;
+import com.dentacoin.dentacare.widgets.DCTextView;
 
 /**
  * Created by Atanas Chervarov on 7/29/17.
@@ -40,6 +40,7 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener,
     private DCTextInputEditText tietLoginEmail;
     private DCTextInputLayout tilLoginPassword;
     private DCTextInputEditText tietLoginPassword;
+    private DCTextView tvLoginForgotPassword;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -81,6 +82,9 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener,
         tilLoginPassword = (DCTextInputLayout) view.findViewById(R.id.til_login_password);
         tietLoginPassword = (DCTextInputEditText) view.findViewById(R.id.tiet_login_password);
 
+        tvLoginForgotPassword = (DCTextView) view.findViewById(R.id.tv_login_forgot_password);
+        tvLoginForgotPassword.setOnClickListener(this);
+
         return view;
     }
 
@@ -118,6 +122,9 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener,
             case R.id.btn_login_google:
                 ((DCAuthenticationActivity) getActivity()).onGoogleLogin();
                 break;
+            case R.id.tv_login_forgot_password:
+                ((DCAuthenticationActivity) getActivity()).showPasswordResetFragment();
+                break;
         }
     }
 
@@ -136,7 +143,7 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener,
             return false;
         }
         else if (!DCUtils.isValidEmail(tietLoginEmail.getText().toString())) {
-            onError(new DCError(R.string.error_txt_name_not_valid));
+            onError(new DCError(R.string.error_txt_email_not_valid));
             return false;
         }
 

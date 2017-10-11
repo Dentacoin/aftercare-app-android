@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 import de.mateware.snacky.Snacky;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
@@ -345,7 +347,7 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
 
     private void pickAvatar() {
         PermissionsManager.getInstance().requestPermissionsIfNecessaryForResult(getActivity(),
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                 new PermissionsResultAction() {
                     @Override
                     public void onGranted() {
@@ -400,9 +402,9 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
             }
 
             @Override
-            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
-                if (imageFile != null) {
-                    CropImage.activity(Uri.fromFile(imageFile))
+            public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
+                if (imageFiles.size() > 0) {
+                    CropImage.activity(Uri.fromFile(imageFiles.get(0)))
                             .setGuidelines(CropImageView.Guidelines.ON)
                             .setAspectRatio(1, 1)
                             .setRequestedSize(DCConstants.AVATAR_DEFAULT_SIZE_WIDTH, DCConstants.AVATAR_DEFAULT_SIZE_HEIGHT, CropImageView.RequestSizeOptions.RESIZE_INSIDE)
@@ -420,6 +422,7 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
                         photoFile.delete();
                 }
             }
+
         });
 
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {

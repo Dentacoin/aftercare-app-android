@@ -6,6 +6,7 @@ import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
+import com.dentacoin.dentacare.network.response.DCRecordsSyncResponse;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
@@ -146,30 +147,32 @@ public class DCDashboardDataProvider {
     public void sync(final boolean silent) {
         synchronized (records) {
             if (records.size() > 0) {
-                for (final DCActivityRecord record : records) {
-                    DCApiManager.getInstance().postRecord(record, new DCResponseListener<DCActivityRecord>() {
-                        @Override
-                        public void onFailure(DCError error) {
-                        }
+                final DCActivityRecord[] cRecords = records.toArray(new DCActivityRecord[records.size()]);
 
-                        @Override
-                        public void onResponse(DCActivityRecord object) {
+                DCApiManager.getInstance().syncRecords(cRecords, new DCResponseListener<DCRecordsSyncResponse>() {
+                    @Override
+                    public void onFailure(DCError error) {
+                        notifyObserversOnError(error);
+                    }
+
+                    @Override
+                    public void onResponse(DCRecordsSyncResponse object) {
+                        if (object != null) {
+                            //TODO: clear only succeeded records
                             synchronized (records) {
-                                records.remove(record);
+                                records.clear();
                                 saveRecords();
-                                if (records.size() == 0) {
-                                    updateDashboard(true);
-                                    if (!silent)
-                                        notifyObserversOnSyncSuccess();
-                                }
+                                updateDashboard(true);
+
+                                if (!silent)
+                                    notifyObserversOnSyncSuccess();
                             }
                         }
-                    });
-                }
+                    }
+                });
             }
         }
     }
-
 
     /**
      * Notify all observers when the dashboard was updated

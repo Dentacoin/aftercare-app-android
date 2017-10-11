@@ -15,6 +15,9 @@ public class DCActivityRecord {
     private String type;
     private Integer earnedDCN;
 
+    public Date getStartTime() { return startTime; }
+    public Date getEndTime() { return endTime; }
+
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
@@ -54,5 +57,16 @@ public class DCActivityRecord {
             return (int)((endTime.getTime() - startTime.getTime()) / 1000);
         }
         return 0;
+    }
+
+    public boolean equals(DCActivityRecord record) {
+        if (record != null) {
+            if (type != null && record.getType() != null && type.compareTo(record.getType()) == 0) {
+                if (startTime != null && record.getStartTime() != null && startTime.compareTo(record.getStartTime()) == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -31,7 +31,7 @@ public class DCOralHealthItemViewHolder extends RecyclerView.ViewHolder implemen
         tvOralHealthItemTitle = (DCTextView) view.findViewById(R.id.tv_oral_health_item_title);
         tvOralHealthDescription = (DCTextView) view.findViewById(R.id.tv_oral_health_description);
         cvOralHealthItem = (CardView) view.findViewById(R.id.cv_oral_health_item);
-        cvOralHealthItem.setOnClickListener(this);;
+        cvOralHealthItem.setOnClickListener(this);
     }
 
     public void setup(DCOralHealthItem item, IDCOralHealthItemListener listener) {

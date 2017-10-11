@@ -3,16 +3,14 @@ package com.dentacoin.dentacare.fragments;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +30,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.List;
 
 import de.mateware.snacky.Snacky;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
@@ -118,9 +116,10 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
 
             }
         });
+
         EasyImage.configuration(getActivity())
                 .setImagesFolderName("Dentacare")
-                .saveInRootPicturesDirectory();
+                .setAllowMultiplePickInGallery(false);
 
         return view;
     }
@@ -273,7 +272,7 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
      */
     private void pickAvatar() {
         PermissionsManager.getInstance().requestPermissionsIfNecessaryForResult(getActivity(),
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                 new PermissionsResultAction() {
                     @Override
                     public void onGranted() {
@@ -327,9 +326,9 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
             }
 
             @Override
-            public void onImagePicked(File imageFile, EasyImage.ImageSource source, int type) {
-                if (imageFile != null) {
-                    CropImage.activity(Uri.fromFile(imageFile))
+            public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
+                if (imageFiles.size() > 0) {
+                    CropImage.activity(Uri.fromFile(imageFiles.get(0)))
                             .setGuidelines(CropImageView.Guidelines.ON)
                             .setAspectRatio(1, 1)
                             .setRequestedSize(DCConstants.AVATAR_DEFAULT_SIZE_WIDTH, DCConstants.AVATAR_DEFAULT_SIZE_HEIGHT, CropImageView.RequestSizeOptions.RESIZE_INSIDE)

@@ -159,7 +159,9 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.drawer_nav_goals:
-                //TODO: go to goals
+                final Intent goalsIntent = new Intent(this, DCGoalsActivity.class);
+                startActivity(goalsIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
             case R.id.drawer_nav_dentacoin:
                 final Intent collectIntent = new Intent(this, DCCollectActivity.class);
