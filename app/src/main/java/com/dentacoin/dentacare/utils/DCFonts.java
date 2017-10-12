@@ -18,6 +18,7 @@ public class DCFonts {
 
     public static final String FONT_LATO_LIGHT = "fonts/Lato-Light.ttf";
     public static final String FONT_LATO_REGULAR = "fonts/Lato-Regular.ttf";
+    public static final String FONT_LATO_BOLD = "fonts/Lato-Bold.ttf";
 
     private static final Hashtable<String, Typeface> fonts = new Hashtable<>();
 

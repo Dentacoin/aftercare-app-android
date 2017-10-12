@@ -5,11 +5,9 @@ import com.dentacoin.dentacare.model.DCGoal;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 
 /**
  * Created by Atanas Chervarov on 10/5/17.
@@ -131,33 +129,34 @@ public class DCGoalsDataProvider {
                     }
                 }
 
-                DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.GOALS_REACHED, DCApiManager.gson.toJson(reachedGoals));
+                DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.GOALS_REACHED, DCApiManager.gson.toJson(reachedGoals.toArray()));
             } else {
                 try {
-                    reachedGoals = DCApiManager.gson.fromJson(goalsJson, new TypeToken<ArrayList<StringTokenizer>>(){}.getType());
-
-                    //Check goals
-                    if (reachedGoals != null) {
+                    String[] reached = DCApiManager.gson.fromJson(goalsJson, String[].class);
+                    if (reached != null) {
+                        reachedGoals = new ArrayList<>(Arrays.asList(reached));
                         for (DCGoal goal : goals) {
-                            boolean reached = false;
-                            for (String goalId : reachedGoals) {
-                                if (goalId.compareTo(goal.getId()) == 0) {
-                                    reached = true;
+                            if (goal.isCompleted()) {
+                                boolean alreadyReached = false;
+                                for (String goalId : reachedGoals) {
+                                    if (goalId.compareTo(goal.getId()) == 0) {
+                                        alreadyReached = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!alreadyReached) {
+                                    //Notify on the first achieved goal only
+                                    reachedGoals.add(goal.getId());
+                                    DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.GOALS_REACHED, DCApiManager.gson.toJson(reachedGoals.toArray()));
+                                    notifyOnGoalAchieved(goal);
                                     break;
                                 }
                             }
-
-                            //Notify on the first achieved goal only
-                            if (reached) {
-                                reachedGoals.add(goal.getId());
-                                DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.GOALS_REACHED, DCApiManager.gson.toJson(reachedGoals));
-                                notifyOnGoalAchieved(goal);
-                                break;
-                            }
                         }
                     }
-
                 } catch (JsonSyntaxException e) {
+                    e.printStackTrace();
                 }
             }
         }

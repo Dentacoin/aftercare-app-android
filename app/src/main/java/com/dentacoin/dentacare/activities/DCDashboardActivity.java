@@ -164,7 +164,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     public void onGoalAchieved(DCGoal goal) {
         DCGoalDialogFragment goalFragment = new DCGoalDialogFragment();
         Bundle arguments = new Bundle();
-        arguments.putSerializable(DCGoalDialogFragment.KEY_REACHED_GOAL, goal);
+        arguments.putSerializable(DCGoalDialogFragment.KEY_GOAL, goal);
         goalFragment.setArguments(arguments);
         goalFragment.show(getFragmentManager(), DCGoalDialogFragment.TAG);
     }

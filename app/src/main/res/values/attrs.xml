@@ -4,6 +4,7 @@
         <attr name="fontType" format="enum">
             <enum name="regular" value="0"/>
             <enum name="light" value="1"/>
+            <enum name="bold" value="2"/>
         </attr>
     </declare-styleable>
     <declare-styleable name="DCTimerView">

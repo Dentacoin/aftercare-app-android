@@ -36,5 +36,5 @@ public class DCConstants {
 
     public enum DCActivityType { FLOSS, BRUSH, RINSE }
     public enum DCStatisticsType { DAILY, WEEKLY, MONTHLY }
-
+    public enum DCGoalType { DEFAULT, WEEK, MONTH, YEAR }
 }

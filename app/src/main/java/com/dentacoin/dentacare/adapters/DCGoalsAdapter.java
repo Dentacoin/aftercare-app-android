@@ -1,5 +1,6 @@
 package com.dentacoin.dentacare.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -9,7 +10,6 @@ import com.dentacoin.dentacare.adapters.viewholders.DCGoalItemViewHolder;
 import com.dentacoin.dentacare.model.DCGoal;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by Atanas Chervarov on 10/4/17.
@@ -19,8 +19,10 @@ public class DCGoalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private ArrayList<DCGoal> items;
     private DCGoalItemViewHolder.IDCGoalItemListener listener;
+    private Context context;
 
-    public DCGoalsAdapter(DCGoalItemViewHolder.IDCGoalItemListener listener) {
+    public DCGoalsAdapter(Context context, DCGoalItemViewHolder.IDCGoalItemListener listener) {
+        this.context = context;
         items = new ArrayList<>();
         this.listener = listener;
     }
@@ -33,7 +35,7 @@ public class DCGoalsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         DCGoalItemViewHolder viewHolder = (DCGoalItemViewHolder) holder;
-        viewHolder.setup(items.get(position), listener);
+        viewHolder.setup(context, items.get(position), listener);
     }
 
     @Override

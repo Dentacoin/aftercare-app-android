@@ -40,6 +40,9 @@ public class DCTextView extends AppCompatTextView {
                     case 1:
                         setTypeface(DCFonts.getFont(getContext(), DCFonts.FONT_LATO_LIGHT));
                         break;
+                    case 2:
+                        setTypeface(DCFonts.getFont(getContext(), DCFonts.FONT_LATO_BOLD));
+                        break;
                     default:
                         setTypeface(DCFonts.getFont(getContext(), DCFonts.FONT_LATO_REGULAR));
                         break;

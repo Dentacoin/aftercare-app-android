@@ -41,7 +41,7 @@ public class DCGoalsActivity extends DCToolbarActivity implements SwipeRefreshLa
         rvGoals = (RecyclerView) findViewById(R.id.rv_goals);
         llGoalsNoGoals = (LinearLayout) findViewById(R.id.ll_goals_no_goals);
 
-        adapter = new DCGoalsAdapter(this);
+        adapter = new DCGoalsAdapter(this, this);
         rvGoals.setAdapter(adapter);
         rvGoals.setLayoutManager(new GridLayoutManager(this, 3));
 
@@ -57,7 +57,7 @@ public class DCGoalsActivity extends DCToolbarActivity implements SwipeRefreshLa
     public void onGoalItemClicked(DCGoal item) {
         DCGoalDialogFragment goalFragment = new DCGoalDialogFragment();
         Bundle arguments = new Bundle();
-        arguments.putSerializable(DCGoalDialogFragment.KEY_REACHED_GOAL, item);
+        arguments.putSerializable(DCGoalDialogFragment.KEY_GOAL, item);
         goalFragment.setArguments(arguments);
         goalFragment.show(getFragmentManager(), DCGoalDialogFragment.TAG);
     }
@@ -89,7 +89,7 @@ public class DCGoalsActivity extends DCToolbarActivity implements SwipeRefreshLa
     public void onGoalAchieved(DCGoal goal) {
         DCGoalDialogFragment goalFragment = new DCGoalDialogFragment();
         Bundle arguments = new Bundle();
-        arguments.putSerializable(DCGoalDialogFragment.KEY_REACHED_GOAL, goal);
+        arguments.putSerializable(DCGoalDialogFragment.KEY_GOAL, goal);
         goalFragment.setArguments(arguments);
         goalFragment.show(getFragmentManager(), DCGoalDialogFragment.TAG);
     }
