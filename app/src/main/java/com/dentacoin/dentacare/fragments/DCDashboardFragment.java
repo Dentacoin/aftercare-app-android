@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCDashboardActivity;
@@ -25,6 +26,7 @@ import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
+import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.dentacoin.dentacare.widgets.DCTimerView;
@@ -35,7 +37,7 @@ import java.util.Date;
  * Created by Atanas Chervarov on 8/18/17.
  */
 
-public abstract class DCDashboardFragment extends DCFragment implements IDCDashboardObserver, View.OnClickListener {
+public abstract class DCDashboardFragment extends DCFragment implements IDCDashboardObserver, View.OnClickListener, IDCTutorial {
     private DCDashboardItem dashboardItem;
 
     private BottomSheetBehavior bottomSheetBehavior;
@@ -45,9 +47,9 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     boolean reverseAnimStarted = false;
 
     private DCTimerView timerDashboard;
-    private DCTimerView timerDashboardLast;
-    private DCTimerView timerDashboardleft;
-    private DCTimerView timerDashboardEarned;
+    protected DCTimerView timerDashboardLast;
+    protected DCTimerView timerDashboardleft;
+    protected DCTimerView timerDashboardEarned;
     private DCButton btnDashboardRecord;
     private DCTextView tvDashboardStatisticsTitle;
     private DCButton btnDashboardDaily;
@@ -56,6 +58,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     private DCTimerView timerDashboardTimes;
     private DCTimerView timerDashboardTimeLeft;
     private DCTimerView timerDashboardAverageTime;
+    protected RelativeLayout rlDashboardArrowHolder;
 
     private DCConstants.DCStatisticsType selectedStatistics = DCConstants.DCStatisticsType.DAILY;
 
@@ -87,6 +90,9 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         timerDashboardTimes = (DCTimerView) view.findViewById(R.id.timer_dashboard_times);
         timerDashboardTimeLeft = (DCTimerView) view.findViewById(R.id.timer_dashboard_time_left);
         timerDashboardAverageTime = (DCTimerView) view.findViewById(R.id.timer_dashboard_average_time);
+        rlDashboardArrowHolder = (RelativeLayout) view.findViewById(R.id.rl_dashboard_arrow_holder);
+        rlDashboardArrowHolder.setOnClickListener(this);
+
         ivDashboardDownArrow.setAlpha(0.0f);
         ivDashboardUpArrow.setAlpha(1.0f);
 
@@ -111,6 +117,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                             reverseAnimStarted = true;
                             drawableTransition.reverseTransition(250);
                         }
+                        hideTutorials();
                         break;
                 }
             }
@@ -125,7 +132,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         });
 
         setSelectedStatistics(DCConstants.DCStatisticsType.DAILY);
-
         return view;
     }
 
@@ -152,6 +158,14 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                 break;
             case R.id.btn_dashboard_record:
                 toggleRecording();
+                break;
+            case R.id.rl_dashboard_arrow_holder:
+                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+                else if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
                 break;
         }
     }
@@ -337,5 +351,13 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     @Override
     public void onSyncSuccess() {
         //Override me
+    }
+
+    @Override
+    public void showTutorials() {
+    }
+
+    @Override
+    public void hideTutorials() {
     }
 }

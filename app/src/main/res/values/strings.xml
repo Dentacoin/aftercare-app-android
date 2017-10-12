@@ -167,4 +167,16 @@
     <string name="reset_password_hdl_forget">Forget your password?</string>
     <string name="reset_password_txt_send">We will send you an email with instructions on how to reset your password</string>
     <string name="reset_password_txt_success">Successfully sent reset request, you will receive an email shortly</string>
+
+    <string name="tutorial_txt_total_dcn">This is the total amount of DCN you\'ve earned.</string>
+    <string name="tutorial_txt_last_activity_time">Last recorded time</string>
+    <string name="tutorial_txt_left_activities_count">Remaining activities for today</string>
+    <string name="tutorial_txt_earned_dcn">Earned DCN from this activity</string>
+    <string name="tutorial_txt_click_edit_profile">Click here to edit your profile!</string>
+    <string name="tutorial_txt_collect_dcn">Send DCN to your wallet!</string>
+    <string name="tutorial_txt_goals_menu">Achieve goals &amp; earn DCN</string>
+    <string name="tutorial_txt_dashboard_arrow">Slide up to open statistics</string>
+    <string name="tutorial_txt_emergency_menu">Send us emergency request</string>
+    <string name="tutorial_txt_qr_code">Scan your wallet\'s QR code</string>
+    <string name="tutorial_txt_sick_tooth">Show us where it hurts</string>
 </resources>

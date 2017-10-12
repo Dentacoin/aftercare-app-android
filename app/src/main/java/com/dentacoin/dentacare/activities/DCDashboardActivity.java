@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -22,10 +25,13 @@ import com.dentacoin.dentacare.model.DCGoal;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
+import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.utils.IDCGoalsObserver;
+import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.dentacoin.dentacare.widgets.DCVIewPager;
+import com.github.florent37.viewtooltip.ViewTooltip;
 
 import java.util.ArrayList;
 
@@ -45,6 +51,11 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     private DCDashboardPagerAdapter adapter;
     private boolean syncWarningVisible = false;
     private boolean inRecord = false;
+    private IDCTutorial tutorialListener;
+
+    public void setTutorialListener(IDCTutorial tutorialListener) {
+        this.tutorialListener = tutorialListener;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,12 +63,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         addContentView(R.layout.activity_dashboard);
 
         setActionBarTitle(R.string.dashboard_hdl_dentacare);
-
-        if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.WELCOME_SCREEN, false)) {
-            toolbar.setVisibility(View.GONE);
-            getFragmentManager().beginTransaction().add(R.id.container, new DCWelcomeFragment()).commit();
-        }
-
         tvDashboardDcnTotal = (DCTextView) findViewById(R.id.tv_dashboard_dcn_total);
         tlDashboardTabs = (TabLayout) findViewById(R.id.tl_dashboard_tabs);
         vpDashboardPager = (DCVIewPager) findViewById(R.id.vp_dashboard_pager);
@@ -68,12 +73,36 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         vpDashboardPager.setAdapter(adapter);
         tlDashboardTabs.setupWithViewPager(vpDashboardPager);
         vpDashboardPager.setCurrentItem(1);
+        vpDashboardPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                hideTutorials();
+            }
+        });
+
+        if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.WELCOME_SCREEN, false)) {
+            toolbar.setVisibility(View.GONE);
+            getFragmentManager().beginTransaction().add(R.id.container, new DCWelcomeFragment()).commit();
+        } else {
+            showTutorials();
+        }
+
         DCDashboardDataProvider.getInstance().updateDashboard(true);
     }
 
     @Override
     public void onFragmentRemoved() {
         toolbar.setVisibility(View.VISIBLE);
+        showTutorials();
     }
 
     @Override
@@ -139,10 +168,15 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                 }
                 break;
         }
+        hideTutorials();
     }
 
     public void toggleRecordMode(boolean inRecord) {
+        if (this.inRecord == inRecord)
+            return;
+
         this.inRecord = inRecord;
+
         if (inRecord) {
             toolbar.setVisibility(View.GONE);
             tlDashboardTabs.setVisibility(View.GONE);
@@ -154,10 +188,13 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             vpDashboardPager.setSwipeEnabled(true);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+
+        hideTutorials();
     }
 
     @Override
     public void onGoalsUpdated(ArrayList<DCGoal> goals) {
+
     }
 
     @Override
@@ -167,9 +204,26 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         arguments.putSerializable(DCGoalDialogFragment.KEY_GOAL, goal);
         goalFragment.setArguments(arguments);
         goalFragment.show(getFragmentManager(), DCGoalDialogFragment.TAG);
+        hideTutorials();
     }
 
     @Override
     public void onGoalsError(DCError error) {
+    }
+
+    @Override
+    public void showTutorials() {
+        DCTutorialManager.getInstance().showTutorial(this, tvDashboardDcnTotal, DCTutorialManager.TUTORIAL.TOTAL_DCN, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
+        if (tutorialListener != null) {
+            tutorialListener.showTutorials();
+        }
+    }
+
+    @Override
+    public void hideTutorials() {
+        DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.TOTAL_DCN);
+        if (tutorialListener != null) {
+            tutorialListener.hideTutorials();
+        }
     }
 }

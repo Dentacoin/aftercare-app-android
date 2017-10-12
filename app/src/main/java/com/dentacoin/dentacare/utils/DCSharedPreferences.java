@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.dentacoin.dentacare.network.DCApiManager;
-import com.google.gson.JsonSyntaxException;
+import java.util.HashSet;
+import java.util.Set;
+
+import static com.dentacoin.dentacare.utils.DCSharedPreferences.DCSharedKey.SHOWED_TUTORIALS;
 
 /**
  * Created by Atanas Chervarov on 8/16/17.
@@ -22,7 +24,8 @@ public class DCSharedPreferences {
         RECORDS("RECORDS"),
         GOALS("GOALS"),
         GOALS_REACHED("GOALS_REACHED"),
-        COLLECTED("COLLECTED");
+        COLLECTED("COLLECTED"),
+        SHOWED_TUTORIALS("SHOWED_TUTORIALS");
 
         private String key;
 
@@ -74,6 +77,23 @@ public class DCSharedPreferences {
         return getInstance().preferences.edit().putInt(key.getKey(), value).commit();
     }
 
+    public static Set<String> getShownTutorials() {
+        return getInstance().preferences.getStringSet(SHOWED_TUTORIALS.getKey(), new HashSet<String>());
+    }
+
+    public static void setShownTutorial(DCTutorialManager.TUTORIAL tutorial, boolean shown) {
+        Set<String> shownTutorials = getShownTutorials();
+        HashSet<String> tutorials = new HashSet<>();
+        tutorials.addAll(shownTutorials);
+
+        if (shown) {
+            tutorials.add(tutorial.name());
+        } else {
+            tutorials.remove(tutorial.name());
+        }
+
+        getInstance().preferences.edit().putStringSet(SHOWED_TUTORIALS.getKey(), tutorials).apply();
+    }
 
     /**
      * Cleans all saved user data
@@ -87,5 +107,6 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.RECORDS);
         removeKey(DCSharedKey.COLLECTED);
         removeKey(DCSharedKey.GOALS_REACHED);
+        removeKey(DCSharedKey.SHOWED_TUTORIALS);
     }
 }

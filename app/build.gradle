@@ -162,6 +162,7 @@ dependencies {
     compile 'com.anthonycr.grant:permissions:1.1.2'
     compile 'me.dm7.barcodescanner:zxing:1.9.8'
     compile 'com.github.mukeshsolanki:country-picker-android:1.1.9'
+    compile 'com.github.florent37:viewtooltip:1.0.8'
     testCompile 'junit:junit:4.12'
 }
 

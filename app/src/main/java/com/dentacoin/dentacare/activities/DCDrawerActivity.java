@@ -26,17 +26,20 @@ import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCCustomTypefaceSpan;
 import com.dentacoin.dentacare.utils.DCFonts;
+import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.dentacoin.dentacare.utils.DCUtils;
+import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.login.LoginManager;
+import com.github.florent37.viewtooltip.ViewTooltip;
 
 /**
  * Created by Atanas Chervarov on 8/11/17.
  * Basic Drawer Activity
  */
 
-public class DCDrawerActivity extends DCToolbarActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class DCDrawerActivity extends DCToolbarActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, IDCTutorial {
 
     private DrawerLayout drawerLayout;
     private NavigationView nvNavigation;
@@ -77,16 +80,37 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 R.string.drawer_close
         ) {
             /** Called when a drawer has settled in a completely closed state. */
+            @Override
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
+            @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
                 loadUserData();
+
+                DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, sdvDrawerHeaderAvatar, DCTutorialManager.TUTORIAL.EDIT_PROFILE, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.RIGHT);
+                DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(3), DCTutorialManager.TUTORIAL.COLLECT_DCN, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.TOP);
+                DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(4), DCTutorialManager.TUTORIAL.GOALS, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
+                DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(7), DCTutorialManager.TUTORIAL.EMERGENCY_MENU, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                super.onDrawerStateChanged(newState);
+                if (newState != DrawerLayout.STATE_IDLE && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.EDIT_PROFILE);
+                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.COLLECT_DCN);
+                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.GOALS);
+                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.EMERGENCY_MENU);
+                }
+                else if (newState != DrawerLayout.STATE_IDLE && !drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    hideTutorials();
+                }
             }
         };
 
@@ -213,6 +237,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                                     public void onResponse(Void object) {
                                         DCSession.getInstance().clear();
                                         LoginManager.getInstance().logOut();
+                                        DCTutorialManager.getInstance().clear();
                                         onLogout();
                                     }
                                 });
@@ -242,5 +267,13 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
         }
 
         super.onBackPressed();
+    }
+
+    @Override
+    public void showTutorials() {
+    }
+
+    @Override
+    public void hideTutorials() {
     }
 }

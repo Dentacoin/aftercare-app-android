@@ -20,9 +20,11 @@ import com.dentacoin.dentacare.activities.DCCollectActivity;
 import com.dentacoin.dentacare.activities.DCQRScannerActivity;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
+import com.dentacoin.dentacare.utils.DCTutorialManager;
+import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCEditText;
-import com.dentacoin.dentacare.widgets.DCTextInputEditText;
+import com.github.florent37.viewtooltip.ViewTooltip;
 
 import java.util.regex.Matcher;
 
@@ -32,7 +34,7 @@ import de.mateware.snacky.Snacky;
  * Created by Atanas Chervarov on 9/10/17.
  */
 
-public class DCCollectWalletFragment extends DCFragment implements View.OnClickListener {
+public class DCCollectWalletFragment extends DCFragment implements View.OnClickListener, IDCTutorial {
 
     private static final int REQUEST_CODE_CAMERA_QR_SCAN = 1001;
 
@@ -74,6 +76,7 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
         });
 
         etCollectWallet.setText(DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.DEFAULT_WALLET));
+        showTutorials();
         return view;
     }
 
@@ -93,6 +96,7 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
                 scanQRCode();
                 break;
         }
+        hideTutorials();
     }
 
     private void scanQRCode() {
@@ -142,5 +146,15 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
                 }
             }
         }
+    }
+
+    @Override
+    public void showTutorials() {
+        DCTutorialManager.getInstance().showTutorial(getActivity(), ivCollectQrScan, DCTutorialManager.TUTORIAL.QR_CODE, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.LEFT);
+    }
+
+    @Override
+    public void hideTutorials() {
+        DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.QR_CODE);
     }
 }

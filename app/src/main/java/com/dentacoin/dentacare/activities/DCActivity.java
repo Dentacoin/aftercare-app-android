@@ -62,5 +62,4 @@ public class DCActivity extends AppCompatActivity {
         loadingFragment.show(getFragmentManager(), DCLoadingFragment.TAG);
         return loadingFragment;
     }
-
 }

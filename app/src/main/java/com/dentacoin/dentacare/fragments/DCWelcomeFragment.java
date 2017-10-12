@@ -13,7 +13,6 @@ import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 
 import com.dentacoin.dentacare.R;
-import com.dentacoin.dentacare.activities.DCActivity;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.DCApiManager;
