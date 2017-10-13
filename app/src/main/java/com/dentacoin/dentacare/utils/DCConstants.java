@@ -32,7 +32,8 @@ public class DCConstants {
     public static final int MIN_AGE = 13;
     public static final int MAX_AGE = 99;
 
-    public static final int COUNTDOWN_AMOUNT = 3 * 60 * 1000;
+    public static final int COUNTDOWN_MAX_AMOUNT = 6 * 60 * 1000;
+    public static final int COUNTDOWN_MIN_AMOUNT = 2 * 60 * 1000;
 
     public enum DCActivityType { FLOSS, BRUSH, RINSE }
     public enum DCStatisticsType { DAILY, WEEKLY, MONTHLY }

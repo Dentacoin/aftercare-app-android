@@ -151,7 +151,7 @@
 
     <string name="dashboard_warning_sync_needed">Your data was not synchronized. Do you want to do this now?</string>
     <string name="dashboard_success_sync">Sync successful!</string>
-    <string name="dashboard_too_short_record">Aww come on! You can do better that this!</string>
+    <string name="dashboard_too_short_record">You can do better that this! Sessions shorter that 30 seconds are not recorded!</string>
 
     <string name="statistics_hdl_statistics">Statistics</string>
 

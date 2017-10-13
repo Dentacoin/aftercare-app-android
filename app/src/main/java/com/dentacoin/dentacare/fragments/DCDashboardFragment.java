@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.view.LayoutInflater;
@@ -64,7 +65,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
     private boolean trackingTime = false;
     private CountDownTimer timer;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -289,7 +289,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         record.setType(getType());
         record.setStartTime(new Date());
 
-        timer = new CountDownTimer(DCConstants.COUNTDOWN_AMOUNT, 100) {
+        timer = new CountDownTimer(DCConstants.COUNTDOWN_MAX_AMOUNT, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
                 handleClockTick(millisUntilFinished);
@@ -317,18 +317,26 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         if (record != null) {
             record.setEndTime(new Date());
             DCDashboardDataProvider.getInstance().addActivityRecord(record);
+
+            if (record.getTime() > 30) {
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        DCGoalsDataProvider.getInstance().updateGoals(true);
+                    }
+                }, 1000);
+            }
             record = null;
         }
 
         updateView();
-
-        DCGoalsDataProvider.getInstance().updateGoals(true);
     }
 
     private void handleClockTick(long millisUntilFinished) {
-        float t = (DCConstants.COUNTDOWN_AMOUNT - millisUntilFinished) / 1000.0f;
+        float t = (DCConstants.COUNTDOWN_MAX_AMOUNT - millisUntilFinished) / 1000.0f;
         if (timerDashboard != null) {
-            timerDashboard.setSecondaryProgress((int) (t * 5.5f));
+            timerDashboard.setSecondaryProgress(Math.round(t * 8.33f));
             timerDashboard.setTimerDisplay(DCUtils.secondsToTime((int)t));
         }
     }

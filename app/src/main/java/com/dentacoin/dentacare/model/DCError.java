@@ -79,18 +79,22 @@ public class DCError {
         return null;
     }
 
+    public boolean show(Activity activity, int duration) {
+        String message = getMessage(activity);
+        if (message != null) {
+            Snacky.builder().setActivty(activity).setText(message).error().setDuration(duration > 0 ? duration : Snacky.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Shows snacky error with the error message
      * @param activity
      * @return returns false if no message is provided
      */
     public boolean show(Activity activity) {
-        String message = getMessage(activity);
-        if (message != null) {
-            Snacky.builder().setActivty(activity).setText(message).error().show();
-            return true;
-        }
-        return false;
+        return show(activity, 0);
     }
 
     public boolean isType(DCErrorType type) {

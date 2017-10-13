@@ -94,8 +94,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
             android:paddingBottom="20dp"
             android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry and designers."/>
 

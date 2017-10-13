@@ -128,7 +128,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
 
     @Override
     public void onDashboardError(DCError error) {
-        onError(error);
+        onError(error, 3000);
     }
 
     @Override

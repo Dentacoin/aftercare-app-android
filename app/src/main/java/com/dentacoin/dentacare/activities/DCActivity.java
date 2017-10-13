@@ -31,8 +31,12 @@ public class DCActivity extends AppCompatActivity {
      * @param error
      */
     public void onError(DCError error) {
+        onError(error, 0);
+    }
+
+    public void onError(DCError error, int duration) {
         if (error != null) {
-            error.show(this);
+            error.show(this, duration);
         }
     }
 

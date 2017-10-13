@@ -111,12 +111,12 @@ public class DCDashboardDataProvider {
      * @param record    Valid DCActivityRecord
      */
     public void addActivityRecord(final DCActivityRecord record) {
-        if (record == null || record.getTime() < 10) {
+        if (record == null || record.getTime() < 30) {
             notifyObserversOnError(new DCError(R.string.dashboard_too_short_record));
             return;
         }
 
-        if (record.getTime() > DCConstants.COUNTDOWN_AMOUNT + 5)
+        if (record.getTime() > DCConstants.COUNTDOWN_MAX_AMOUNT + 5)
             return;
 
         DCApiManager.getInstance().postRecord(record, new DCResponseListener<DCActivityRecord>() {
