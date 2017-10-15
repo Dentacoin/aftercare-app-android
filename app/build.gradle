@@ -7,6 +7,7 @@ android {
     repositories {
         jcenter()
         mavenCentral()
+        maven { url "https://maven.google.com" }
         maven { url 'https://jitpack.io' }
     }
 
@@ -163,6 +164,7 @@ dependencies {
     compile 'me.dm7.barcodescanner:zxing:1.9.8'
     compile 'com.github.mukeshsolanki:country-picker-android:1.1.9'
     compile 'com.github.florent37:viewtooltip:1.0.8'
+    compile 'com.google.firebase:firebase-messaging:11.0.4'
     testCompile 'junit:junit:4.12'
 }
 

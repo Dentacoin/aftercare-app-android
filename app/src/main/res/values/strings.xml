@@ -52,6 +52,7 @@
     <string name="txt_try_again">Try again</string>
     <string name="txt_loading">Loading...</string>
     <string name="txt_ok">Ok</string>
+    <string name="txt_app_name">Dentacare</string>
 
     <string name="gender_female">female</string>
     <string name="gender_male">male</string>
@@ -179,4 +180,40 @@
     <string name="tutorial_txt_emergency_menu">Send us emergency request</string>
     <string name="tutorial_txt_qr_code">Scan your wallet\'s QR code</string>
     <string name="tutorial_txt_sick_tooth">Show us where it hurts</string>
+
+    <string name="notifications_txt_daily_brushing_1">Hey there! Did you brush your teeth yet?</string>
+    <string name="notifications_txt_change_brush_1">When is the last time you changed your toothbrush?</string>
+    <string name="notifications_txt_visit_dentist">When is the last time you visited your dentist? Maybe is time to make an appointment?</string>
+    <string name="notifications_txt_collect_dentacoin">You have %d DCN in your account. You can collect them easily form the \"Dentacoin\" screen.</string>
+    <string name="notifications_txt_reminder_to_visit">Hey there! You haven\'t checked in for a while.</string>
+
+    <string name="notifications_hdl_healthy_habits_1">Don\'t go to bed without brushing your teeth</string>
+    <string name="notifications_txt_healthy_habits_1">Brushing before bed gets rid of the germs and plaque that accumulate throughout the day.</string>
+
+    <string name="notifications_hdl_healthy_habits_2">Brush properly</string>
+    <string name="notifications_txt_healthy_habits_2">The way you brush is equally important — in fact, doing a poor job of brushing your teeth is almost as bad as not brushing at all. </string>
+
+    <string name="notifications_hdl_healthy_habits_3">Don\'t neglect your tongue.</string>
+    <string name="notifications_txt_healthy_habits_3">Plaque can also build up on your tongue. Not only can this lead to bad mouth odor, but it can lead to other oral health problems.</string>
+
+    <string name="notifications_hdl_healthy_habits_4">Use a fluoride toothpaste.</string>
+    <string name="notifications_txt_healthy_habits_4">When it comes to toothpaste, there are more important elements to look for than whitening power and flavors.</string>
+
+    <string name="notifications_hdl_healthy_habits_5">Flossing is as important as brushing.</string>
+    <string name="notifications_txt_healthy_habits_5">Flossing once a day is usually enough to reap these benefits.</string>
+
+    <string name="notifications_hdl_healthy_habits_6">Consider mouthwash</string>
+    <string name="notifications_txt_healthy_habits_6">Mouthwashes are useful as an adjunct tool to help bring things into balance</string>
+
+    <string name="notifications_hdl_healthy_habits_7">Drink more water</string>
+    <string name="notifications_txt_healthy_habits_7">Drink water after every meal. This can help wash out some of the negative effects of sticky and acidic foods and beverages in between brushes.</string>
+
+    <string name="notifications_hdl_healthy_habits_8">Eat crunchy fruits and vegetables</string>
+    <string name="notifications_txt_healthy_habits_8">Eating fresh, crunchy produce not only contains more healthy fiber, but it is also the best choice as far as your teeth are concerned</string>
+
+    <string name="notifications_hdl_healthy_habits_9">Limit sugary and acidic foods</string>
+    <string name="notifications_txt_healthy_habits_9">Sugar converts into acid in the mouth, which can then erode the enamel of your teeth</string>
+
+    <string name="notifications_hdl_healthy_habits_10">See your dentist at least twice a year</string>
+    <string name="notifications_txt_healthy_habits_10">At minimum, you should see your dentist for cleanings and checkups twice a year</string>
 </resources>

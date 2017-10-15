@@ -38,11 +38,16 @@ public class DCSharedPreferences {
 
     private static DCSharedPreferences instance;
     private SharedPreferences preferences;
+    private int notificationId = 0;
 
     private static DCSharedPreferences getInstance() {
         if (instance == null)
             instance = new DCSharedPreferences();
         return instance;
+    }
+
+    public static int getNotificationId() {
+        return ++getInstance().notificationId;
     }
 
     public static void initialize(Context context) {

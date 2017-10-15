@@ -19,6 +19,7 @@ import com.dentacoin.dentacare.network.response.DCActivityRecordsResponse;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
 import com.dentacoin.dentacare.network.response.DCOralHealthResponse;
 import com.dentacoin.dentacare.network.response.DCRecordsSyncResponse;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -75,6 +76,7 @@ public class DCApiManager {
     private static final String ENDPOINT_RESET_PASSWORD = "reset";
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
+    private static final String HEADER_KEY_FBM ="FBMToken";
 
     public static final Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -346,6 +348,11 @@ public class DCApiManager {
 
         if (DCSession.getInstance().getAuthTokenString() != null)
             builder.addHeader(HEADER_KEY_TOKEN, "Bearer " + DCSession.getInstance().getAuthTokenString());
+
+        String fbmToken = FirebaseInstanceId.getInstance().getToken();
+        if (fbmToken != null) {
+            builder.addHeader(HEADER_KEY_FBM, fbmToken);
+        }
 
         return builder.build();
     }
