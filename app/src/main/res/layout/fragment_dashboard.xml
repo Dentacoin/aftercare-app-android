@@ -12,14 +12,25 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="35dp">
 
-        <com.dentacoin.dentacare.widgets.DCTimerView
-            android:id="@+id/timer_dashboard"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            app:text="0:00"
-            app:type="bigProgress"/>
+            android:layout_weight="1">
+
+            <com.dentacoin.dentacare.widgets.DCDashboardTeeth
+                android:id="@+id/dt_dashboard_teeth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+
+            <com.dentacoin.dentacare.widgets.DCTimerView
+                android:id="@+id/timer_dashboard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                app:text="0:00"
+                app:type="bigProgress"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

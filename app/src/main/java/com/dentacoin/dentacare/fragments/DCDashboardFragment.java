@@ -29,6 +29,7 @@ import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.widgets.DCButton;
+import com.dentacoin.dentacare.widgets.DCDashboardTeeth;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.dentacoin.dentacare.widgets.DCTimerView;
 
@@ -60,6 +61,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     private DCTimerView timerDashboardTimeLeft;
     private DCTimerView timerDashboardAverageTime;
     protected RelativeLayout rlDashboardArrowHolder;
+    protected DCDashboardTeeth dtDashboardTeeth;
 
     private DCConstants.DCStatisticsType selectedStatistics = DCConstants.DCStatisticsType.DAILY;
 
@@ -92,6 +94,8 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         timerDashboardAverageTime = (DCTimerView) view.findViewById(R.id.timer_dashboard_average_time);
         rlDashboardArrowHolder = (RelativeLayout) view.findViewById(R.id.rl_dashboard_arrow_holder);
         rlDashboardArrowHolder.setOnClickListener(this);
+        dtDashboardTeeth = (DCDashboardTeeth) view.findViewById(R.id.dt_dashboard_teeth);
+        dtDashboardTeeth.setVisibility(View.GONE);
 
         ivDashboardDownArrow.setAlpha(0.0f);
         ivDashboardUpArrow.setAlpha(1.0f);
@@ -305,7 +309,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         updateView();
     }
 
-    private void stopRecording() {
+    protected void stopRecording() {
         trackingTime = false;
 
         if (timer != null) {
@@ -333,7 +337,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         updateView();
     }
 
-    private void handleClockTick(long millisUntilFinished) {
+    protected void handleClockTick(long millisUntilFinished) {
         float t = (DCConstants.COUNTDOWN_MAX_AMOUNT - millisUntilFinished) / 1000.0f;
         if (timerDashboard != null) {
             timerDashboard.setSecondaryProgress(Math.round(t * 8.33f));

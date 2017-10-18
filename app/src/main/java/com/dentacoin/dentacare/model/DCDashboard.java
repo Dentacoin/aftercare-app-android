@@ -1,7 +1,5 @@
 package com.dentacoin.dentacare.model;
 
-import com.dentacoin.dentacare.utils.DCConstants;
-
 /**
  * Created by Atanas Chervarov on 9/27/17.
  */

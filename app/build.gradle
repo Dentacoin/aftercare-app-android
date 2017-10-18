@@ -165,6 +165,8 @@ dependencies {
     compile 'com.github.mukeshsolanki:country-picker-android:1.1.9'
     compile 'com.github.florent37:viewtooltip:1.0.8'
     compile 'com.google.firebase:firebase-messaging:11.0.4'
+    compile 'com.evernote:android-job:1.2.0'
+    compile 'com.robinhood.ticker:ticker:1.2.1'
     testCompile 'junit:junit:4.12'
 }
 

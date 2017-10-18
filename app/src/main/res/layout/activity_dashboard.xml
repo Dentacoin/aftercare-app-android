@@ -47,14 +47,14 @@
                     android:text="total"
                     android:textSize="11sp"
                     android:textAllCaps="true"/>
-                <com.dentacoin.dentacare.widgets.DCTextView
+
+                <com.robinhood.ticker.TickerView
                     android:id="@+id/tv_dashboard_dcn_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/ceruleanBlue"
-                    app:fontType="regular"
-                    android:textAllCaps="true"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    app:ticker_animationDuration="1500"/>
             </LinearLayout>
         </LinearLayout>
 

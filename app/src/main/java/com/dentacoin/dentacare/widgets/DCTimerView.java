@@ -69,7 +69,9 @@ public class DCTimerView extends RelativeLayout {
 
                 tvTimerDisplay.setText(typedArray.getString(R.styleable.DCTimerView_text));
                 tvTimerTitle.setText(typedArray.getString(R.styleable.DCTimerView_title));
-
+                setProgress(typedArray.getInt(R.styleable.DCTimerView_primary, 1000));
+                setSecondaryProgress(typedArray.getInt(R.styleable.DCTimerView_secondary, 0));
+                
             } finally {
                 typedArray.recycle();
             }

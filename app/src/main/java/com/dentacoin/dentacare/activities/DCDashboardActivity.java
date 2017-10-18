@@ -6,9 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -29,9 +27,10 @@ import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.utils.IDCGoalsObserver;
 import com.dentacoin.dentacare.utils.IDCTutorial;
-import com.dentacoin.dentacare.widgets.DCTextView;
 import com.dentacoin.dentacare.widgets.DCVIewPager;
 import com.github.florent37.viewtooltip.ViewTooltip;
+import com.robinhood.ticker.TickerUtils;
+import com.robinhood.ticker.TickerView;
 
 import java.util.ArrayList;
 
@@ -45,7 +44,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
 
     private TabLayout tlDashboardTabs;
     private DCVIewPager vpDashboardPager;
-    private DCTextView tvDashboardDcnTotal;
+    private TickerView tvDashboardDcnTotal;
     private LinearLayout llDashboardDcnTotal;
 
     private DCDashboardPagerAdapter adapter;
@@ -63,7 +62,9 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         addContentView(R.layout.activity_dashboard);
 
         setActionBarTitle(R.string.dashboard_hdl_dentacare);
-        tvDashboardDcnTotal = (DCTextView) findViewById(R.id.tv_dashboard_dcn_total);
+        tvDashboardDcnTotal = (TickerView) findViewById(R.id.tv_dashboard_dcn_total);
+        tvDashboardDcnTotal.setCharacterList(TickerUtils.getDefaultNumberList());
+
         tlDashboardTabs = (TabLayout) findViewById(R.id.tl_dashboard_tabs);
         vpDashboardPager = (DCVIewPager) findViewById(R.id.vp_dashboard_pager);
         llDashboardDcnTotal = (LinearLayout) findViewById(R.id.ll_dashboard_dcn_total);
@@ -158,7 +159,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     @Override
     public void onClick(View view) {
         super.onClick(view);
-
         switch (view.getId()) {
             case R.id.ll_dashboard_dcn_total:
                 if (!inRecord) {

@@ -15,5 +15,11 @@
         </attr>
         <attr name="title" format="string"/>
         <attr name="text" format="string"/>
+        <attr name="primary" format="integer"/>
+        <attr name="secondary" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="DCTooth">
+        <attr name="tintColor" format="color"/>
+        <attr name="isClickable" format="boolean"/>
     </declare-styleable>
 </resources>

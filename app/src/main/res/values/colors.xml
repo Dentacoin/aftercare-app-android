@@ -20,5 +20,6 @@
     <color name="midBlue">#0093f0</color>
     <color name="whiteBlue">#83b0f3</color>
     <color name="pinkishRed">#b3ed2224</color>
+    <color name="lightBlueAlpha">#b30a93f7</color>
     <color name="charcoalGrey">#4a4a4a</color>
 </resources>

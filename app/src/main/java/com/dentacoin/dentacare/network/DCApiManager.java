@@ -76,7 +76,7 @@ public class DCApiManager {
     private static final String ENDPOINT_RESET_PASSWORD = "reset";
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
-    private static final String HEADER_KEY_FBM ="FBMToken";
+    private static final String HEADER_KEY_FBM ="FirebaseToken";
 
     public static final Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
