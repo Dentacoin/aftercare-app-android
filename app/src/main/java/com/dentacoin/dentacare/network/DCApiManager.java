@@ -17,7 +17,6 @@ import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.response.DCActivityRecordsResponse;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
-import com.dentacoin.dentacare.network.response.DCOralHealthResponse;
 import com.dentacoin.dentacare.network.response.DCRecordsSyncResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;

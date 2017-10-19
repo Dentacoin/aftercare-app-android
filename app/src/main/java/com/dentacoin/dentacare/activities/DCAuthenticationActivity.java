@@ -153,17 +153,11 @@ public class DCAuthenticationActivity extends DCActivity {
                         DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
                             @Override
                             public void onFailure(DCError loginError) {
-                                DCApiManager.getInstance().registerUser(user, new DCResponseListener<DCAuthToken>() {
-                                    @Override
-                                    public void onFailure(DCError registrationError) {
-                                        DCAuthenticationActivity.this.onError(registrationError);
-                                    }
-
-                                    @Override
-                                    public void onResponse(DCAuthToken object) {
-                                        handleAuthentication(object);
-                                    }
-                                });
+                                if (loginError.getCode() == 417) {
+                                    signupUser(user);
+                                } else {
+                                    DCAuthenticationActivity.this.onError(loginError);
+                                }
                             }
                             @Override
                             public void onResponse(DCAuthToken object) {
@@ -213,17 +207,11 @@ public class DCAuthenticationActivity extends DCActivity {
                             DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
                                 @Override
                                 public void onFailure(DCError error) {
-                                    DCApiManager.getInstance().registerUser(user, new DCResponseListener<DCAuthToken>() {
-                                        @Override
-                                        public void onFailure(DCError error) {
-                                            DCAuthenticationActivity.this.onError(error);
-                                        }
-
-                                        @Override
-                                        public void onResponse(DCAuthToken object) {
-                                            handleAuthentication(object);
-                                        }
-                                    });
+                                    if (error.getCode() == 417) {
+                                        signupUser(user);
+                                    } else {
+                                        onError(error);
+                                    }
                                 }
 
                                 @Override
@@ -287,17 +275,11 @@ public class DCAuthenticationActivity extends DCActivity {
                 DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
                     @Override
                     public void onFailure(DCError error) {
-                        DCApiManager.getInstance().registerUser(user, new DCResponseListener<DCAuthToken>() {
-                            @Override
-                            public void onFailure(DCError error) {
-                                onError(error);
-                            }
-
-                            @Override
-                            public void onResponse(DCAuthToken object) {
-                                handleAuthentication(object);
-                            }
-                        });
+                        if (error.getCode() == 417) {
+                            signupUser(user);
+                        } else {
+                            onError(error);
+                        }
                     }
 
                     @Override

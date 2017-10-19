@@ -81,28 +81,28 @@ public class DCBrushFragment extends DCDashboardFragment {
         if (t > 0 && t < 30 && !ulvisible) {
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.UL, getResources().getColor(R.color.lightBlueAlpha));
             ulvisible = true;
-            DCSoundManager.getInstance().playSound(getActivity(), DCSoundManager.SOUND.BRUSH_EVENING_2);
+            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_2);
         }
         else if (t > 30 && t < 60 && !wlvisible) {
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.WL, getResources().getColor(R.color.lightBlueAlpha));
             wlvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.UL);
             ulvisible = false;
-            DCSoundManager.getInstance().playSound(getActivity(), DCSoundManager.SOUND.BRUSH_EVENING_3);
+            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_3);
         }
         else if (t > 60 && t < 90 && !wrvisible) {
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.WR, getResources().getColor(R.color.lightBlueAlpha));
             wrvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.WL);
             wlvisible = false;
-            DCSoundManager.getInstance().playSound(getActivity(), DCSoundManager.SOUND.BRUSH_EVENING_4);
+            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_4);
         }
         else if (t > 90 && t < 120 && !urvisible) {
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.UR, getResources().getColor(R.color.lightBlueAlpha));
             urvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.WR);
             wrvisible = false;
-            DCSoundManager.getInstance().playSound(getActivity(), DCSoundManager.SOUND.BRUSH_EVENING_5);
+            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_5);
             youAreDone = true;
         } else if (t > 120) {
             hideAll();
@@ -116,7 +116,7 @@ public class DCBrushFragment extends DCDashboardFragment {
         hideAll();
 
         if (youAreDone)
-            DCSoundManager.getInstance().playSound(getActivity(), DCSoundManager.SOUND.BRUSH_EVENING_6);
+            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_6);
 
         youAreDone = false;
     }

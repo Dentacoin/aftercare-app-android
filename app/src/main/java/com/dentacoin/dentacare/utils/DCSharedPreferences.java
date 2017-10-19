@@ -25,7 +25,8 @@ public class DCSharedPreferences {
         GOALS("GOALS"),
         GOALS_REACHED("GOALS_REACHED"),
         COLLECTED("COLLECTED"),
-        SHOWED_TUTORIALS("SHOWED_TUTORIALS");
+        SHOWED_TUTORIALS("SHOWED_TUTORIALS"),
+        FEMALE_VOICE("FEMALE_VOICE");
 
         private String key;
 
@@ -113,5 +114,6 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.COLLECTED);
         removeKey(DCSharedKey.GOALS_REACHED);
         removeKey(DCSharedKey.SHOWED_TUTORIALS);
+        removeKey(DCSharedKey.FEMALE_VOICE);
     }
 }
