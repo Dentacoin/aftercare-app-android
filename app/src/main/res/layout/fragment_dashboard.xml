@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rectangle_gradient_light_grey"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="35dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.dentacoin.dentacare.widgets.DCDashboardTeeth
+                android:id="@+id/dt_dashboard_teeth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+
+            <com.dentacoin.dentacare.widgets.DCTimerView
+                android:id="@+id/timer_dashboard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                app:text="0:00"
+                app:type="bigProgress"/>
+        </RelativeLayout>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_dashboard_message_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textAlignment="center"/>
+
+        <LinearLayout
+            android:id="@+id/ll_dashboard_statistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <com.dentacoin.dentacare.widgets.DCTimerView
+                android:id="@+id/timer_dashboard_last"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:text="0:00"
+                app:title="@string/dashboard_lbl_last_floss"
+                app:type="smallInfo"/>
+
+            <com.dentacoin.dentacare.widgets.DCTimerView
+                android:id="@+id/timer_dashboard_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp"
+                app:text="3"
+                app:title="@string/dashboard_lbl_floss_left"
+                app:type="smallInfo"/>
+
+            <com.dentacoin.dentacare.widgets.DCTimerView
+                android:id="@+id/timer_dashboard_earned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:text="0"
+                app:title="@string/dashboard_lbl_dcn_earned"
+                app:type="smallInfo"/>
+        </LinearLayout>
+
+        <com.dentacoin.dentacare.widgets.DCButton
+            android:id="@+id/btn_dashboard_record"
+            style="@style/DCButton.Dashboard"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/dashboard_btn_start_floss"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom_statistics"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="@drawable/rectangle_gradient_blue"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+        android:layout_height="300dp"
+        app:behavior_peekHeight="35dp"
+        app:behavior_hideable="true">
+
+        <RelativeLayout
+            android:id="@+id/rl_dashboard_arrow_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="16dp">
+            <ImageView
+                android:id="@+id/iv_dashboard_down_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/down_arrow" />
+            <ImageView
+                android:id="@+id/iv_dashboard_up_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/up_arrow" />
+        </RelativeLayout>
+
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_dashboard_statistics_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fontType="light"
+            android:textSize="25sp"
+            android:text="@string/dashboard_lbl_rinse_statistics"
+            android:textColor="@color/white"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <com.dentacoin.dentacare.widgets.DCButton
+                android:id="@+id/btn_dashboard_daily"
+                style="@style/DCButton.Statistics"
+                android:text="@string/dashboard_btn_daily"/>
+
+            <com.dentacoin.dentacare.widgets.DCButton
+                android:id="@+id/btn_dashboard_weekly"
+                style="@style/DCButton.Statistics"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/dashboard_btn_weekly"/>
+
+            <com.dentacoin.dentacare.widgets.DCButton
+                android:id="@+id/btn_dashboard_monthly"
+                style="@style/DCButton.Statistics"
+                android:text="@string/dashboard_btn_monthly"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <com.dentacoin.dentacare.widgets.DCTimerView
+                android:id="@+id/timer_dashboard_times"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:type="smallProgress"
+                app:text="0"
+                app:title="@string/dashboard_lbl_times_rinsed"/>
+
+            <com.dentacoin.dentacare.widgets.DCTimerView
+                android:id="@+id/timer_dashboard_time_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:type="smallProgress"
+                app:text="0:00"
+                app:title="@string/dashboard_lbl_time_left"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <com.dentacoin.dentacare.widgets.DCTimerView
+                android:id="@+id/timer_dashboard_average_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:type="smallProgress"
+                app:text="0:00"
+                app:title="@string/dashboard_lbl_average_time"/>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

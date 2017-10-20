@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DCTextView">
+        <attr name="fontType" format="enum">
+            <enum name="regular" value="0"/>
+            <enum name="light" value="1"/>
+            <enum name="bold" value="2"/>
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="DCTimerView">
+        <attr name="type" format="enum">
+            <enum name="bigProgress" value="0"/>
+            <enum name="smallProgress" value="1"/>
+            <enum name="smallInfo" value="2"/>
+        </attr>
+        <attr name="title" format="string"/>
+        <attr name="text" format="string"/>
+        <attr name="primary" format="integer"/>
+        <attr name="secondary" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="DCTooth">
+        <attr name="tintColor" format="color"/>
+        <attr name="isClickable" format="boolean"/>
+    </declare-styleable>
+</resources>

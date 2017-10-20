@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rectangle_gradient_blue">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/iv_feedback_tooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/tooth_logo"
+            android:layout_gravity="center"/>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_feedback_thank_you"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/feedback_hdl_thank_you"
+            android:textAllCaps="true"
+            android:textSize="32sp"
+            android:textColor="@color/white"
+            app:fontType="regular"
+            android:layout_gravity="center"
+            android:paddingTop="30dp"
+            android:paddingBottom="20dp"/>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_feedback_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:text="@string/feedback_txt_message_sent"
+            android:textColor="@color/white"
+            app:fontType="regular"/>
+    </LinearLayout>
+</RelativeLayout>

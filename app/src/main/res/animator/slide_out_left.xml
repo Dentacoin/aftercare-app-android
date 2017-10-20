@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <objectAnimator
+        android:interpolator="@android:interpolator/accelerate_cubic"
+        android:propertyName="translationX"
+        android:valueType="floatType"
+        android:valueFrom="0dp"
+        android:valueTo="-300dp"
+        android:duration="250" />
+    <objectAnimator
+        android:interpolator="@android:interpolator/accelerate_cubic"
+        android:propertyName="alpha"
+        android:valueType="floatType"
+        android:valueFrom="1.0"
+        android:valueTo="0.0"
+        android:duration="250"/>
+</set>

@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="white">#ffffff</color>
+    <color name="colorPrimary">@color/ceruleanBlue</color>
+    <color name="colorPrimaryDark">@color/lightBlue</color>
+    <color name="colorAccent">@color/lightBlue</color>
+    <color name="pink">#FF4081</color>
+    <color name="brightSkyBlue">#09c9fd</color>
+    <color name="lightBlue">#0a93f7</color>
+    <color name="ceruleanBlue">#0a5df1</color>
+    <color name="iceBlue">#fbfdff</color>
+    <color name="paleSkyBlue">#c9ebfc</color>
+    <color name="lightGrey">#dadbdc</color>
+    <color name="greyTransparent">#80d7d7d7</color>
+    <color name="whiteTransparent">#48ffffff</color>
+    <color name="dark">#1d1d26</color>
+    <color name="blackTransparent50">#80000000</color>
+    <color name="blackTransparent10">#1A000000</color>
+    <color name="darkSkyBlue">#4990e2</color>
+    <color name="midBlue">#0093f0</color>
+    <color name="whiteBlue">#83b0f3</color>
+    <color name="pinkishRed">#b3ed2224</color>
+    <color name="lightBlueAlpha">#b30a93f7</color>
+    <color name="charcoalGrey">#4a4a4a</color>
 </resources>

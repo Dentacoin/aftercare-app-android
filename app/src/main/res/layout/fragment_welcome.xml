@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:background="@drawable/rectangle_gradient_blue">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:layout_centerInParent="true"
+        android:src="@drawable/shape"
+        android:layout_marginTop="20dp"/>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_welcome_avatar"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"
+        fresco:backgroundImage="@drawable/welcome_avatar_holder"
+        fresco:roundAsCircle="true"
+        app:roundingBorderColor="@color/white"
+        fresco:fadeDuration="1000"
+        fresco:roundingBorderWidth="5dp"/>
+
+    <com.dentacoin.dentacare.widgets.DCTextView
+        android:id="@+id/tv_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_txt_welcome"
+        android:layout_centerHorizontal="true"
+        android:textSize="32sp"
+        app:fontType="regular"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:layout_above="@id/sdv_welcome_avatar"
+        android:layout_marginBottom="100dp"/>
+
+    <com.dentacoin.dentacare.widgets.DCTextView
+        android:id="@+id/tv_welcome_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        android:textColor="@color/white"
+        app:fontType="light"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/sdv_welcome_avatar"
+        android:layout_marginTop="40dp"/>
+</RelativeLayout>

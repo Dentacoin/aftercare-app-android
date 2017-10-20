@@ -24,9 +24,41 @@ jobs:
           command: |
             sudo curl -L ${KEYSTORE_URI} > ${KEYSTORE}
       - run:
+          name: Setup Google Services Json
+          command: |
+            echo "Setting up google services json files"
+            mkdir -p /home/circleci/code/app/src/dev/debug/
+            mkdir -p /home/circleci/code/app/src/staging/debug/
+            mkdir -p /home/circleci/code/app/src/live/debug/
+            mkdir -p /home/circleci/code/app/src/dev/release/
+            mkdir -p /home/circleci/code/app/src/staging/release/
+            mkdir -p /home/circleci/code/app/src/live/release/
+            echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > /home/circleci/code/app/src/dev/debug/google-services.json
+            echo $GOOGLE_SERVICES_STAGE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/staging/debug/google-services.json
+            echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/live/debug/google-services.json
+            echo $GOOGLE_SERVICES_DEBUG | base64 --decode --ignore-garbage > /home/circleci/code/app/src/dev/release/google-services.json
+            echo $GOOGLE_SERVICES_STAGE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/staging/release/google-services.json
+            echo $GOOGLE_SERVICES_RELEASE | base64 --decode --ignore-garbage > /home/circleci/code/app/src/live/release/google-services.json
+            echo "All Done!"
+      - run:
           name: Run Tests
           command: |
-            ./gradlew lint test
+            if [ "${CIRCLE_BRANCH}" == "develop" ]
+            then
+              echo "Running Dev Release lint test"
+              ./gradlew lintDevRelease test
+            elif [ "${CIRCLE_BRANCH}" == "master" ]
+            then
+              rtagx="release-.*"
+              if [[ "${CIRCLE_TAG}" =~  $rtagx ]]
+              then
+                echo "Running Live Release lint test"
+                ./gradlew lintLiveRelease test
+              else
+                echo "Running Staging Release lint test"
+                ./gradlew lintStagingRelease test
+              fi
+            fi
       - store_artifacts:
           path: app/build/reports
           destination: reports

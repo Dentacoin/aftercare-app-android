@@ -1,3 +1,263 @@
 <resources>
     <string name="app_name">Dentacare</string>
+    <string name="btn_auth_login">Log In</string>
+    <string name="btn_auth_signup">Sign Up</string>
+    <string name="txt_login_forgot_password">Forgot password?</string>
+    <string name="txt_login_or_connect_with">Or connect with</string>
+    <string name="signup_txt_signup">Sign Up</string>
+    <string name="signup_hnt_first_name">First name</string>
+    <string name="signup_hnt_last_name">Last name</string>
+    <string name="signup_hnt_email">email</string>
+    <string name="signup_hnt_password">password</string>
+    <string name="signup_btn_create">Create</string>
+    <string name="error_txt_error_picking_image">An error occurred while trying to retrieve the picture!</string>
+    <string name="signup_txt_permission_avatar">You need to grant us \"Storage\" and \"Camera\" permissions in order to setup an avatar</string>
+    <string name="signup_txt_settings">Settings</string>
+    <string name="welcome_txt_welcome">Welcome</string>
+    <string name="drawer_nav_home">Home</string>
+    <string name="drawer_nav_goals">Goals</string>
+    <string name="drawer_nav_statistics">Statistics</string>
+    <string name="drawer_nav_dentacoin">Dentacoin</string>
+    <string name="drawer_nav_emergency">Emergency</string>
+    <string name="drawer_nav_oral_health">Oral Health</string>
+    <string name="drawer_nav_settings">Settings</string>
+    <string name="drawer_nav_about">About</string>
+    <string name="drawer_nav_signout">Sign out</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="error_txt_first_name_required">First name is required!</string>
+    <string name="error_txt_first_name_too_short">First name is too short!</string>
+    <string name="error_txt_first_name_too_long">First name is too long!</string>
+    <string name="error_txt_last_name_too_long">Last name is too long!</string>
+    <string name="error_txt_name_not_valid">Not a valid name!</string>
+    <string name="error_txt_email_required">Email is required!</string>
+    <string name="error_txt_email_not_valid">Please provide a valid email!</string>
+    <string name="error_txt_password_short">Please provide a password at with least 8 characters</string>
+    <string name="error_txt_failed_upload_avatar">Failed to upload avatar!</string>
+    <string name="error_txt_something_went_wrong">Something went wrong..</string>
+    <string name="error_txt_offline">You\'re offline. Please connect to the internet and try again.</string>
+    <string name="error_txt_json">Error parsing json response!</string>
+    <string name="drawer_hdl_signout">Sign out?</string>
+    <string name="drawer_txt_signout">Are you sure you want to logout?</string>
+
+    <string name="txt_yes">Yes</string>
+    <string name="txt_no">No</string>
+    <string name="txt_cancel">Cancel</string>
+    <string name="txt_send">Send</string>
+    <string name="txt_collect">Collect</string>
+    <string name="txt_dcn">DCN %d</string>
+    <string name="txt_save">Save</string>
+    <string name="txt_update">Update</string>
+    <string name="txt_try_again">Try again</string>
+    <string name="txt_loading">Loading...</string>
+    <string name="txt_ok">Ok</string>
+    <string name="txt_app_name">Dentacare</string>
+
+    <string name="gender_female">female</string>
+    <string name="gender_male">male</string>
+
+    <string name="dashboard_hdl_dentacare">Dentacare</string>
+    <string name="emergency_hdl_emergency">Emergency</string>
+    <string name="emergency_hdl_select_tooth">Select a sick tooth</string>
+    <string name="emergency_btn_next">Next</string>
+    <string name="emergency_txt_permission_teeth">You need to grant us \"Storage\" permission in order to send us teeth picture</string>
+    <string name="emergency_txt_settings">Settings</string>
+    <string name="emergency_hdl_describe">Describe your case</string>
+    <string name="emergency_hnt_write_message">Write message</string>
+    <string name="emergency_hnt_phone">Phone number</string>
+    <string name="error_txt_message_too_short">The message is too short, please provide more detailed description.</string>
+    <string name="feedback_hdl_thank_you">Thank you</string>
+    <string name="feedback_txt_message_sent">Your message was sent successfully. \nWe will respond to you shortly</string>
+
+    <string name="about_hdl_about">About Dentacare</string>
+    <string name="about_hdl_heading">Form sustainable oral \nhealth habits</string>
+    <string name="about_txt_about">An interactive aftercare app to assist patients in steps to be followed post - treatment, aiming at developing long - lasting oral hygiene habits in both children and adults.</string>
+    <string name="about_url_dentacare">dentacare.com</string>
+
+    <string name="profile_hdl_my_profile">My profile</string>
+    <string name="profile_btn_edit">Edit profile</string>
+    <string name="profile_txt_years_old">%1$s years old</string>
+
+    <string name="profile_hnt_zip">Zip Code</string>
+    <string name="profile_hnt_city">City</string>
+    <string name="profile_hnt_country">Country</string>
+    
+    <string name="collect_wallet_hdl_create">Create your crypto wallet at:</string>
+    <string name="collect_wallet_url_ether">www.myetherwallet.com</string>
+    <string name="collect_wallet_hdl_send_us">Send us your crypto\nwallet address</string>
+    <string name="collect_wallet_hnt_address">Crypto wallet address</string>
+
+    <string name="collect_hdl_collect">Collect</string>
+    <string name="collect_wallet_hdl_collected">Collected DCN in Wallet</string>
+    <string name="collect_wallet_hdl_balance">Current Balance in App</string>
+    <string name="collect_wallet_hnt_amount">Amount</string>
+    <string name="collect_wallet_btn_collect">Collect</string>
+    <string name="collect_wallet_txt_what_is">What is Dentacoin?</string>
+    <string name="collect_wallet_sent_collect_request">Successfully sent collect request. You will receive your DCN shortly.</string>
+
+    <string name="error_not_implemented">Feature not yet implemented!</string>
+    <string name="settings_hdl_settings">Notifications</string>
+
+    <string name="settings_lbl_daily_brushing">Daily brushing</string>
+    <string name="settings_lbl_change_brush">Change brush</string>
+    <string name="settings_lbl_visit_dentist">Visit dentist</string>
+    <string name="settings_lbl_collect_dentacoins">Collect dentacoins</string>
+    <string name="settings_lbl_reminder_visit">Reminder to visit</string>
+    <string name="settings_lbl_healthy_habits">Healthy habits</string>
+    <string name="settings_lbl_upon_no_activity">Upon no activity</string>
+    <string name="settings_lbl_daily_inspiration">Daily inspiration</string>
+    <string name="settings_lbl_sounds">Sounds</string>
+    <string name="settings_lbl_music">Music</string>
+    <string name="settings_hdl_music_and_sounds">Music &amp; Sounds</string>
+    <string name="settings_lbl_voice_male">Voice: male</string>
+    <string name="settings_lbl_voice_female">Voice: female</string>
+
+    <string name="collect_txt_permission_camera">In order to scan the qr code we need a permission to use your camera</string>
+    <string name="collect_txt_permission_camera_settings">Settings</string>
+    <string name="collect_txt_found_wallet">Scan success!</string>
+    <string name="collect_txt_wallet_copied">Wallet copied!</string>
+    <string name="collect_txt_what_is_dentacoin">What is Dentacoin?</string>
+    <string name="collect_hdl_collected_dcn">Collected DCN in Wallet</string>
+    <string name="collect_hdl_current_balance">Current Balance in App</string>
+    <string name="collect_hnt_amount">Amount</string>
+    <string name="collect_error_retrieving_data">There was an error trying to retrieve your data. Please try again later.</string>
+    <string name="collect_error_not_enough">Sorry but you don\'t have such amount of DCN yet!</string>
+
+    <string name="dashboard_tab_floss">FLOSS</string>
+    <string name="dashboard_tab_brush">BRUSH</string>
+    <string name="dashboard_tab_rinse">RINSE</string>
+
+    <string name="dashboard_lbl_average_time">average time</string>
+    <string name="dashboard_lbl_time_left">time left</string>
+    <string name="dashboard_lbl_times_rinsed">times rinsed</string>
+    <string name="dashboard_lbl_times_flossed">times flossed</string>
+    <string name="dashboard_lbl_times_brushed">times brushed</string>
+    <string name="dashboard_btn_daily">daily</string>
+    <string name="dashboard_btn_weekly">weekly</string>
+    <string name="dashboard_btn_monthly">monthly</string>
+    <string name="dashboard_lbl_rinse_statistics">Rinse Statistics</string>
+    <string name="dashboard_lbl_floss_statistics">Floss Statistics</string>
+    <string name="dashboard_lbl_brush_statistics">Brush Statistics</string>
+
+    <string name="dashboard_btn_start_floss">Floss</string>
+    <string name="dashboard_btn_start_rinse">Rinse</string>
+    <string name="dashboard_btn_start_brush">Brush</string>
+    <string name="dashboard_btn_stop">Stop</string>
+
+    <string name="dashboard_lbl_dcn_earned">DCN Earned</string>
+
+    <string name="dashboard_lbl_brush_left">Brush left</string>
+    <string name="dashboard_lbl_floss_left">Floss left</string>
+    <string name="dashboard_lbl_rinse_left">Rinse left</string>
+
+    <string name="dashboard_lbl_last_brush">Last brush</string>
+    <string name="dashboard_lbl_last_floss">Last floss</string>
+    <string name="dashboard_lbl_last_rinse">Last rinse</string>
+
+    <string name="dashboard_warning_sync_needed">Your data was not synchronized. Do you want to do this now?</string>
+    <string name="dashboard_success_sync">Sync successful!</string>
+    <string name="dashboard_too_short_record">You can do better that this! Sessions shorter that 30 seconds are not recorded!</string>
+
+    <string name="statistics_hdl_statistics">Statistics</string>
+
+    <string name="oral_health_hdl_oral_health">Oral health</string>
+    <string name="oral_health_txt_no_posts_found">No posts found!</string>
+
+    <string name="goals_hdl_goals">Achievements</string>
+    <string name="goals_txt_no_goals_found">No achievements found!</string>
+    <string name="fb_share_goal_message">I just got %1$s DCN for achieving %2$s</string>
+
+    <string name="btn_agree">Agree</string>
+    
+    <string name="reset_password_hdl_forget">Forget your password?</string>
+    <string name="reset_password_txt_send">We will send you an email with instructions on how to reset your password</string>
+    <string name="reset_password_txt_success">Successfully sent reset request, you will receive an email shortly</string>
+
+    <string name="tutorial_txt_total_dcn">This is the total amount of DCN you\'ve earned.</string>
+    <string name="tutorial_txt_last_activity_time">Last recorded time</string>
+    <string name="tutorial_txt_left_activities_count">Remaining activities for today</string>
+    <string name="tutorial_txt_earned_dcn">Earned DCN from this activity</string>
+    <string name="tutorial_txt_click_edit_profile">Click here to edit your profile!</string>
+    <string name="tutorial_txt_collect_dcn">Send DCN to your wallet!</string>
+    <string name="tutorial_txt_goals_menu">Achieve goals &amp; earn DCN</string>
+    <string name="tutorial_txt_dashboard_arrow">Slide up to open statistics</string>
+    <string name="tutorial_txt_emergency_menu">Send us emergency request</string>
+    <string name="tutorial_txt_qr_code">Scan your wallet\'s QR code</string>
+    <string name="tutorial_txt_sick_tooth">Show us where it hurts</string>
+
+    <string name="notifications_txt_daily_brushing_1">Hey there! Did you brush your teeth yet?</string>
+    <string name="notifications_txt_change_brush_1">When is the last time you changed your toothbrush?</string>
+    <string name="notifications_txt_visit_dentist">When is the last time you visited your dentist? Maybe is time to make an appointment?</string>
+    <string name="notifications_txt_collect_dentacoin">You have %d DCN in your account. You can collect them easily form the \"Dentacoin\" screen.</string>
+    <string name="notifications_txt_reminder_to_visit">Hey there! You haven\'t checked in for a while.</string>
+
+    <string name="notifications_hdl_healthy_habits_1">Don\'t go to bed without brushing your teeth</string>
+    <string name="notifications_txt_healthy_habits_1">Brushing before bed gets rid of the germs and plaque that accumulate throughout the day.</string>
+
+    <string name="notifications_hdl_healthy_habits_2">Brush properly</string>
+    <string name="notifications_txt_healthy_habits_2">The way you brush is equally important — in fact, doing a poor job of brushing your teeth is almost as bad as not brushing at all. </string>
+
+    <string name="notifications_hdl_healthy_habits_3">Don\'t neglect your tongue.</string>
+    <string name="notifications_txt_healthy_habits_3">Plaque can also build up on your tongue. Not only can this lead to bad mouth odor, but it can lead to other oral health problems.</string>
+
+    <string name="notifications_hdl_healthy_habits_4">Use a fluoride toothpaste.</string>
+    <string name="notifications_txt_healthy_habits_4">When it comes to toothpaste, there are more important elements to look for than whitening power and flavors.</string>
+
+    <string name="notifications_hdl_healthy_habits_5">Flossing is as important as brushing.</string>
+    <string name="notifications_txt_healthy_habits_5">Flossing once a day is usually enough to reap these benefits.</string>
+
+    <string name="notifications_hdl_healthy_habits_6">Consider mouthwash</string>
+    <string name="notifications_txt_healthy_habits_6">Mouthwashes are useful as an adjunct tool to help bring things into balance</string>
+
+    <string name="notifications_hdl_healthy_habits_7">Drink more water</string>
+    <string name="notifications_txt_healthy_habits_7">Drink water after every meal. This can help wash out some of the negative effects of sticky and acidic foods and beverages in between brushes.</string>
+
+    <string name="notifications_hdl_healthy_habits_8">Eat crunchy fruits and vegetables</string>
+    <string name="notifications_txt_healthy_habits_8">Eating fresh, crunchy produce not only contains more healthy fiber, but it is also the best choice as far as your teeth are concerned</string>
+
+    <string name="notifications_hdl_healthy_habits_9">Limit sugary and acidic foods</string>
+    <string name="notifications_txt_healthy_habits_9">Sugar converts into acid in the mouth, which can then erode the enamel of your teeth</string>
+
+    <string name="notifications_hdl_healthy_habits_10">See your dentist at least twice a year</string>
+    <string name="notifications_txt_healthy_habits_10">At minimum, you should see your dentist for cleanings and checkups twice a year</string>
+    
+    <string name="message_day">Day %d</string>
+    <string name="message_of">of %d</string>
+    <string name="message_congratulations">Congratulations!\nYou have reached 90 days!</string>
+    
+    <string name="message_morning_routine_1">Good morning sunshine. It is a beautiful day. Let’s get you started properly.</string>
+    <string name="message_morning_routine_2">Let’s start with brushing your teeth. Make sure your toothbrush is not dry, and apply toothpaste as the size of pea grain. Press the start button when you are ready to brush</string>
+
+    <string name="message_brush_1">Starting with the upper left quadrant, brush continuously for the following 30 seconds.</string>
+    <string name="message_brush_2">Now let’s brush the lower left quadrant for the following 30 seconds.</string>
+    <string name="message_brush_3">It is time you move to the lower right quadrant. Brush this area for the following 30 seconds.</string>
+    <string name="message_brush_4">Now let’s brush the upper right quadrant. This is the last sector, only 30 more seconds.</string>
+    <string name="message_brush_done">You are done. Congratulations!</string>
+    
+    <string name="message_morning_routine_3">Now let’s proceed with the second step of your morning dental routine. Rinsing. Measure 20 milliliters of your rinse liquid and press the start button when you are ready to swish.</string>
+    <string name="message_rinse_1">Try to swish until the end of the timer.</string>
+    <string name="message_rinse_2">Don\'t worry if you can\'t get to the end of the timer, it gets easier each time you try.</string>
+    <string name="message_rinse_3">You\'re done, spit the solution out in the sink.</string>
+    <string name="message_rinse_4">You have completed your first morning brush. Amazing job!</string>
+
+    <string name="message_morning_routine_4">Congratulations! NOW you are ready to Amaze the world with your beautiful smile.</string>
+    <string name="message_morning_routine_5">Make big things today and come back in the evening before going to bed.</string>
+    <string name="message_morning_routine_6">Have a nice day ahead.</string>
+
+    <string name="message_evening_routine_1">Good evening, darling. Did you have a good day? Are you on the way to becoming a legend?</string>
+    <string name="message_evening_routine_2">Now let’s get you ready for bed. Rest is important. Hygiene too!</string>
+    
+    <string name="message_floss_1">Let\'s start by flossing your teeth. Pull around 25 cm of dental floss from your floss dispenser.</string>
+    <string name="message_floss_2">Wrap the ends of the floss around your index and middle fingers.</string>
+    <string name="message_floss_3">Press the start button when you are ready to floss.</string>
+
+    <string name="message_floss_4">Hold the floss tightly around each tooth in a C-shape. Move the floss back and forth in a push-pull motion and up and down against the side of each tooth.</string>
+    <string name="message_floss_5">Press the stop button when you are done with every tooth.</string>
+    <string name="message_floss_6">Great job, flossing!</string>
+
+    <string name="message_evening_routine_3">You have completed your last brush for the day. Amazing job!</string>
+    <string name="message_evening_routine_4">Have a nice rest and come back in the morning.</string>
+    <string name="message_evening_routine_5">Sweet dreams.</string>
+
 </resources>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/collect_hdl_collected_dcn"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            app:fontType="light"
+            android:paddingTop="40dp"/>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_collect_collected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="@color/ceruleanBlue"
+            android:layout_gravity="center"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:textAlignment="center"
+            app:fontType="regular"
+            android:textAllCaps="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="1dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
+                android:background="@color/ceruleanBlue"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/dentacoin"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@color/ceruleanBlue"/>
+        </LinearLayout>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/collect_hdl_current_balance"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            app:fontType="light"
+            android:paddingTop="40dp"/>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_collect_current_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="@color/ceruleanBlue"
+            android:layout_gravity="center"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:textAlignment="center"
+            app:fontType="regular"
+            android:textAllCaps="true"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.dentacoin.dentacare.widgets.DCEditText
+                android:id="@+id/et_collect_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:inputType="numberDecimal"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="40dp"
+                android:hint="@string/collect_hnt_amount"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <com.dentacoin.dentacare.widgets.DCButton
+        android:id="@+id/btn_collect"
+        style="@style/DCButton.Dashboard"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:textAllCaps="true"
+        android:text="@string/txt_collect"/>
+
+    <com.dentacoin.dentacare.widgets.DCTextView
+        android:id="@+id/tv_collect_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/collect_txt_what_is_dentacoin"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:textSize="12sp"
+        android:textColor="@color/ceruleanBlue"/>
+</LinearLayout>

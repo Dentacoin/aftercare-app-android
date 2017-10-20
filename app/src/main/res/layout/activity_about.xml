@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_blue"/>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:paddingTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about_hdl_heading"
+            android:textColor="@color/charcoalGrey"
+            app:fontType="regular"
+            android:textSize="20sp"/>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="@string/about_txt_about"
+            android:textSize="16sp"/>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_about_website"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about_url_dentacare"
+            android:paddingTop="60dp"
+            android:textColor="@color/ceruleanBlue"
+            android:textSize="18sp"/>
+    </LinearLayout>
+</RelativeLayout>

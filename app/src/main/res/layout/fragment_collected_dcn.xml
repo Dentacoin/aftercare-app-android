@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rectangle_gradient_blue">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/iv_collect_dentacoin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dentacoin_logo_white"
+            android:layout_gravity="center"/>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_collect_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15000DCN"
+            android:textAllCaps="true"
+            android:textSize="32sp"
+            android:textColor="@color/white"
+            app:fontType="regular"
+            android:layout_gravity="center"
+            android:paddingTop="30dp"/>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_collect_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:padding="30dp"
+            android:text="@string/collect_wallet_sent_collect_request"
+            android:textColor="@color/white"
+            app:fontType="regular"/>
+    </LinearLayout>
+</RelativeLayout>
