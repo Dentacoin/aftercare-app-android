@@ -27,6 +27,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 public class DCWelcomeFragment extends DCFragment {
 
+    public static final String TAG = DCWelcomeFragment.class.getSimpleName();
+
     private SimpleDraweeView sdvWelcomeAvatar;
     private DCTextView tvWelcome;
     private DCTextView tvWelcomeName;

@@ -192,4 +192,17 @@ public class DCUtils {
         }
         return "0:00";
     }
+
+    public static DCConstants.DCAutoMode getAutoModeForNow() {
+        Calendar calendar = Calendar.getInstance();
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+
+        if (hourOfDay >= 2 && hourOfDay < 11) {
+            return DCConstants.DCAutoMode.MORNING;
+        } else if (hourOfDay >= 17 && hourOfDay < 24) {
+            return DCConstants.DCAutoMode.EVENING;
+        }
+
+        return null;
+    }
 }

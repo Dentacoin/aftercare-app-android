@@ -18,6 +18,8 @@ public class DCSoundManager {
     private MediaPlayer musicPlayer;
     private MediaPlayer voicePlayer;
     private boolean isFemale;
+    private boolean soundEnabled;
+    private boolean musicEnabled;
 
     public static synchronized DCSoundManager getInstance() {
         if (instance == null)
@@ -27,6 +29,8 @@ public class DCSoundManager {
 
     DCSoundManager() {
         isFemale = DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.FEMALE_VOICE, false);
+        soundEnabled = DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.SOUND_ENABLED, true);
+        musicEnabled = DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.MUSIC_ENABLED, true);
     }
 
     public boolean isVoiceMale() {
@@ -35,6 +39,24 @@ public class DCSoundManager {
 
     public boolean isVoiceFemale() {
         return isFemale;
+    }
+
+    public boolean isSoundEnabled() {
+        return soundEnabled;
+    }
+
+    public boolean isMusicEnabled() {
+        return musicEnabled;
+    }
+
+    public void setSoundEnabled(boolean soundEnabled) {
+        this.soundEnabled = soundEnabled;
+        DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.SOUND_ENABLED, soundEnabled);
+    }
+
+    public void setMusicEnabled(boolean musicEnabled) {
+        this.musicEnabled = musicEnabled;
+        DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.MUSIC_ENABLED, musicEnabled);
     }
 
     public void setIsFemale(boolean isFemale) {
@@ -108,6 +130,9 @@ public class DCSoundManager {
     }
 
     public void playVoice(Context context, VOICE sound) {
+        if (!soundEnabled)
+            return;
+
         try {
             if (voicePlayer != null) {
                 voicePlayer.stop();
@@ -124,6 +149,9 @@ public class DCSoundManager {
     }
 
     public void playMusic(Context context, MUSIC music) {
+        if (!musicEnabled)
+            return;
+
         try {
             if (musicPlayer != null) {
                 musicPlayer.stop();
@@ -137,6 +165,20 @@ public class DCSoundManager {
             musicPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void cancelSounds() {
+        if (voicePlayer != null) {
+            voicePlayer.stop();
+            voicePlayer.release();
+        }
+    }
+
+    public void cancelMusic() {
+        if (musicPlayer != null) {
+            musicPlayer.stop();
+            musicPlayer.release();
         }
     }
 }

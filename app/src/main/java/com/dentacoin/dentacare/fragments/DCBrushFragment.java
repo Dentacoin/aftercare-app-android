@@ -25,6 +25,7 @@ public class DCBrushFragment extends DCDashboardFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = super.onCreateView(inflater, container, savedInstance);
         dtDashboardTeeth.setVisibility(View.VISIBLE);
+        timerDashboard.setTimerDisplayTextSize(R.dimen.timer_text_size_big_teeth);
         return view;
     }
 
@@ -76,12 +77,12 @@ public class DCBrushFragment extends DCDashboardFragment {
     protected void handleClockTick(long millisUntilFinished) {
         super.handleClockTick(millisUntilFinished);
         float t = (DCConstants.COUNTDOWN_MAX_AMOUNT - millisUntilFinished) / 1000.0f;
-        youAreDone = false;
 
         if (t > 0 && t < 30 && !ulvisible) {
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.UL, getResources().getColor(R.color.lightBlueAlpha));
             ulvisible = true;
             DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_2);
+            setMessage(getString(R.string.message_brush_1));
         }
         else if (t > 30 && t < 60 && !wlvisible) {
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.WL, getResources().getColor(R.color.lightBlueAlpha));
@@ -89,6 +90,7 @@ public class DCBrushFragment extends DCDashboardFragment {
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.UL);
             ulvisible = false;
             DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_3);
+            setMessage(getString(R.string.message_brush_2));
         }
         else if (t > 60 && t < 90 && !wrvisible) {
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.WR, getResources().getColor(R.color.lightBlueAlpha));
@@ -96,6 +98,7 @@ public class DCBrushFragment extends DCDashboardFragment {
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.WL);
             wlvisible = false;
             DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_4);
+            setMessage(getString(R.string.message_brush_3));
         }
         else if (t > 90 && t < 120 && !urvisible) {
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.UR, getResources().getColor(R.color.lightBlueAlpha));
@@ -103,10 +106,12 @@ public class DCBrushFragment extends DCDashboardFragment {
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.WR);
             wrvisible = false;
             DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_5);
-            youAreDone = true;
-        } else if (t > 120) {
+            setMessage(getString(R.string.message_brush_4));
+        } else if (t > 120 && !youAreDone) {
             hideAll();
             youAreDone = true;
+            setMessage(getString(R.string.message_brush_done));
+            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_6);
         }
     }
 
@@ -114,10 +119,6 @@ public class DCBrushFragment extends DCDashboardFragment {
     protected void stopRecording() {
         super.stopRecording();
         hideAll();
-
-        if (youAreDone)
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_6);
-
         youAreDone = false;
     }
 

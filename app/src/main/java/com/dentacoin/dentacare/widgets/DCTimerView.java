@@ -41,6 +41,13 @@ public class DCTimerView extends RelativeLayout {
         init(null);
     }
 
+
+    public void setTimerDisplayTextSize(int dimenId) {
+        if (tvTimerDisplay != null) {
+            tvTimerDisplay.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(dimenId));
+        }
+    }
+
     private void init(AttributeSet attributeSet) {
         inflate(getContext(), R.layout.view_timer, this);
 

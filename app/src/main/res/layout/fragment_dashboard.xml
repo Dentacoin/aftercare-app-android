@@ -32,7 +32,16 @@
                 app:type="bigProgress"/>
         </RelativeLayout>
 
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_dashboard_message_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textAlignment="center"/>
+
         <LinearLayout
+            android:id="@+id/ll_dashboard_statistics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

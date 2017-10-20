@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.dentacoin.dentacare.utils.DCSharedPreferences.DCSharedKey.SHOWED_TUTORIALS;
-
 /**
  * Created by Atanas Chervarov on 8/16/17.
  */
@@ -26,7 +24,12 @@ public class DCSharedPreferences {
         GOALS_REACHED("GOALS_REACHED"),
         COLLECTED("COLLECTED"),
         SHOWED_TUTORIALS("SHOWED_TUTORIALS"),
-        FEMALE_VOICE("FEMALE_VOICE");
+        FEMALE_VOICE("FEMALE_VOICE"),
+        LAST_MESSAGE_TIME("LAST_MESSAGE_TIME"),
+        SOUND_ENABLED("SOUND_ENABLED"),
+        MUSIC_ENABLED("MUSIC_ENABLED"),
+        DAYS_COUNTER("DAYS_COUNTER"),
+        LAST_DATE_ADDED_DAYS("LAST_DATE_ADDED_DAYS");
 
         private String key;
 
@@ -75,8 +78,11 @@ public class DCSharedPreferences {
         return  getInstance().preferences.edit().remove(key.getKey()).commit();
     }
 
+    public static int loadInt(DCSharedKey key, int defaultValue) {
+        return getInstance().preferences.getInt(key.getKey(), defaultValue);
+    }
     public static int loadInt(DCSharedKey key) {
-        return getInstance().preferences.getInt(key.getKey(), 0);
+        return loadInt(key, 0);
     }
 
     public static boolean saveInt(DCSharedKey key, int value) {
@@ -84,7 +90,7 @@ public class DCSharedPreferences {
     }
 
     public static Set<String> getShownTutorials() {
-        return getInstance().preferences.getStringSet(SHOWED_TUTORIALS.getKey(), new HashSet<String>());
+        return getInstance().preferences.getStringSet(DCSharedKey.SHOWED_TUTORIALS.getKey(), new HashSet<String>());
     }
 
     public static void setShownTutorial(DCTutorialManager.TUTORIAL tutorial, boolean shown) {
@@ -98,8 +104,9 @@ public class DCSharedPreferences {
             tutorials.remove(tutorial.name());
         }
 
-        getInstance().preferences.edit().putStringSet(SHOWED_TUTORIALS.getKey(), tutorials).apply();
+        getInstance().preferences.edit().putStringSet(DCSharedKey.SHOWED_TUTORIALS.getKey(), tutorials).apply();
     }
+
 
     /**
      * Cleans all saved user data
@@ -115,5 +122,10 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.GOALS_REACHED);
         removeKey(DCSharedKey.SHOWED_TUTORIALS);
         removeKey(DCSharedKey.FEMALE_VOICE);
+        removeKey(DCSharedKey.LAST_MESSAGE_TIME);
+        removeKey(DCSharedKey.SOUND_ENABLED);
+        removeKey(DCSharedKey.MUSIC_ENABLED);
+        removeKey(DCSharedKey.DAYS_COUNTER);
+        removeKey(DCSharedKey.LAST_DATE_ADDED_DAYS);
     }
 }

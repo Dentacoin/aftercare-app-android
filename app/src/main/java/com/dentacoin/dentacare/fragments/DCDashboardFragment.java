@@ -12,6 +12,8 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -48,7 +50,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     private ImageView ivDashboardUpArrow;
     boolean reverseAnimStarted = false;
 
-    private DCTimerView timerDashboard;
+    protected DCTimerView timerDashboard;
     protected DCTimerView timerDashboardLast;
     protected DCTimerView timerDashboardleft;
     protected DCTimerView timerDashboardEarned;
@@ -62,11 +64,13 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     private DCTimerView timerDashboardAverageTime;
     protected RelativeLayout rlDashboardArrowHolder;
     protected DCDashboardTeeth dtDashboardTeeth;
-
     private DCConstants.DCStatisticsType selectedStatistics = DCConstants.DCStatisticsType.DAILY;
 
-    private boolean trackingTime = false;
-    private CountDownTimer timer;
+    protected boolean trackingTime = false;
+    protected CountDownTimer timer;
+    protected DCActivityRecord record;
+    private LinearLayout llDashboardStatistics;
+    private DCTextView tvDashboardMessageContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -96,6 +100,11 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         rlDashboardArrowHolder.setOnClickListener(this);
         dtDashboardTeeth = (DCDashboardTeeth) view.findViewById(R.id.dt_dashboard_teeth);
         dtDashboardTeeth.setVisibility(View.GONE);
+        llDashboardStatistics = (LinearLayout) view.findViewById(R.id.ll_dashboard_statistics);
+        llDashboardStatistics.setVisibility(View.VISIBLE);
+        tvDashboardMessageContainer = (DCTextView) view.findViewById(R.id.tv_dashboard_message_container);
+        tvDashboardMessageContainer.setVisibility(View.GONE);
+        tvDashboardMessageContainer.setText("");
 
         ivDashboardDownArrow.setAlpha(0.0f);
         ivDashboardUpArrow.setAlpha(1.0f);
@@ -250,16 +259,54 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                 btnDashboardRecord.setText(getString(R.string.dashboard_btn_stop));
                 btnDashboardRecord.setSelected(true);
                 llBottomStatistics.setVisibility(View.GONE);
+                llDashboardStatistics.setVisibility(View.GONE);
+
+                tvDashboardMessageContainer.clearAnimation();
+                tvDashboardMessageContainer.setVisibility(View.VISIBLE);
             } else {
                 llBottomStatistics.setVisibility(View.VISIBLE);
                 btnDashboardRecord.setSelected(false);
                 timerDashboard.setSecondaryProgress(0);
                 timerDashboard.setProgress(1000);
                 timerDashboard.setTimerDisplay(DCUtils.secondsToTime(0));
+                llDashboardStatistics.setVisibility(View.VISIBLE);
+
+                tvDashboardMessageContainer.clearAnimation();
+                tvDashboardMessageContainer.setVisibility(View.GONE);
             }
             
             ((DCDashboardActivity)getActivity()).toggleRecordMode(trackingTime);
         }
+    }
+
+    protected void setMessage(final String message) {
+        AlphaAnimation disapearAlphaAnimation = new AlphaAnimation(1f, 0f);
+        disapearAlphaAnimation.setDuration(250);
+        final AlphaAnimation appearAlpaAnimation = new AlphaAnimation(0f, 1f);
+        appearAlpaAnimation.setDuration(250);
+
+        tvDashboardMessageContainer.clearAnimation();
+
+        disapearAlphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (tvDashboardMessageContainer != null) {
+                    tvDashboardMessageContainer.setText(message);
+                    tvDashboardMessageContainer.startAnimation(appearAlpaAnimation);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        tvDashboardMessageContainer.startAnimation(disapearAlphaAnimation);
     }
 
     @Override
@@ -282,9 +329,9 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
             startRecording();
     }
 
-    private DCActivityRecord record;
 
-    private void startRecording() {
+
+    protected void startRecording() {
         if (trackingTime)
             return;
 
