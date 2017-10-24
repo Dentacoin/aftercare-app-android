@@ -1,6 +1,5 @@
 package com.dentacoin.dentacare.fragments;
 
-import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,7 +29,7 @@ import java.util.Date;
  * Created by Atanas Chervarov on 10/20/17.
  */
 
-public class DCMessageFragment extends DialogFragment implements View.OnClickListener {
+public class DCMessageFragment extends DCDialogFragment implements View.OnClickListener {
 
     public interface IDCMessageFragmentListener {
         void onAutoModeActive();
@@ -95,7 +94,7 @@ public class DCMessageFragment extends DialogFragment implements View.OnClickLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_message, container, false);
+        final View view = inflater.inflate(R.layout.fragment_message, container);
 
         int day = 1;
         String message = "";
