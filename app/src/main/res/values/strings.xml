@@ -97,7 +97,7 @@
     <string name="collect_wallet_sent_collect_request">Successfully sent collect request. You will receive your DCN shortly.</string>
 
     <string name="error_not_implemented">Feature not yet implemented!</string>
-    <string name="settings_hdl_settings">Notifications</string>
+    <string name="settings_hdl_settings">Settings</string>
 
     <string name="settings_lbl_daily_brushing">Daily brushing</string>
     <string name="settings_lbl_change_brush">Change brush</string>
