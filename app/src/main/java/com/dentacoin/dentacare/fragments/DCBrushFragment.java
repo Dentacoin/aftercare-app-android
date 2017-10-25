@@ -1,5 +1,6 @@
 package com.dentacoin.dentacare.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,6 +45,14 @@ public class DCBrushFragment extends DCDashboardFragment {
         super.onAttach(context);
         if (context instanceof DCDashboardActivity) {
             ((DCDashboardActivity) context).setTutorialListener(this);
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof DCDashboardActivity) {
+            ((DCDashboardActivity) activity).setTutorialListener(this);
         }
     }
 
