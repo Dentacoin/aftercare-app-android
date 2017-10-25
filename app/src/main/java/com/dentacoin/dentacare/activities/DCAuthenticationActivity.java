@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.fragments.DCAgreementFragment;
 import com.dentacoin.dentacare.fragments.DCAuthenticationFragment;
+import com.dentacoin.dentacare.fragments.DCLoadingFragment;
 import com.dentacoin.dentacare.fragments.DCLoginFragment;
 import com.dentacoin.dentacare.fragments.DCResetPasswordFragment;
 import com.dentacoin.dentacare.fragments.DCSignupFragment;
@@ -118,7 +119,9 @@ public class DCAuthenticationActivity extends DCActivity {
     public void onFacebookLogin() {
         if (facebookCallbackManager == null)
             facebookCallbackManager = CallbackManager.Factory.create();
-        
+
+        final DCLoadingFragment loadingFragment = showLoading();
+
         LoginManager.getInstance().logOut();
         LoginManager.getInstance().registerCallback(facebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -158,10 +161,12 @@ public class DCAuthenticationActivity extends DCActivity {
                                 } else {
                                     DCAuthenticationActivity.this.onError(loginError);
                                 }
+                                loadingFragment.dismissAllowingStateLoss();
                             }
                             @Override
                             public void onResponse(DCAuthToken object) {
                                 handleAuthentication(object);
+                                loadingFragment.dismissAllowingStateLoss();
                             }
                         });
                     }
@@ -170,13 +175,16 @@ public class DCAuthenticationActivity extends DCActivity {
             }
 
             @Override
-            public void onCancel() { }
+            public void onCancel() {
+                loadingFragment.dismissAllowingStateLoss();
+            }
 
             @Override
             public void onError(FacebookException exception) {
                 if (exception != null && exception.getMessage() != null) {
                     DCAuthenticationActivity.this.onError(new DCError(exception.getMessage()));
                 }
+                loadingFragment.dismissAllowingStateLoss();
             }
         });
 
@@ -186,6 +194,8 @@ public class DCAuthenticationActivity extends DCActivity {
     public void onTwitterLogin() {
         if (twitterAuthClient == null)
             twitterAuthClient = new TwitterAuthClient();
+
+        final DCLoadingFragment loadingFragment = showLoading();
 
         twitterAuthClient.authorize(this, new Callback<TwitterSession>() {
             @Override
@@ -212,13 +222,17 @@ public class DCAuthenticationActivity extends DCActivity {
                                     } else {
                                         onError(error);
                                     }
+                                    loadingFragment.dismissAllowingStateLoss();
                                 }
 
                                 @Override
                                 public void onResponse(DCAuthToken object) {
                                     handleAuthentication(object);
+                                    loadingFragment.dismissAllowingStateLoss();
                                 }
                             });
+                        } else {
+                            loadingFragment.dismissAllowingStateLoss();
                         }
                     }
 
@@ -227,6 +241,7 @@ public class DCAuthenticationActivity extends DCActivity {
                         if (exception != null && exception.getMessage() != null) {
                             onError(new DCError(exception.getMessage()));
                         }
+                        loadingFragment.dismissAllowingStateLoss();
                     }
                 });
             }
@@ -236,6 +251,7 @@ public class DCAuthenticationActivity extends DCActivity {
                 if (exception != null && exception.getMessage() != null) {
                     onError(new DCError(exception.getMessage()));
                 }
+                loadingFragment.dismissAllowingStateLoss();
             }
         });
     }
@@ -272,6 +288,8 @@ public class DCAuthenticationActivity extends DCActivity {
                 user.setGoogleID(acct.getId());
                 user.setGoogleAccessToken(acct.getIdToken());
 
+                final DCLoadingFragment loadingFragment = showLoading();
+
                 DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
                     @Override
                     public void onFailure(DCError error) {
@@ -280,11 +298,13 @@ public class DCAuthenticationActivity extends DCActivity {
                         } else {
                             onError(error);
                         }
+                        loadingFragment.dismissAllowingStateLoss();
                     }
 
                     @Override
                     public void onResponse(DCAuthToken object) {
                         handleAuthentication(object);
+                        loadingFragment.dismissAllowingStateLoss();
                     }
                 });
             }
@@ -295,15 +315,19 @@ public class DCAuthenticationActivity extends DCActivity {
     }
 
     public void loginUser(DCUser user) {
+        final DCLoadingFragment loadingFragment = showLoading();
+
         DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
             @Override
             public void onFailure(DCError error) {
                 onError(error);
+                loadingFragment.dismissAllowingStateLoss();
             }
 
             @Override
             public void onResponse(DCAuthToken object) {
                 handleAuthentication(object);
+                loadingFragment.dismissAllowingStateLoss();
             }
         });
     }
@@ -313,15 +337,18 @@ public class DCAuthenticationActivity extends DCActivity {
         agreementFragment.setListener(new DCAgreementFragment.IDCAgreementListener() {
             @Override
             public void onAgreementAccepted() {
+                final DCLoadingFragment loadingFragment = showLoading();
                 DCApiManager.getInstance().registerUser(user, new DCResponseListener<DCAuthToken>() {
                     @Override
                     public void onFailure(DCError error) {
                         onError(error);
+                        loadingFragment.dismissAllowingStateLoss();
                     }
 
                     @Override
                     public void onResponse(DCAuthToken object) {
                         handleAuthentication(object);
+                        loadingFragment.dismissAllowingStateLoss();
                     }
                 });
             }
