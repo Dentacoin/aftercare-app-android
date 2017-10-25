@@ -29,7 +29,8 @@ public class DCSharedPreferences {
         SOUND_ENABLED("SOUND_ENABLED"),
         MUSIC_ENABLED("MUSIC_ENABLED"),
         DAYS_COUNTER("DAYS_COUNTER"),
-        LAST_DATE_ADDED_DAYS("LAST_DATE_ADDED_DAYS");
+        LAST_DATE_ADDED_DAYS("LAST_DATE_ADDED_DAYS"),
+        LAST_LOGGED_EMAIL("LAST_LOGGED_EMAIL");
 
         private String key;
 
@@ -120,7 +121,6 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.RECORDS);
         removeKey(DCSharedKey.COLLECTED);
         removeKey(DCSharedKey.GOALS_REACHED);
-        removeKey(DCSharedKey.SHOWED_TUTORIALS);
         removeKey(DCSharedKey.FEMALE_VOICE);
         removeKey(DCSharedKey.LAST_MESSAGE_TIME);
         removeKey(DCSharedKey.SOUND_ENABLED);

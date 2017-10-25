@@ -4,6 +4,7 @@ import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
+import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.google.gson.JsonSyntaxException;
 
 /**
@@ -30,6 +31,14 @@ public class DCSession {
         this.user = user;
         if (user != null) {
             DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.USER, DCApiManager.gson.toJson(user));
+
+            String lastLoggedIn = DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.LAST_LOGGED_EMAIL);
+
+            if (lastLoggedIn != null && lastLoggedIn.compareTo(user.getEmail()) != 0) {
+                DCSharedPreferences.removeKey(DCSharedPreferences.DCSharedKey.SHOWED_TUTORIALS);
+            }
+            
+            DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.LAST_LOGGED_EMAIL, user.getEmail());
         }
     }
 
