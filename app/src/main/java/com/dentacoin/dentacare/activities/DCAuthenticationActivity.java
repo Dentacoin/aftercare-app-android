@@ -188,7 +188,7 @@ public class DCAuthenticationActivity extends DCActivity {
             }
         });
 
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile", "user_friends"));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
     }
 
     public void onTwitterLogin() {
