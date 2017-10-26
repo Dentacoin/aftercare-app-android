@@ -14,7 +14,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/dentacoin_logo_white"
+            android:src="@drawable/tooth_logo"
             android:tint="@color/white"
             android:layout_gravity="center"/>
 
