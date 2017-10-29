@@ -12,6 +12,8 @@ import com.dentacoin.dentacare.activities.DCDashboardActivity;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCTutorialManager;
+import com.dentacoin.dentacare.utils.Music;
+import com.dentacoin.dentacare.utils.Voice;
 import com.dentacoin.dentacare.widgets.DCDashboardTeeth;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
 import com.github.florent37.viewtooltip.ViewTooltip;
@@ -90,7 +92,8 @@ public class DCBrushFragment extends DCDashboardFragment {
         if (t > 0 && t < 30 && !ulvisible) {
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.UL, getResources().getColor(R.color.lightBlueAlpha));
             ulvisible = true;
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_2);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_EVENING_2);
+            DCSoundManager.getInstance().playMusic(getActivity(), Music.getRandomSong());
             setMessage(getString(R.string.message_brush_1));
         }
         else if (t > 30 && t < 60 && !wlvisible) {
@@ -98,7 +101,7 @@ public class DCBrushFragment extends DCDashboardFragment {
             wlvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.UL);
             ulvisible = false;
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_3);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_EVENING_3);
             setMessage(getString(R.string.message_brush_2));
         }
         else if (t > 60 && t < 90 && !wrvisible) {
@@ -106,7 +109,7 @@ public class DCBrushFragment extends DCDashboardFragment {
             wrvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.WL);
             wlvisible = false;
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_4);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_EVENING_4);
             setMessage(getString(R.string.message_brush_3));
         }
         else if (t > 90 && t < 120 && !urvisible) {
@@ -114,13 +117,13 @@ public class DCBrushFragment extends DCDashboardFragment {
             urvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.WR);
             wrvisible = false;
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_5);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_EVENING_5);
             setMessage(getString(R.string.message_brush_4));
         } else if (t > 120 && !youAreDone) {
             hideAll();
             youAreDone = true;
             setMessage(getString(R.string.message_brush_done));
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_6);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_EVENING_6);
         }
     }
 

@@ -32,6 +32,7 @@ import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCDashboardTeeth;
+import com.dentacoin.dentacare.widgets.DCSoundManager;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.dentacoin.dentacare.widgets.DCTimerView;
 
@@ -357,6 +358,8 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     }
 
     protected void stopRecording() {
+        DCSoundManager.getInstance().cancelSounds();
+
         trackingTime = false;
 
         if (timer != null) {

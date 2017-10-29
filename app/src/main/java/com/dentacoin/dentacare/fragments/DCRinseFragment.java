@@ -14,6 +14,7 @@ import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
 import com.dentacoin.dentacare.utils.DCUtils;
+import com.dentacoin.dentacare.utils.Voice;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
 
 import java.util.Date;
@@ -69,6 +70,8 @@ public class DCRinseFragment extends DCDashboardFragment {
 
     @Override
     protected void stopRecording() {
+        DCSoundManager.getInstance().cancelSounds();
+
         trackingTime = false;
 
         if (timer != null) {
@@ -113,17 +116,17 @@ public class DCRinseFragment extends DCDashboardFragment {
         }
 
         if (t > 20 && t < 30 && !rinseShown1) {
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.RINSE_EVENING_2);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_2);
             setMessage(getString(R.string.message_rinse_1));
             rinseShown1 = true;
         }
         else if (t > 15 && t < 20 && !rinseShown2) {
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.RINSE_EVENING_3);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_3);
             setMessage(getString(R.string.message_rinse_2));
             rinseShown2 = true;
         }
         else if (t < 1 && !rinseShown3) {
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.RINSE_EVENING_4);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_4);
             setMessage(getString(R.string.message_rinse_3));
             rinseShown3 = true;
         }

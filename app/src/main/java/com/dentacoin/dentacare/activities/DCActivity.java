@@ -8,6 +8,7 @@ import com.anthonycr.grant.PermissionsManager;
 import com.dentacoin.dentacare.LaunchActivity;
 import com.dentacoin.dentacare.fragments.DCLoadingFragment;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.widgets.DCSoundManager;
 
 /**
  * Created by Atanas Chervarov on 7/29/17.
@@ -65,5 +66,23 @@ public class DCActivity extends AppCompatActivity {
         final DCLoadingFragment loadingFragment = new DCLoadingFragment();
         loadingFragment.show(getFragmentManager(), DCLoadingFragment.TAG);
         return loadingFragment;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        DCSoundManager.getInstance().cancelSounds();
+        DCSoundManager.getInstance().pauseMusic();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DCSoundManager.getInstance().resumeMusic();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

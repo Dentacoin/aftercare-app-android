@@ -14,6 +14,7 @@ import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.utils.DCUtils;
+import com.dentacoin.dentacare.utils.Voice;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
 import com.dentacoin.dentacare.widgets.DCTextView;
@@ -37,22 +38,22 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
 
     public enum MESSAGE {
 
-        MORNING(R.string.message_morning_routine_1, new DCSoundManager.VOICE[] { DCSoundManager.VOICE.MORNING_GREETING }),
-        EVENING(R.string.message_evening_routine_1, new DCSoundManager.VOICE[] {DCSoundManager.VOICE.EVENING_GREETING });
+        MORNING(R.string.message_morning_routine_1, new Voice[] { Voice.MORNING_GREETING }),
+        EVENING(R.string.message_evening_routine_1, new Voice[] {Voice.EVENING_GREETING });
 
-        MESSAGE(int resourceId, DCSoundManager.VOICE[] voices) {
+        MESSAGE(int resourceId, Voice[] voices) {
             this.resourceId = resourceId;
             this.voices = voices;
         }
 
         int resourceId;
-        DCSoundManager.VOICE[] voices;
+        Voice[] voices;
 
         public String getMessage(Context context) {
             return context.getResources().getString(resourceId);
         }
 
-        public DCSoundManager.VOICE[] getVoices() {
+        public Voice[] getVoices() {
             return voices;
         }
     }
@@ -79,13 +80,13 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
         return DCMessageFragment.create(day, message.getMessage(context), message.getVoices());
     }
 
-    public static DCMessageFragment create(int day, String message, DCSoundManager.VOICE[] voices) {
+    public static DCMessageFragment create(int day, String message, Voice[] voices) {
         DCMessageFragment messageFragment = new DCMessageFragment();
         Bundle arguments = new Bundle();
         arguments.putInt(KEY_DAY, day);
         arguments.putString(KEY_MESSAGE, message);
         if (voices != null) {
-            ArrayList<DCSoundManager.VOICE> voicesArray = new ArrayList<>(Arrays.asList(voices));
+            ArrayList<Voice> voicesArray = new ArrayList<>(Arrays.asList(voices));
             arguments.putSerializable(KEY_VOICES, voicesArray);
         }
         messageFragment.setArguments(arguments);
@@ -98,7 +99,7 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
 
         int day = 1;
         String message = "";
-        ArrayList<DCSoundManager.VOICE> voices = null;
+        ArrayList<Voice> voices = null;
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -107,7 +108,7 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
 
             Serializable serializable = arguments.getSerializable(KEY_VOICES);
             if (serializable instanceof ArrayList) {
-                voices = (ArrayList<DCSoundManager.VOICE>)serializable;
+                voices = (ArrayList<Voice>)serializable;
             }
         }
 
@@ -224,7 +225,7 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
     }
 
     //TODO: play one after the other
-    private void playVoices(ArrayList<DCSoundManager.VOICE> voices) {
+    private void playVoices(ArrayList<Voice> voices) {
         if (voices != null && voices.size() > 0) {
             DCSoundManager.getInstance().playVoice(getActivity(), voices.get(0));
         }
