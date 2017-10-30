@@ -16,8 +16,12 @@ import android.widget.DatePicker;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -170,6 +174,13 @@ public class DCUtils {
     public static String base64Bitmap(Uri uri) {
         if (uri != null) {
             Bitmap bm = BitmapFactory.decodeFile(uri.getPath());
+            return base64Bitmap(bm);
+        }
+        return null;
+    }
+
+    public static String base64Bitmap(Bitmap bm) {
+        if (bm != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] b = baos.toByteArray();
@@ -211,5 +222,22 @@ public class DCUtils {
         BigDecimal bd = new BigDecimal(Float.toString(d));
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            connection.setDoInput(true);
+            connection.connect();
+
+            InputStream input = connection.getInputStream();
+            return BitmapFactory.decodeStream(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
