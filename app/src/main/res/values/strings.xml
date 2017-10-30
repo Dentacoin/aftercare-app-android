@@ -68,7 +68,7 @@
     <string name="emergency_hnt_phone">Phone number</string>
     <string name="error_txt_message_too_short">The message is too short, please provide more detailed description.</string>
     <string name="feedback_hdl_thank_you">Thank you</string>
-    <string name="feedback_txt_message_sent">Your message was sent successfully. \nWe will respond to you shortly</string>
+    <string name="feedback_txt_message_sent">Your message is important to us.</string>
 
     <string name="about_hdl_about">About Dentacare</string>
     <string name="about_hdl_heading">Form sustainable oral \nhealth habits</string>
@@ -259,5 +259,8 @@
     <string name="message_evening_routine_3">You have completed your last brush for the day. Amazing job!</string>
     <string name="message_evening_routine_4">Have a nice rest and come back in the morning.</string>
     <string name="message_evening_routine_5">Sweet dreams.</string>
+    
+    <string name="email_subject">Emergency request from %1$s</string>
+    <string name="email_send_via">Send emergency email via...</string>
 
 </resources>

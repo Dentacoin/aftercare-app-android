@@ -19,6 +19,7 @@ import com.dentacoin.dentacare.fragments.DCSelectToothFragment;
 import com.dentacoin.dentacare.fragments.DCSendMessageFragment;
 import com.dentacoin.dentacare.fragments.DCSentFeedbackFragment;
 import com.dentacoin.dentacare.fragments.IDCFragmentInterface;
+import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCUtils;
 
@@ -87,15 +88,16 @@ public class DCEmergencyActivity extends DCToolbarActivity implements IDCFragmen
     }
 
     public void sendEmail(String message, String phoneNumber) {
-        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        final Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + DCConstants.EMERGENCY_EMAIL));
         emailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        if (DCSession.getInstance().getUser() != null && DCSession.getInstance().getUser().getFullName() != null) {
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject, DCSession.getInstance().getUser().getFullName()));
+        }
 
         if (teethUri != null) {
             emailIntent.putExtra(Intent.EXTRA_STREAM, teethUri);
-            emailIntent.setType("image/png");
         }
-
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { DCConstants.EMERGENCY_EMAIL });
 
         String content = message;
         if (phoneNumber != null && phoneNumber.length() > 0) {
@@ -104,9 +106,10 @@ public class DCEmergencyActivity extends DCToolbarActivity implements IDCFragmen
 
         emailIntent.putExtra(Intent.EXTRA_TEXT, content);
 
+        Intent intentChooser = Intent.createChooser(emailIntent, getString(R.string.email_send_via));
+
         if (emailIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(emailIntent);
-            startActivityForResult(emailIntent, REQUEST_CODE_SEND_EMERGENCY_EMAIL);
+            startActivityForResult(intentChooser, REQUEST_CODE_SEND_EMERGENCY_EMAIL);
         }
     }
 
