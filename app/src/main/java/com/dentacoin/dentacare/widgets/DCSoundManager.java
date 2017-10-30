@@ -3,6 +3,7 @@ package com.dentacoin.dentacare.widgets;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.utils.Music;
@@ -85,6 +86,7 @@ public class DCSoundManager {
             return;
 
         try {
+
             if (voicePlayer != null) {
                 voicePlayer.release();
             }
@@ -95,25 +97,14 @@ public class DCSoundManager {
             voicePlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    if (musicPlayer != null) {
-                        try {
-                            fadeIn();
-                        } catch (IllegalStateException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    fadeIn();
                 }
             });
+
             voicePlayer.prepare();
             voicePlayer.start();
+            fadeOut();
 
-            if (musicPlayer != null) {
-                try {
-                    fadeOut();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                }
-            }
         } catch (IOException | IllegalStateException | IllegalArgumentException e) {
             e.printStackTrace();
         }
@@ -121,43 +112,72 @@ public class DCSoundManager {
 
     private float volume = 1.0f;
 
+    private static Timer timer = new Timer();
+
+    private TimerTask fadeOutTask;
+    private TimerTask fadeInTask;
+
+    private void cancelFadeTasks() {
+        if (fadeOutTask != null) {
+            fadeOutTask.cancel();
+            fadeOutTask = null;
+        }
+
+        if (fadeInTask != null) {
+            fadeInTask.cancel();
+            fadeInTask = null;
+        }
+    }
+
     private void fadeOut() {
-        if (musicPlayer != null) {
-            final Timer timer = new Timer();
-            final TimerTask task = new TimerTask() {
+        cancelFadeTasks();
+
+        if (musicPlayer != null && volume > 0.1f) {
+            fadeOutTask = new TimerTask() {
                 @Override
                 public void run() {
                     if (musicPlayer != null) {
                         volume -= 0.1f;
                         if (volume < 0.1f) {
-                            timer.cancel();
-                            timer.purge();
+                            cancel();
                         }
-                        musicPlayer.setVolume(volume, volume);
+
+                        try {
+                            musicPlayer.setVolume(volume, volume);
+                        } catch (IllegalStateException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             };
-            timer.schedule(task, 0, 100);
+
+            timer.schedule(fadeOutTask, 0, 100);
         }
     }
 
     private void fadeIn() {
-        if (musicPlayer != null) {
-            final Timer timer = new Timer();
-            final TimerTask task = new TimerTask() {
+        cancelFadeTasks();
+
+        if (musicPlayer != null && volume < 0.9f) {
+            fadeInTask = new TimerTask() {
                 @Override
                 public void run() {
                     if (musicPlayer != null) {
                         volume += 0.1f;
                         if (volume > 0.9f) {
-                            timer.cancel();
-                            timer.purge();
+                            cancel();
                         }
-                        musicPlayer.setVolume(volume, volume);
+
+                        try {
+                            musicPlayer.setVolume(volume, volume);
+                        } catch (IllegalStateException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             };
-            timer.schedule(task, 0, 100);
+
+            timer.schedule(fadeInTask, 0, 100);
         }
     }
 

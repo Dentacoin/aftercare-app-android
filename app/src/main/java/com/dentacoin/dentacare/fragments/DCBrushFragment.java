@@ -28,7 +28,9 @@ public class DCBrushFragment extends DCDashboardFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = super.onCreateView(inflater, container, savedInstance);
         dtDashboardTeeth.setVisibility(View.VISIBLE);
+        timerDashboard.setProgressVisibility(View.GONE);
         timerDashboard.setTimerDisplayTextSize(R.dimen.timer_text_size_big_teeth);
+
         return view;
     }
 

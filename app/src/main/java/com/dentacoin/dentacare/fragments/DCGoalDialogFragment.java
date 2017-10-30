@@ -113,7 +113,7 @@ public class DCGoalDialogFragment extends DCDialogFragment {
                 }
 
                 ShareLinkContent shareLinkContent = new ShareLinkContent.Builder()
-                        .setContentUrl(Uri.parse(DCConstants.DENTACARE_WEBSITE))
+                        .setContentUrl(Uri.parse(DCConstants.DENTACARE_GOOGLE_PLAY))
                         .setShareHashtag(new ShareHashtag.Builder()
                                 .setHashtag("#dentacoin")
                                 .build())

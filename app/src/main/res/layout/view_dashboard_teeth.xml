@@ -1,362 +1,303 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_emergency_teeth"
-    android:layout_width="130dp"
-    android:layout_height="190dp">
+    android:layout_width="227.1dp"
+    android:layout_height="375.4dp"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true">
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/mouth"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"/>
+        android:layout_centerInParent="true"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t1"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="2dp"
-        android:layout_marginTop="67dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="7.3dp"
+        android:layout_marginTop="147.7dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t2"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="2dp"
-        android:layout_marginTop="53dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="9.9dp"
+        android:layout_marginTop="119.1dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t3"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="39dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="15.7dp"
+        android:layout_marginTop="91.6dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t4"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="23.4dp"
+        android:layout_marginTop="72dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t5"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="19dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="31.5dp"
+        android:layout_marginTop="51dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t6"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="8dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="44.3dp"
+        android:layout_marginTop="29.5dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t7"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="33dp"
-        android:layout_marginTop="1dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="61dp"
+        android:layout_marginTop="16dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t8"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="44dp"
-        android:layout_marginTop="-4.5dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="82.6dp"
+        android:layout_marginTop="6dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t9"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="57dp"
-        android:layout_marginTop="-4.5dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="106.8dp"
+        android:layout_marginTop="7dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t10"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="71dp"
-        android:layout_marginTop="1dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="131.2dp"
+        android:layout_marginTop="16dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t11"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="78dp"
-        android:layout_marginTop="7.5dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="145dp"
+        android:layout_marginTop="29dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t12"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="84dp"
-        android:layout_marginTop="18.5dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="157dp"
+        android:layout_marginTop="50.9dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t13"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        android:layout_marginLeft="87dp"
-        android:layout_marginTop="30dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="163.5dp"
+        android:layout_marginTop="71.5dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t14"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        android:layout_marginLeft="90dp"
-        android:layout_marginTop="38.5dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="169dp"
+        android:layout_marginTop="91.5dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t15"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        android:layout_marginLeft="91dp"
-        android:layout_marginTop="53dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="173dp"
+        android:layout_marginTop="119dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t16"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        android:layout_marginLeft="92dp"
-        android:layout_marginTop="67dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="175dp"
+        android:layout_marginTop="147.7dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t17"
-        android:scaleX="0.6"
-        android:scaleY="0.54"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="96dp"
-        android:layout_marginTop="96.9dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="179dp"
+        android:layout_marginTop="206.6dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t18"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="93dp"
-        android:layout_marginTop="111dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="175dp"
+        android:layout_marginTop="234.7dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t19"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="91dp"
-        android:layout_marginTop="123dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="172dp"
+        android:layout_marginTop="259dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t20"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="88dp"
-        android:layout_marginTop="137dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="163dp"
+        android:layout_marginTop="284dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t21"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="82dp"
-        android:layout_marginTop="146dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="154dp"
+        android:layout_marginTop="302dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t22"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="77dp"
-        android:layout_marginTop="154dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="142dp"
+        android:layout_marginTop="319dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t23"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="69dp"
-        android:layout_marginTop="160dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="126dp"
+        android:layout_marginTop="330dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t24"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="59dp"
-        android:layout_marginTop="164dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="108dp"
+        android:layout_marginTop="336dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t25"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="47dp"
-        android:layout_marginTop="163dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="86dp"
+        android:layout_marginTop="337dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t26"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t26"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="159dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="65dp"
+        android:layout_marginTop="330dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t27"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t27"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="153dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="317dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t28"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t28"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="146dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="33dp"
+        android:layout_marginTop="302dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t29"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t29"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="11dp"
-        android:layout_marginTop="137dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="285dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t30"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="124dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="260dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t31"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t31"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="111dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="234dp"/>
 
     <com.dentacoin.dentacare.widgets.DCTooth
         android:id="@+id/iv_t32"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/t32"
-        android:scaleX="0.57"
-        android:scaleY="0.5"
-        app:tintColor="@color/ceruleanBlue"
-        android:layout_marginLeft="-1dp"
-        android:layout_marginTop="96.7dp"/>
+        app:isClickable="false"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="207dp"/>
 </RelativeLayout>

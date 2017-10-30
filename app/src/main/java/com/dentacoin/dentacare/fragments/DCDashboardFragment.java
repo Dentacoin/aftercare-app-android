@@ -1,5 +1,6 @@
 package com.dentacoin.dentacare.fragments;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -9,6 +10,8 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +69,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     protected RelativeLayout rlDashboardArrowHolder;
     protected DCDashboardTeeth dtDashboardTeeth;
     private DCConstants.DCStatisticsType selectedStatistics = DCConstants.DCStatisticsType.DAILY;
+    private RelativeLayout rlTimerHolder;
 
     protected boolean trackingTime = false;
     protected CountDownTimer timer;
@@ -106,6 +110,41 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         tvDashboardMessageContainer = (DCTextView) view.findViewById(R.id.tv_dashboard_message_container);
         tvDashboardMessageContainer.setVisibility(View.GONE);
         tvDashboardMessageContainer.setText("");
+        rlTimerHolder = (RelativeLayout) view.findViewById(R.id.rl_timer_holder);
+
+        final Resources r = getResources();
+        final float tHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 375.4f, r.getDisplayMetrics());
+        final float tWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 227.1f, r.getDisplayMetrics());
+        final float coef = tHeight / tWidth;
+
+        rlTimerHolder.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (rlTimerHolder.getHeight() != 0 && dtDashboardTeeth.getHeight() != 0) {
+                    float scaleX = dtDashboardTeeth.getScaleX();
+                    float scaleY = dtDashboardTeeth.getScaleY();
+
+                    float pHeight = (float) rlTimerHolder.getHeight();
+                    float pWidth = (float) rlTimerHolder.getWidth();
+                    float height = (float) dtDashboardTeeth.getHeight();
+                    float width = (float) dtDashboardTeeth.getWidth();
+                    if (pHeight > height) {
+                        scaleY = pHeight / height;
+                    } else if (pHeight < height) {
+                        scaleY = height / pHeight;
+                    }
+
+                    scaleY = DCUtils.round(scaleY, 2);
+                    scaleX = DCUtils.round((height * scaleY) / (coef * width), 2);
+
+                    if (scaleY != dtDashboardTeeth.getScaleY() ||scaleX != dtDashboardTeeth.getScaleX()) {
+                        dtDashboardTeeth.setScaleY(scaleY);
+                        dtDashboardTeeth.setScaleX((scaleX));
+                        dtDashboardTeeth.invalidate();
+                    }
+                }
+            }
+        });
 
         ivDashboardDownArrow.setAlpha(0.0f);
         ivDashboardUpArrow.setAlpha(1.0f);
@@ -206,6 +245,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
         updateView();
     }
+
 
 
     protected void updateView() {
