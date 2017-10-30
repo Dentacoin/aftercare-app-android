@@ -360,6 +360,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     @Override
     public void onPause() {
         DCDashboardDataProvider.getInstance().removeObserver(this);
+        stopRecording();
         super.onPause();
     }
 
