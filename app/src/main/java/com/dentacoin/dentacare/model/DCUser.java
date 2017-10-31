@@ -1,9 +1,7 @@
 package com.dentacoin.dentacare.model;
 
 import android.content.Context;
-import android.content.Intent;
 
-import com.google.gson.annotations.Expose;
 import com.mukesh.countrypicker.Country;
 
 import java.util.Calendar;

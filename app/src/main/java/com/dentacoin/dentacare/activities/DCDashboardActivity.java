@@ -35,6 +35,7 @@ import com.dentacoin.dentacare.utils.IDCGoalsObserver;
 import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.widgets.DCVIewPager;
 import com.github.florent37.viewtooltip.ViewTooltip;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.JsonSyntaxException;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
