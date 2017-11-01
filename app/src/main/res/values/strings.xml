@@ -143,6 +143,7 @@
     <string name="dashboard_btn_start_floss">Floss</string>
     <string name="dashboard_btn_start_rinse">Rinse</string>
     <string name="dashboard_btn_start_brush">Brush</string>
+    <string name="dashboard_btn_start">Start</string>
     <string name="dashboard_btn_stop">Stop</string>
 
     <string name="dashboard_lbl_dcn_earned">DCN Earned</string>
@@ -228,14 +229,17 @@
     
     <string name="message_morning_routine_1">Good morning sunshine. It is a beautiful day. Let’s get you started properly.</string>
     <string name="message_morning_routine_2">Let’s start with brushing your teeth. Make sure your toothbrush is not dry, and apply toothpaste as the size of pea grain. Press the start button when you are ready to brush</string>
+    <string name="message_evening_brush_start">Next step is brushing. Make sure your toothbrush is not dry, and apply toothpaste as the size of pea grain. Press the start button when you are ready to brush</string>
 
     <string name="message_brush_1">Starting with the upper left quadrant, brush continuously for the following 30 seconds.</string>
     <string name="message_brush_2">Now let’s brush the lower left quadrant for the following 30 seconds.</string>
     <string name="message_brush_3">It is time you move to the lower right quadrant. Brush this area for the following 30 seconds.</string>
     <string name="message_brush_4">Now let’s brush the upper right quadrant. This is the last sector, only 30 more seconds.</string>
     <string name="message_brush_done">You are done. Congratulations!</string>
+    <string name="message_brush_press_stop_when_ready">When you are done press the Stop button.</string>
     
     <string name="message_morning_routine_3">Now let’s proceed with the second step of your morning dental routine. Rinsing. Measure 20 milliliters of your rinse liquid and press the start button when you are ready to swish.</string>
+    <string name="message_evening_rinse_start">Now let’s proceed with the third step of your evening dental routine. Rinsing. Measure 20 milliliters of your rinse liquid and press the start button when you are ready to swish.</string>
     <string name="message_rinse_1">Try to swish until the end of the timer.</string>
     <string name="message_rinse_2">Don\'t worry if you can\'t get to the end of the timer, it gets easier each time you try.</string>
     <string name="message_rinse_3">You\'re done, spit the solution out in the sink.</string>
@@ -248,9 +252,7 @@
     <string name="message_evening_routine_1">Good evening, darling. Did you have a good day? Are you on the way to becoming a legend?</string>
     <string name="message_evening_routine_2">Now let’s get you ready for bed. Rest is important. Hygiene too!</string>
     
-    <string name="message_floss_1">Let\'s start by flossing your teeth. Pull around 25 cm of dental floss from your floss dispenser.</string>
-    <string name="message_floss_2">Wrap the ends of the floss around your index and middle fingers.</string>
-    <string name="message_floss_3">Press the start button when you are ready to floss.</string>
+    <string name="message_floss_1">Let\'s start by flossing your teeth. Pull around 25 cm of dental floss from your floss dispenser. Wrap the ends of the floss around your index and middle fingers. Press the start button when you are ready to floss.</string>
 
     <string name="message_floss_4">Hold the floss tightly around each tooth in a C-shape. Move the floss back and forth in a push-pull motion and up and down against the side of each tooth.</string>
     <string name="message_floss_5">Press the stop button when you are done with every tooth.</string>
@@ -263,4 +265,6 @@
     <string name="email_subject">Emergency request from %1$s</string>
     <string name="email_send_via">Send emergency email via...</string>
 
+    <string name="btn_message_morning_routine">Start morning routine</string>
+    <string name="btn_message_evening_routine">Start evening routine</string>
 </resources>

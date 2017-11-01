@@ -14,14 +14,9 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.DatePicker;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -205,39 +200,9 @@ public class DCUtils {
         return "0:00";
     }
 
-    public static DCConstants.DCAutoMode getAutoModeForNow() {
-        Calendar calendar = Calendar.getInstance();
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-
-        if (hourOfDay >= 2 && hourOfDay < 11) {
-            return DCConstants.DCAutoMode.MORNING;
-        } else if (hourOfDay >= 17 && hourOfDay < 24) {
-            return DCConstants.DCAutoMode.EVENING;
-        }
-
-        return null;
-    }
-
     public static float round(float d, int decimalPlace) {
         BigDecimal bd = new BigDecimal(Float.toString(d));
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
-    }
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-            connection.setDoInput(true);
-            connection.connect();
-
-            InputStream input = connection.getInputStream();
-            return BitmapFactory.decodeStream(input);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

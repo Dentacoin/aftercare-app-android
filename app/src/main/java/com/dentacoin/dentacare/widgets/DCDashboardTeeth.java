@@ -12,7 +12,6 @@ import com.dentacoin.dentacare.R;
  */
 
 public class DCDashboardTeeth extends RelativeLayout {
-
     public enum Quadrant {
         UL(8, 16),
         WL(16, 24),

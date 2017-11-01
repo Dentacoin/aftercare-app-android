@@ -38,8 +38,9 @@ public class DCConstants {
     public static final int COUNTDOWN_MAX_AMOUNT = 6 * 60 * 1000;
     public static final int COUNTDOWN_MIN_AMOUNT = 2 * 60 * 1000;
 
+    public static final int DAYS_OF_USE = 90;
+
     public enum DCActivityType { FLOSS, BRUSH, RINSE }
     public enum DCStatisticsType { DAILY, WEEKLY, MONTHLY }
     public enum DCGoalType { DEFAULT, WEEK, MONTH, YEAR }
-    public enum DCAutoMode { MORNING, EVENING }
 }

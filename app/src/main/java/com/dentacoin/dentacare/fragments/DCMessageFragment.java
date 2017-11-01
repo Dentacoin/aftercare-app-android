@@ -13,7 +13,7 @@ import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
-import com.dentacoin.dentacare.utils.DCUtils;
+import com.dentacoin.dentacare.utils.Routine;
 import com.dentacoin.dentacare.utils.Voice;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
@@ -33,7 +33,7 @@ import java.util.Date;
 public class DCMessageFragment extends DCDialogFragment implements View.OnClickListener {
 
     public interface IDCMessageFragmentListener {
-        void onAutoModeActive();
+        void onStartRoutine(Routine routine);
     }
 
     public enum MESSAGE {
@@ -116,9 +116,9 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
         tvMessageDay.setText(getString(R.string.message_day, day));
 
         tvMessageOf = (DCTextView) view.findViewById(R.id.tv_message_of);
-        tvMessageOf.setText(getString(R.string.message_of, 90));
+        tvMessageOf.setText(getString(R.string.message_of, DCConstants.DAYS_OF_USE));
 
-        if (day >= 90) {
+        if (day >= DCConstants.DAYS_OF_USE) {
             tvMessageOf.setText(R.string.message_congratulations);
         }
 
@@ -130,7 +130,7 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
             public void run() {
                 setCancelable(true);
             }
-        }, 2000);
+        }, 1500);
 
         tvMessage = (DCTextView) view.findViewById(R.id.tv_message);
         tvMessage.setText(message);
@@ -140,15 +140,20 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
         btnMessageActivity = (DCButton) view.findViewById(R.id.btn_message_activity);
         btnMessageActivity.setOnClickListener(this);
 
-        DCConstants.DCAutoMode mode = DCUtils.getAutoModeForNow();
-        if (mode != null) {
-            switch (mode) {
+
+        Routine.Type routineType = Routine.getAppropriateRoutineTypeForNow();
+
+        if (routineType != null) {
+            switch (routineType) {
                 case MORNING:
-                    btnMessageActivity.setText("Brush");
+                    btnMessageActivity.setText(getString(R.string.btn_message_morning_routine));
                     break;
                 case EVENING:
-                    btnMessageActivity.setText("Floss");
+                    btnMessageActivity.setText(getString(R.string.btn_message_evening_routine));
+                    break;
             }
+
+            btnMessageActivity.setTag(routineType);
         }
 
         AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
@@ -175,8 +180,11 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
         switch (view.getId()) {
             case R.id.btn_message_activity:
 
-                if (listener != null)
-                    listener.onAutoModeActive();
+                if (listener != null && view.getTag() instanceof Routine.Type) {
+                    Routine.Type type = (Routine.Type) view.getTag();
+                    Routine routine = new Routine(type);
+                    listener.onStartRoutine(routine);
+                }
 
                 dismissAllowingStateLoss();
                 break;
@@ -214,17 +222,20 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
     }
 
     public static MESSAGE getProperMessage() {
-        Calendar calendar = Calendar.getInstance();
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        if (hourOfDay >= 2 && hourOfDay < 11) {
-            return MESSAGE.MORNING;
-        } else if (hourOfDay >= 17 && hourOfDay < 24) {
-            return MESSAGE.EVENING;
+        Routine.Type routineType = Routine.getAppropriateRoutineTypeForNow();
+
+        if (routineType != null) {
+            switch (routineType) {
+                case MORNING:
+                    return MESSAGE.MORNING;
+                case EVENING:
+                    return MESSAGE.EVENING;
+            }
         }
+
         return null;
     }
 
-    //TODO: play one after the other
     private void playVoices(ArrayList<Voice> voices) {
         if (voices != null && voices.size() > 0) {
             DCSoundManager.getInstance().playVoice(getActivity(), voices.get(0));

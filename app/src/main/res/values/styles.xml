@@ -63,9 +63,14 @@
         <item name="android:textColor">@drawable/color_record_button</item>
     </style>
 
-    <style name="DCButton.Statistics">
+    <style name="DCButton.Statistics" parent="DCButton.Rectangle">
         <item name="android:layout_width">@dimen/button_dashboard_statistics_width</item>
         <item name="android:layout_height">@dimen/button_dashboard_statistics_height</item>
+    </style>
+
+    <style name="DCButton.Rectangle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/btn_dashboard_statistics</item>
         <item name="android:textColor">@drawable/color_default_button</item>
         <item name="android:textSize">13sp</item>

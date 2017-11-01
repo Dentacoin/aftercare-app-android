@@ -9,14 +9,18 @@ import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.adapters.DCDashboardPagerAdapter;
+import com.dentacoin.dentacare.fragments.DCBrushFragment;
+import com.dentacoin.dentacare.fragments.DCFlossFragment;
 import com.dentacoin.dentacare.fragments.DCGoalDialogFragment;
 import com.dentacoin.dentacare.fragments.DCMessageFragment;
+import com.dentacoin.dentacare.fragments.DCRinseFragment;
 import com.dentacoin.dentacare.fragments.DCWelcomeFragment;
 import com.dentacoin.dentacare.fragments.IDCFragmentInterface;
 import com.dentacoin.dentacare.model.DCActivityRecord;
@@ -29,13 +33,12 @@ import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.utils.DCTutorialManager;
-import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.utils.IDCGoalsObserver;
 import com.dentacoin.dentacare.utils.IDCTutorial;
+import com.dentacoin.dentacare.utils.Routine;
 import com.dentacoin.dentacare.widgets.DCVIewPager;
 import com.github.florent37.viewtooltip.ViewTooltip;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.JsonSyntaxException;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
@@ -50,23 +53,35 @@ import de.mateware.snacky.Snacky;
  * Created by Atanas Chervarov on 8/10/17.
  */
 
-public class DCDashboardActivity extends DCDrawerActivity implements IDCFragmentInterface, IDCDashboardObserver, IDCGoalsObserver, DCMessageFragment.IDCMessageFragmentListener {
+public class DCDashboardActivity extends DCDrawerActivity implements IDCFragmentInterface, IDCDashboardObserver, IDCGoalsObserver, DCMessageFragment.IDCMessageFragmentListener, Routine.IRoutineListener {
 
     private TabLayout tlDashboardTabs;
     private DCVIewPager vpDashboardPager;
     private TickerView tvDashboardDcnTotal;
     private LinearLayout llDashboardDcnTotal;
+    private View vSeparator;
 
     private DCDashboardPagerAdapter adapter;
     private boolean syncWarningVisible = false;
     private boolean inRecord = false;
+
     private IDCTutorial tutorialListener;
+    private Routine routine;
 
-    private boolean autoMode = false;
-    private DCConstants.DCAutoMode mode;
+    private DCFlossFragment floss;
+    private DCBrushFragment brush;
+    private DCRinseFragment rinse;
 
-    public boolean isInAutoMode() {
-        return autoMode;
+    public void setFloss(DCFlossFragment floss) {
+        this.floss = floss;
+    }
+
+    public void setBrush(DCBrushFragment brush) {
+        this.brush = brush;
+    }
+
+    public void setRinse(DCRinseFragment rinse) {
+        this.rinse = rinse;
     }
 
     public void setTutorialListener(IDCTutorial tutorialListener) {
@@ -87,6 +102,8 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         llDashboardDcnTotal = (LinearLayout) findViewById(R.id.ll_dashboard_dcn_total);
         llDashboardDcnTotal.setOnClickListener(this);
 
+        vSeparator = findViewById(R.id.v_separator);
+
         adapter = new DCDashboardPagerAdapter(getFragmentManager());
         vpDashboardPager.setAdapter(adapter);
         tlDashboardTabs.setupWithViewPager(vpDashboardPager);
@@ -94,7 +111,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         vpDashboardPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -145,7 +161,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                 Fragment goalFragment = getFragmentManager().findFragmentByTag(DCGoalDialogFragment.TAG);
 
                 if ((wellcomeFragment != null && wellcomeFragment.isVisible()) ||
-                    (goalFragment != null && goalFragment.isVisible())) {
+                    (goalFragment != null && goalFragment.isVisible()) || inRecord) {
                     return;
                 }
 
@@ -218,19 +234,23 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     }
 
     public void toggleRecordMode(boolean inRecord) {
-        if (this.inRecord == inRecord)
+        if (this.inRecord == inRecord && routine == null)
             return;
 
-        this.inRecord = inRecord;
+        this.inRecord = inRecord || routine != null;
 
-        if (inRecord) {
+        if (this.inRecord) {
             toolbar.setVisibility(View.GONE);
             tlDashboardTabs.setVisibility(View.GONE);
+            llDashboardDcnTotal.setVisibility(View.GONE);
+            vSeparator.setVisibility(View.GONE);
             vpDashboardPager.setSwipeEnabled(false);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } else {
             toolbar.setVisibility(View.VISIBLE);
             tlDashboardTabs.setVisibility(View.VISIBLE);
+            llDashboardDcnTotal.setVisibility(View.VISIBLE);
+            vSeparator.setVisibility(View.VISIBLE);
             vpDashboardPager.setSwipeEnabled(true);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
@@ -246,7 +266,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     @Override
     public void onGoalAchieved(DCGoal goal) {
         Fragment fragment = getFragmentManager().findFragmentByTag(DCMessageFragment.TAG);
-        if (autoMode || (fragment != null && fragment.isVisible())) {
+        if (routine != null || (fragment != null && fragment.isVisible())) {
             return;
         }
 
@@ -279,25 +299,74 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     }
 
     @Override
-    public void onAutoModeActive() {
-        if (autoMode)
+    public void onStartRoutine(Routine routine) {
+        this.routine = routine;
+
+        if (routine != null) {
+            routine.setListener(this);
+            routine.start();
+        }
+    }
+
+    private void showProperFragment(Routine.Action action) {
+        if (action == null)
             return;
 
-        mode = DCUtils.getAutoModeForNow();
-
-        if (mode == null)
-            return;
-
-        autoMode = true;
-
-        switch (mode) {
-            case MORNING:
-                vpDashboardPager.setCurrentItem(1);
-                break;
-            case EVENING:
+        switch (action) {
+            case FLOSS_READY:
                 vpDashboardPager.setCurrentItem(0);
+                if (floss != null)
+                    floss.onRoutineStart(routine);
+                break;
+            case BRUSH_READY:
+                vpDashboardPager.setCurrentItem(1);
+                if (brush != null)
+                    brush.onRoutineStart(routine);
+                break;
+            case RINSE_READY:
+                vpDashboardPager.setCurrentItem(2);
+                if (rinse != null)
+                    rinse.onRoutineStart(routine);
                 break;
         }
+    }
+
+    @Override
+    public void onRoutineStart(Routine routine) {
+        Log.d(TAG, "onRoutineStart()");
+        if (routine.getType() != null && routine.getType().getActions() != null && routine.getType().getActions().length > 0) {
+            Routine.Action action = routine.getType().getActions()[0];
+            showProperFragment(action);
+        }
+    }
+
+    @Override
+    public void onRoutineStep(final Routine routine, Routine.Action action) {
+        Log.d(TAG, "onRoutineStep(): " + action.name());
+
+        showProperFragment(action);
+
+        if (brush != null)
+            brush.onRoutineStep(routine, action);
+        if (floss != null)
+            floss.onRoutineStep(routine, action);
+        if (rinse != null)
+            rinse.onRoutineStep(routine, action);
+    }
+
+    @Override
+    public void onRoutineEnd(Routine routine) {
+        Log.d(TAG, "onRoutineEnd()");
+        if (brush != null)
+            brush.onRoutineEnd(routine);
+        if (floss != null)
+            floss.onRoutineEnd(routine);
+        if (rinse != null)
+            rinse.onRoutineEnd(routine);
+
+        this.routine = null;
+
+        vpDashboardPager.setCurrentItem(1);
     }
 
     private void updateDaysCounter() {
@@ -321,7 +390,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
 
         day += 1;
 
-        if (day > 90) {
+        if (day > DCConstants.DAYS_OF_USE) {
             day = 1;
         }
 

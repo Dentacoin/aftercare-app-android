@@ -1,5 +1,7 @@
 package com.dentacoin.dentacare.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -8,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dentacoin.dentacare.R;
+import com.dentacoin.dentacare.activities.DCDashboardActivity;
 import com.dentacoin.dentacare.model.DCActivityRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
 import com.dentacoin.dentacare.utils.DCUtils;
+import com.dentacoin.dentacare.utils.Routine;
 import com.dentacoin.dentacare.utils.Voice;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
 
@@ -47,6 +51,7 @@ public class DCRinseFragment extends DCDashboardFragment {
         if (trackingTime)
             return;
 
+        nextStep();
         trackingTime = true;
         record = new DCActivityRecord();
         record.setType(getType());
@@ -70,9 +75,14 @@ public class DCRinseFragment extends DCDashboardFragment {
 
     @Override
     protected void stopRecording() {
-        DCSoundManager.getInstance().cancelSounds();
+
+        if (trackingTime) {
+            DCSoundManager.getInstance().cancelSounds();
+            nextStep();
+        }
 
         trackingTime = false;
+        routine = null;
 
         if (timer != null) {
             timer.cancel();
@@ -116,19 +126,79 @@ public class DCRinseFragment extends DCDashboardFragment {
         }
 
         if (t > 20 && t < 30 && !rinseShown1) {
-            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_2);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_STEP_1);
             setMessage(getString(R.string.message_rinse_1));
             rinseShown1 = true;
         }
         else if (t > 15 && t < 20 && !rinseShown2) {
-            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_3);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_STEP_2);
             setMessage(getString(R.string.message_rinse_2));
             rinseShown2 = true;
         }
         else if (t < 1 && !rinseShown3) {
-            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_4);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_STOP);
             setMessage(getString(R.string.message_rinse_3));
             rinseShown3 = true;
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof DCDashboardActivity) {
+            ((DCDashboardActivity) context).setRinse(this);
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof DCDashboardActivity) {
+            ((DCDashboardActivity) activity).setRinse(this);
+        }
+    }
+
+    @Override
+    public void onRoutineStep(final Routine routine, Routine.Action action) {
+        super.onRoutineStep(routine, action);
+        switch (action) {
+            case RINSE_READY:
+                switch (routine.getType()) {
+                    case MORNING:
+                        setMessage(getString(R.string.message_morning_routine_3));
+                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_MORNING_START);
+                        break;
+                    case EVENING:
+                        setMessage(getString(R.string.message_evening_rinse_start));
+                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_START);
+                        break;
+                }
+                break;
+            case RINSE_DONE:
+                final Handler handler = new Handler();
+                switch (routine.getType()) {
+                    case MORNING:
+                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_MORNING_DONE);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (routine != null)
+                                    routine.next();
+                            }
+                        }, 1500);
+                        break;
+                    case EVENING:
+                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_DONE);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (routine != null)
+                                    routine.next();
+                            }
+                        }, 1500);
+                        break;
+                }
+                break;
         }
     }
 }
