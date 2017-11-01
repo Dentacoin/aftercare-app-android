@@ -206,6 +206,18 @@ public class DCSoundManager {
         }
     }
 
+    public boolean isMusicPlaying() {
+        if (musicPlayer != null) {
+            try {
+                return musicPlayer.isPlaying();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Pause music if currently playing
      */

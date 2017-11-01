@@ -71,6 +71,7 @@ public class DCRinseFragment extends DCDashboardFragment {
 
         timer.start();
         updateView();
+        playMusic();
     }
 
     @Override
@@ -111,6 +112,9 @@ public class DCRinseFragment extends DCDashboardFragment {
         rinseShown3 = false;
 
         updateView();
+
+        if (routine == null)
+            stopMusic();
     }
 
     private boolean rinseShown1 = false;

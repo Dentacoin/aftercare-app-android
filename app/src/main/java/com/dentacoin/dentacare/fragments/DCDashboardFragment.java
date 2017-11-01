@@ -33,6 +33,7 @@ import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.utils.IDCTutorial;
+import com.dentacoin.dentacare.utils.Music;
 import com.dentacoin.dentacare.utils.Routine;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCDashboardTeeth;
@@ -428,6 +429,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
         timer.start();
         updateView();
+        playMusic();
     }
 
     protected void stopRecording() {
@@ -461,6 +463,9 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         }
 
         updateView();
+
+        if (routine == null)
+            stopMusic();
     }
 
     protected void handleClockTick(long millisUntilFinished) {
@@ -499,7 +504,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     public void hideTutorials() {
     }
 
-
     public void nextStep() {
         if (routine != null)
             routine.next();
@@ -509,6 +513,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     public void onRoutineStart(Routine routine) {
         this.routine = routine;
         updateView();
+        playMusic();
     }
 
     @Override
@@ -521,5 +526,16 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     public void onRoutineEnd(Routine routine) {
         this.routine = null;
         updateView();
+        stopMusic();
+    }
+
+    public void playMusic() {
+        if (getActivity() != null && !DCSoundManager.getInstance().isMusicPlaying()) {
+            DCSoundManager.getInstance().playMusic(getActivity(), Music.getRandomSong());
+        }
+    }
+
+    public void stopMusic() {
+        DCSoundManager.getInstance().cancelMusic();
     }
 }
