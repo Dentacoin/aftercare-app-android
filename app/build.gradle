@@ -5,9 +5,8 @@ android {
     buildToolsVersion '26.0.2'
 
     repositories {
-        jcenter()
-        mavenCentral()
         google()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
     }
 
