@@ -91,7 +91,7 @@ public class DCFlossFragment extends DCDashboardFragment {
                         if (routine != null)
                             routine.next();
                     }
-                }, 1500);
+                }, 2000);
                 break;
         }
     }

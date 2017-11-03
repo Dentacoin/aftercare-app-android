@@ -121,5 +121,12 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Theme.AppCompat"/>
+        <receiver
+            android:name=".utils.DCAlarmReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.NOTIFY"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

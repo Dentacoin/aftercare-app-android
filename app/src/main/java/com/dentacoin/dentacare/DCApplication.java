@@ -17,5 +17,6 @@ public class DCApplication extends Application {
         Fresco.initialize(this);
         Twitter.initialize(this);
         DCSharedPreferences.initialize(this);
+//        DCLocalNotificationsManager.getInstance().scheduleNotifications(this);
     }
 }

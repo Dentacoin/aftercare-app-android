@@ -189,7 +189,7 @@ public class DCRinseFragment extends DCDashboardFragment {
                                 if (routine != null)
                                     routine.next();
                             }
-                        }, 1500);
+                        }, 2000);
                         break;
                     case EVENING:
                         DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_DONE);
@@ -199,7 +199,7 @@ public class DCRinseFragment extends DCDashboardFragment {
                                 if (routine != null)
                                     routine.next();
                             }
-                        }, 1500);
+                        }, 2000);
                         break;
                 }
                 break;
