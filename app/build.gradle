@@ -5,8 +5,8 @@ android {
     buildToolsVersion '26.0.2'
 
     repositories {
+        jcenter()
         google()
-        mavenCentral()
         maven { url 'https://jitpack.io' }
     }
 
@@ -119,7 +119,6 @@ android {
     }
 
     flavorDimensions "default"
-
     productFlavors {
         dev {
             applicationIdSuffix ".dev"
