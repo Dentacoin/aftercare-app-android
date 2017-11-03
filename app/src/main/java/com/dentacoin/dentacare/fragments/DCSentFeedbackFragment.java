@@ -1,5 +1,6 @@
 package com.dentacoin.dentacare.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -79,6 +80,14 @@ public class DCSentFeedbackFragment extends DCFragment {
         super.onAttach(context);
         if (context instanceof IDCFragmentInterface) {
             listener = (IDCFragmentInterface) context;
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof IDCFragmentInterface) {
+            listener = (IDCFragmentInterface) activity;
         }
     }
 }

@@ -1,9 +1,12 @@
 package com.dentacoin.dentacare.network;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.util.Log;
 
 import com.dentacoin.dentacare.BuildConfig;
 import com.dentacoin.dentacare.model.DCActivityRecord;
@@ -22,14 +25,24 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
+import okio.BufferedSink;
+import okio.Okio;
 
 /**
  * Created by Atanas Chervarov on 8/6/17.
@@ -331,6 +344,44 @@ public class DCApiManager {
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(resetPassword));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
+     * Downloads bitmap from given url
+     * NB! intended for small files, avatars and etc
+     * @param src
+     * @param listener
+     */
+    public void downloadBitmap(String src, final DCResponseListener<Bitmap> listener) {
+        final Request request = new Request.Builder()
+                .url(src)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (listener != null)
+                    listener.onFailure(null);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Bitmap result = null;
+                try {
+                    InputStream stream = response.body().byteStream();
+                    result = BitmapFactory.decodeStream(stream);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (listener != null) {
+                    if (result != null) {
+                        listener.onResponse(result);
+                    } else {
+                        listener.onFailure(null);
+                    }
+                }
+            }
+        });
     }
 
     /**

@@ -14,8 +14,8 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.DatePicker;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
@@ -169,6 +169,13 @@ public class DCUtils {
     public static String base64Bitmap(Uri uri) {
         if (uri != null) {
             Bitmap bm = BitmapFactory.decodeFile(uri.getPath());
+            return base64Bitmap(bm);
+        }
+        return null;
+    }
+
+    public static String base64Bitmap(Bitmap bm) {
+        if (bm != null) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] b = baos.toByteArray();
@@ -193,16 +200,9 @@ public class DCUtils {
         return "0:00";
     }
 
-    public static DCConstants.DCAutoMode getAutoModeForNow() {
-        Calendar calendar = Calendar.getInstance();
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-
-        if (hourOfDay >= 2 && hourOfDay < 11) {
-            return DCConstants.DCAutoMode.MORNING;
-        } else if (hourOfDay >= 17 && hourOfDay < 24) {
-            return DCConstants.DCAutoMode.EVENING;
-        }
-
-        return null;
+    public static float round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
     }
 }

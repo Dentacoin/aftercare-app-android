@@ -1,6 +1,5 @@
 package com.dentacoin.dentacare.fragments;
 
-import android.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -31,7 +30,7 @@ import java.util.Locale;
  * Created by Atanas Chervarov on 10/9/17.
  */
 
-public class DCGoalDialogFragment extends DialogFragment {
+public class DCGoalDialogFragment extends DCDialogFragment {
     public static final String TAG = DCLoginFragment.class.getSimpleName();
     public static final String KEY_GOAL = "KEY_GOAL";
 
@@ -49,7 +48,8 @@ public class DCGoalDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_goal, container, false);
+        final View view = inflater.inflate(R.layout.fragment_goal, container);
+
         rlGoalBadge = (RelativeLayout) view.findViewById(R.id.rl_goal_badge);
         ivGoalDottedBackground = (ImageView) view.findViewById(R.id.iv_goal_dotted_background);
         ivGoalFlag = (ImageView) view.findViewById(R.id.iv_goal_flag);
@@ -113,7 +113,7 @@ public class DCGoalDialogFragment extends DialogFragment {
                 }
 
                 ShareLinkContent shareLinkContent = new ShareLinkContent.Builder()
-                        .setContentUrl(Uri.parse(DCConstants.DENTACARE_WEBSITE))
+                        .setContentUrl(Uri.parse(DCConstants.DENTACARE_GOOGLE_PLAY))
                         .setShareHashtag(new ShareHashtag.Builder()
                                 .setHashtag("#dentacoin")
                                 .build())

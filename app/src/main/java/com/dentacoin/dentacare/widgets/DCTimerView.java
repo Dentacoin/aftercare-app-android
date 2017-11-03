@@ -100,6 +100,10 @@ public class DCTimerView extends RelativeLayout {
         pbTimerProgress.setSecondaryProgress(secondaryProgress);
     }
 
+    public void setProgressVisibility(int visibility) {
+        pbTimerProgress.setVisibility(visibility);
+    }
+
     public void setTitle(String title) {
         tvTimerTitle.setText(title);
     }

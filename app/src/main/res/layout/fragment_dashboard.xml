@@ -7,12 +7,14 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/ll_dashboard_holder"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="35dp">
 
         <RelativeLayout
+            android:id="@+id/rl_timer_holder"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -20,7 +22,7 @@
             <com.dentacoin.dentacare.widgets.DCDashboardTeeth
                 android:id="@+id/dt_dashboard_teeth"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"/>
 
             <com.dentacoin.dentacare.widgets.DCTimerView
@@ -35,13 +37,18 @@
         <com.dentacoin.dentacare.widgets.DCTextView
             android:id="@+id/tv_dashboard_message_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.225"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:text="Some random text"/>
 
         <LinearLayout
             android:id="@+id/ll_dashboard_statistics"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

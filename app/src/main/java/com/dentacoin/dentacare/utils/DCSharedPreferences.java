@@ -29,7 +29,24 @@ public class DCSharedPreferences {
         SOUND_ENABLED("SOUND_ENABLED"),
         MUSIC_ENABLED("MUSIC_ENABLED"),
         DAYS_COUNTER("DAYS_COUNTER"),
-        LAST_DATE_ADDED_DAYS("LAST_DATE_ADDED_DAYS");
+        LAST_DATE_ADDED_DAYS("LAST_DATE_ADDED_DAYS"),
+        LAST_LOGGED_EMAIL("LAST_LOGGED_EMAIL"),
+        //Notification keys
+        DAILY_BRUSHING("DAILY_BRUSHING"),
+        CHANGE_BRUSH("CHANGE_BRUSH"),
+        VISIT_DENTIST("VISIT_DENTIST"),
+        COLLECT_DENTACOIN("COLLECT_DENTACOIN"),
+        REMINDER_TO_VISIT("REMINDER_TO_VISIT"),
+        HEALTHY_HABIT_1("HEALTHY_HABIT_1"),
+        HEALTHY_HABIT_2("HEALTHY_HABIT_2"),
+        HEALTHY_HABIT_3("HEALTHY_HABIT_3"),
+        HEALTHY_HABIT_4("HEALTHY_HABIT_4"),
+        HEALTHY_HABIT_5("HEALTHY_HABIT_5"),
+        HEALTHY_HABIT_6("HEALTHY_HABIT_6"),
+        HEALTHY_HABIT_7("HEALTHY_HABIT_7"),
+        HEALTHY_HABIT_8("HEALTHY_HABIT_8"),
+        HEALTHY_HABIT_9("HEALTHY_HABIT_9"),
+        HEALTHY_HABIT_10("HEALTHY_HABIT_10");
 
         private String key;
 
@@ -120,7 +137,6 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.RECORDS);
         removeKey(DCSharedKey.COLLECTED);
         removeKey(DCSharedKey.GOALS_REACHED);
-        removeKey(DCSharedKey.SHOWED_TUTORIALS);
         removeKey(DCSharedKey.FEMALE_VOICE);
         removeKey(DCSharedKey.LAST_MESSAGE_TIME);
         removeKey(DCSharedKey.SOUND_ENABLED);

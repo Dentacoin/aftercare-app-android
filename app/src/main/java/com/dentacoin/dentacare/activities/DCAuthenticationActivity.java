@@ -2,6 +2,7 @@ package com.dentacoin.dentacare.activities;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.fragments.DCAgreementFragment;
 import com.dentacoin.dentacare.fragments.DCAuthenticationFragment;
+import com.dentacoin.dentacare.fragments.DCLoadingFragment;
 import com.dentacoin.dentacare.fragments.DCLoginFragment;
 import com.dentacoin.dentacare.fragments.DCResetPasswordFragment;
 import com.dentacoin.dentacare.fragments.DCSignupFragment;
@@ -18,6 +20,7 @@ import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
+import com.dentacoin.dentacare.utils.DCUtils;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -55,6 +58,7 @@ public class DCAuthenticationActivity extends DCActivity {
     private GoogleApiClient googleApiClient;
     private CallbackManager facebookCallbackManager;
     private TwitterAuthClient twitterAuthClient;
+    private String socialAvatar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,7 +122,9 @@ public class DCAuthenticationActivity extends DCActivity {
     public void onFacebookLogin() {
         if (facebookCallbackManager == null)
             facebookCallbackManager = CallbackManager.Factory.create();
-        
+
+        final DCLoadingFragment loadingFragment = showLoading();
+
         LoginManager.getInstance().logOut();
         LoginManager.getInstance().registerCallback(facebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -128,7 +134,7 @@ public class DCAuthenticationActivity extends DCActivity {
                 user.setFacebookID(loginResult.getAccessToken().getUserId());
 
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id, first_name, last_name, email, birthday, gender");
+                parameters.putString("fields", "id, first_name, last_name, email, birthday, gender, picture.type(large)");
 
                 GraphRequest request = new GraphRequest(loginResult.getAccessToken(), "me", parameters, null, new GraphRequest.Callback() {
                     @Override
@@ -146,7 +152,14 @@ public class DCAuthenticationActivity extends DCActivity {
                                     user.setBirthday((Date)objResponse.get("birthday"));
                                 if (objResponse.has("gender"))
                                     user.setGender(objResponse.getString("gender"));
+
+                                if (objResponse.has("picture")) {
+                                    JSONObject object = (JSONObject)objResponse.get("picture");
+                                    socialAvatar = ((JSONObject)(object.get("data"))).getString("url");
+                                }
+
                             } catch (Exception e) {
+                                e.printStackTrace();
                             }
                         }
 
@@ -158,10 +171,12 @@ public class DCAuthenticationActivity extends DCActivity {
                                 } else {
                                     DCAuthenticationActivity.this.onError(loginError);
                                 }
+                                loadingFragment.dismissAllowingStateLoss();
                             }
                             @Override
                             public void onResponse(DCAuthToken object) {
                                 handleAuthentication(object);
+                                loadingFragment.dismissAllowingStateLoss();
                             }
                         });
                     }
@@ -170,22 +185,27 @@ public class DCAuthenticationActivity extends DCActivity {
             }
 
             @Override
-            public void onCancel() { }
+            public void onCancel() {
+                loadingFragment.dismissAllowingStateLoss();
+            }
 
             @Override
             public void onError(FacebookException exception) {
                 if (exception != null && exception.getMessage() != null) {
                     DCAuthenticationActivity.this.onError(new DCError(exception.getMessage()));
                 }
+                loadingFragment.dismissAllowingStateLoss();
             }
         });
 
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile", "user_friends"));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
     }
 
     public void onTwitterLogin() {
         if (twitterAuthClient == null)
             twitterAuthClient = new TwitterAuthClient();
+
+        final DCLoadingFragment loadingFragment = showLoading();
 
         twitterAuthClient.authorize(this, new Callback<TwitterSession>() {
             @Override
@@ -203,6 +223,7 @@ public class DCAuthenticationActivity extends DCActivity {
                             user.setTwitterAccessToken(authResult.data.getAuthToken().token);
                             user.setTwitterAccessTokenSecret(authResult.data.getAuthToken().secret);
                             user.setFirstname(twitterUser.name);
+                            socialAvatar = twitterUser.profileImageUrl;
 
                             DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
                                 @Override
@@ -212,13 +233,17 @@ public class DCAuthenticationActivity extends DCActivity {
                                     } else {
                                         onError(error);
                                     }
+                                    loadingFragment.dismissAllowingStateLoss();
                                 }
 
                                 @Override
                                 public void onResponse(DCAuthToken object) {
                                     handleAuthentication(object);
+                                    loadingFragment.dismissAllowingStateLoss();
                                 }
                             });
+                        } else {
+                            loadingFragment.dismissAllowingStateLoss();
                         }
                     }
 
@@ -227,6 +252,7 @@ public class DCAuthenticationActivity extends DCActivity {
                         if (exception != null && exception.getMessage() != null) {
                             onError(new DCError(exception.getMessage()));
                         }
+                        loadingFragment.dismissAllowingStateLoss();
                     }
                 });
             }
@@ -236,6 +262,7 @@ public class DCAuthenticationActivity extends DCActivity {
                 if (exception != null && exception.getMessage() != null) {
                     onError(new DCError(exception.getMessage()));
                 }
+                loadingFragment.dismissAllowingStateLoss();
             }
         });
     }
@@ -272,6 +299,12 @@ public class DCAuthenticationActivity extends DCActivity {
                 user.setGoogleID(acct.getId());
                 user.setGoogleAccessToken(acct.getIdToken());
 
+                if (acct.getPhotoUrl() != null) {
+                    socialAvatar = acct.getPhotoUrl().toString();
+                }
+
+                final DCLoadingFragment loadingFragment = showLoading();
+
                 DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
                     @Override
                     public void onFailure(DCError error) {
@@ -280,11 +313,13 @@ public class DCAuthenticationActivity extends DCActivity {
                         } else {
                             onError(error);
                         }
+                        loadingFragment.dismissAllowingStateLoss();
                     }
 
                     @Override
                     public void onResponse(DCAuthToken object) {
                         handleAuthentication(object);
+                        loadingFragment.dismissAllowingStateLoss();
                     }
                 });
             }
@@ -295,15 +330,19 @@ public class DCAuthenticationActivity extends DCActivity {
     }
 
     public void loginUser(DCUser user) {
+        final DCLoadingFragment loadingFragment = showLoading();
+
         DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
             @Override
             public void onFailure(DCError error) {
                 onError(error);
+                loadingFragment.dismissAllowingStateLoss();
             }
 
             @Override
             public void onResponse(DCAuthToken object) {
                 handleAuthentication(object);
+                loadingFragment.dismissAllowingStateLoss();
             }
         });
     }
@@ -313,17 +352,25 @@ public class DCAuthenticationActivity extends DCActivity {
         agreementFragment.setListener(new DCAgreementFragment.IDCAgreementListener() {
             @Override
             public void onAgreementAccepted() {
-                DCApiManager.getInstance().registerUser(user, new DCResponseListener<DCAuthToken>() {
-                    @Override
-                    public void onFailure(DCError error) {
-                        onError(error);
-                    }
+                final DCLoadingFragment loadingFragment = showLoading();
+                if (user.getAvatar_64() == null && socialAvatar != null) {
+                    DCApiManager.getInstance().downloadBitmap(socialAvatar, new DCResponseListener<Bitmap>() {
+                        @Override
+                        public void onFailure(DCError error) {
+                            registerUser(user, loadingFragment);
+                        }
 
-                    @Override
-                    public void onResponse(DCAuthToken object) {
-                        handleAuthentication(object);
-                    }
-                });
+                        @Override
+                        public void onResponse(Bitmap object) {
+                            if (object != null) {
+                                user.setAvatar_64(DCUtils.base64Bitmap(object));
+                            }
+                            registerUser(user, loadingFragment);
+                        }
+                    });
+                } else {
+                    registerUser(user, loadingFragment);
+                }
             }
         });
 
@@ -333,6 +380,27 @@ public class DCAuthenticationActivity extends DCActivity {
         transaction.addToBackStack(DCAgreementFragment.TAG);
         transaction.commit();
     }
+
+    private void registerUser(final  DCUser user, final DCLoadingFragment loadingFragment) {
+        DCApiManager.getInstance().registerUser(user, new DCResponseListener<DCAuthToken>() {
+            @Override
+            public void onFailure(DCError error) {
+                onError(error);
+
+                if (loadingFragment != null)
+                    loadingFragment.dismissAllowingStateLoss();
+            }
+
+            @Override
+            public void onResponse(DCAuthToken object) {
+                handleAuthentication(object);
+
+                if (loadingFragment != null)
+                    loadingFragment.dismissAllowingStateLoss();
+            }
+        });
+    }
+
 
     private void handleAuthentication(DCAuthToken token) {
         DCSession.getInstance().setAuthToken(token);

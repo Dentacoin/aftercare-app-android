@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import com.dentacoin.dentacare.fragments.DCBrushFragment;
-import com.dentacoin.dentacare.fragments.DCDashboardFragment;
 import com.dentacoin.dentacare.fragments.DCFlossFragment;
 import com.dentacoin.dentacare.fragments.DCRinseFragment;
 

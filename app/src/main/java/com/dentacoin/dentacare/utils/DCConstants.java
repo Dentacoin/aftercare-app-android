@@ -23,6 +23,7 @@ public class DCConstants {
     //TODO: cchange link to dentacare
     public static final String DENTACARE_WEBSITE = "https://www.dentacoin.com/";
     public static final String DENTACOIN_WEBSITE = "https://www.dentacoin.com/";
+    public static final String DENTACARE_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.dentacoin.dentacare";
 
     public static final Pattern ADDRESS_PATTERN = Pattern.compile("^0x[a-fA-F0-9]{40}");
     public static final Pattern IBAN_LONG_PATTERN = Pattern.compile("[A-Z0-9]{35}");
@@ -37,8 +38,9 @@ public class DCConstants {
     public static final int COUNTDOWN_MAX_AMOUNT = 6 * 60 * 1000;
     public static final int COUNTDOWN_MIN_AMOUNT = 2 * 60 * 1000;
 
+    public static final int DAYS_OF_USE = 90;
+
     public enum DCActivityType { FLOSS, BRUSH, RINSE }
     public enum DCStatisticsType { DAILY, WEEKLY, MONTHLY }
     public enum DCGoalType { DEFAULT, WEEK, MONTH, YEAR }
-    public enum DCAutoMode { MORNING, EVENING }
 }

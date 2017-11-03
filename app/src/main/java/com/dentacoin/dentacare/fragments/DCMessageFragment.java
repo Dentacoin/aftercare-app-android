@@ -1,6 +1,5 @@
 package com.dentacoin.dentacare.fragments;
 
-import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +13,8 @@ import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
-import com.dentacoin.dentacare.utils.DCUtils;
+import com.dentacoin.dentacare.utils.Routine;
+import com.dentacoin.dentacare.utils.Voice;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
 import com.dentacoin.dentacare.widgets.DCTextView;
@@ -30,30 +30,30 @@ import java.util.Date;
  * Created by Atanas Chervarov on 10/20/17.
  */
 
-public class DCMessageFragment extends DialogFragment implements View.OnClickListener {
+public class DCMessageFragment extends DCDialogFragment implements View.OnClickListener {
 
     public interface IDCMessageFragmentListener {
-        void onAutoModeActive();
+        void onStartRoutine(Routine routine);
     }
 
     public enum MESSAGE {
 
-        MORNING(R.string.message_morning_routine_1, new DCSoundManager.VOICE[] { DCSoundManager.VOICE.MORNING_GREETING }),
-        EVENING(R.string.message_evening_routine_1, new DCSoundManager.VOICE[] {DCSoundManager.VOICE.EVENING_GREETING });
+        MORNING(R.string.message_morning_routine_1, new Voice[] { Voice.MORNING_GREETING }),
+        EVENING(R.string.message_evening_routine_1, new Voice[] {Voice.EVENING_GREETING });
 
-        MESSAGE(int resourceId, DCSoundManager.VOICE[] voices) {
+        MESSAGE(int resourceId, Voice[] voices) {
             this.resourceId = resourceId;
             this.voices = voices;
         }
 
         int resourceId;
-        DCSoundManager.VOICE[] voices;
+        Voice[] voices;
 
         public String getMessage(Context context) {
             return context.getResources().getString(resourceId);
         }
 
-        public DCSoundManager.VOICE[] getVoices() {
+        public Voice[] getVoices() {
             return voices;
         }
     }
@@ -80,13 +80,13 @@ public class DCMessageFragment extends DialogFragment implements View.OnClickLis
         return DCMessageFragment.create(day, message.getMessage(context), message.getVoices());
     }
 
-    public static DCMessageFragment create(int day, String message, DCSoundManager.VOICE[] voices) {
+    public static DCMessageFragment create(int day, String message, Voice[] voices) {
         DCMessageFragment messageFragment = new DCMessageFragment();
         Bundle arguments = new Bundle();
         arguments.putInt(KEY_DAY, day);
         arguments.putString(KEY_MESSAGE, message);
         if (voices != null) {
-            ArrayList<DCSoundManager.VOICE> voicesArray = new ArrayList<>(Arrays.asList(voices));
+            ArrayList<Voice> voicesArray = new ArrayList<>(Arrays.asList(voices));
             arguments.putSerializable(KEY_VOICES, voicesArray);
         }
         messageFragment.setArguments(arguments);
@@ -95,11 +95,11 @@ public class DCMessageFragment extends DialogFragment implements View.OnClickLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_message, container, false);
+        final View view = inflater.inflate(R.layout.fragment_message, container);
 
         int day = 1;
         String message = "";
-        ArrayList<DCSoundManager.VOICE> voices = null;
+        ArrayList<Voice> voices = null;
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -108,7 +108,7 @@ public class DCMessageFragment extends DialogFragment implements View.OnClickLis
 
             Serializable serializable = arguments.getSerializable(KEY_VOICES);
             if (serializable instanceof ArrayList) {
-                voices = (ArrayList<DCSoundManager.VOICE>)serializable;
+                voices = (ArrayList<Voice>)serializable;
             }
         }
 
@@ -116,9 +116,9 @@ public class DCMessageFragment extends DialogFragment implements View.OnClickLis
         tvMessageDay.setText(getString(R.string.message_day, day));
 
         tvMessageOf = (DCTextView) view.findViewById(R.id.tv_message_of);
-        tvMessageOf.setText(getString(R.string.message_of, 90));
+        tvMessageOf.setText(getString(R.string.message_of, DCConstants.DAYS_OF_USE));
 
-        if (day >= 90) {
+        if (day >= DCConstants.DAYS_OF_USE) {
             tvMessageOf.setText(R.string.message_congratulations);
         }
 
@@ -130,7 +130,7 @@ public class DCMessageFragment extends DialogFragment implements View.OnClickLis
             public void run() {
                 setCancelable(true);
             }
-        }, 2000);
+        }, 1500);
 
         tvMessage = (DCTextView) view.findViewById(R.id.tv_message);
         tvMessage.setText(message);
@@ -140,15 +140,20 @@ public class DCMessageFragment extends DialogFragment implements View.OnClickLis
         btnMessageActivity = (DCButton) view.findViewById(R.id.btn_message_activity);
         btnMessageActivity.setOnClickListener(this);
 
-        DCConstants.DCAutoMode mode = DCUtils.getAutoModeForNow();
-        if (mode != null) {
-            switch (mode) {
+
+        Routine.Type routineType = Routine.getAppropriateRoutineTypeForNow();
+
+        if (routineType != null) {
+            switch (routineType) {
                 case MORNING:
-                    btnMessageActivity.setText("Brush");
+                    btnMessageActivity.setText(getString(R.string.btn_message_morning_routine));
                     break;
                 case EVENING:
-                    btnMessageActivity.setText("Floss");
+                    btnMessageActivity.setText(getString(R.string.btn_message_evening_routine));
+                    break;
             }
+
+            btnMessageActivity.setTag(routineType);
         }
 
         AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
@@ -175,8 +180,11 @@ public class DCMessageFragment extends DialogFragment implements View.OnClickLis
         switch (view.getId()) {
             case R.id.btn_message_activity:
 
-                if (listener != null)
-                    listener.onAutoModeActive();
+                if (listener != null && view.getTag() instanceof Routine.Type) {
+                    Routine.Type type = (Routine.Type) view.getTag();
+                    Routine routine = new Routine(type);
+                    listener.onStartRoutine(routine);
+                }
 
                 dismissAllowingStateLoss();
                 break;
@@ -214,18 +222,21 @@ public class DCMessageFragment extends DialogFragment implements View.OnClickLis
     }
 
     public static MESSAGE getProperMessage() {
-        Calendar calendar = Calendar.getInstance();
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        if (hourOfDay >= 2 && hourOfDay < 11) {
-            return MESSAGE.MORNING;
-        } else if (hourOfDay >= 17 && hourOfDay < 24) {
-            return MESSAGE.EVENING;
+        Routine.Type routineType = Routine.getAppropriateRoutineTypeForNow();
+
+        if (routineType != null) {
+            switch (routineType) {
+                case MORNING:
+                    return MESSAGE.MORNING;
+                case EVENING:
+                    return MESSAGE.EVENING;
+            }
         }
+
         return null;
     }
 
-    //TODO: play one after the other
-    private void playVoices(ArrayList<DCSoundManager.VOICE> voices) {
+    private void playVoices(ArrayList<Voice> voices) {
         if (voices != null && voices.size() > 0) {
             DCSoundManager.getInstance().playVoice(getActivity(), voices.get(0));
         }

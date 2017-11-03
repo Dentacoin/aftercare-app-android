@@ -1,7 +1,9 @@
 package com.dentacoin.dentacare.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import com.dentacoin.dentacare.activities.DCDashboardActivity;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCTutorialManager;
+import com.dentacoin.dentacare.utils.Routine;
+import com.dentacoin.dentacare.utils.Voice;
 import com.dentacoin.dentacare.widgets.DCDashboardTeeth;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
 import com.github.florent37.viewtooltip.ViewTooltip;
@@ -25,7 +29,9 @@ public class DCBrushFragment extends DCDashboardFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = super.onCreateView(inflater, container, savedInstance);
         dtDashboardTeeth.setVisibility(View.VISIBLE);
+        timerDashboard.setProgressVisibility(View.GONE);
         timerDashboard.setTimerDisplayTextSize(R.dimen.timer_text_size_big_teeth);
+
         return view;
     }
 
@@ -44,6 +50,16 @@ public class DCBrushFragment extends DCDashboardFragment {
         super.onAttach(context);
         if (context instanceof DCDashboardActivity) {
             ((DCDashboardActivity) context).setTutorialListener(this);
+            ((DCDashboardActivity) context).setBrush(this);
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof DCDashboardActivity) {
+            ((DCDashboardActivity) activity).setTutorialListener(this);
+            ((DCDashboardActivity) activity).setBrush(this);
         }
     }
 
@@ -71,7 +87,7 @@ public class DCBrushFragment extends DCDashboardFragment {
     private boolean wlvisible;
     private boolean wrvisible;
     private boolean urvisible;
-    private boolean youAreDone;
+    private boolean pressStopWhenReady;
 
     @Override
     protected void handleClockTick(long millisUntilFinished) {
@@ -81,7 +97,7 @@ public class DCBrushFragment extends DCDashboardFragment {
         if (t > 0 && t < 30 && !ulvisible) {
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.UL, getResources().getColor(R.color.lightBlueAlpha));
             ulvisible = true;
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_2);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_STEP_1);
             setMessage(getString(R.string.message_brush_1));
         }
         else if (t > 30 && t < 60 && !wlvisible) {
@@ -89,7 +105,7 @@ public class DCBrushFragment extends DCDashboardFragment {
             wlvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.UL);
             ulvisible = false;
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_3);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_STEP_2);
             setMessage(getString(R.string.message_brush_2));
         }
         else if (t > 60 && t < 90 && !wrvisible) {
@@ -97,7 +113,7 @@ public class DCBrushFragment extends DCDashboardFragment {
             wrvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.WL);
             wlvisible = false;
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_4);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_STEP_3);
             setMessage(getString(R.string.message_brush_3));
         }
         else if (t > 90 && t < 120 && !urvisible) {
@@ -105,13 +121,13 @@ public class DCBrushFragment extends DCDashboardFragment {
             urvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.WR);
             wrvisible = false;
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_5);
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_STEP_4);
             setMessage(getString(R.string.message_brush_4));
-        } else if (t > 120 && !youAreDone) {
+        } else if (t > 120 && !pressStopWhenReady) {
             hideAll();
-            youAreDone = true;
-            setMessage(getString(R.string.message_brush_done));
-            DCSoundManager.getInstance().playVoice(getActivity(), DCSoundManager.VOICE.BRUSH_EVENING_6);
+            pressStopWhenReady = true;
+            setMessage(getString(R.string.message_brush_press_stop_when_ready));
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_STOP);
         }
     }
 
@@ -119,7 +135,7 @@ public class DCBrushFragment extends DCDashboardFragment {
     protected void stopRecording() {
         super.stopRecording();
         hideAll();
-        youAreDone = false;
+        pressStopWhenReady = false;
     }
 
     private void hideAll() {
@@ -141,6 +157,36 @@ public class DCBrushFragment extends DCDashboardFragment {
         if (urvisible) {
             urvisible = false;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.UR);
+        }
+    }
+
+    @Override
+    public void onRoutineStep(final Routine routine, Routine.Action action) {
+        super.onRoutineStep(routine, action);
+        switch (action) {
+            case BRUSH_READY:
+                switch (routine.getType()) {
+                    case MORNING:
+                        setMessage(getString(R.string.message_morning_routine_2));
+                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_MORNING_START);
+                        break;
+                    case EVENING:
+                        setMessage(getString(R.string.message_evening_brush_start));
+                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_EVENING_START);
+                        break;
+                }
+                break;
+            case BRUSH_DONE:
+                DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_DONE);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (routine != null)
+                            routine.next();
+                    }
+                }, 2500);
+                break;
         }
     }
 }

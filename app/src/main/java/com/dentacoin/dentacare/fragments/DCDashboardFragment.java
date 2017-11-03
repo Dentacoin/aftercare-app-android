@@ -1,5 +1,6 @@
 package com.dentacoin.dentacare.fragments;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -9,6 +10,8 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +33,11 @@ import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.utils.IDCTutorial;
+import com.dentacoin.dentacare.utils.Music;
+import com.dentacoin.dentacare.utils.Routine;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCDashboardTeeth;
+import com.dentacoin.dentacare.widgets.DCSoundManager;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.dentacoin.dentacare.widgets.DCTimerView;
 
@@ -41,7 +47,7 @@ import java.util.Date;
  * Created by Atanas Chervarov on 8/18/17.
  */
 
-public abstract class DCDashboardFragment extends DCFragment implements IDCDashboardObserver, View.OnClickListener, IDCTutorial {
+public abstract class DCDashboardFragment extends DCFragment implements IDCDashboardObserver, View.OnClickListener, IDCTutorial, Routine.IRoutineListener {
     private DCDashboardItem dashboardItem;
 
     private BottomSheetBehavior bottomSheetBehavior;
@@ -65,12 +71,22 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     protected RelativeLayout rlDashboardArrowHolder;
     protected DCDashboardTeeth dtDashboardTeeth;
     private DCConstants.DCStatisticsType selectedStatistics = DCConstants.DCStatisticsType.DAILY;
+    private RelativeLayout rlTimerHolder;
+    private LinearLayout llDashboardHolder;
 
     protected boolean trackingTime = false;
+    protected Routine routine;
+
     protected CountDownTimer timer;
     protected DCActivityRecord record;
     private LinearLayout llDashboardStatistics;
     private DCTextView tvDashboardMessageContainer;
+    float dashboardHolderPadding;
+    private CoordinatorLayout.LayoutParams dashboardParams = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+    private float tHeight;
+    private float tWidth;
+    private float ratio;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -105,6 +121,11 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         tvDashboardMessageContainer = (DCTextView) view.findViewById(R.id.tv_dashboard_message_container);
         tvDashboardMessageContainer.setVisibility(View.GONE);
         tvDashboardMessageContainer.setText("");
+        rlTimerHolder = (RelativeLayout) view.findViewById(R.id.rl_timer_holder);
+        llDashboardHolder = (LinearLayout) view.findViewById(R.id.ll_dashboard_holder);
+
+        final Resources r = getResources();
+        dashboardHolderPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, r.getDisplayMetrics());
 
         ivDashboardDownArrow.setAlpha(0.0f);
         ivDashboardUpArrow.setAlpha(1.0f);
@@ -145,6 +166,19 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         });
 
         setSelectedStatistics(DCConstants.DCStatisticsType.DAILY);
+
+        tHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 375.4f, getResources().getDisplayMetrics());
+        tWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 227.1f, getResources().getDisplayMetrics());
+
+        ratio = tHeight / tWidth;
+
+        rlTimerHolder.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                updateTeethView();
+            }
+        });
+
         return view;
     }
 
@@ -154,6 +188,35 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         if (dashboardItem != null) {
             this.dashboardItem = dashboardItem;
             updateView();
+        }
+    }
+
+    protected void updateTeethView() {
+        if (rlTimerHolder != null) {
+            if (rlTimerHolder.getHeight() != 0 && dtDashboardTeeth.getHeight() != 0) {
+                float scaleX = dtDashboardTeeth.getScaleX();
+                float scaleY = dtDashboardTeeth.getScaleY();
+
+                float pHeight = (float) rlTimerHolder.getHeight();
+                float pWidth = (float) rlTimerHolder.getWidth();
+                float height = (float) dtDashboardTeeth.getHeight();
+                float width = (float) dtDashboardTeeth.getWidth();
+
+                if (pHeight > height) {
+                    scaleY = pHeight / height;
+                } else if (pHeight < height) {
+                    scaleY = height / pHeight;
+                }
+
+                scaleY = DCUtils.round(scaleY, 3);
+                scaleX = DCUtils.round((height * scaleY) / (ratio * width), 3);
+
+                if (scaleY != dtDashboardTeeth.getScaleY() || scaleX != dtDashboardTeeth.getScaleX()) {
+                    dtDashboardTeeth.setScaleY(scaleY);
+                    dtDashboardTeeth.setScaleX((scaleX));
+                    dtDashboardTeeth.invalidate();
+                }
+            }
         }
     }
 
@@ -207,6 +270,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     }
 
 
+
     protected void updateView() {
         if (dashboardItem != null) {
             timerDashboardLast.setTimerDisplay(DCUtils.secondsToTime(dashboardItem.getLastTime()));
@@ -255,26 +319,36 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                     break;
             }
 
-            if (trackingTime) {
-                btnDashboardRecord.setText(getString(R.string.dashboard_btn_stop));
-                btnDashboardRecord.setSelected(true);
+            if (trackingTime || routine != null) {
+
+                if (trackingTime) {
+                    btnDashboardRecord.setText(getString(R.string.dashboard_btn_stop));
+                    btnDashboardRecord.setSelected(true);
+                } else {
+                    btnDashboardRecord.setText(getString(R.string.dashboard_btn_start));
+                    btnDashboardRecord.setSelected(false);
+                }
+
+                dashboardParams.setMargins(0, 0, 0, 0);
                 llBottomStatistics.setVisibility(View.GONE);
                 llDashboardStatistics.setVisibility(View.GONE);
-
                 tvDashboardMessageContainer.clearAnimation();
                 tvDashboardMessageContainer.setVisibility(View.VISIBLE);
             } else {
+                dashboardParams.setMargins(0, 0, 0, (int)dashboardHolderPadding);
                 llBottomStatistics.setVisibility(View.VISIBLE);
                 btnDashboardRecord.setSelected(false);
                 timerDashboard.setSecondaryProgress(0);
                 timerDashboard.setProgress(1000);
                 timerDashboard.setTimerDisplay(DCUtils.secondsToTime(0));
                 llDashboardStatistics.setVisibility(View.VISIBLE);
-
                 tvDashboardMessageContainer.clearAnimation();
                 tvDashboardMessageContainer.setVisibility(View.GONE);
             }
-            
+
+
+            llDashboardHolder.setLayoutParams(dashboardParams);
+
             ((DCDashboardActivity)getActivity()).toggleRecordMode(trackingTime);
         }
     }
@@ -319,6 +393,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     @Override
     public void onPause() {
         DCDashboardDataProvider.getInstance().removeObserver(this);
+        stopRecording();
         super.onPause();
     }
 
@@ -330,11 +405,11 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     }
 
 
-
     protected void startRecording() {
         if (trackingTime)
             return;
 
+        nextStep();
         trackingTime = true;
         record = new DCActivityRecord();
         record.setType(getType());
@@ -354,9 +429,15 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
         timer.start();
         updateView();
+        playMusic();
     }
 
     protected void stopRecording() {
+        if (trackingTime) {
+            DCSoundManager.getInstance().cancelSounds();
+            nextStep();
+        }
+
         trackingTime = false;
 
         if (timer != null) {
@@ -382,6 +463,9 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         }
 
         updateView();
+
+        if (routine == null)
+            stopMusic();
     }
 
     protected void handleClockTick(long millisUntilFinished) {
@@ -418,5 +502,40 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
     @Override
     public void hideTutorials() {
+    }
+
+    public void nextStep() {
+        if (routine != null)
+            routine.next();
+    }
+
+    @Override
+    public void onRoutineStart(Routine routine) {
+        this.routine = routine;
+        updateView();
+        playMusic();
+    }
+
+    @Override
+    public void onRoutineStep(Routine routine, Routine.Action action) {
+        this.routine = routine;
+        updateView();
+    }
+
+    @Override
+    public void onRoutineEnd(Routine routine) {
+        this.routine = null;
+        updateView();
+        stopMusic();
+    }
+
+    public void playMusic() {
+        if (getActivity() != null && !DCSoundManager.getInstance().isMusicPlaying()) {
+            DCSoundManager.getInstance().playMusic(getActivity(), Music.getRandomSong());
+        }
+    }
+
+    public void stopMusic() {
+        DCSoundManager.getInstance().cancelMusic();
     }
 }

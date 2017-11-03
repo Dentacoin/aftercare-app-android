@@ -5,8 +5,12 @@ import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
+import com.dentacoin.dentacare.utils.Music;
+import com.dentacoin.dentacare.utils.Voice;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Atanas Chervarov on 10/18/17.
@@ -14,12 +18,30 @@ import java.io.IOException;
 
 public class DCSoundManager {
 
+    private static final String TAG = DCSoundManager.class.getSimpleName();
+
     private static DCSoundManager instance;
+
     private MediaPlayer musicPlayer;
     private MediaPlayer voicePlayer;
+
     private boolean isFemale;
     private boolean soundEnabled;
     private boolean musicEnabled;
+
+    private Music[] music = {
+            Music.SONG1,
+            Music.SONG2,
+            Music.SONG3,
+            Music.SONG4,
+            Music.SONG5,
+            Music.SONG6,
+            Music.SONG7,
+            Music.SONG8,
+            Music.SONG9
+    };
+
+    private Music currentMusic;
 
     public static synchronized DCSoundManager getInstance() {
         if (instance == null)
@@ -33,21 +55,10 @@ public class DCSoundManager {
         musicEnabled = DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.MUSIC_ENABLED, true);
     }
 
-    public boolean isVoiceMale() {
-        return !isFemale;
-    }
-
-    public boolean isVoiceFemale() {
-        return isFemale;
-    }
-
-    public boolean isSoundEnabled() {
-        return soundEnabled;
-    }
-
-    public boolean isMusicEnabled() {
-        return musicEnabled;
-    }
+    public boolean isVoiceMale() { return !isFemale; }
+    public boolean isVoiceFemale() { return isFemale; }
+    public boolean isSoundEnabled() { return soundEnabled; }
+    public boolean isMusicEnabled() { return musicEnabled; }
 
     public void setSoundEnabled(boolean soundEnabled) {
         this.soundEnabled = soundEnabled;
@@ -64,121 +75,206 @@ public class DCSoundManager {
         DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.FEMALE_VOICE, isFemale);
     }
 
-    public enum VOICE {
-        BRUSH_EVENING_1("sounds/voice/male/evening/brush/1.mp3", "sounds/voice/female/evening/brush/1.mp3"),
-        BRUSH_EVENING_2("sounds/voice/male/evening/brush/2.mp3", "sounds/voice/female/evening/brush/2.mp3"),
-        BRUSH_EVENING_3("sounds/voice/male/evening/brush/3.mp3", "sounds/voice/female/evening/brush/3.mp3"),
-        BRUSH_EVENING_4("sounds/voice/male/evening/brush/4.mp3", "sounds/voice/female/evening/brush/4.mp3"),
-        BRUSH_EVENING_5("sounds/voice/male/evening/brush/5.mp3", "sounds/voice/female/evening/brush/5.mp3"),
-        BRUSH_EVENING_6("sounds/voice/male/evening/brush/6.mp3", "sounds/voice/female/evening/brush/6.mp3"),
-        FLOSS_EVENING_1("sounds/voice/male/evening/floss/1.mp3", "sounds/voice/female/evening/floss/1.mp3"),
-        FLOSS_EVENING_2("sounds/voice/male/evening/floss/2.mp3", "sounds/voice/female/evening/floss/2.mp3"),
-        FLOSS_EVENING_3("sounds/voice/male/evening/floss/3.mp3", "sounds/voice/female/evening/floss/3.mp3"),
-        RINSE_EVENING_1("sounds/voice/male/evening/rinse/1.mp3", "sounds/voice/female/evening/rinse/1.mp3"),
-        RINSE_EVENING_2("sounds/voice/male/evening/rinse/2.mp3", "sounds/voice/female/evening/rinse/2.mp3"),
-        RINSE_EVENING_3("sounds/voice/male/evening/rinse/3.mp3", "sounds/voice/female/evening/rinse/3.mp3"),
-        RINSE_EVENING_4("sounds/voice/male/evening/rinse/4.mp3", "sounds/voice/female/evening/rinse/4.mp3"),
-        RINSE_EVENING_5("sounds/voice/male/evening/rinse/5.mp3", "sounds/voice/female/evening/rinse/5.mp3"),
-        EVENING_GREETING("sounds/voice/male/evening/greeting.mp3", "sounds/voice/female/evening/greeting.mp3"),
-        BRUSH_MORNING_1("sounds/voice/male/morning/brush/1.mp3", "sounds/voice/female/morning/brush/1.mp3"),
-        BRUSH_MORNING_2("sounds/voice/male/morning/brush/2.mp3", "sounds/voice/female/morning/brush/2.mp3"),
-        BRUSH_MORNING_3("sounds/voice/male/morning/brush/3.mp3", "sounds/voice/female/morning/brush/3.mp3"),
-        BRUSH_MORNING_4("sounds/voice/male/morning/brush/4.mp3", "sounds/voice/female/morning/brush/4.mp3"),
-        BRUSH_MORNING_5("sounds/voice/male/morning/brush/5.mp3", "sounds/voice/female/morning/brush/5.mp3"),
-        BRUSH_MORNING_6("sounds/voice/male/morning/brush/6.mp3", "sounds/voice/female/morning/brush/6.mp3"),
-        RINSE_MORNING_1("sounds/voice/male/morning/rinse/1.mp3", "sounds/voice/female/morning/rinse/1.mp3"),
-        RINSE_MORNING_2("sounds/voice/male/morning/rinse/2.mp3", "sounds/voice/female/morning/rinse/2.mp3"),
-        RINSE_MORNING_3("sounds/voice/male/morning/rinse/3.mp3", "sounds/voice/female/morning/rinse/3.mp3"),
-        RINSE_MORNING_4("sounds/voice/male/morning/rinse/4.mp3", "sounds/voice/female/morning/rinse/4.mp3"),
-        RINSE_MORNING_5("sounds/voice/male/morning/rinse/5.mp3", "sounds/voice/female/morning/rinse/5.mp3"),
-        MORNING_GREETING("sounds/voice/male/morning/greeting.mp3", "sounds/voice/female/morning/greeting.mp3");
-
-        private String male;
-        private String female;
-
-        VOICE(String male, String female) {
-            this.male = male;
-            this.female = female;
-        }
-
-        public String getMale() { return male; }
-        public String getFemale() { return female; }
-    }
-
-    public enum MUSIC {
-        //TODO add song titles
-        SONG1("", "sounds/music/1.mp3"),
-        SONG2("", "sounds/music/2.mp3"),
-        SONG3("", "sounds/music/3.mp3"),
-        SONG4("", "sounds/music/4.mp3"),
-        SONG5("", "sounds/music/5.mp3"),
-        SONG6("", "sounds/music/6.mp3"),
-        SONG7("", "sounds/music/7.mp3"),
-        SONG8("", "sounds/music/8.mp3"),
-        SONG9("", "sounds/music/9.mp3");
-
-        private String title;
-        private String path;
-
-        MUSIC(String title, String path) {
-            this.title = title;
-            this.path = path;
-        }
-
-        public String getTitle() { return title; }
-        public String getPath() { return path; }
-    }
-
-    public void playVoice(Context context, VOICE sound) {
+    /**
+     * Plays a VOICE sound if the sounds are enabled
+     * @param context
+     * @param voice
+     */
+    public void playVoice(Context context, Voice voice) {
         if (!soundEnabled)
             return;
 
         try {
+
             if (voicePlayer != null) {
-                voicePlayer.stop();
                 voicePlayer.release();
             }
+
             voicePlayer = new MediaPlayer();
-            AssetFileDescriptor afd = context.getAssets().openFd(isFemale ? sound.getFemale() : sound.getMale());
+            AssetFileDescriptor afd = context.getAssets().openFd(isFemale ? voice.getFemale() : voice.getMale());
             voicePlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            voicePlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    fadeIn();
+                }
+            });
+
             voicePlayer.prepare();
             voicePlayer.start();
-        } catch (IOException e) {
+            fadeOut();
+
+        } catch (IOException | IllegalStateException | IllegalArgumentException e) {
             e.printStackTrace();
         }
     }
 
-    public void playMusic(Context context, MUSIC music) {
+    private float volume = 1.0f;
+
+    private static Timer timer = new Timer();
+
+    private TimerTask fadeOutTask;
+    private TimerTask fadeInTask;
+
+    private void cancelFadeTasks() {
+        if (fadeOutTask != null) {
+            fadeOutTask.cancel();
+            fadeOutTask = null;
+        }
+
+        if (fadeInTask != null) {
+            fadeInTask.cancel();
+            fadeInTask = null;
+        }
+    }
+
+    private void fadeOut() {
+        cancelFadeTasks();
+
+        if (musicPlayer != null && volume > 0.1f) {
+            fadeOutTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (musicPlayer != null) {
+                        volume -= 0.1f;
+                        if (volume < 0.1f) {
+                            cancel();
+                        }
+
+                        try {
+                            musicPlayer.setVolume(volume, volume);
+                        } catch (IllegalStateException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+
+            timer.schedule(fadeOutTask, 0, 100);
+        }
+    }
+
+    private void fadeIn() {
+        cancelFadeTasks();
+
+        if (musicPlayer != null && volume < 0.9f) {
+            fadeInTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (musicPlayer != null) {
+                        volume += 0.1f;
+                        if (volume > 0.9f) {
+                            cancel();
+                        }
+
+                        try {
+                            musicPlayer.setVolume(volume, volume);
+                        } catch (IllegalStateException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+
+            timer.schedule(fadeInTask, 0, 100);
+        }
+    }
+
+    /**
+     * Plays MUSIC if music is enabled
+     * @param context
+     * @param music
+     */
+    public void playMusic(Context context, Music music) {
         if (!musicEnabled)
             return;
 
         try {
+
             if (musicPlayer != null) {
-                musicPlayer.stop();
                 musicPlayer.release();
             }
 
             musicPlayer = new MediaPlayer();
-
             AssetFileDescriptor afd = context.getAssets().openFd(music.getPath());
             musicPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            musicPlayer.prepare();
             musicPlayer.start();
-        } catch (IOException e) {
+
+        } catch (IOException | IllegalStateException | IllegalArgumentException e) {
             e.printStackTrace();
         }
     }
 
-    public void cancelSounds() {
-        if (voicePlayer != null) {
-            voicePlayer.stop();
-            voicePlayer.release();
+    public boolean isMusicPlaying() {
+        if (musicPlayer != null) {
+            try {
+                return musicPlayer.isPlaying();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Pause music if currently playing
+     */
+    public void pauseMusic() {
+        if (musicPlayer != null) {
+            try {
+                if (musicPlayer.isPlaying()) {
+                    musicPlayer.pause();
+                }
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            }
         }
     }
 
+    /**
+     * Resume music if currently playing
+     */
+    public void resumeMusic() {
+        if (musicPlayer != null && soundEnabled) {
+            try {
+                if (!musicPlayer.isPlaying()) {
+                    musicPlayer.start();
+                }
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Stops any sound if currently playing
+     */
+    public void cancelSounds() {
+        if (voicePlayer != null) {
+            voicePlayer.release();
+        }
+
+        if (musicPlayer != null) {
+            fadeIn();
+        }
+    }
+
+    /**
+     * Stops any music if currently playing
+     */
     public void cancelMusic() {
         if (musicPlayer != null) {
-            musicPlayer.stop();
             musicPlayer.release();
         }
+    }
+
+    /**
+     * Cancels all music & sounds
+     */
+    public void cancelAll() {
+        cancelMusic();
+        cancelSounds();
     }
 }
