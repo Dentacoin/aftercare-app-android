@@ -26,6 +26,7 @@ import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCCustomTypefaceSpan;
 import com.dentacoin.dentacare.utils.DCFonts;
+import com.dentacoin.dentacare.utils.DCLocalNotificationsManager;
 import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDCTutorial;
@@ -238,6 +239,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                                         DCSession.getInstance().clear();
                                         LoginManager.getInstance().logOut();
                                         DCTutorialManager.getInstance().clear();
+                                        DCLocalNotificationsManager.getInstance().scheduleNotifications(DCDrawerActivity.this, true);
                                         onLogout();
                                     }
                                 });

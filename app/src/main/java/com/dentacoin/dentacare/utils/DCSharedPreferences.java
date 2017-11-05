@@ -37,16 +37,8 @@ public class DCSharedPreferences {
         VISIT_DENTIST("VISIT_DENTIST"),
         COLLECT_DENTACOIN("COLLECT_DENTACOIN"),
         REMINDER_TO_VISIT("REMINDER_TO_VISIT"),
-        HEALTHY_HABIT_1("HEALTHY_HABIT_1"),
-        HEALTHY_HABIT_2("HEALTHY_HABIT_2"),
-        HEALTHY_HABIT_3("HEALTHY_HABIT_3"),
-        HEALTHY_HABIT_4("HEALTHY_HABIT_4"),
-        HEALTHY_HABIT_5("HEALTHY_HABIT_5"),
-        HEALTHY_HABIT_6("HEALTHY_HABIT_6"),
-        HEALTHY_HABIT_7("HEALTHY_HABIT_7"),
-        HEALTHY_HABIT_8("HEALTHY_HABIT_8"),
-        HEALTHY_HABIT_9("HEALTHY_HABIT_9"),
-        HEALTHY_HABIT_10("HEALTHY_HABIT_10");
+        HEALTHY_HABIT("HEALTHY_HABIT"),
+        FIRST_LOGIN_DATE("FIRST_LOGIN_DATE");
 
         private String key;
 
@@ -143,5 +135,13 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.MUSIC_ENABLED);
         removeKey(DCSharedKey.DAYS_COUNTER);
         removeKey(DCSharedKey.LAST_DATE_ADDED_DAYS);
+        removeKey(DCSharedKey.FIRST_LOGIN_DATE);
+        removeKey(DCSharedKey.DAILY_BRUSHING);
+        removeKey(DCSharedKey.CHANGE_BRUSH);
+        removeKey(DCSharedKey.VISIT_DENTIST);
+        removeKey(DCSharedKey.COLLECT_DENTACOIN);
+        removeKey(DCSharedKey.REMINDER_TO_VISIT);
+        removeKey(DCSharedKey.HEALTHY_HABIT);
+        removeKey(DCSharedKey.FIRST_LOGIN_DATE);
     }
 }

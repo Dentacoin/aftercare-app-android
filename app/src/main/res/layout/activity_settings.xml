@@ -84,6 +84,12 @@
             android:text="Notifications"/>
 
         <LinearLayout
+            android:id="@+id/ll_settings_notifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
             style="@style/DCListItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,6 +104,7 @@
                 android:paddingLeft="16dp"
                 android:textSize="16sp"/>
             <Switch
+                android:id="@+id/sw_settings_daily_brushing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"/>
@@ -117,6 +124,7 @@
                 android:paddingLeft="16dp"
                 android:textSize="16sp"/>
             <Switch
+                android:id="@+id/sw_settings_change_brush"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"/>
@@ -136,29 +144,30 @@
                 android:paddingLeft="16dp"
                 android:textSize="16sp"/>
             <Switch
+                android:id="@+id/sw_settings_visit_dentist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"/>
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/DCListItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <com.dentacoin.dentacare.widgets.DCTextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:text="@string/settings_lbl_collect_dentacoins"
-                android:gravity="center_vertical"
-                android:paddingLeft="16dp"
-                android:textSize="16sp"/>
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="16dp"/>
-        </LinearLayout>
+        <!--<LinearLayout-->
+            <!--style="@style/DCListItem"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+            <!--<com.dentacoin.dentacare.widgets.DCTextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="@string/settings_lbl_collect_dentacoins"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:paddingLeft="16dp"-->
+                <!--android:textSize="16sp"/>-->
+            <!--<Switch-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="16dp"/>-->
+        <!--</LinearLayout>-->
 
         <LinearLayout
             style="@style/DCListItem"
@@ -174,6 +183,7 @@
                 android:paddingLeft="16dp"
                 android:textSize="16sp"/>
             <Switch
+                android:id="@+id/sw_settings_reminder_to_visit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"/>
@@ -193,44 +203,67 @@
                 android:paddingLeft="16dp"
                 android:textSize="16sp"/>
             <Switch
+                android:id="@+id/sw_settings_healthy_habits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"/>
         </LinearLayout>
 
+        <!--<LinearLayout-->
+            <!--style="@style/DCListItem"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+            <!--<com.dentacoin.dentacare.widgets.DCTextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="@string/settings_lbl_upon_no_activity"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:paddingLeft="16dp"-->
+                <!--android:textSize="16sp"/>-->
+            <!--<Switch-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="16dp"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--style="@style/DCListItem"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+            <!--<com.dentacoin.dentacare.widgets.DCTextView-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="@string/settings_lbl_daily_inspiration"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:paddingLeft="16dp"-->
+                <!--android:textSize="16sp"/>-->
+            <!--<Switch-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="16dp"/>-->
+        <!--</LinearLayout>-->
+        </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_settings_enable_notifications"
             style="@style/DCListItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <com.dentacoin.dentacare.widgets.DCTextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="@string/settings_lbl_upon_no_activity"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
+                android:text="@string/settings_lbl_enable_notifications"
                 android:textSize="16sp"/>
             <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="16dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/DCListItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <com.dentacoin.dentacare.widgets.DCTextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:text="@string/settings_lbl_daily_inspiration"
-                android:gravity="center_vertical"
-                android:paddingLeft="16dp"
-                android:textSize="16sp"/>
-            <Switch
+                android:id="@+id/sw_settings_enable_notifications"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"/>

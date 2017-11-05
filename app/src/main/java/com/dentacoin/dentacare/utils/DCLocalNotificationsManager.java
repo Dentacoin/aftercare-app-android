@@ -9,6 +9,8 @@ import android.util.Log;
 import com.dentacoin.dentacare.R;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by Atanas Chervarov on 11/2/17.
@@ -18,32 +20,64 @@ public class DCLocalNotificationsManager {
 
     private static final String TAG = DCLocalNotificationsManager.class.getSimpleName();
 
-    public enum Notification {
-        DAILY_BRUSHING(DCSharedPreferences.DCSharedKey.DAILY_BRUSHING, -1, R.string.notifications_txt_daily_brushing_1),
-        CHANGE_BRUSH(DCSharedPreferences.DCSharedKey.CHANGE_BRUSH, -1, R.string.notifications_txt_change_brush_1),
-        VISIT_DENTIST(DCSharedPreferences.DCSharedKey.VISIT_DENTIST, -1, R.string.notifications_txt_visit_dentist),
-        COLLECT_DENTACOIN(DCSharedPreferences.DCSharedKey.COLLECT_DENTACOIN, -1, R.string.notifications_txt_collect_dentacoin),
-        REMINDER_TO_VISIT(DCSharedPreferences.DCSharedKey.REMINDER_TO_VISIT, -1, R.string.notifications_txt_reminder_to_visit),
+    private static final long INTERVAL_24H = 24 * 60 * 60 * 1000;
+    private static final long INTERVAL_3_MONTHS = 3 * 30 * 24 * 60 * 60 * 1000;
+    private static final long INTERVAL_4_MONTHS = 4 * 30 * 24 * 60 * 60 * 1000;
 
-        HEALTHY_HABIT_1(DCSharedPreferences.DCSharedKey.HEALTHY_HABIT_1, R.string.notifications_hdl_healthy_habits_1, R.string.notifications_txt_healthy_habits_1),
-        HEALTHY_HABIT_2(DCSharedPreferences.DCSharedKey.HEALTHY_HABIT_2, R.string.notifications_hdl_healthy_habits_2, R.string.notifications_txt_healthy_habits_2),
-        HEALTHY_HABIT_3(DCSharedPreferences.DCSharedKey.HEALTHY_HABIT_3, R.string.notifications_hdl_healthy_habits_3, R.string.notifications_txt_healthy_habits_3),
-        HEALTHY_HABIT_4(DCSharedPreferences.DCSharedKey.HEALTHY_HABIT_4, R.string.notifications_hdl_healthy_habits_4, R.string.notifications_txt_healthy_habits_4),
-        HEALTHY_HABIT_5(DCSharedPreferences.DCSharedKey.HEALTHY_HABIT_5, R.string.notifications_hdl_healthy_habits_5, R.string.notifications_txt_healthy_habits_5),
-        HEALTHY_HABIT_6(DCSharedPreferences.DCSharedKey.HEALTHY_HABIT_6, R.string.notifications_hdl_healthy_habits_6, R.string.notifications_txt_healthy_habits_6),
-        HEALTHY_HABIT_7(DCSharedPreferences.DCSharedKey.HEALTHY_HABIT_7, R.string.notifications_hdl_healthy_habits_7, R.string.notifications_txt_healthy_habits_7),
-        HEALTHY_HABIT_8(DCSharedPreferences.DCSharedKey.HEALTHY_HABIT_8, R.string.notifications_hdl_healthy_habits_8, R.string.notifications_txt_healthy_habits_8),
-        HEALTHY_HABIT_9(DCSharedPreferences.DCSharedKey.HEALTHY_HABIT_9, R.string.notifications_hdl_healthy_habits_9, R.string.notifications_txt_healthy_habits_9),
-        HEALTHY_HABIT_10(DCSharedPreferences.DCSharedKey.HEALTHY_HABIT_10, R.string.notifications_hdl_healthy_habits_10, R.string.notifications_txt_healthy_habits_10);
+    public enum HealthyHabit {
+        HABIT_1(R.string.notifications_hdl_healthy_habits_1, R.string.notifications_txt_healthy_habits_1),
+        HABIT_2(R.string.notifications_hdl_healthy_habits_2, R.string.notifications_txt_healthy_habits_2),
+        HABIT_3(R.string.notifications_hdl_healthy_habits_3, R.string.notifications_txt_healthy_habits_3),
+        HABIT_4(R.string.notifications_hdl_healthy_habits_4, R.string.notifications_txt_healthy_habits_4),
+        HABIT_5(R.string.notifications_hdl_healthy_habits_5, R.string.notifications_txt_healthy_habits_5),
+        HABIT_6(R.string.notifications_hdl_healthy_habits_6, R.string.notifications_txt_healthy_habits_6),
+        HABIT_7(R.string.notifications_hdl_healthy_habits_7, R.string.notifications_txt_healthy_habits_7),
+        HABIT_8(R.string.notifications_hdl_healthy_habits_8, R.string.notifications_txt_healthy_habits_8),
+        HABIT_9(R.string.notifications_hdl_healthy_habits_9, R.string.notifications_txt_healthy_habits_9),
+        HABIT_10(R.string.notifications_hdl_healthy_habits_10, R.string.notifications_txt_healthy_habits_10);
 
         private int titleId;
         private int messageId;
+
+        HealthyHabit(int titleId, int messageId) {
+            this.titleId = titleId;
+            this.messageId = messageId;
+        }
+
+        public int getTitleId() { return titleId; }
+        public int getMessageId() { return messageId; }
+
+        public static HealthyHabit getRandomHabit() {
+            HealthyHabit[] habits = values();
+            Random random = new Random();
+            int index = random.nextInt(habits.length-1);
+            return habits[index];
+        }
+    }
+
+    public enum Notification {
+        DAILY_BRUSHING(101, DCSharedPreferences.DCSharedKey.DAILY_BRUSHING, -1, R.string.notifications_txt_daily_brushing_1),
+        CHANGE_BRUSH(102, DCSharedPreferences.DCSharedKey.CHANGE_BRUSH, -1, R.string.notifications_txt_change_brush_1),
+        VISIT_DENTIST(103, DCSharedPreferences.DCSharedKey.VISIT_DENTIST, -1, R.string.notifications_txt_visit_dentist),
+        COLLECT_DENTACOIN(104, DCSharedPreferences.DCSharedKey.COLLECT_DENTACOIN, -1, R.string.notifications_txt_collect_dentacoin),
+        REMINDER_TO_VISIT(105, DCSharedPreferences.DCSharedKey.REMINDER_TO_VISIT, -1, R.string.notifications_txt_reminder_to_visit),
+        HEALTHY_HABIT(201, DCSharedPreferences.DCSharedKey.HEALTHY_HABIT);
+
+        private int tag;
+        private int titleId = -1;
+        private int messageId = -1;
         private DCSharedPreferences.DCSharedKey key;
 
-        Notification(DCSharedPreferences.DCSharedKey key, int titleId, int messageId) {
+        Notification(int tag, DCSharedPreferences.DCSharedKey key, int titleId, int messageId) {
+            this.tag = tag;
             this.key = key;
             this.titleId = titleId;
             this.messageId = messageId;
+        }
+
+        Notification(int tag, DCSharedPreferences.DCSharedKey key) {
+            this.tag = tag;
+            this.key = key;
         }
 
         public DCSharedPreferences.DCSharedKey getKey() {
@@ -52,6 +86,7 @@ public class DCLocalNotificationsManager {
 
         public int getTitleId() { return titleId; }
         public int getMessageId() { return messageId; }
+        public int getTag() { return tag; }
     }
 
     private static DCLocalNotificationsManager instance;
@@ -67,42 +102,96 @@ public class DCLocalNotificationsManager {
     DCLocalNotificationsManager() {
     }
 
-    public void scheduleNotifications(Context context) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
+    /**
+     * Returns time in milliseconds for +1 day if the hour & minute has already passed that day
+     * @param hourOfDay
+     * @param minute
+     * @return
+     */
+    private long getRepeatingNotificationTime(int hourOfDay, int minute) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 16);
-        calendar.set(Calendar.MINUTE, 5);
 
-        scheduleNotification(alarmManager, context, Notification.HEALTHY_HABIT_1, calendar.getTimeInMillis());
-        calendar.add(Calendar.MINUTE, 2);
-        scheduleNotification(alarmManager, context, Notification.HEALTHY_HABIT_2, calendar.getTimeInMillis());
-        calendar.add(Calendar.MINUTE, 2);
-        scheduleNotification(alarmManager, context, Notification.HEALTHY_HABIT_3, calendar.getTimeInMillis());
-        calendar.add(Calendar.MINUTE, 2);
-        scheduleNotification(alarmManager, context, Notification.HEALTHY_HABIT_4, calendar.getTimeInMillis());
-        calendar.add(Calendar.MINUTE, 2);
-        scheduleNotification(alarmManager, context, Notification.HEALTHY_HABIT_5, calendar.getTimeInMillis());
-        calendar.add(Calendar.MINUTE, 2);
-        scheduleNotification(alarmManager, context, Notification.HEALTHY_HABIT_6, calendar.getTimeInMillis());
-        calendar.add(Calendar.MINUTE, 2);
-        scheduleNotification(alarmManager, context, Notification.HEALTHY_HABIT_7, calendar.getTimeInMillis());
-        calendar.add(Calendar.MINUTE, 2);
-        scheduleNotification(alarmManager, context, Notification.HEALTHY_HABIT_8, calendar.getTimeInMillis());
-        calendar.add(Calendar.MINUTE, 2);
-        scheduleNotification(alarmManager, context, Notification.HEALTHY_HABIT_9, calendar.getTimeInMillis());
-        calendar.add(Calendar.MINUTE, 2);
-        scheduleNotification(alarmManager, context, Notification.HEALTHY_HABIT_10, calendar.getTimeInMillis());
+        if (calendar.get(Calendar.HOUR_OF_DAY) > hourOfDay) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        }
+        else if (calendar.get(Calendar.HOUR_OF_DAY) == hourOfDay) {
+            if (calendar.get(Calendar.MINUTE) >= minute) {
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+                calendar.set(Calendar.MINUTE, minute);
+            }
+        } else {
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            calendar.set(Calendar.MINUTE, minute);
+        }
+
+        return calendar.getTimeInMillis();
     }
 
-    public void scheduleNotification(AlarmManager alarmManager, Context context, Notification notification, long milliseconds) {
+    public void scheduleNotifications(Context context, boolean cancel) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
+        //Schedule Daily Brushing reminder for 11:00am each day
+        scheduleNotification(alarmManager, context, Notification.DAILY_BRUSHING, getRepeatingNotificationTime(11, 0), INTERVAL_24H, cancel);
+
+        //Schedule Daily Random Healthy habit for 16:00pm each day
+        scheduleNotification(alarmManager, context, Notification.HEALTHY_HABIT, getRepeatingNotificationTime(16, 0), INTERVAL_24H, cancel);
+
+        //Schedule Reminder to visit notification for 18:00 for 7 days of inactivity
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.DAY_OF_YEAR, 7);
+        calendar.set(Calendar.HOUR_OF_DAY, 18);
+        calendar.set(Calendar.MINUTE, 0);
+        scheduleNotification(alarmManager, context, Notification.REMINDER_TO_VISIT, calendar.getTimeInMillis(), cancel);
+
+        //Schedule change brush reminder
+        String firstLogin = DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE);
+        if (firstLogin != null) {
+            Date firstLoginDate = new Date(firstLogin);
+            Date now = new Date();
+
+            calendar.setTime(firstLoginDate);
+            calendar.add(Calendar.DAY_OF_YEAR, 7);
+            calendar.set(Calendar.HOUR_OF_DAY, 12);
+            calendar.set(Calendar.MINUTE, 0);
+
+            while (calendar.getTime().compareTo(now) < 0) {
+                calendar.add(Calendar.DAY_OF_YEAR,83);
+            }
+
+            scheduleNotification(alarmManager, context, Notification.CHANGE_BRUSH, calendar.getTimeInMillis(), INTERVAL_3_MONTHS, cancel);
+
+            //Schedule visit dentist reminder
+            calendar.setTime(firstLoginDate);
+            calendar.add(Calendar.DAY_OF_YEAR, 14);
+            calendar.set(Calendar.HOUR_OF_DAY, 12);
+            calendar.set(Calendar.MINUTE, 0);
+
+            while (calendar.getTime().compareTo(now) < 0) {
+                calendar.add(Calendar.DAY_OF_YEAR, 106);
+            }
+
+            scheduleNotification(alarmManager, context, Notification.VISIT_DENTIST, calendar.getTimeInMillis(), INTERVAL_4_MONTHS, cancel);
+        }
+    }
+
+    public void scheduleNotification(AlarmManager alarmManager, Context context, Notification notification, long triggerAt, boolean cancel) {
+        schedule(alarmManager, context, notification, triggerAt, -1, cancel);
+    }
+
+    public void scheduleNotification(AlarmManager alarmManager, Context context, Notification notification, long triggerAt, long interval, boolean cancel) {
+        schedule(alarmManager, context, notification, triggerAt, interval, cancel);
+    }
+
+    private void schedule(AlarmManager alarmManager, Context context, Notification notification, long triggerAt, long interval, boolean cancel) {
         Intent intent = new Intent(context, DCAlarmReceiver.class);
         intent.putExtra(DCAlarmReceiver.KEY_NOTIFICATION, notification.name());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notification.getTag(), intent, 0);
 
-        if (DCSharedPreferences.getBoolean(notification.getKey(), false)) {
+        if (DCSharedPreferences.getBoolean(notification.getKey(), false) || cancel) {
             try {
                 alarmManager.cancel(pendingIntent);
                 Log.d(TAG, "Unscheduling notification '" + notification.name() + "' - user disabled");
@@ -113,6 +202,10 @@ public class DCLocalNotificationsManager {
             return;
         }
 
-        alarmManager.set(AlarmManager.RTC_WAKEUP, milliseconds, pendingIntent);
+        if (interval > 0) {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggerAt, interval, pendingIntent);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAt, pendingIntent);
+        }
     }
 }
