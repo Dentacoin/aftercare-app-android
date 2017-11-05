@@ -90,15 +90,15 @@ jobs:
             sleep 5
             if [ "${CIRCLE_BRANCH}" == "develop" ]
             then
-              ipa="@app/dev/release/app-dev-release.apk"
+              ipa="@app/build/outputs/apk/dev/release/app-dev-release.apk"
             elif [ "${CIRCLE_BRANCH}" == "master" ]
             then
               rtagx="release-.*"
               if [[ "${CIRCLE_TAG}" =~  $rtagx ]]
               then
-                ipa="@app/live/release/app-live-release.apk"
+                ipa="@app/build/outputs/apk/live/release/app-live-release.apk"
               else
-                ipa="@app/staging/release/app-staging-release.apk"
+                ipa="@app/build/outputs/apk/staging/release/app-staging-release.apk"
               fi
             fi
 
