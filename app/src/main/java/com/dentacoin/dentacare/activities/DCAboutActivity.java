@@ -16,6 +16,7 @@ import com.dentacoin.dentacare.widgets.DCTextView;
 public class DCAboutActivity extends DCToolbarActivity implements View.OnClickListener {
 
     private DCTextView tvAboutWebsite;
+    private DCTextView tvAboutVersion;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,6 +26,9 @@ public class DCAboutActivity extends DCToolbarActivity implements View.OnClickLi
 
         tvAboutWebsite = (DCTextView) findViewById(R.id.tv_about_website);
         tvAboutWebsite.setOnClickListener(this);
+
+        tvAboutVersion = (DCTextView) findViewById(R.id.tv_about_version);
+        tvAboutVersion.setText(DCUtils.getAppVersion(this));
     }
 
     @Override
