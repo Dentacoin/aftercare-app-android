@@ -248,6 +248,13 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
     protected void setSelectedStatistics(DCConstants.DCStatisticsType type) {
         selectedStatistics = type;
+        updateView();
+    }
+
+    protected void updateView() {
+        if (!isAdded())
+            return;
+
         switch (selectedStatistics) {
             case WEEKLY:
                 btnDashboardWeekly.setSelected(true);
@@ -266,12 +273,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                 break;
         }
 
-        updateView();
-    }
-
-
-
-    protected void updateView() {
         if (dashboardItem != null) {
             timerDashboardLast.setTimerDisplay(DCUtils.secondsToTime(dashboardItem.getLastTime()));
             timerDashboardleft.setTimerDisplay(Integer.toString(dashboardItem.getLeft()));
