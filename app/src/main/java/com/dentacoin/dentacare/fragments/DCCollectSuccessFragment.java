@@ -72,7 +72,7 @@ public class DCCollectSuccessFragment extends DCFragment {
             @Override
             public void run() {
                 if (getActivity() != null) {
-                    getActivity().getFragmentManager().beginTransaction().remove(DCCollectSuccessFragment.this).commit();
+                    getActivity().getFragmentManager().beginTransaction().remove(DCCollectSuccessFragment.this).commitAllowingStateLoss();
                     if (listener != null)
                         listener.onFragmentRemoved();
                 }
