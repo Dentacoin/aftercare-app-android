@@ -269,9 +269,11 @@ public class DCAuthenticationActivity extends DCActivity {
     }
 
     public void onGoogleLogin() {
-        Auth.GoogleSignInApi.signOut(googleApiClient);
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        startActivityForResult(signInIntent, REQUEST_CODE_GOOGLE_SIGN_IN);
+        if (googleApiClient != null) {
+            Auth.GoogleSignInApi.signOut(googleApiClient);
+            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+            startActivityForResult(signInIntent, REQUEST_CODE_GOOGLE_SIGN_IN);
+        }
     }
 
     @Override

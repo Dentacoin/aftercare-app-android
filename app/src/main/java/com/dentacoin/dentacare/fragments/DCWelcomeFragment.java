@@ -84,7 +84,9 @@ public class DCWelcomeFragment extends DCFragment {
                 if (listener != null)
                     listener.onFragmentRemoved();
 
-                getActivity().getFragmentManager().beginTransaction().remove(DCWelcomeFragment.this).commitAllowingStateLoss();
+                if (getActivity() != null) {
+                    getActivity().getFragmentManager().beginTransaction().remove(DCWelcomeFragment.this).commitAllowingStateLoss();
+                }
             }
 
             @Override
