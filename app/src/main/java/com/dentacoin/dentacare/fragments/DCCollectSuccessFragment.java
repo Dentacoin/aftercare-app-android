@@ -28,8 +28,9 @@ public class DCCollectSuccessFragment extends DCFragment {
     private ImageView ivCollectDentacoin;
     private DCTextView tvCollectAmount;
     private DCTextView tvCollectMessage;
-    private final Handler handler = new Handler();
     private IDCFragmentInterface listener;
+    private final Handler handler = new Handler();
+    private Runnable runnable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -66,16 +67,19 @@ public class DCCollectSuccessFragment extends DCFragment {
         AlphaAnimation messageAnimation = new AlphaAnimation(0, 1);
         messageAnimation.setDuration(3500);
         tvCollectMessage.startAnimation(messageAnimation);
-        handler.postDelayed(new Runnable() {
+
+        runnable = new Runnable() {
             @Override
             public void run() {
                 if (getActivity() != null) {
-                    getActivity().getFragmentManager().beginTransaction().remove(DCCollectSuccessFragment.this).commit();
+                    getActivity().getFragmentManager().beginTransaction().remove(DCCollectSuccessFragment.this).commitAllowingStateLoss();
                     if (listener != null)
                         listener.onFragmentRemoved();
                 }
             }
-        }, 5000);
+        };
+
+        handler.postDelayed(runnable, 5000);
 
         return view;
     }
@@ -93,6 +97,14 @@ public class DCCollectSuccessFragment extends DCFragment {
         super.onAttach(activity);
         if (activity instanceof IDCFragmentInterface) {
             listener = (IDCFragmentInterface) activity;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (runnable != null) {
+            handler.removeCallbacks(runnable);
         }
     }
 }

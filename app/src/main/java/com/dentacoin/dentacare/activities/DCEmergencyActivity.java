@@ -49,9 +49,10 @@ public class DCEmergencyActivity extends DCToolbarActivity implements IDCFragmen
                     @Override
                     public void onGranted() {
                         Bitmap bitmap = DCUtils.loadBitmapFromView(teeth);
-
                         String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "dentacare-teeth", null);
-                        teethUri = Uri.parse(path);
+                        if (path != null) {
+                            teethUri = Uri.parse(path);
+                        }
 
                         final FragmentTransaction transaction = getFragmentManager().beginTransaction();
                         transaction.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);

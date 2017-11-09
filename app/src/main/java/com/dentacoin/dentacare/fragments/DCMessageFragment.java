@@ -1,6 +1,7 @@
 package com.dentacoin.dentacare.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -240,5 +241,17 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
         if (voices != null && voices.size() > 0) {
             DCSoundManager.getInstance().playVoice(getActivity(), voices.get(0));
         }
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        super.onCancel(dialog);
+        DCSoundManager.getInstance().cancelSounds();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        DCSoundManager.getInstance().cancelSounds();
     }
 }

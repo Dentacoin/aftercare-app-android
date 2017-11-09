@@ -34,6 +34,7 @@ public class DCWelcomeFragment extends DCFragment {
     private DCTextView tvWelcome;
     private DCTextView tvWelcomeName;
     private final Handler handler = new Handler();
+    private Runnable runnable;
     private IDCFragmentInterface listener;
 
     @Override
@@ -83,7 +84,9 @@ public class DCWelcomeFragment extends DCFragment {
                 if (listener != null)
                     listener.onFragmentRemoved();
 
-                getActivity().getFragmentManager().beginTransaction().remove(DCWelcomeFragment.this).commit();
+                if (getActivity() != null) {
+                    getActivity().getFragmentManager().beginTransaction().remove(DCWelcomeFragment.this).commitAllowingStateLoss();
+                }
             }
 
             @Override
@@ -93,17 +96,19 @@ public class DCWelcomeFragment extends DCFragment {
                     tvWelcomeName.setText(object.getFullName());
                 }
 
-                handler.postDelayed(new Runnable() {
+                runnable = new Runnable() {
                     @Override
                     public void run() {
                         if (getActivity() != null) {
                             if (listener != null)
                                 listener.onFragmentRemoved();
 
-                            getActivity().getFragmentManager().beginTransaction().remove(DCWelcomeFragment.this).commit();
+                            getActivity().getFragmentManager().beginTransaction().remove(DCWelcomeFragment.this).commitAllowingStateLoss();
                         }
                     }
-                }, 4000);
+                };
+
+                handler.postDelayed(runnable, 4000);
             }
         });
     }
@@ -121,6 +126,14 @@ public class DCWelcomeFragment extends DCFragment {
         super.onAttach(activity);
         if (activity instanceof IDCFragmentInterface) {
             listener = (IDCFragmentInterface) activity;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (runnable != null) {
+            handler.removeCallbacks(runnable);
         }
     }
 }

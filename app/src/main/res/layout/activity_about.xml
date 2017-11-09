@@ -16,6 +16,14 @@
             android:src="@drawable/logo_blue"/>
 
         <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_about_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/ceruleanBlue"/>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
             android:paddingTop="50dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

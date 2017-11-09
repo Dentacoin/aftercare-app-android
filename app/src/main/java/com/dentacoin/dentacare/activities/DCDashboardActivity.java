@@ -72,6 +72,9 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     private DCBrushFragment brush;
     private DCRinseFragment rinse;
 
+    private final Handler handler = new Handler();
+    private Runnable messageRunnable;
+
     public void setFloss(DCFlossFragment floss) {
         this.floss = floss;
     }
@@ -148,20 +151,28 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         DCGoalsDataProvider.getInstance().addObserver(this);
         DCGoalsDataProvider.getInstance().updateGoals(true);
         updateDaysCounter();
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
         showMessage(1000);
     }
 
     private void showMessage(long delay) {
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        if (messageRunnable != null) {
+            handler.removeCallbacks(messageRunnable);
+            messageRunnable = null;
+        }
+
+        messageRunnable = new Runnable() {
             @Override
             public void run() {
-
                 Fragment wellcomeFragment = getFragmentManager().findFragmentByTag(DCWelcomeFragment.TAG);
                 Fragment goalFragment = getFragmentManager().findFragmentByTag(DCGoalDialogFragment.TAG);
 
                 if ((wellcomeFragment != null && wellcomeFragment.isVisible()) ||
-                    (goalFragment != null && goalFragment.isVisible()) || inRecord) {
+                        (goalFragment != null && goalFragment.isVisible()) || inRecord) {
                     return;
                 }
 
@@ -174,13 +185,21 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                     }
                 }
             }
-        }, delay);
+        };
+
+        handler.postDelayed(messageRunnable, delay);
     }
 
     @Override
     public void onPause() {
         DCDashboardDataProvider.getInstance().removeObserver(this);
         DCGoalsDataProvider.getInstance().removeObserver(this);
+
+        if (messageRunnable != null) {
+            handler.removeCallbacks(messageRunnable);
+            messageRunnable = null;
+        }
+
         super.onPause();
     }
 

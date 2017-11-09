@@ -4,8 +4,9 @@ import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
-import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.google.gson.JsonSyntaxException;
+
+import java.util.Date;
 
 /**
  * Created by Atanas Chervarov on 8/3/17.
@@ -39,6 +40,11 @@ public class DCSession {
             }
             
             DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.LAST_LOGGED_EMAIL, user.getEmail());
+
+            if (DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE) == null) {
+                Date now = new Date();
+                DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE, now.toString());
+            }
         }
     }
 

@@ -37,6 +37,7 @@ public class DCAlarmReceiver extends BroadcastReceiver {
 
     private void showNotification(Context context, DCLocalNotificationsManager.Notification notification) {
         if (notification != null) {
+
             String title = "";
             String body = "";
 
@@ -46,6 +47,12 @@ public class DCAlarmReceiver extends BroadcastReceiver {
 
             if (notification.getMessageId() != -1) {
                 body = context.getString(notification.getMessageId());
+            }
+
+            if (notification == DCLocalNotificationsManager.Notification.HEALTHY_HABIT) {
+                DCLocalNotificationsManager.HealthyHabit habit = DCLocalNotificationsManager.HealthyHabit.getRandomHabit();
+                title = context.getString(habit.getTitleId());
+                body = context.getString(habit.getMessageId());
             }
 
             Intent intent = new Intent(context, LaunchActivity.class);

@@ -29,6 +29,7 @@ public class DCSentFeedbackFragment extends DCFragment {
 
     private IDCFragmentInterface listener;
     private final Handler handler = new Handler();
+    private Runnable runnable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -60,17 +61,19 @@ public class DCSentFeedbackFragment extends DCFragment {
         messageAnimation.setDuration(3500);
         tvFeedbackMessage.startAnimation(messageAnimation);
 
-        handler.postDelayed(new Runnable() {
+        runnable = new Runnable() {
             @Override
             public void run() {
                 if (getActivity() != null) {
                     if (listener != null)
                         listener.onFragmentRemoved();
 
-                    getActivity().getFragmentManager().beginTransaction().remove(DCSentFeedbackFragment.this).commit();
+                    getActivity().getFragmentManager().beginTransaction().remove(DCSentFeedbackFragment.this).commitAllowingStateLoss();
                 }
             }
-        }, 5000);
+        };
+
+        handler.postDelayed(runnable, 5000);
 
         return view;
     }
@@ -88,6 +91,14 @@ public class DCSentFeedbackFragment extends DCFragment {
         super.onAttach(activity);
         if (activity instanceof IDCFragmentInterface) {
             listener = (IDCFragmentInterface) activity;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (runnable != null) {
+            handler.removeCallbacks(runnable);
         }
     }
 }

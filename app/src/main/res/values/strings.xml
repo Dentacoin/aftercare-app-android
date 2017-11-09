@@ -112,6 +112,7 @@
     <string name="settings_hdl_music_and_sounds">Music &amp; Sounds</string>
     <string name="settings_lbl_voice_male">Voice: male</string>
     <string name="settings_lbl_voice_female">Voice: female</string>
+    <string name="settings_lbl_enable_notifications">Enable notifications</string>
 
     <string name="collect_txt_permission_camera">In order to scan the qr code we need a permission to use your camera</string>
     <string name="collect_txt_permission_camera_settings">Settings</string>

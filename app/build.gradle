@@ -34,11 +34,11 @@ android {
     def googlePlacesApiKey
 
     if (project.rootProject.file('local.properties').exists()) {
-        Properties properties = new Properties();
+        Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        hockeyDebugKey = properties.getProperty('hockey.debug.key');
-        hockeyStageKey = properties.getProperty('hockey.stage.key');
-        hockeyLiveKey = properties.getProperty('hockey.live.key');
+        hockeyDebugKey = properties.getProperty('hockey.debug.key')
+        hockeyStageKey = properties.getProperty('hockey.stage.key')
+        hockeyLiveKey = properties.getProperty('hockey.live.key')
         keystore = file(properties.getProperty('keystore'))
         keystorePassword = properties.getProperty('keystore.password')
         debugAlias = properties.getProperty('key.debugAlias')
@@ -57,9 +57,9 @@ android {
         googleClientIDLive = properties.getProperty('google.client.id.live')
         googlePlacesApiKey = properties.getProperty('google.places.api.key')
     } else {
-        hockeyDebugKey = System.getenv('HOCKEY_DEBUG_KEY');
-        hockeyStageKey = System.getenv('HOCKEY_STAGE_KEY');
-        hockeyLiveKey = System.getenv('HOCKEY_LIVE_KEY');
+        hockeyDebugKey = System.getenv('HOCKEY_DEBUG_KEY')
+        hockeyStageKey = System.getenv('HOCKEY_STAGE_KEY')
+        hockeyLiveKey = System.getenv('HOCKEY_LIVE_KEY')
         buildCode = System.getenv('CIRCLE_BUILD_NUM').toInteger()
         keystore = file(System.getenv("KEYSTORE"))
         keystorePassword = System.getenv("KEYSTORE_PASSWORD")

@@ -20,6 +20,7 @@ import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
+import com.dentacoin.dentacare.utils.DCLocalNotificationsManager;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -268,9 +269,11 @@ public class DCAuthenticationActivity extends DCActivity {
     }
 
     public void onGoogleLogin() {
-        Auth.GoogleSignInApi.signOut(googleApiClient);
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        startActivityForResult(signInIntent, REQUEST_CODE_GOOGLE_SIGN_IN);
+        if (googleApiClient != null) {
+            Auth.GoogleSignInApi.signOut(googleApiClient);
+            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+            startActivityForResult(signInIntent, REQUEST_CODE_GOOGLE_SIGN_IN);
+        }
     }
 
     @Override
@@ -405,6 +408,7 @@ public class DCAuthenticationActivity extends DCActivity {
     private void handleAuthentication(DCAuthToken token) {
         DCSession.getInstance().setAuthToken(token);
         if (DCSession.getInstance().isValid()) {
+            DCLocalNotificationsManager.getInstance().scheduleNotifications(this, false);
             final Intent intent = new Intent(this, DCDashboardActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);

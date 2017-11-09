@@ -28,4 +28,11 @@ public class DCFragment extends Fragment {
             }
         }
     }
+
+    public DCLoadingFragment showLoading() {
+        if (getActivity() instanceof DCActivity) {
+            return ((DCActivity) getActivity()).showLoading();
+        }
+        return null;
+    }
 }

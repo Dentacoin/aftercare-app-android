@@ -116,7 +116,6 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
 
         btnProfileUpdate = (DCButton) view.findViewById(R.id.btn_profile_update);
         btnProfileUpdate.setOnClickListener(this);
-        btnProfileUpdate.setEnabled(false);
 
         loadUser();
         return view;
@@ -138,39 +137,37 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
     }
 
     private void setUser(DCUser user) {
-        btnProfileUpdate.setEnabled(false);
+        if (user == null || !isAdded())
+            return;
 
-        if (user != null) {
-            this.user = user;
-            btnProfileUpdate.setEnabled(true);
-            sdvProfileAvatar.setImageURI(user.getAvatarUrl(getActivity()));
-            tietProfileFirstname.setText(user.getFirstname());
-            tietProfileLastname.setText(user.getLastname());
-            tietProfileEmail.setText(user.getEmail());
-            if (user.getBirthday() != null) {
-                etProfileBirthday.setText(DCConstants.DATE_FORMAT_BIRTHDAY.format(user.getBirthday()));
-            }
-            etProfileLocation.setText(user.getLocation());
-
-            btnProfileMale.setSelected(false);
-            btnProfileFemale.setSelected(false);
-
-            if (user.getGender() != null) {
-                if (DCUser.GENDER_MALE.equals(user.getGender())) {
-                    btnProfileMale.setSelected(true);
-                    btnProfileFemale.setSelected(false);
-                }
-                else if (DCUser.GENDER_FEMALE.equals(user.getGender())) {
-                    btnProfileMale.setSelected(false);
-                    btnProfileFemale.setSelected(true);
-                }
-            }
-
-            tietProfileZipcode.setText(null);
-
-            if (user.getPostalCode() != null)
-                tietProfileZipcode.setText(user.getPostalCode().toString());
+        this.user = user;
+        sdvProfileAvatar.setImageURI(user.getAvatarUrl(getActivity()));
+        tietProfileFirstname.setText(user.getFirstname());
+        tietProfileLastname.setText(user.getLastname());
+        tietProfileEmail.setText(user.getEmail());
+        if (user.getBirthday() != null) {
+            etProfileBirthday.setText(DCConstants.DATE_FORMAT_BIRTHDAY.format(user.getBirthday()));
         }
+        etProfileLocation.setText(user.getLocation());
+
+        btnProfileMale.setSelected(false);
+        btnProfileFemale.setSelected(false);
+
+        if (user.getGender() != null) {
+            if (DCUser.GENDER_MALE.equals(user.getGender())) {
+                btnProfileMale.setSelected(true);
+                btnProfileFemale.setSelected(false);
+            }
+            else if (DCUser.GENDER_FEMALE.equals(user.getGender())) {
+                btnProfileMale.setSelected(false);
+                btnProfileFemale.setSelected(true);
+            }
+        }
+
+        tietProfileZipcode.setText(null);
+
+        if (user.getPostalCode() != null)
+            tietProfileZipcode.setText(user.getPostalCode().toString());
     }
 
     @Override
@@ -226,10 +223,13 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
         }
 
         if (user != null) {
+            final DCLoadingFragment loadingFragment = showLoading();
             DCApiManager.getInstance().patchUser(user, new DCResponseListener<DCUser>() {
                 @Override
                 public void onFailure(DCError error) {
                     onError(error);
+                    if (loadingFragment != null)
+                        loadingFragment.dismissAllowingStateLoss();
                 }
 
                 @Override
@@ -238,6 +238,8 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
                         setUser(DCSession.getInstance().getUser());
                         getActivity().getFragmentManager().popBackStack();
                     }
+                    if (loadingFragment != null)
+                        loadingFragment.dismissAllowingStateLoss();
                 }
             });
         }
