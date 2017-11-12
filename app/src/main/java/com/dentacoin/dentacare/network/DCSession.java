@@ -2,6 +2,7 @@ package com.dentacoin.dentacare.network;
 
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
+import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.google.gson.JsonSyntaxException;
@@ -43,7 +44,8 @@ public class DCSession {
 
             if (DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE) == null) {
                 Date now = new Date();
-                DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE, now.toString());
+                String stringDate = DCConstants.DATE_FORMAT.format(now);
+                DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE, stringDate);
             }
         }
     }

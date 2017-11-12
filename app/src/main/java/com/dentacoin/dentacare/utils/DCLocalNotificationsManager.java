@@ -131,6 +131,9 @@ public class DCLocalNotificationsManager {
     }
 
     public void scheduleNotifications(Context context, boolean cancel) {
+        if (context == null)
+            return;
+
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         //Schedule Daily Brushing reminder for 11:00am each day
@@ -150,31 +153,36 @@ public class DCLocalNotificationsManager {
         //Schedule change brush reminder
         String firstLogin = DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE);
         if (firstLogin != null) {
-            Date firstLoginDate = new Date(firstLogin);
-            Date now = new Date();
+            try {
+                Date firstLoginDate = DCConstants.DATE_FORMAT.parse(firstLogin);
 
-            calendar.setTime(firstLoginDate);
-            calendar.add(Calendar.DAY_OF_YEAR, 7);
-            calendar.set(Calendar.HOUR_OF_DAY, 12);
-            calendar.set(Calendar.MINUTE, 0);
+                Date now = new Date();
+                calendar.setTime(firstLoginDate);
+                calendar.add(Calendar.DAY_OF_YEAR, 7);
+                calendar.set(Calendar.HOUR_OF_DAY, 12);
+                calendar.set(Calendar.MINUTE, 0);
 
-            while (calendar.getTime().compareTo(now) < 0) {
-                calendar.add(Calendar.DAY_OF_YEAR,83);
+                while (calendar.getTime().compareTo(now) < 0) {
+                    calendar.add(Calendar.DAY_OF_YEAR,83);
+                }
+
+                scheduleNotification(alarmManager, context, Notification.CHANGE_BRUSH, calendar.getTimeInMillis(), INTERVAL_3_MONTHS, cancel);
+
+                //Schedule visit dentist reminder
+                calendar.setTime(firstLoginDate);
+                calendar.add(Calendar.DAY_OF_YEAR, 14);
+                calendar.set(Calendar.HOUR_OF_DAY, 12);
+                calendar.set(Calendar.MINUTE, 0);
+
+                while (calendar.getTime().compareTo(now) < 0) {
+                    calendar.add(Calendar.DAY_OF_YEAR, 106);
+                }
+
+                scheduleNotification(alarmManager, context, Notification.VISIT_DENTIST, calendar.getTimeInMillis(), INTERVAL_4_MONTHS, cancel);
+            } catch (Exception e) {
+                e.printStackTrace();
+                DCSharedPreferences.removeKey(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE);
             }
-
-            scheduleNotification(alarmManager, context, Notification.CHANGE_BRUSH, calendar.getTimeInMillis(), INTERVAL_3_MONTHS, cancel);
-
-            //Schedule visit dentist reminder
-            calendar.setTime(firstLoginDate);
-            calendar.add(Calendar.DAY_OF_YEAR, 14);
-            calendar.set(Calendar.HOUR_OF_DAY, 12);
-            calendar.set(Calendar.MINUTE, 0);
-
-            while (calendar.getTime().compareTo(now) < 0) {
-                calendar.add(Calendar.DAY_OF_YEAR, 106);
-            }
-
-            scheduleNotification(alarmManager, context, Notification.VISIT_DENTIST, calendar.getTimeInMillis(), INTERVAL_4_MONTHS, cancel);
         }
     }
 
@@ -187,6 +195,9 @@ public class DCLocalNotificationsManager {
     }
 
     private void schedule(AlarmManager alarmManager, Context context, Notification notification, long triggerAt, long interval, boolean cancel) {
+        if (alarmManager == null ||context == null || notification == null)
+            return;
+
         Intent intent = new Intent(context, DCAlarmReceiver.class);
         intent.putExtra(DCAlarmReceiver.KEY_NOTIFICATION, notification.name());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notification.getTag(), intent, 0);

@@ -1,9 +1,6 @@
 package com.dentacoin.dentacare;
 
 import android.app.Application;
-
-import com.dentacoin.dentacare.network.DCSession;
-import com.dentacoin.dentacare.utils.DCLocalNotificationsManager;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.twitter.sdk.android.core.Twitter;
@@ -19,10 +16,5 @@ public class DCApplication extends Application {
         Fresco.initialize(this);
         Twitter.initialize(this);
         DCSharedPreferences.initialize(this);
-        if (DCSession.getInstance().isValid()) {
-            DCLocalNotificationsManager.getInstance().scheduleNotifications(this, false);
-        } else {
-            DCLocalNotificationsManager.getInstance().scheduleNotifications(this, true);
-        }
     }
 }
