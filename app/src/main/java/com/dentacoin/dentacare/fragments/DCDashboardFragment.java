@@ -47,7 +47,7 @@ import java.util.Date;
  * Created by Atanas Chervarov on 8/18/17.
  */
 
-public abstract class DCDashboardFragment extends DCFragment implements IDCDashboardObserver, View.OnClickListener, IDCTutorial, Routine.IRoutineListener {
+public abstract class DCDashboardFragment extends DCFragment implements IDCDashboardObserver, View.OnClickListener, IDCTutorial, Routine.IRoutineListener, DCSoundManager.IDCSoundListener {
     private DCDashboardItem dashboardItem;
 
     private BottomSheetBehavior bottomSheetBehavior;
@@ -178,6 +178,8 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                 updateTeethView();
             }
         });
+
+        DCSoundManager.getInstance().setListener(this);
 
         return view;
     }
@@ -410,6 +412,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         if (trackingTime)
             return;
 
+        playMusic();
         nextStep();
         trackingTime = true;
         record = new DCActivityRecord();
@@ -430,7 +433,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
         timer.start();
         updateView();
-        playMusic();
     }
 
     protected void stopRecording() {
@@ -538,5 +540,12 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
     public void stopMusic() {
         DCSoundManager.getInstance().cancelMusic();
+    }
+
+    @Override
+    public void onMusicEnded(Music music) {
+        if (trackingTime || routine != null) {
+            playMusic();
+        }
     }
 }

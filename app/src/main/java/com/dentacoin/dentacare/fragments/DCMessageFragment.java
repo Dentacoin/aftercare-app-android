@@ -248,10 +248,4 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
         super.onCancel(dialog);
         DCSoundManager.getInstance().cancelSounds();
     }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        DCSoundManager.getInstance().cancelSounds();
-    }
 }

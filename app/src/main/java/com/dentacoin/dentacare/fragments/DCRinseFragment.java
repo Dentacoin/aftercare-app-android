@@ -48,9 +48,10 @@ public class DCRinseFragment extends DCDashboardFragment {
 
     @Override
     protected void startRecording() {
-        if (trackingTime)
+        if (trackingTime || (routine != null && Routine.Action.RINSE_DONE.equals(routine.getAction())))
             return;
 
+        playMusic();
         nextStep();
         trackingTime = true;
         record = new DCActivityRecord();
@@ -71,7 +72,6 @@ public class DCRinseFragment extends DCDashboardFragment {
 
         timer.start();
         updateView();
-        playMusic();
     }
 
     @Override
