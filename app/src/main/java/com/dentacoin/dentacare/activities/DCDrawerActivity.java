@@ -34,6 +34,10 @@ import com.dentacoin.dentacare.widgets.DCTextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.login.LoginManager;
 import com.github.florent37.viewtooltip.ViewTooltip;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.twitter.sdk.android.core.TwitterCore;
 
 /**
  * Created by Atanas Chervarov on 8/11/17.
@@ -241,6 +245,14 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                                         DCLocalNotificationsManager.getInstance().scheduleNotifications(DCDrawerActivity.this, true);
                                         DCSession.getInstance().clear();
                                         LoginManager.getInstance().logOut();
+                                        TwitterCore.getInstance().getSessionManager().clearActiveSession();
+
+                                        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                                                .build();
+
+                                        GoogleSignInClient client = GoogleSignIn.getClient(DCDrawerActivity.this, gso);
+                                        client.signOut();
+
                                         DCTutorialManager.getInstance().clear();
                                         onLogout();
                                     }

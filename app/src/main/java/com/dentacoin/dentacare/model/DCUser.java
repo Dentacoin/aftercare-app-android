@@ -2,6 +2,7 @@ package com.dentacoin.dentacare.model;
 
 import android.content.Context;
 
+import com.dentacoin.dentacare.network.DCSession;
 import com.mukesh.countrypicker.Country;
 
 import java.util.Calendar;
@@ -152,12 +153,16 @@ public class DCUser {
         return name;
     }
 
+    public DCAvatar getAvatar() {
+        return avatar;
+    }
+
     public String getAvatarUrl(Context context) {
         if (avatar != null) {
             return avatar.getAvatarUrl(context);
         }
 
-        return null;
+        return DCSession.getInstance().getCurrentUserSocialAvatar();
     }
 
     /**

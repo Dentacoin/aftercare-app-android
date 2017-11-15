@@ -20,17 +20,32 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/sdv_profile_avatar"
+            <RelativeLayout
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                fresco:backgroundImage="@drawable/welcome_avatar_holder"
-                fresco:roundAsCircle="true"
-                app:roundingBorderColor="@color/white"
-                fresco:roundingBorderWidth="2.5dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center">
 
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_profile_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    fresco:backgroundImage="@drawable/welcome_avatar_holder"
+                    fresco:roundAsCircle="true"
+                    app:roundingBorderColor="@color/white"
+                    fresco:roundingBorderWidth="2.5dp"
+                    android:layout_gravity="center"/>
+
+                <ImageView
+                    android:id="@+id/iv_profile_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_cancel_white_24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"/>
+
+            </RelativeLayout>
 
             <com.dentacoin.dentacare.widgets.DCTextInputLayout
                 android:id="@+id/til_profile_firstname"

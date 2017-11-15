@@ -268,4 +268,5 @@
 
     <string name="btn_message_morning_routine">Start morning routine</string>
     <string name="btn_message_evening_routine">Start evening routine</string>
+    <string name="hdl_profile_remove_title">Remove avatar?</string>
 </resources>

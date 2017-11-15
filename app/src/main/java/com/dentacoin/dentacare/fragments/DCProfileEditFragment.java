@@ -1,6 +1,8 @@
 package com.dentacoin.dentacare.fragments;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.anthonycr.grant.PermissionsManager;
 import com.anthonycr.grant.PermissionsResultAction;
@@ -75,6 +78,7 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
     private DCButton btnProfileUpdate;
     private DCUser user;
     private Uri avatarUri;
+    private ImageView ivProfileClose;
 
     private int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1002;
 
@@ -117,6 +121,10 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
         btnProfileUpdate = (DCButton) view.findViewById(R.id.btn_profile_update);
         btnProfileUpdate.setOnClickListener(this);
 
+        ivProfileClose = (ImageView) view.findViewById(R.id.iv_profile_close);
+        ivProfileClose.setOnClickListener(this);
+        ivProfileClose.setVisibility(View.GONE);
+
         loadUser();
         return view;
     }
@@ -142,6 +150,14 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
 
         this.user = user;
         sdvProfileAvatar.setImageURI(user.getAvatarUrl(getActivity()));
+
+        //TODO: handle ivProfileClose click
+//        if (avatarUri != null || user.getAvatar() != null) {
+//            ivProfileClose.setVisibility(View.VISIBLE);
+//        } else {
+//            ivProfileClose.setVisibility(View.GONE);
+//        }
+
         tietProfileFirstname.setText(user.getFirstname());
         tietProfileLastname.setText(user.getLastname());
         tietProfileEmail.setText(user.getEmail());
@@ -199,7 +215,32 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
                 user.setGender(DCUser.GENDER_FEMALE);
                 setUser(user);
                 break;
+            case R.id.iv_profile_close:
+                cancelAvatar();
+                break;
         }
+    }
+
+    private void cancelAvatar() {
+        final AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.hdl_profile_remove_title)
+                .setPositiveButton(R.string.txt_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        avatarUri = null;
+                        user.setAvatar_64(null);
+                        user.setAvatar(null);
+                        setUser(user);
+                    }
+                })
+                .setNegativeButton(R.string.txt_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        dialog.show();
     }
 
     private void patchUser() {

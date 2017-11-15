@@ -10,11 +10,27 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.DatePicker;
+
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterApiClient;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.models.User;
+
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
@@ -217,5 +233,77 @@ public class DCUtils {
             e.printStackTrace();
         }
         return "1.0";
+    }
+
+
+    public interface ISocialAvatar {
+        void onSocialAvatarRetrieved(String url);
+    }
+
+    public static void getUserAvatarFromSocialMedia(Context context, final ISocialAvatar listener) {
+        //try facebook
+        if (AccessToken.getCurrentAccessToken() != null && !AccessToken.getCurrentAccessToken().isExpired()) {
+            GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                @Override
+                public void onCompleted(JSONObject object, GraphResponse response) {
+                    if (object != null) {
+                        try {
+                            if (object.has("picture")) {
+                                JSONObject picture = (JSONObject) object.get("picture");
+                                String url = ((JSONObject)(picture.get("data"))).getString("url");
+                                if (listener != null)
+                                    listener.onSocialAvatarRetrieved(url);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "picture.type(large)");
+            request.setParameters(parameters);
+            request.executeAsync();
+            return;
+        }
+
+        //try twitter
+        TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+        if (session != null) {
+            TwitterApiClient client = TwitterCore.getInstance().getApiClient(session);
+
+            if (client != null) {
+                client.getAccountService().verifyCredentials(false,true,false).enqueue(new Callback<User>() {
+                    @Override
+                    public void success(Result<User> result) {
+                        if (result != null) {
+                            User twitterUser = result.data;
+                            if (twitterUser != null && listener != null) {
+                                String url = twitterUser.profileImageUrl;
+                                if (url != null && url.length() > 0) {
+                                    url = url.replace("normal", "400x400");
+                                    listener.onSocialAvatarRetrieved(url);
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void failure(TwitterException exception) {
+                    }
+                });
+
+                return;
+            }
+        }
+
+        //try google
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+        if (account != null) {
+            Uri photoUri = account.getPhotoUrl();
+            if (photoUri != null && listener != null) {
+                listener.onSocialAvatarRetrieved(photoUri.toString());
+            }
+        }
     }
 }
