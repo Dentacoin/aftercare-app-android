@@ -28,6 +28,7 @@ import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCGoal;
 import com.dentacoin.dentacare.network.DCApiManager;
+import com.dentacoin.dentacare.utils.AudibleMessage;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
@@ -177,7 +178,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                 }
 
                 if (DCMessageFragment.shouldShowMessage()) {
-                    DCMessageFragment.MESSAGE message = DCMessageFragment.getProperMessage();
+                    AudibleMessage message = DCMessageFragment.getProperGreetingMessage();
                     if (message != null) {
                         DCMessageFragment messageFragment = DCMessageFragment.create(DCDashboardActivity.this, message);
                         messageFragment.show(getFragmentManager(), DCMessageFragment.TAG);

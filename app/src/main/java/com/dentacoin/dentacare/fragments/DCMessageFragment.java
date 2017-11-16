@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.network.DCApiManager;
+import com.dentacoin.dentacare.utils.AudibleMessage;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.utils.Routine;
@@ -37,28 +38,6 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
         void onStartRoutine(Routine routine);
     }
 
-    public enum MESSAGE {
-
-        MORNING(R.string.message_morning_routine_1, new Voice[] { Voice.MORNING_GREETING }),
-        EVENING(R.string.message_evening_routine_1, new Voice[] {Voice.EVENING_GREETING });
-
-        MESSAGE(int resourceId, Voice[] voices) {
-            this.resourceId = resourceId;
-            this.voices = voices;
-        }
-
-        int resourceId;
-        Voice[] voices;
-
-        public String getMessage(Context context) {
-            return context.getResources().getString(resourceId);
-        }
-
-        public Voice[] getVoices() {
-            return voices;
-        }
-    }
-
     public static final String TAG = DCLoginFragment.class.getSimpleName();
 
     public static final String KEY_DAY = "KEY_DAY";
@@ -76,7 +55,7 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
         this.listener = listener;
     }
 
-    public static DCMessageFragment create(Context context, MESSAGE message) {
+    public static DCMessageFragment create(Context context, AudibleMessage message) {
         int day = DCSharedPreferences.loadInt(DCSharedPreferences.DCSharedKey.DAYS_COUNTER, 1);
         return DCMessageFragment.create(day, message.getMessage(context), message.getVoices());
     }
@@ -222,15 +201,15 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
         return false;
     }
 
-    public static MESSAGE getProperMessage() {
+    public static AudibleMessage getProperGreetingMessage() {
         Routine.Type routineType = Routine.getAppropriateRoutineTypeForNow();
 
         if (routineType != null) {
             switch (routineType) {
                 case MORNING:
-                    return MESSAGE.MORNING;
+                    return AudibleMessage.MORNING_GREETING;
                 case EVENING:
-                    return MESSAGE.EVENING;
+                    return AudibleMessage.EVENING_GREETING;
             }
         }
 

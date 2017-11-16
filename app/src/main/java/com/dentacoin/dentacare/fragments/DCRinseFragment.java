@@ -182,6 +182,7 @@ public class DCRinseFragment extends DCDashboardFragment {
                 final Handler handler = new Handler();
                 switch (routine.getType()) {
                     case MORNING:
+
                         DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_MORNING_DONE);
                         handler.postDelayed(new Runnable() {
                             @Override
