@@ -52,19 +52,19 @@ public class DCProfileOverviewFragment extends DCFragment implements View.OnClic
     private void loadUser() {
         if (DCSession.getInstance().getUser() != null) {
             setupUI(DCSession.getInstance().getUser());
+        } else {
+            DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
+                @Override
+                public void onFailure(DCError error) {
+                    onError(error);
+                }
+
+                @Override
+                public void onResponse(DCUser object) {
+                    setupUI(DCSession.getInstance().getUser());
+                }
+            });
         }
-
-        DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
-            @Override
-            public void onFailure(DCError error) {
-                onError(error);
-            }
-
-            @Override
-            public void onResponse(DCUser object) {
-                setupUI(DCSession.getInstance().getUser());
-            }
-        });
     }
 
     private void setupUI(DCUser user) {

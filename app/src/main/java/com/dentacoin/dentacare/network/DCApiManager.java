@@ -225,11 +225,9 @@ public class DCApiManager {
         try {
             JsonObject jsonObject = (JsonObject) gson.toJsonTree(user);
             if (jsonObject != null) {
-                if (jsonObject.get("avatar_64") == null) {
-                    jsonObject.add("avatar_64", null);
-                }
-                if (jsonObject.get("avatar") == null) {
-                    jsonObject.add("avatar", null);
+                if (jsonObject.get("avatar_64") == null && jsonObject.get("avatar") == null) {
+                    jsonObject.addProperty("avatar_64", false);
+                    jsonObject.addProperty("avatar",false);
                 }
                 payload = jsonObject.toString();
             }

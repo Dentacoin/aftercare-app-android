@@ -130,18 +130,21 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
     }
 
     private void loadUser() {
-        setUser(DCSession.getInstance().getUser());
-        DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
-            @Override
-            public void onFailure(DCError error) {
-                onError(error);
-            }
+        if (DCSession.getInstance().getUser() != null) {
+            setUser(DCSession.getInstance().getUser());
+        } else {
+            DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
+                @Override
+                public void onFailure(DCError error) {
+                    onError(error);
+                }
 
-            @Override
-            public void onResponse(DCUser object) {
-                setUser(DCSession.getInstance().getUser());
-            }
-        });
+                @Override
+                public void onResponse(DCUser object) {
+                    setUser(DCSession.getInstance().getUser());
+                }
+            });
+        }
     }
 
     private void setUser(DCUser user) {
