@@ -69,6 +69,8 @@ public class Routine {
     private ArrayList<Action> actions;
     private IRoutineListener listener;
     private Type type;
+    private Action action;
+    private int earned = 0;
 
     public Type getType() {
         return type;
@@ -76,6 +78,22 @@ public class Routine {
 
     public void setListener(IRoutineListener listener) {
         this.listener = listener;
+    }
+
+    public int getEarned() {
+        return earned;
+    }
+
+    public void addToEarned(int value) {
+        earned += value;
+    }
+
+    /**
+     * Returns the current action of the routine
+     * @return
+     */
+    public Action getAction() {
+        return action;
     }
 
     public Routine(Type type) {
@@ -110,11 +128,11 @@ public class Routine {
             return;
         }
 
-        Action nextAction = actions.get(0);
-        actions.remove(nextAction);
+        action = actions.get(0);
+        actions.remove(action);
 
         if (listener != null) {
-            listener.onRoutineStep(this, nextAction);
+            listener.onRoutineStep(this, action);
         }
     }
 }

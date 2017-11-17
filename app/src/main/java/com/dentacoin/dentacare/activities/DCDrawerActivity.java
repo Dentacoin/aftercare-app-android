@@ -34,6 +34,10 @@ import com.dentacoin.dentacare.widgets.DCTextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.login.LoginManager;
 import com.github.florent37.viewtooltip.ViewTooltip;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.twitter.sdk.android.core.TwitterCore;
 
 /**
  * Created by Atanas Chervarov on 8/11/17.
@@ -92,7 +96,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-                loadUserData();
+                loadUserData(false);
 
                 DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, sdvDrawerHeaderAvatar, DCTutorialManager.TUTORIAL.EDIT_PROFILE, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.RIGHT);
                 DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(3), DCTutorialManager.TUTORIAL.COLLECT_DCN, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.TOP);
@@ -128,7 +132,8 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
         }
 
         toggle.syncState();
-        loadUserData();
+        loadUserData(true);
+        DCLocalNotificationsManager.getInstance().scheduleNotifications(DCDrawerActivity.this, false);
     }
 
     @Override
@@ -146,9 +151,10 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
 
     /**
      * Retrieves the user data for the navigation header
+     * @param force true to force an api request
      */
-    private void loadUserData() {
-        if (DCSession.getInstance().getUser() == null) {
+    private void loadUserData(boolean force) {
+        if (DCSession.getInstance().getUser() == null || force) {
             DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
                 @Override
                 public void onFailure(DCError error) {
@@ -236,10 +242,18 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
 
                                     @Override
                                     public void onResponse(Void object) {
+                                        DCLocalNotificationsManager.getInstance().scheduleNotifications(DCDrawerActivity.this, true);
                                         DCSession.getInstance().clear();
                                         LoginManager.getInstance().logOut();
+                                        TwitterCore.getInstance().getSessionManager().clearActiveSession();
+
+                                        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                                                .build();
+
+                                        GoogleSignInClient client = GoogleSignIn.getClient(DCDrawerActivity.this, gso);
+                                        client.signOut();
+
                                         DCTutorialManager.getInstance().clear();
-                                        DCLocalNotificationsManager.getInstance().scheduleNotifications(DCDrawerActivity.this, true);
                                         onLogout();
                                     }
                                 });

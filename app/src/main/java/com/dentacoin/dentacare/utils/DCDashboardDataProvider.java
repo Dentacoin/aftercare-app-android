@@ -111,6 +111,10 @@ public class DCDashboardDataProvider {
      * @param record    Valid DCActivityRecord
      */
     public void addActivityRecord(final DCActivityRecord record) {
+        addActivityRecord(record, null);
+    }
+
+    public void addActivityRecord(final DCActivityRecord record, final DCResponseListener<DCActivityRecord> listener) {
         if (record == null || record.getTime() < 30) {
             notifyObserversOnError(new DCError(R.string.dashboard_too_short_record));
             return;
@@ -131,11 +135,17 @@ public class DCDashboardDataProvider {
                 } else {
                     notifyObserversOnError(error);
                 }
+
+                if (listener != null)
+                    listener.onFailure(error);
             }
 
             @Override
             public void onResponse(DCActivityRecord object) {
                 updateDashboard(true);
+
+                if (listener != null)
+                    listener.onResponse(object);
             }
         });
     }

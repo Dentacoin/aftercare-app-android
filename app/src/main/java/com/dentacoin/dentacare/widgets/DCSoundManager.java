@@ -18,6 +18,10 @@ import java.util.TimerTask;
 
 public class DCSoundManager {
 
+    public interface IDCSoundListener {
+        void onMusicEnded(Music music);
+    }
+
     private static final String TAG = DCSoundManager.class.getSimpleName();
 
     private static DCSoundManager instance;
@@ -28,6 +32,8 @@ public class DCSoundManager {
     private boolean isFemale;
     private boolean soundEnabled;
     private boolean musicEnabled;
+
+    private IDCSoundListener listener;
 
     private Music[] music = {
             Music.SONG1,
@@ -53,6 +59,10 @@ public class DCSoundManager {
         isFemale = DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.FEMALE_VOICE, false);
         soundEnabled = DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.SOUND_ENABLED, true);
         musicEnabled = DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.MUSIC_ENABLED, true);
+    }
+
+    public void setListener(IDCSoundListener listener) {
+        this.listener = listener;
     }
 
     public boolean isVoiceMale() { return !isFemale; }
@@ -185,7 +195,7 @@ public class DCSoundManager {
      * @param context
      * @param music
      */
-    public void playMusic(Context context, Music music) {
+    public void playMusic(Context context, final Music music) {
         if (!musicEnabled)
             return;
 
@@ -198,6 +208,14 @@ public class DCSoundManager {
             musicPlayer = new MediaPlayer();
             AssetFileDescriptor afd = context.getAssets().openFd(music.getPath());
             musicPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            musicPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    if (listener != null)
+                        listener.onMusicEnded(music);
+                }
+            });
+
             musicPlayer.prepare();
             musicPlayer.start();
 

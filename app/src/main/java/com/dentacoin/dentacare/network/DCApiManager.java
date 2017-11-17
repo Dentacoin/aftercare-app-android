@@ -24,6 +24,7 @@ import com.dentacoin.dentacare.network.response.DCRecordsSyncResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -218,7 +219,23 @@ public class DCApiManager {
             return;
 
         String endpoint = buildPath(ENDPOINT_USER, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(user));
+        String payload = gson.toJson(user);
+
+        //FIXME: fix null values serialization
+        try {
+            JsonObject jsonObject = (JsonObject) gson.toJsonTree(user);
+            if (jsonObject != null) {
+                if (jsonObject.get("avatar_64") == null && jsonObject.get("avatar") == null) {
+                    jsonObject.addProperty("avatar_64", false);
+                    jsonObject.addProperty("avatar",false);
+                }
+                payload = jsonObject.toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, payload);
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
 
         DCResponseListener<DCUser> listener = new DCResponseListener<DCUser>() {

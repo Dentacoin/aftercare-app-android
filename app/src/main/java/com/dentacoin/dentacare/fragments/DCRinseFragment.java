@@ -48,9 +48,10 @@ public class DCRinseFragment extends DCDashboardFragment {
 
     @Override
     protected void startRecording() {
-        if (trackingTime)
+        if (trackingTime || (routine != null && Routine.Action.RINSE_DONE.equals(routine.getAction())))
             return;
 
+        playMusic();
         nextStep();
         trackingTime = true;
         record = new DCActivityRecord();
@@ -71,7 +72,6 @@ public class DCRinseFragment extends DCDashboardFragment {
 
         timer.start();
         updateView();
-        playMusic();
     }
 
     @Override
@@ -179,29 +179,9 @@ public class DCRinseFragment extends DCDashboardFragment {
                 }
                 break;
             case RINSE_DONE:
-                final Handler handler = new Handler();
-                switch (routine.getType()) {
-                    case MORNING:
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_MORNING_DONE);
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (routine != null)
-                                    routine.next();
-                            }
-                        }, 2000);
-                        break;
-                    case EVENING:
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_DONE);
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (routine != null)
-                                    routine.next();
-                            }
-                        }, 2000);
-                        break;
-                }
+                DCRoutineCompletedFragment routineCompletedFragment = DCRoutineCompletedFragment.create(routine.getType());
+                routineCompletedFragment.show(getFragmentManager(), DCRoutineCompletedFragment.TAG);
+                routine.next();
                 break;
         }
     }

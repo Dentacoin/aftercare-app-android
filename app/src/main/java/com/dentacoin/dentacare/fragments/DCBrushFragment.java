@@ -132,6 +132,14 @@ public class DCBrushFragment extends DCDashboardFragment {
     }
 
     @Override
+    public void startRecording() {
+        if (routine != null && Routine.Action.BRUSH_DONE.equals(routine.getAction()))
+            return;
+
+        super.startRecording();
+    }
+
+    @Override
     protected void stopRecording() {
         super.stopRecording();
         hideAll();
@@ -185,7 +193,7 @@ public class DCBrushFragment extends DCDashboardFragment {
                         if (routine != null)
                             routine.next();
                     }
-                }, 2500);
+                }, 2700);
                 break;
         }
     }

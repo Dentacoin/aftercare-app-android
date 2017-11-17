@@ -2,7 +2,6 @@ package com.dentacoin.dentacare.activities;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,7 +20,6 @@ import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
 import com.dentacoin.dentacare.utils.DCLocalNotificationsManager;
-import com.dentacoin.dentacare.utils.DCUtils;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -59,7 +57,6 @@ public class DCAuthenticationActivity extends DCActivity {
     private GoogleApiClient googleApiClient;
     private CallbackManager facebookCallbackManager;
     private TwitterAuthClient twitterAuthClient;
-    private String socialAvatar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -135,7 +132,7 @@ public class DCAuthenticationActivity extends DCActivity {
                 user.setFacebookID(loginResult.getAccessToken().getUserId());
 
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id, first_name, last_name, email, birthday, gender, picture.type(large)");
+                parameters.putString("fields", "id, first_name, last_name, email, birthday, gender");
 
                 GraphRequest request = new GraphRequest(loginResult.getAccessToken(), "me", parameters, null, new GraphRequest.Callback() {
                     @Override
@@ -153,11 +150,6 @@ public class DCAuthenticationActivity extends DCActivity {
                                     user.setBirthday((Date)objResponse.get("birthday"));
                                 if (objResponse.has("gender"))
                                     user.setGender(objResponse.getString("gender"));
-
-                                if (objResponse.has("picture")) {
-                                    JSONObject object = (JSONObject)objResponse.get("picture");
-                                    socialAvatar = ((JSONObject)(object.get("data"))).getString("url");
-                                }
 
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -224,7 +216,6 @@ public class DCAuthenticationActivity extends DCActivity {
                             user.setTwitterAccessToken(authResult.data.getAuthToken().token);
                             user.setTwitterAccessTokenSecret(authResult.data.getAuthToken().secret);
                             user.setFirstname(twitterUser.name);
-                            socialAvatar = twitterUser.profileImageUrl;
 
                             DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
                                 @Override
@@ -270,7 +261,10 @@ public class DCAuthenticationActivity extends DCActivity {
 
     public void onGoogleLogin() {
         if (googleApiClient != null) {
-            Auth.GoogleSignInApi.signOut(googleApiClient);
+
+            if (googleApiClient.isConnected())
+                Auth.GoogleSignInApi.signOut(googleApiClient);
+
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
             startActivityForResult(signInIntent, REQUEST_CODE_GOOGLE_SIGN_IN);
         }
@@ -301,10 +295,6 @@ public class DCAuthenticationActivity extends DCActivity {
                 user.setLastname(acct.getFamilyName());
                 user.setGoogleID(acct.getId());
                 user.setGoogleAccessToken(acct.getIdToken());
-
-                if (acct.getPhotoUrl() != null) {
-                    socialAvatar = acct.getPhotoUrl().toString();
-                }
 
                 final DCLoadingFragment loadingFragment = showLoading();
 
@@ -356,24 +346,23 @@ public class DCAuthenticationActivity extends DCActivity {
             @Override
             public void onAgreementAccepted() {
                 final DCLoadingFragment loadingFragment = showLoading();
-                if (user.getAvatar_64() == null && socialAvatar != null) {
-                    DCApiManager.getInstance().downloadBitmap(socialAvatar, new DCResponseListener<Bitmap>() {
-                        @Override
-                        public void onFailure(DCError error) {
-                            registerUser(user, loadingFragment);
-                        }
+                DCApiManager.getInstance().registerUser(user, new DCResponseListener<DCAuthToken>() {
+                    @Override
+                    public void onFailure(DCError error) {
+                        onError(error);
 
-                        @Override
-                        public void onResponse(Bitmap object) {
-                            if (object != null) {
-                                user.setAvatar_64(DCUtils.base64Bitmap(object));
-                            }
-                            registerUser(user, loadingFragment);
-                        }
-                    });
-                } else {
-                    registerUser(user, loadingFragment);
-                }
+                        if (loadingFragment != null)
+                            loadingFragment.dismissAllowingStateLoss();
+                    }
+
+                    @Override
+                    public void onResponse(DCAuthToken object) {
+                        handleAuthentication(object);
+
+                        if (loadingFragment != null)
+                            loadingFragment.dismissAllowingStateLoss();
+                    }
+                });
             }
         });
 
@@ -384,30 +373,10 @@ public class DCAuthenticationActivity extends DCActivity {
         transaction.commit();
     }
 
-    private void registerUser(final  DCUser user, final DCLoadingFragment loadingFragment) {
-        DCApiManager.getInstance().registerUser(user, new DCResponseListener<DCAuthToken>() {
-            @Override
-            public void onFailure(DCError error) {
-                onError(error);
-
-                if (loadingFragment != null)
-                    loadingFragment.dismissAllowingStateLoss();
-            }
-
-            @Override
-            public void onResponse(DCAuthToken object) {
-                handleAuthentication(object);
-
-                if (loadingFragment != null)
-                    loadingFragment.dismissAllowingStateLoss();
-            }
-        });
-    }
-
-
     private void handleAuthentication(DCAuthToken token) {
         DCSession.getInstance().setAuthToken(token);
         if (DCSession.getInstance().isValid()) {
+            DCSession.getInstance().loadSocialAvatar(this);
             DCLocalNotificationsManager.getInstance().scheduleNotifications(this, false);
             final Intent intent = new Intent(this, DCDashboardActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

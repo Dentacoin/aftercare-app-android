@@ -26,6 +26,7 @@
                 fresco:backgroundImage="@drawable/welcome_avatar_holder"
                 fresco:roundAsCircle="true"
                 app:roundingBorderColor="@color/white"
+                fresco:fadeDuration="0"
                 fresco:roundingBorderWidth="2.5dp"
                 android:layout_gravity="center"/>
 

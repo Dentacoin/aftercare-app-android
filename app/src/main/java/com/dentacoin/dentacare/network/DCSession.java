@@ -1,9 +1,13 @@
 package com.dentacoin.dentacare.network;
 
+import android.content.Context;
+
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
+import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
+import com.dentacoin.dentacare.utils.DCUtils;
 import com.google.gson.JsonSyntaxException;
 
 import java.util.Date;
@@ -15,9 +19,9 @@ import java.util.Date;
 public class DCSession {
 
     private static DCSession instance;
-
     private DCAuthToken authToken;
     private DCUser user;
+    private String socialAvatar;
 
     public synchronized static DCSession getInstance() {
         if (instance == null)
@@ -27,6 +31,19 @@ public class DCSession {
     }
 
     private DCSession() { }
+
+    public void loadSocialAvatar(Context context) {
+        DCUtils.getUserAvatarFromSocialMedia(context, new DCUtils.ISocialAvatar() {
+            @Override
+            public void onSocialAvatarRetrieved(String url) {
+                socialAvatar = url;
+            }
+        });
+    }
+
+    public String getCurrentUserSocialAvatar() {
+        return socialAvatar;
+    }
 
     public void setUser(DCUser user) {
         this.user = user;
@@ -43,7 +60,8 @@ public class DCSession {
 
             if (DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE) == null) {
                 Date now = new Date();
-                DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE, now.toString());
+                String stringDate = DCConstants.DATE_FORMAT.format(now);
+                DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE, stringDate);
             }
         }
     }
@@ -103,5 +121,6 @@ public class DCSession {
         DCDashboardDataProvider.getInstance().clear();
         authToken = null;
         user = null;
+        socialAvatar = null;
     }
 }

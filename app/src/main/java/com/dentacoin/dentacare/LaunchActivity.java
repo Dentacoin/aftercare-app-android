@@ -60,6 +60,7 @@ public class LaunchActivity extends AppCompatActivity {
 
     private void checkSession() {
         if (DCSession.getInstance().isValid()) {
+            DCSession.getInstance().loadSocialAvatar(this);
             final Intent intent = new Intent(this, DCDashboardActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);

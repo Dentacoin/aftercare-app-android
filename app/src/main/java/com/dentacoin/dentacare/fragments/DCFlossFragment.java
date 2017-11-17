@@ -48,6 +48,14 @@ public class DCFlossFragment extends DCDashboardFragment {
     }
 
     @Override
+    public void startRecording() {
+        if (routine != null && Routine.Action.FLOSS_DONE.equals(routine.getAction()))
+            return;
+
+        super.startRecording();
+    }
+
+    @Override
     protected void stopRecording() {
         super.stopRecording();
         floss_1 = false;
