@@ -169,10 +169,10 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         messageRunnable = new Runnable() {
             @Override
             public void run() {
-                Fragment wellcomeFragment = getFragmentManager().findFragmentByTag(DCWelcomeFragment.TAG);
+                Fragment welcomeFragment = getFragmentManager().findFragmentByTag(DCWelcomeFragment.TAG);
                 Fragment goalFragment = getFragmentManager().findFragmentByTag(DCGoalDialogFragment.TAG);
 
-                if ((wellcomeFragment != null && wellcomeFragment.isVisible()) ||
+                if ((welcomeFragment != null && welcomeFragment.isVisible()) ||
                         (goalFragment != null && goalFragment.isVisible()) || inRecord) {
                     return;
                 }

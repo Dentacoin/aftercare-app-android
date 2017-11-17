@@ -70,6 +70,7 @@ public class Routine {
     private IRoutineListener listener;
     private Type type;
     private Action action;
+    private int earned = 0;
 
     public Type getType() {
         return type;
@@ -77,6 +78,14 @@ public class Routine {
 
     public void setListener(IRoutineListener listener) {
         this.listener = listener;
+    }
+
+    public int getEarned() {
+        return earned;
+    }
+
+    public void addToEarned(int value) {
+        earned += value;
     }
 
     /**

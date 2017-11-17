@@ -179,30 +179,9 @@ public class DCRinseFragment extends DCDashboardFragment {
                 }
                 break;
             case RINSE_DONE:
-                final Handler handler = new Handler();
-                switch (routine.getType()) {
-                    case MORNING:
-
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_MORNING_DONE);
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (routine != null)
-                                    routine.next();
-                            }
-                        }, 2000);
-                        break;
-                    case EVENING:
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_DONE);
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (routine != null)
-                                    routine.next();
-                            }
-                        }, 2000);
-                        break;
-                }
+                DCRoutineCompletedFragment routineCompletedFragment = DCRoutineCompletedFragment.create(routine.getType());
+                routineCompletedFragment.show(getFragmentManager(), DCRoutineCompletedFragment.TAG);
+                routine.next();
                 break;
         }
     }

@@ -10,7 +10,7 @@ import com.dentacoin.dentacare.R;
 
 public enum AudibleMessage {
     MORNING_GREETING(R.string.message_morning_routine_start, new Voice[] { Voice.MORNING_GREETING }),
-    EVENING_GREETING(R.string.message_evening_routine_end, new Voice[] { Voice.EVENING_GREETING }),
+    EVENING_GREETING(R.string.message_evening_routine_start, new Voice[] { Voice.EVENING_GREETING }),
     MORNING_ROUTINE_END(R.string.message_morning_routine_end, new Voice[] { Voice.RINSE_MORNING_DONE }),
     EVENING_ROUTINE_END(R.string.message_evening_routine_end, new Voice[] { Voice.RINSE_EVENING_DONE});
 

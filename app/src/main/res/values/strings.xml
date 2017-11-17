@@ -169,6 +169,8 @@
     <string name="goals_hdl_goals">Achievements</string>
     <string name="goals_txt_no_goals_found">No achievements found!</string>
     <string name="fb_share_goal_message">I just got %1$s DCN for achieving %2$s</string>
+    <string name="fb_share_morning_routine_completed">I just finished my morning routine!</string>
+    <string name="fb_share_evening_routine_completed">I just finished my evening routine!</string>
 
     <string name="btn_agree">Agree</string>
     
@@ -247,7 +249,7 @@
     <string name="message_rinse_3">You\'re done, spit the solution out in the sink.</string>
     <string name="message_rinse_4">You have completed your first morning brush. Amazing job!</string>
 
-    <string name="message_morning_routine_end">Congratulations! Now you are ready to Amaze the world with your beautiful smile. Make big things today and come back in the evening before going to bed. Have a nice day ahead.</string>
+    <string name="message_morning_routine_end">Congratulations!\nNow you are ready to Amaze the world with your beautiful smile. Make big things today and come back in the evening before going to bed.\nHave a nice day ahead.</string>
 
     <string name="message_evening_routine_start">Good evening, darling. Did you have a good day? Are you on the way to becoming a legend?</string>
     <string name="message_evening_routine_2">Now let’s get you ready for bed. Rest is important. Hygiene too!</string>
@@ -258,7 +260,7 @@
     <string name="message_floss_5">Press the stop button when you are done with every tooth.</string>
     <string name="message_floss_6">Great job, flossing!</string>
 
-    <string name="message_evening_routine_end">You have completed your last brush for the day. Amazing job! Have a nice rest and come back in the morning. Sweet dreams.</string>
+    <string name="message_evening_routine_end">You have completed your last brush for the day. Amazing job! Have a nice rest and come back in the morning.\nSweet dreams.</string>
 
     <string name="email_subject">Emergency request from %1$s</string>
     <string name="email_send_via">Send emergency email via...</string>
@@ -266,4 +268,7 @@
     <string name="btn_message_morning_routine">Start morning routine</string>
     <string name="btn_message_evening_routine">Start evening routine</string>
     <string name="hdl_profile_remove_title">Remove avatar?</string>
+
+    <string name="message_hdl_earned_dcn">%1$sDCN earned!</string>
+    <string name="message_hdl_routine_completed">Routine completed!</string>
 </resources>
