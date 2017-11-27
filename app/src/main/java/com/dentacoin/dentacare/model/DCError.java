@@ -29,6 +29,10 @@ public class DCError {
         this.errors = new String[] { message };
     }
 
+    public String[] getErrors() {
+        return errors;
+    }
+
     /**
      * Create error with a given error message
      * @param code

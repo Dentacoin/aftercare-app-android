@@ -22,7 +22,6 @@ public class DCSharedPreferences {
         RECORDS("RECORDS"),
         GOALS("GOALS"),
         GOALS_REACHED("GOALS_REACHED"),
-        COLLECTED("COLLECTED"),
         SHOWED_TUTORIALS("SHOWED_TUTORIALS"),
         FEMALE_VOICE("FEMALE_VOICE"),
         LAST_MESSAGE_TIME("LAST_MESSAGE_TIME"),
@@ -127,7 +126,6 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.DEFAULT_WALLET);
         removeKey(DCSharedKey.DASHBOARD);
         removeKey(DCSharedKey.RECORDS);
-        removeKey(DCSharedKey.COLLECTED);
         removeKey(DCSharedKey.GOALS_REACHED);
         removeKey(DCSharedKey.FEMALE_VOICE);
         removeKey(DCSharedKey.LAST_MESSAGE_TIME);

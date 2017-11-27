@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.utils.DCErrorType;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
@@ -54,8 +56,22 @@ public class DCResponseHandler<T> implements Callback {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
+                            int jsonCode = 200;
                             try {
-                                if (response.code() >= 200 && response.code() < 300) {
+                                JsonObject jsonObject = DCApiManager.gson.fromJson(jsonString, JsonObject.class);
+                                if (jsonObject != null) {
+                                    JsonElement element = jsonObject.get("code");
+                                    if (element != null) {
+                                        String responseCode = element.toString();
+                                        jsonCode = Integer.valueOf(responseCode);
+                                    }
+                                }
+                            } catch (JsonSyntaxException | IllegalStateException | NumberFormatException e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                if (response.code() >= 200 && response.code() < 300 && jsonCode >= 200 && jsonCode < 300) {
                                     T object = DCApiManager.gson.fromJson(jsonString, clazz);
                                     responseListener.onResponse(object);
                                 } else {
