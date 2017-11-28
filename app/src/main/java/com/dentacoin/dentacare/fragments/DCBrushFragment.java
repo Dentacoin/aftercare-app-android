@@ -101,6 +101,7 @@ public class DCBrushFragment extends DCDashboardFragment {
             setMessage(getString(R.string.message_brush_1));
         }
         else if (t > 30 && t < 60 && !wlvisible) {
+            setRecordButtonEnabled(true);
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.WL, getResources().getColor(R.color.lightBlueAlpha));
             wlvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.UL);
@@ -136,6 +137,7 @@ public class DCBrushFragment extends DCDashboardFragment {
         if (routine != null && Routine.Action.BRUSH_DONE.equals(routine.getAction()))
             return;
 
+        setRecordButtonEnabled(routine == null);
         super.startRecording();
     }
 

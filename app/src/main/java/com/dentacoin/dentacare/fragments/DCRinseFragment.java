@@ -51,6 +51,8 @@ public class DCRinseFragment extends DCDashboardFragment {
         if (trackingTime || (routine != null && Routine.Action.RINSE_DONE.equals(routine.getAction())))
             return;
 
+        setRecordButtonEnabled(routine == null);
+
         playMusic();
         nextStep();
         trackingTime = true;
@@ -145,6 +147,7 @@ public class DCRinseFragment extends DCDashboardFragment {
         else if (t < 1 && !rinseShown3) {
             DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_STOP);
             setMessage(getString(R.string.message_rinse_3));
+            setRecordButtonEnabled(true);
             rinseShown3 = true;
         }
     }

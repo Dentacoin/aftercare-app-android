@@ -253,6 +253,12 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         updateView();
     }
 
+    protected void setRecordButtonEnabled(boolean enabled) {
+        if (btnDashboardRecord != null) {
+            btnDashboardRecord.setEnabled(enabled);
+        }
+    }
+
     protected void updateView() {
         if (!isAdded())
             return;
