@@ -175,12 +175,16 @@ public class DCBrushFragment extends DCDashboardFragment {
             case BRUSH_READY:
                 switch (routine.getType()) {
                     case MORNING:
-                        setMessage(getString(R.string.message_morning_routine_2));
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_MORNING_START);
+                        if (isAdded()) {
+                            setMessage(getString(R.string.message_morning_routine_2));
+                            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_MORNING_START);
+                        }
                         break;
                     case EVENING:
-                        setMessage(getString(R.string.message_evening_brush_start));
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_EVENING_START);
+                        if (isAdded()) {
+                            setMessage(getString(R.string.message_evening_brush_start));
+                            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_EVENING_START);
+                        }
                         break;
                 }
                 break;

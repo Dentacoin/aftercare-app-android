@@ -169,12 +169,16 @@ public class DCRinseFragment extends DCDashboardFragment {
             case RINSE_READY:
                 switch (routine.getType()) {
                     case MORNING:
-                        setMessage(getString(R.string.message_morning_routine_3));
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_MORNING_START);
+                        if (isAdded()) {
+                            setMessage(getString(R.string.message_morning_routine_3));
+                            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_MORNING_START);
+                        }
                         break;
                     case EVENING:
-                        setMessage(getString(R.string.message_evening_rinse_start));
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_START);
+                        if (isAdded()) {
+                            setMessage(getString(R.string.message_evening_rinse_start));
+                            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_START);
+                        }
                         break;
                 }
                 break;

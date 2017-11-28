@@ -39,6 +39,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.twitter.sdk.android.core.TwitterCore;
 
+import java.util.ArrayList;
+
 /**
  * Created by Atanas Chervarov on 8/11/17.
  * Basic Drawer Activity
@@ -99,9 +101,12 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 loadUserData(false);
 
                 DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, sdvDrawerHeaderAvatar, DCTutorialManager.TUTORIAL.EDIT_PROFILE, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.RIGHT);
-                DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(3), DCTutorialManager.TUTORIAL.COLLECT_DCN, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.TOP);
-                DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(4), DCTutorialManager.TUTORIAL.GOALS, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
-                DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(7), DCTutorialManager.TUTORIAL.EMERGENCY_MENU, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
+                ArrayList<View> touchables = nvNavigation.getTouchables();
+                if (touchables != null && touchables.size() >= 8) {
+                    DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(3), DCTutorialManager.TUTORIAL.COLLECT_DCN, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.TOP);
+                    DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(4), DCTutorialManager.TUTORIAL.GOALS, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
+                    DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(7), DCTutorialManager.TUTORIAL.EMERGENCY_MENU, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
+                }
             }
 
             @Override

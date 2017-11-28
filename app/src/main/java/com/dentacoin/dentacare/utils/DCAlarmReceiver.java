@@ -69,7 +69,11 @@ public class DCAlarmReceiver extends BroadcastReceiver {
                     .setContentIntent(pendingIntent);
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.notify(DCSharedPreferences.getNotificationId(), notificationBuilder.build());
+            try {
+                notificationManager.notify(DCSharedPreferences.getNotificationId(), notificationBuilder.build());
+            } catch (IllegalAccessError | NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

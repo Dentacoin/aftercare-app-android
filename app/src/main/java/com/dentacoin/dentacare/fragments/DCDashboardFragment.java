@@ -91,11 +91,11 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        bottomSheetBehavior = BottomSheetBehavior.from(view.findViewById(R.id.ll_bottom_statistics));
+        llBottomStatistics = (LinearLayout) view.findViewById(R.id.ll_bottom_statistics);
+        bottomSheetBehavior = BottomSheetBehavior.from(llBottomStatistics);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         ivDashboardDownArrow = (ImageView) view.findViewById(R.id.iv_dashboard_down_arrow);
         ivDashboardUpArrow = (ImageView) view.findViewById(R.id.iv_dashboard_up_arrow);
-        llBottomStatistics = (LinearLayout) view.findViewById(R.id.ll_bottom_statistics);
         timerDashboard = (DCTimerView) view.findViewById(R.id.timer_dashboard);
         timerDashboardLast = (DCTimerView) view.findViewById(R.id.timer_dashboard_last);
         timerDashboardleft = (DCTimerView) view.findViewById(R.id.timer_dashboard_left);

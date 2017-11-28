@@ -91,7 +91,7 @@ public class DCSoundManager {
      * @param voice
      */
     public void playVoice(Context context, Voice voice) {
-        if (!soundEnabled)
+        if (!soundEnabled || context == null)
             return;
 
         try {
@@ -196,7 +196,7 @@ public class DCSoundManager {
      * @param music
      */
     public void playMusic(Context context, final Music music) {
-        if (!musicEnabled)
+        if (!musicEnabled || context == null)
             return;
 
         try {
