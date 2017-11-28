@@ -62,6 +62,7 @@ public class DCRinseFragment extends DCDashboardFragment {
             @Override
             public void onTick(long millisUntilFinished) {
                 handleClockTick(millisUntilFinished);
+                DCRinseFragment.this.milisUntilFinished = millisUntilFinished;
             }
 
             @Override
@@ -72,6 +73,7 @@ public class DCRinseFragment extends DCDashboardFragment {
 
         timer.start();
         updateView();
+        toggleRecordView(trackingTime || routine != null);
     }
 
     @Override
@@ -112,6 +114,7 @@ public class DCRinseFragment extends DCDashboardFragment {
         rinseShown3 = false;
 
         updateView();
+        toggleRecordView(trackingTime || routine != null);
 
         if (routine == null)
             stopMusic();

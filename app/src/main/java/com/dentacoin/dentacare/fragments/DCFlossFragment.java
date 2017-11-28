@@ -85,8 +85,10 @@ public class DCFlossFragment extends DCDashboardFragment {
             case FLOSS_READY:
                 switch (routine.getType()) {
                     case EVENING:
-                        setMessage(getString(R.string.message_floss_1));
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.FLOSS_START);
+                        if (isAdded()) {
+                            setMessage(getString(R.string.message_floss_1));
+                            DCSoundManager.getInstance().playVoice(getActivity(), Voice.FLOSS_START);
+                        }
                         break;
                 }
                 break;

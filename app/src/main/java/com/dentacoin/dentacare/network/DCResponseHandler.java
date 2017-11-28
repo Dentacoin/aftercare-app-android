@@ -67,7 +67,6 @@ public class DCResponseHandler<T> implements Callback {
                                     }
                                 }
                             } catch (JsonSyntaxException | IllegalStateException | NumberFormatException e) {
-                                e.printStackTrace();
                             }
 
                             try {

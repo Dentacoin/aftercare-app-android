@@ -36,11 +36,11 @@ public class DCUser {
     private String twitterID;
     private String twitterAccessToken;
     private String twitterAccessTokenSecret;
-    private boolean can_withdraw = false;
-
-    public boolean canWithdraw() {
-        return can_withdraw;
-    }
+//    private boolean can_withdraw = false;
+//
+//    public boolean canWithdraw() {
+//        return can_withdraw;
+//    }
 
     public void setEmail(String email) {
         this.email = email;
