@@ -30,6 +30,7 @@ public class DCFlossFragment extends DCDashboardFragment {
 
     private boolean floss_1 = false;
     private boolean floss_2 = false;
+    private boolean floss_3 = false;
 
     @Override
     protected void handleClockTick(long millisUntilFinished) {
@@ -39,6 +40,10 @@ public class DCFlossFragment extends DCDashboardFragment {
             floss_1 = true;
             DCSoundManager.getInstance().playVoice(getActivity(),  Voice.FLOSS_STEP_1);
             setMessage(getString(R.string.message_floss_4));
+        }
+        else if(t > 30 && t < 40 && !floss_3) {
+            floss_3 = true;
+            setRecordButtonEnabled(true);
         }
         else if (t > 115 && !floss_2) {
             floss_2 = true;
@@ -52,6 +57,7 @@ public class DCFlossFragment extends DCDashboardFragment {
         if (routine != null && Routine.Action.FLOSS_DONE.equals(routine.getAction()))
             return;
 
+        setRecordButtonEnabled(routine == null);
         super.startRecording();
     }
 
@@ -60,6 +66,7 @@ public class DCFlossFragment extends DCDashboardFragment {
         super.stopRecording();
         floss_1 = false;
         floss_2 = false;
+        floss_3 = false;
     }
 
     @Override
@@ -85,8 +92,10 @@ public class DCFlossFragment extends DCDashboardFragment {
             case FLOSS_READY:
                 switch (routine.getType()) {
                     case EVENING:
-                        setMessage(getString(R.string.message_floss_1));
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.FLOSS_START);
+                        if (isAdded()) {
+                            setMessage(getString(R.string.message_floss_1));
+                            DCSoundManager.getInstance().playVoice(getActivity(), Voice.FLOSS_START);
+                        }
                         break;
                 }
                 break;

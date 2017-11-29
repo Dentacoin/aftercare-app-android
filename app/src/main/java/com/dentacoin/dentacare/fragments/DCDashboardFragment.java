@@ -91,11 +91,11 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        bottomSheetBehavior = BottomSheetBehavior.from(view.findViewById(R.id.ll_bottom_statistics));
+        llBottomStatistics = (LinearLayout) view.findViewById(R.id.ll_bottom_statistics);
+        bottomSheetBehavior = BottomSheetBehavior.from(llBottomStatistics);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         ivDashboardDownArrow = (ImageView) view.findViewById(R.id.iv_dashboard_down_arrow);
         ivDashboardUpArrow = (ImageView) view.findViewById(R.id.iv_dashboard_up_arrow);
-        llBottomStatistics = (LinearLayout) view.findViewById(R.id.ll_bottom_statistics);
         timerDashboard = (DCTimerView) view.findViewById(R.id.timer_dashboard);
         timerDashboardLast = (DCTimerView) view.findViewById(R.id.timer_dashboard_last);
         timerDashboardleft = (DCTimerView) view.findViewById(R.id.timer_dashboard_left);
@@ -253,6 +253,12 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         updateView();
     }
 
+    protected void setRecordButtonEnabled(boolean enabled) {
+        if (btnDashboardRecord != null) {
+            btnDashboardRecord.setEnabled(enabled);
+        }
+    }
+
     protected void updateView() {
         if (!isAdded())
             return;
@@ -349,10 +355,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                 tvDashboardMessageContainer.setVisibility(View.GONE);
             }
 
-
             llDashboardHolder.setLayoutParams(dashboardParams);
-
-            ((DCDashboardActivity)getActivity()).toggleRecordMode(trackingTime);
         }
     }
 
@@ -391,12 +394,13 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         super.onResume();
         DCDashboardDataProvider.getInstance().addObserver(this);
         DCDashboardDataProvider.getInstance().updateDashboard(false);
+        resumeRecording();
     }
 
     @Override
     public void onPause() {
         DCDashboardDataProvider.getInstance().removeObserver(this);
-        stopRecording();
+        pauseRecording();
         super.onPause();
     }
 
@@ -423,6 +427,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
             @Override
             public void onTick(long millisUntilFinished) {
                 handleClockTick(millisUntilFinished);
+                DCDashboardFragment.this.milisUntilFinished = millisUntilFinished;
             }
 
             @Override
@@ -433,6 +438,13 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
         timer.start();
         updateView();
+        toggleRecordView(trackingTime || routine != null);
+    }
+
+    protected void toggleRecordView(boolean inRecord) {
+        if (getActivity() != null) {
+            ((DCDashboardActivity)getActivity()).toggleRecordMode(inRecord);
+        }
     }
 
     protected void stopRecording() {
@@ -448,6 +460,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         }
 
         timer = null;
+        milisUntilFinished = 0;
 
         if (record != null) {
             record.setEndTime(new Date());
@@ -466,10 +479,43 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         }
 
         updateView();
+        toggleRecordView(trackingTime || routine != null);
 
         if (routine == null)
             stopMusic();
     }
+
+    protected boolean paused = false;
+    protected long milisUntilFinished = 0;
+
+    protected void pauseRecording() {
+        if (trackingTime && !paused) {
+            paused = true;
+            timer.cancel();
+            timer = null;
+        }
+    }
+
+    protected void resumeRecording() {
+        if (paused) {
+            paused = false;
+            timer = new CountDownTimer(milisUntilFinished, 100) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    handleClockTick(millisUntilFinished);
+                    DCDashboardFragment.this.milisUntilFinished = millisUntilFinished;
+                }
+
+                @Override
+                public void onFinish() {
+                    stopRecording();
+                }
+            };
+            timer.start();
+            updateView();
+        }
+    }
+
 
     protected void handleClockTick(long millisUntilFinished) {
         float t = (DCConstants.COUNTDOWN_MAX_AMOUNT - millisUntilFinished) / 1000.0f;
@@ -516,6 +562,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     public void onRoutineStart(Routine routine) {
         this.routine = routine;
         updateView();
+        toggleRecordView(routine!=null);
         playMusic();
     }
 
@@ -529,6 +576,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     public void onRoutineEnd(Routine routine) {
         this.routine = null;
         updateView();
+        toggleRecordView(trackingTime || routine != null);
         stopMusic();
     }
 

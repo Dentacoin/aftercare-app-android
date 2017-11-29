@@ -51,6 +51,8 @@ public class DCRinseFragment extends DCDashboardFragment {
         if (trackingTime || (routine != null && Routine.Action.RINSE_DONE.equals(routine.getAction())))
             return;
 
+        setRecordButtonEnabled(routine == null);
+
         playMusic();
         nextStep();
         trackingTime = true;
@@ -62,6 +64,7 @@ public class DCRinseFragment extends DCDashboardFragment {
             @Override
             public void onTick(long millisUntilFinished) {
                 handleClockTick(millisUntilFinished);
+                DCRinseFragment.this.milisUntilFinished = millisUntilFinished;
             }
 
             @Override
@@ -72,6 +75,7 @@ public class DCRinseFragment extends DCDashboardFragment {
 
         timer.start();
         updateView();
+        toggleRecordView(trackingTime || routine != null);
     }
 
     @Override
@@ -112,6 +116,7 @@ public class DCRinseFragment extends DCDashboardFragment {
         rinseShown3 = false;
 
         updateView();
+        toggleRecordView(trackingTime || routine != null);
 
         if (routine == null)
             stopMusic();
@@ -142,6 +147,7 @@ public class DCRinseFragment extends DCDashboardFragment {
         else if (t < 1 && !rinseShown3) {
             DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_STOP);
             setMessage(getString(R.string.message_rinse_3));
+            setRecordButtonEnabled(true);
             rinseShown3 = true;
         }
     }
@@ -169,12 +175,16 @@ public class DCRinseFragment extends DCDashboardFragment {
             case RINSE_READY:
                 switch (routine.getType()) {
                     case MORNING:
-                        setMessage(getString(R.string.message_morning_routine_3));
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_MORNING_START);
+                        if (isAdded()) {
+                            setMessage(getString(R.string.message_morning_routine_3));
+                            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_MORNING_START);
+                        }
                         break;
                     case EVENING:
-                        setMessage(getString(R.string.message_evening_rinse_start));
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_START);
+                        if (isAdded()) {
+                            setMessage(getString(R.string.message_evening_rinse_start));
+                            DCSoundManager.getInstance().playVoice(getActivity(), Voice.RINSE_EVENING_START);
+                        }
                         break;
                 }
                 break;

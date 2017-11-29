@@ -154,12 +154,11 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
         this.user = user;
         sdvProfileAvatar.setImageURI(user.getAvatarUrl(getActivity()));
 
-        //TODO: handle ivProfileClose click
-//        if (avatarUri != null || user.getAvatar() != null) {
-//            ivProfileClose.setVisibility(View.VISIBLE);
-//        } else {
-//            ivProfileClose.setVisibility(View.GONE);
-//        }
+        if (avatarUri != null || user.getAvatar() != null) {
+            ivProfileClose.setVisibility(View.VISIBLE);
+        } else {
+            ivProfileClose.setVisibility(View.GONE);
+        }
 
         tietProfileFirstname.setText(user.getFirstname());
         tietProfileLastname.setText(user.getLastname());

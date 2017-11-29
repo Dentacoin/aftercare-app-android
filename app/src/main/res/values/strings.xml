@@ -124,6 +124,7 @@
     <string name="collect_hnt_amount">Amount</string>
     <string name="collect_error_retrieving_data">There was an error trying to retrieve your data. Please try again later.</string>
     <string name="collect_error_not_enough">Sorry but you don\'t have such amount of DCN yet!</string>
+    <string name="collect_error_not_enough_use">Sorry but you have to use Dentacare app for at least 3 months to be able to withdraw earned DCN!</string>
 
     <string name="dashboard_tab_floss">FLOSS</string>
     <string name="dashboard_tab_brush">BRUSH</string>

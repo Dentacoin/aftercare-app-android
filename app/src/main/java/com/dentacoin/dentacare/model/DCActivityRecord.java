@@ -13,10 +13,19 @@ public class DCActivityRecord {
     private Date startTime;
     private Date endTime;
     private String type;
+//    private boolean reward = false;
     private Integer earnedDCN;
 
     public Date getStartTime() { return startTime; }
     public Date getEndTime() { return endTime; }
+
+//    public boolean isReward() {
+//        return reward;
+//    }
+
+//    public void setReward(boolean reward) {
+//        this.reward = reward;
+//    }
 
     public void setStartTime(Date startTime) {
         this.startTime = startTime;

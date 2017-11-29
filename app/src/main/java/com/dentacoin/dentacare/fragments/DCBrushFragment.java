@@ -101,6 +101,7 @@ public class DCBrushFragment extends DCDashboardFragment {
             setMessage(getString(R.string.message_brush_1));
         }
         else if (t > 30 && t < 60 && !wlvisible) {
+            setRecordButtonEnabled(true);
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.WL, getResources().getColor(R.color.lightBlueAlpha));
             wlvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.UL);
@@ -136,6 +137,7 @@ public class DCBrushFragment extends DCDashboardFragment {
         if (routine != null && Routine.Action.BRUSH_DONE.equals(routine.getAction()))
             return;
 
+        setRecordButtonEnabled(routine == null);
         super.startRecording();
     }
 
@@ -175,12 +177,16 @@ public class DCBrushFragment extends DCDashboardFragment {
             case BRUSH_READY:
                 switch (routine.getType()) {
                     case MORNING:
-                        setMessage(getString(R.string.message_morning_routine_2));
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_MORNING_START);
+                        if (isAdded()) {
+                            setMessage(getString(R.string.message_morning_routine_2));
+                            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_MORNING_START);
+                        }
                         break;
                     case EVENING:
-                        setMessage(getString(R.string.message_evening_brush_start));
-                        DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_EVENING_START);
+                        if (isAdded()) {
+                            setMessage(getString(R.string.message_evening_brush_start));
+                            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_EVENING_START);
+                        }
                         break;
                 }
                 break;

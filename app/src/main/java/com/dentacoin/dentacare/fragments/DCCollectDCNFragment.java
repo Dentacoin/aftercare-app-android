@@ -1,7 +1,6 @@
 package com.dentacoin.dentacare.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +38,8 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
     private DCTextView tvCollectInfo;
     private String wallet;
     private DCDashboard dashboard;
+    private int collected = 0;
+    DCLoadingFragment loadingFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -51,19 +52,45 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
         etCollectAmount = (DCEditText) view.findViewById(R.id.et_collect_amount);
         tvCollectInfo = (DCTextView) view.findViewById(R.id.tv_collect_info);
         tvCollectInfo.setOnClickListener(this);
+        loadingFragment = showLoading();
+        btnCollect.setEnabled(false);
         DCDashboardDataProvider.getInstance().updateDashboard(true);
+        getTransactions();
         setupView();
         return view;
     }
 
+    private void getTransactions() {
+        DCApiManager.getInstance().getTransactions(new DCResponseListener<DCTransaction[]>() {
+            @Override
+            public void onFailure(DCError error) {
+                collected = 0;
+                setupView();
+            }
+
+            @Override
+            public void onResponse(DCTransaction[] object) {
+                collected = 0;
+                if (object != null && object.length > 0) {
+                    for (int i = 0; i < object.length; i++) {
+                        DCTransaction transaction = object[i];
+                        if (transaction.getStatus() == DCTransaction.STATUS.APPROVED || transaction.getStatus() == DCTransaction.STATUS.PENDING) {
+                            collected += transaction.getAmount();
+                        }
+                    }
+                }
+                setupView();
+            }
+        });
+    }
+
     private void setupView() {
+        tvCollectCollected.setText(getString(R.string.txt_dcn, collected));
+        tvCollectCurrentBalance.setText(getString(R.string.txt_dcn, 0));
+
         if (dashboard != null) {
-            tvCollectCollected.setText(getString(R.string.txt_dcn, DCSharedPreferences.loadInt(DCSharedPreferences.DCSharedKey.COLLECTED)));
             tvCollectCurrentBalance.setText(getString(R.string.txt_dcn, dashboard.getTotalDCN()));
             etCollectAmount.setText(Integer.toString(dashboard.getTotalDCN()));
-        } else {
-            tvCollectCollected.setText(getString(R.string.txt_dcn, 0));
-            tvCollectCurrentBalance.setText(getString(R.string.txt_dcn, 0));
         }
     }
 
@@ -82,15 +109,28 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
                             DCApiManager.getInstance().postTransaction(transaction, new DCResponseListener<Void>() {
                                 @Override
                                 public void onFailure(DCError error) {
+                                    if (error != null) {
+                                        String message = error.getMessage(getActivity());
+                                        if ("user_cannot_withdraw".equals(message) && getActivity() != null) {
+                                            Snacky.builder()
+                                                    .setActivty(getActivity())
+                                                    .error()
+                                                    .setText(R.string.collect_error_not_enough_use)
+                                                    .setDuration(Snacky.LENGTH_INDEFINITE)
+                                                    .setAction(R.string.txt_ok, new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                        }
+                                                    })
+                                                    .show();
+                                            return;
+                                        }
+                                    }
                                     onError(error);
                                 }
 
                                 @Override
                                 public void onResponse(Void object) {
-                                    int collected = DCSharedPreferences.loadInt(DCSharedPreferences.DCSharedKey.COLLECTED);
-                                    collected += amount;
-                                    DCSharedPreferences.saveInt(DCSharedPreferences.DCSharedKey.COLLECTED, collected);
-
                                     if (getActivity() != null && isAdded()) {
                                         ((DCCollectActivity) getActivity()).showSuccessScreen(amount);
                                     }
@@ -123,12 +163,16 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
 
     @Override
     public void onDashboardUpdated(DCDashboard dashboard) {
+        loadingFragment.dismissAllowingStateLoss();
+        btnCollect.setEnabled(true);
         this.dashboard = dashboard;
         setupView();
     }
 
     @Override
     public void onDashboardError(DCError error) {
+        loadingFragment.dismissAllowingStateLoss();
+        btnCollect.setEnabled(true);
         Snacky.builder().setActivty(getActivity()).error().setAction(R.string.txt_try_again, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
