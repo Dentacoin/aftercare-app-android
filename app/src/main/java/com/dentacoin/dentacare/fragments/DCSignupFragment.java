@@ -292,9 +292,11 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
                                 public void onClick(View v) {
                                     Intent intent = new Intent();
                                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    Uri uri = Uri.parse("package:" + getActivity().getPackageName());
-                                    intent.setData(uri);
-                                    getActivity().startActivity(intent);
+                                    if (getActivity() != null) {
+                                        Uri uri = Uri.parse("package:" + getActivity().getPackageName());
+                                        intent.setData(uri);
+                                        getActivity().startActivity(intent);
+                                    }
                                 }
                             }).show();
                         } else {
