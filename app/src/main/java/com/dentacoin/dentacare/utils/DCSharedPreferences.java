@@ -37,7 +37,8 @@ public class DCSharedPreferences {
         COLLECT_DENTACOIN("COLLECT_DENTACOIN"),
         REMINDER_TO_VISIT("REMINDER_TO_VISIT"),
         HEALTHY_HABIT("HEALTHY_HABIT"),
-        FIRST_LOGIN_DATE("FIRST_LOGIN_DATE");
+        FIRST_LOGIN_DATE("FIRST_LOGIN_DATE"),
+        SEEN_ONBOARDING("SEEN_ONBOARDING");
 
         private String key;
 

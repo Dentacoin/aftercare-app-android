@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
 import com.dentacoin.dentacare.activities.DCDashboardActivity;
+import com.dentacoin.dentacare.activities.DCOnboardingActivity;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCConstants;
+import com.dentacoin.dentacare.utils.DCSharedPreferences;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
@@ -60,11 +62,18 @@ public class LaunchActivity extends AppCompatActivity {
 
     private void checkSession() {
         if (DCSession.getInstance().isValid()) {
-            DCSession.getInstance().loadSocialAvatar(this);
-            final Intent intent = new Intent(this, DCDashboardActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-            finish();
+            if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.SEEN_ONBOARDING, false)) {
+                final Intent intent = new Intent(this, DCOnboardingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            } else {
+                DCSession.getInstance().loadSocialAvatar(this);
+                final Intent intent = new Intent(this, DCDashboardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            }
         } else {
             final Intent intent = new Intent(this, DCAuthenticationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

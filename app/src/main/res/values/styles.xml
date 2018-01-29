@@ -147,4 +147,10 @@
         <item name="textAllCaps">true</item>
     </style>
 
+    <style name="DCTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabPaddingStart">2dp</item>
+        <item name="tabPaddingEnd">2dp</item>
+    </style>
+
 </resources>

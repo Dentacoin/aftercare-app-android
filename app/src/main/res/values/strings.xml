@@ -272,4 +272,29 @@
 
     <string name="message_hdl_earned_dcn">%1$sDCN earned!</string>
     <string name="message_hdl_routine_completed">Routine completed!</string>
+    
+    <string name="onboarding_txt_skip"><u>Skip</u></string>
+    <string name="onboarding_txt_next">Next</string>
+    <string name="onboarding_txt_got_it">I got it!</string>
+    
+    <string name="onboarding_txt_title_1">Start your journey</string>
+    <string name="onboarding_txt_message_1">Start your journey towards a beautiful smile!</string>
+
+    <string name="onboarding_txt_title_2">Journeys</string>
+    <string name="onboarding_txt_message_2">Complete 90 days of consecutive user, or 180 routines altogether and collect your DCN reward!</string>
+
+    <string name="onboarding_txt_title_3">Routines</string>
+    <string name="onboarding_txt_message_3">Complete your morning and evening routines and earn DCN daily!</string>
+
+    <string name="onboarding_txt_title_4">Watch your earnings</string>
+    <string name="onboarding_txt_message_4">Check your current DCN Balance. Watch it grow each time you complete a routine!</string>
+
+    <string name="onboarding_txt_title_5">Complete achievements</string>
+    <string name="onboarding_txt_message_5">Try complete different achievements and earn even more DCN!</string>
+
+    <string name="onboarding_txt_title_6">Withdraw</string>
+    <string name="onboarding_txt_message_6">Collect your earnings!\nOnce you\'ve completed your 90 days cycle!</string>
+
+    <string name="onboarding_txt_skip_question">Skip?</string>
+    <string name="onboarding_txt_skip_message">Are you sure you want to skip the tutorial?</string>
 </resources>
