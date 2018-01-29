@@ -86,6 +86,7 @@ android {
         targetSdkVersion 27
         versionCode buildCode
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
         resValue "string", "facebook_app_id", facebookAppId
         resValue "string", "fb_login_protocol_scheme", facebookLoginProtocolScheme
         resValue "string", "com.twitter.sdk.android.CONSUMER_KEY", twitterConsumerKey
