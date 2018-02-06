@@ -3,8 +3,13 @@ package com.dentacoin.dentacare.fragments;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -14,6 +19,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.anthonycr.grant.PermissionsManager;
 import com.anthonycr.grant.PermissionsResultAction;
@@ -21,6 +28,9 @@ import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCUser;
+import com.dentacoin.dentacare.network.DCApiManager;
+import com.dentacoin.dentacare.network.DCResponseListener;
+import com.dentacoin.dentacare.network.response.DCCaptchaResponse;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.widgets.DCButton;
@@ -60,43 +70,53 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
     private DCTextInputEditText tietSignupEmail;
     private DCTextInputLayout tilSignupPassword;
     private DCTextInputEditText tietSignupPassword;
-
+    private DCTextInputEditText tietSignupCaptcha;
+    private ProgressBar pbCaptcha;
+    private ImageView ivCaptcha;
     private Uri avatarUri;
+    private int captchaId;
+    private final Handler handler = new Handler();
+    private final int captchaInterval = 20000;
+    private CountDownTimer countDownTimer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_signup, container, false);
 
-        sdvSignupProfileImage = (SimpleDraweeView) view.findViewById(R.id.sdv_signup_profile_image);
+        sdvSignupProfileImage = view.findViewById(R.id.sdv_signup_profile_image);
         sdvSignupProfileImage.setOnClickListener(this);
 
-        btnSignupFacebook = (DCButton) view.findViewById(R.id.btn_signup_facebook);
+        btnSignupFacebook = view.findViewById(R.id.btn_signup_facebook);
         btnSignupFacebook.setOnClickListener(this);
 
-        btnSignupTwitter = (DCButton) view.findViewById(R.id.btn_signup_twitter);
+        btnSignupTwitter = view.findViewById(R.id.btn_signup_twitter);
         btnSignupTwitter.setOnClickListener(this);
 
-        btnSignupGoogle = (DCButton) view.findViewById(R.id.btn_signup_google);
+        btnSignupGoogle = view.findViewById(R.id.btn_signup_google);
         btnSignupGoogle.setOnClickListener(this);
 
-        btnSignupCreate = (DCButton) view.findViewById(R.id.btn_signup_create);
+        btnSignupCreate = view.findViewById(R.id.btn_signup_create);
         btnSignupCreate.setOnClickListener(this);
 
-        tilSignupFirstname = (DCTextInputLayout) view.findViewById(R.id.til_signup_first_name);
-        tietSignupFirstName = (DCTextInputEditText) view.findViewById(R.id.tiet_signup_first_name);
+        tilSignupFirstname = view.findViewById(R.id.til_signup_first_name);
+        tietSignupFirstName = view.findViewById(R.id.tiet_signup_first_name);
         tietSignupFirstName.setOnFocusChangeListener(this);
 
-        tilSignupLastname = (DCTextInputLayout) view.findViewById(R.id.til_signup_last_name);
-        tietSignupLastname = (DCTextInputEditText) view.findViewById(R.id.tiet_signup_last_name);
+        tilSignupLastname = view.findViewById(R.id.til_signup_last_name);
+        tietSignupLastname = view.findViewById(R.id.tiet_signup_last_name);
         tietSignupLastname.setOnFocusChangeListener(this);
 
-        tilSignupEmail = (DCTextInputLayout) view.findViewById(R.id.til_signup_email);
-        tietSignupEmail = (DCTextInputEditText) view.findViewById(R.id.tiet_signup_email);
+        tilSignupEmail = view.findViewById(R.id.til_signup_email);
+        tietSignupEmail = view.findViewById(R.id.tiet_signup_email);
         tietSignupEmail.setOnFocusChangeListener(this);
 
-        tilSignupPassword = (DCTextInputLayout) view.findViewById(R.id.til_signup_password);
-        tietSignupPassword = (DCTextInputEditText) view.findViewById(R.id.tiet_signup_password);
+        tilSignupPassword = view.findViewById(R.id.til_signup_password);
+        tietSignupPassword = view.findViewById(R.id.tiet_signup_password);
         tietSignupPassword.setOnFocusChangeListener(this);
+        tietSignupCaptcha = view.findViewById(R.id.tiet_signup_captcha);
+        ivCaptcha = view.findViewById(R.id.iv_captcha);
+        pbCaptcha = view.findViewById(R.id.pb_captcha);
+        pbCaptcha.setMax(100);
 
         tietSignupPassword.addTextChangedListener(new TextWatcher() {
             @Override
@@ -218,6 +238,8 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
             user.setLastname(tietSignupLastname.getText().toString());
             user.setEmail(tietSignupEmail.getText().toString());
             user.setPassword(tietSignupPassword.getText().toString());
+            user.setCaptchaId(captchaId);
+            user.setCaptchaCode(tietSignupCaptcha.getText().toString());
             ((DCAuthenticationActivity) getActivity()).signupUser(user);
         }
     }
@@ -292,9 +314,11 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
                                 public void onClick(View v) {
                                     Intent intent = new Intent();
                                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    Uri uri = Uri.parse("package:" + getActivity().getPackageName());
-                                    intent.setData(uri);
-                                    getActivity().startActivity(intent);
+                                    if (getActivity() != null) {
+                                        Uri uri = Uri.parse("package:" + getActivity().getPackageName());
+                                        intent.setData(uri);
+                                        getActivity().startActivity(intent);
+                                    }
                                 }
                             }).show();
                         } else {
@@ -344,6 +368,82 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
                     File photoFile = EasyImage.lastlyTakenButCanceledPhoto(getActivity());
                     if (photoFile != null)
                         photoFile.delete();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startUpdatingCaptcha();
+    }
+
+    @Override
+    public void onPause() {
+        stopUpdatingCaptcha();
+        super.onPause();
+    }
+
+
+    private void startUpdatingCaptcha() {
+        captchaRunnable.run();
+    }
+
+    private void stopUpdatingCaptcha() {
+        handler.removeCallbacks(captchaRunnable);
+    }
+
+    private final Runnable captchaRunnable = new Runnable() {
+        @Override
+        public void run() {
+            updateCaptcha();
+            handler.postDelayed(captchaRunnable, captchaInterval);
+        }
+    };
+
+
+    private void updateCaptcha() {
+        DCApiManager.getInstance().getCaptcha(new DCResponseListener<DCCaptchaResponse>() {
+            @Override
+            public void onFailure(DCError error) {
+                //ignoring errors for now
+            }
+            @Override
+            public void onResponse(DCCaptchaResponse object) {
+                if (object !=  null && isAdded()) {
+                    DCSignupFragment.this.captchaId = object.getId();
+                    Bitmap captchaBitmap = DCUtils.bitmapFromBase64(object.getImage());
+                    if (captchaBitmap != null) {
+                        DCSignupFragment.this.ivCaptcha.setImageBitmap(captchaBitmap);
+
+                        if (countDownTimer != null)
+                            countDownTimer.onFinish();
+
+                        pbCaptcha.setProgress(100);
+                        pbCaptcha.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+                        countDownTimer = new CountDownTimer(captchaInterval, 100) {
+                            @Override
+                            public void onTick(long milsUntilFinished) {
+                                if (isAdded()) {
+                                    float progress = ((float) milsUntilFinished / (float)captchaInterval) * 100.0f;
+                                    pbCaptcha.setProgress(Math.round(progress));
+                                    if (progress > 70) {
+                                        pbCaptcha.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+                                    } else if (progress > 40) {
+                                        pbCaptcha.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+                                    } else {
+                                        pbCaptcha.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFinish() {
+                            }
+                        };
+                        countDownTimer.start();
+                    }
                 }
             }
         });
