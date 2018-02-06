@@ -19,6 +19,7 @@ import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.response.DCActivityRecordsResponse;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
+import com.dentacoin.dentacare.network.response.DCCaptchaResponse;
 import com.dentacoin.dentacare.network.response.DCRecordsSyncResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
@@ -81,6 +82,7 @@ public class DCApiManager {
     private static final String ENDPOINT_ORAL_HEALTH = "oralhealth";
     private static final String ENDPOINT_GOALS = "goals";
     private static final String ENDPOINT_RESET_PASSWORD = "reset";
+    private static final String ENDPOINT_CAPTCHA = "captcha";
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
     private static final String HEADER_KEY_FBM ="FirebaseToken";
@@ -402,6 +404,16 @@ public class DCApiManager {
                 }
             }
         });
+    }
+
+    /**
+     * Request a new captcha
+     * @param listener
+     */
+    public void getCaptcha(final DCResponseListener<DCCaptchaResponse> listener) {
+        String endpoint = buildPath(ENDPOINT_CAPTCHA, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCCaptchaResponse.class));
     }
 
     /**

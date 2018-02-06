@@ -202,6 +202,14 @@ public class DCUtils {
         return null;
     }
 
+    public static Bitmap bitmapFromBase64(String image) {
+        if (image != null) {
+            byte[] decodedString = Base64.decode(image, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        }
+        return null;
+    }
+
     public static String secondsToTime(int seconds) {
         if (seconds > 0) {
 
