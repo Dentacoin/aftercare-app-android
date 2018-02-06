@@ -36,11 +36,18 @@ public class DCUser {
     private String twitterID;
     private String twitterAccessToken;
     private String twitterAccessTokenSecret;
+    private int captchaId;
+    private String captchaCode;
+
 //    private boolean can_withdraw = false;
 //
 //    public boolean canWithdraw() {
 //        return can_withdraw;
 //    }
+
+    public void setCaptchaId(int captchaId) { this.captchaId = captchaId; }
+
+    public void setCaptchaCode(String captchaCode) { this.captchaCode = captchaCode; }
 
     public void setEmail(String email) {
         this.email = email;
