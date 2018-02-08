@@ -3,6 +3,7 @@ package com.dentacoin.dentacare.model;
 import android.content.Context;
 
 import com.dentacoin.dentacare.network.DCSession;
+import com.google.gson.annotations.Expose;
 import com.mukesh.countrypicker.Country;
 
 import java.util.Calendar;
@@ -17,33 +18,32 @@ public class DCUser {
     public final static String GENDER_MALE = "male";
     public final static String GENDER_FEMALE = "female";
     public final static String GENDER_UNSPECIFIED = "unspecified";
+    @Expose() private String email;
+    @Expose() private String password;
+    @Expose() private String firstname;
+    @Expose() private String lastname;
+    @Expose() private Date birthday;
+    @Expose() private Integer postalCode;
+    @Expose() private String country;
+    @Expose() private String city;
+    @Expose() private String gender;
+    @Expose() private DCAvatar avatar;
+    @Expose() private String avatar_64;
+    @Expose() private String facebookID;
+    @Expose() private String facebookAccessToken;
+    @Expose() private String googleID;
+    @Expose() private String googleAccessToken;
+    @Expose() private String twitterID;
+    @Expose() private String twitterAccessToken;
+    @Expose() private String twitterAccessTokenSecret;
+    @Expose() private Integer captchaId;
+    @Expose() private String captchaCode;
+    @Expose(serialize = false, deserialize = true)
+    private boolean confirmed = false;
 
-    private String email;
-    private String password;
-    private String firstname;
-    private String lastname;
-    private Date birthday;
-    private Integer postalCode;
-    private String country;
-    private String city;
-    private String gender;
-    private DCAvatar avatar;
-    private String avatar_64;
-    private String facebookID;
-    private String facebookAccessToken;
-    private String googleID;
-    private String googleAccessToken;
-    private String twitterID;
-    private String twitterAccessToken;
-    private String twitterAccessTokenSecret;
-    private int captchaId;
-    private String captchaCode;
-
-//    private boolean can_withdraw = false;
-//
-//    public boolean canWithdraw() {
-//        return can_withdraw;
-//    }
+    public boolean isConfirmed() {
+        return confirmed;
+    }
 
     public void setCaptchaId(int captchaId) { this.captchaId = captchaId; }
 

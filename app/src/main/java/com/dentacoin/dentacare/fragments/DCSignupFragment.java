@@ -416,6 +416,7 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
                     Bitmap captchaBitmap = DCUtils.bitmapFromBase64(object.getImage());
                     if (captchaBitmap != null) {
                         DCSignupFragment.this.ivCaptcha.setImageBitmap(captchaBitmap);
+                        DCSignupFragment.this.tietSignupCaptcha.setText(null);
 
                         if (countDownTimer != null) {
                             countDownTimer.cancel();

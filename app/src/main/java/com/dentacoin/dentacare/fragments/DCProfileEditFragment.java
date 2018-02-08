@@ -86,42 +86,42 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_profile_edit, container, false);
 
-        sdvProfileAvatar = (SimpleDraweeView) view.findViewById(R.id.sdv_profile_avatar);
+        sdvProfileAvatar = view.findViewById(R.id.sdv_profile_avatar);
         sdvProfileAvatar.setOnClickListener(this);
 
-        tilProfileFirstname = (DCTextInputLayout) view.findViewById(R.id.til_profile_firstname);
-        tietProfileFirstname = (DCTextInputEditText) view.findViewById(R.id.tiet_profile_firstname);
+        tilProfileFirstname = view.findViewById(R.id.til_profile_firstname);
+        tietProfileFirstname = view.findViewById(R.id.tiet_profile_firstname);
         tietProfileFirstname.setOnFocusChangeListener(this);
 
-        tilProfileLastname = (DCTextInputLayout) view.findViewById(R.id.til_profile_lastname);
-        tietProfileLastname = (DCTextInputEditText) view.findViewById(R.id.tiet_profile_lastname);
+        tilProfileLastname = view.findViewById(R.id.til_profile_lastname);
+        tietProfileLastname = view.findViewById(R.id.tiet_profile_lastname);
         tietProfileLastname.setOnFocusChangeListener(this);
 
-        tilProfileEmail = (DCTextInputLayout) view.findViewById(R.id.til_profile_email);
-        tietProfileEmail = (DCTextInputEditText) view.findViewById(R.id.tiet_profile_email);
+        tilProfileEmail = view.findViewById(R.id.til_profile_email);
+        tietProfileEmail = view.findViewById(R.id.tiet_profile_email);
 
-        tilProfilePassword = (DCTextInputLayout) view.findViewById(R.id.til_profile_password);
-        tietProfilePassword = (DCTextInputEditText) view.findViewById(R.id.tiet_profile_password);
+        tilProfilePassword = view.findViewById(R.id.til_profile_password);
+        tietProfilePassword = view.findViewById(R.id.tiet_profile_password);
         tietProfilePassword.setOnFocusChangeListener(this);
 
-        etProfileBirthday = (DCEditText) view.findViewById(R.id.et_profile_birthday);
+        etProfileBirthday = view.findViewById(R.id.et_profile_birthday);
         etProfileBirthday.setOnClickListener(this);
 
-        etProfileLocation = (DCEditText) view.findViewById(R.id.et_profile_location);
+        etProfileLocation = view.findViewById(R.id.et_profile_location);
         etProfileLocation.setOnClickListener(this);
 
-        tilProfileZipcode = (DCTextInputLayout) view.findViewById(R.id.til_profile_zipcode);
-        tietProfileZipcode = (DCTextInputEditText) view.findViewById(R.id.tiet_profile_zipcode);
+        tilProfileZipcode = view.findViewById(R.id.til_profile_zipcode);
+        tietProfileZipcode = view.findViewById(R.id.tiet_profile_zipcode);
 
-        btnProfileMale = (DCButton) view.findViewById(R.id.btn_profile_male);
-        btnProfileFemale = (DCButton) view.findViewById(R.id.btn_profile_female);
+        btnProfileMale = view.findViewById(R.id.btn_profile_male);
+        btnProfileFemale = view.findViewById(R.id.btn_profile_female);
         btnProfileMale.setOnClickListener(this);
         btnProfileFemale.setOnClickListener(this);
 
-        btnProfileUpdate = (DCButton) view.findViewById(R.id.btn_profile_update);
+        btnProfileUpdate = view.findViewById(R.id.btn_profile_update);
         btnProfileUpdate.setOnClickListener(this);
 
-        ivProfileClose = (ImageView) view.findViewById(R.id.iv_profile_close);
+        ivProfileClose = view.findViewById(R.id.iv_profile_close);
         ivProfileClose.setOnClickListener(this);
         ivProfileClose.setVisibility(View.GONE);
 

@@ -15,6 +15,7 @@ import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -57,20 +58,24 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
     private SimpleDraweeView sdvDrawerHeaderAvatar;
     private RelativeLayout rlDrawerHeader;
     private LinearLayout llDrawerHeaderUserInfo;
+    private ImageView ivVerified;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        nvNavigation = (NavigationView) findViewById(R.id.nv_navigation);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        nvNavigation = findViewById(R.id.nv_navigation);
 
-        tvDrawerHeaderFullname = (DCTextView) nvNavigation.getHeaderView(0).findViewById(R.id.tv_drawer_header_fullname);
-        tvDrawerHeaderEmail = (DCTextView) nvNavigation.getHeaderView(0).findViewById(R.id.tv_drawer_header_email);
-        sdvDrawerHeaderAvatar = (SimpleDraweeView) nvNavigation.getHeaderView(0).findViewById(R.id.sdv_drawer_header_avatar);
+        tvDrawerHeaderFullname = nvNavigation.getHeaderView(0).findViewById(R.id.tv_drawer_header_fullname);
+        tvDrawerHeaderEmail = nvNavigation.getHeaderView(0).findViewById(R.id.tv_drawer_header_email);
+        sdvDrawerHeaderAvatar = nvNavigation.getHeaderView(0).findViewById(R.id.sdv_drawer_header_avatar);
+        ivVerified = nvNavigation.getHeaderView(0).findViewById(R.id.iv_verified);
+        ivVerified.setVisibility(View.GONE);
+
         sdvDrawerHeaderAvatar.setOnClickListener(this);
-        rlDrawerHeader = (RelativeLayout) nvNavigation.getHeaderView(0).findViewById(R.id.rl_drawer_header);
-        llDrawerHeaderUserInfo = (LinearLayout) nvNavigation.getHeaderView(0).findViewById(R.id.ll_drawer_header_userInfo);
+        rlDrawerHeader = nvNavigation.getHeaderView(0).findViewById(R.id.rl_drawer_header);
+        llDrawerHeaderUserInfo = nvNavigation.getHeaderView(0).findViewById(R.id.ll_drawer_header_userInfo);
         llDrawerHeaderUserInfo.setOnClickListener(this);
 
         rlDrawerHeader.setPadding(
@@ -98,7 +103,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-                loadUserData(false);
+                loadUserData(true);
 
                 DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, sdvDrawerHeaderAvatar, DCTutorialManager.TUTORIAL.EDIT_PROFILE, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.RIGHT);
                 ArrayList<View> touchables = nvNavigation.getTouchables();
@@ -180,6 +185,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
             sdvDrawerHeaderAvatar.setImageURI(user.getAvatarUrl(DCDrawerActivity.this));
             tvDrawerHeaderFullname.setText(user.getFullName());
             tvDrawerHeaderEmail.setText(user.getEmail());
+            ivVerified.setVisibility(user.isConfirmed() ? View.VISIBLE : View.GONE);
         }
     }
 

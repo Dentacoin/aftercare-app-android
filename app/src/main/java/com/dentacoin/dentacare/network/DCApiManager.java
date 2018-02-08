@@ -83,12 +83,18 @@ public class DCApiManager {
     private static final String ENDPOINT_GOALS = "goals";
     private static final String ENDPOINT_RESET_PASSWORD = "reset";
     private static final String ENDPOINT_CAPTCHA = "captcha";
+    private static final String ENDPOINT_EMAIL_CONFIRM = "confirm";
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
     private static final String HEADER_KEY_FBM ="FirebaseToken";
 
     public static final Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
+            .create();
+
+    public static final Gson gsonExopse = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd HH:mm:ss")
+            .excludeFieldsWithoutExposeAnnotation()
             .create();
 
     public static synchronized DCApiManager getInstance() {
@@ -157,7 +163,7 @@ public class DCApiManager {
             return;
 
         String endpoint = buildPath(ENDPOINT_REGISTER_USER, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(user));
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(user));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(responseListener, DCAuthToken.class));
     }
@@ -172,7 +178,7 @@ public class DCApiManager {
             return;
 
         String endpoint = buildPath(ENDPOINT_LOGIN_USER, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(user));
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(user));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(responseListener, DCAuthToken.class));
     }
@@ -215,11 +221,11 @@ public class DCApiManager {
             return;
 
         String endpoint = buildPath(ENDPOINT_USER, null);
-        String payload = gson.toJson(user);
+        String payload = gsonExopse.toJson(user);
 
         //FIXME: fix null values serialization
         try {
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(user);
+            JsonObject jsonObject = (JsonObject) gsonExopse.toJsonTree(user);
             if (jsonObject != null) {
                 if (jsonObject.get("avatar_64") == null && jsonObject.get("avatar") == null) {
                     jsonObject.addProperty("avatar_64", false);
@@ -414,6 +420,16 @@ public class DCApiManager {
         String endpoint = buildPath(ENDPOINT_CAPTCHA, null);
         Request request = buildRequest(RequestMethod.GET, endpoint, null);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCCaptchaResponse.class));
+    }
+
+    /**
+     * Request confirmation email
+     * @param listener
+     */
+    public void confirmEmail(final DCResponseListener<Void> listener) {
+        String endpoint = buildPath(ENDPOINT_EMAIL_CONFIRM, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
     }
 
     /**

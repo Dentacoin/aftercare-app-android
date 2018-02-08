@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.dentacoin.dentacare.R;
-import com.dentacoin.dentacare.activities.DCActivity;
 import com.dentacoin.dentacare.activities.DCProfileActivity;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCUser;
@@ -16,6 +16,8 @@ import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import de.mateware.snacky.Snacky;
 
 /**
  * Created by Atanas Chervarov on 9/5/17.
@@ -30,41 +32,48 @@ public class DCProfileOverviewFragment extends DCFragment implements View.OnClic
     private DCTextView tvProfileAge;
     private DCTextView tvProfileGender;
     private DCButton btnProfileEdit;
+    private DCButton btnVerify;
+    private ImageView ivVerified;
+    private DCTextView tvEmailNotVerified;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_profile_overview, container, false);
-
-        sdvProfileAvatar = (SimpleDraweeView) view.findViewById(R.id.sdv_profile_avatar);
-        tvProfileFullname = (DCTextView) view.findViewById(R.id.tv_profile_fullname);
-        tvProfileEmail = (DCTextView) view.findViewById(R.id.tv_profile_email);
-        tvProfileAddress = (DCTextView) view.findViewById(R.id.tv_profile_address);
-        tvProfileAge = (DCTextView) view.findViewById(R.id.tv_profile_age);
-        tvProfileGender = (DCTextView) view.findViewById(R.id.tv_profile_gender);
-        btnProfileEdit = (DCButton) view.findViewById(R.id.btn_profile_edit);
+        sdvProfileAvatar = view.findViewById(R.id.sdv_profile_avatar);
+        tvProfileFullname = view.findViewById(R.id.tv_profile_fullname);
+        tvProfileEmail = view.findViewById(R.id.tv_profile_email);
+        tvProfileAddress = view.findViewById(R.id.tv_profile_address);
+        tvProfileAge = view.findViewById(R.id.tv_profile_age);
+        tvProfileGender = view.findViewById(R.id.tv_profile_gender);
+        btnProfileEdit = view.findViewById(R.id.btn_profile_edit);
+        btnVerify = view.findViewById(R.id.btn_verify);
+        ivVerified = view.findViewById(R.id.iv_verified);
+        tvEmailNotVerified = view.findViewById(R.id.tv_email_not_verified);
+        btnVerify.setOnClickListener(this);
         btnProfileEdit.setOnClickListener(this);
-
+        tvEmailNotVerified.setVisibility(View.GONE);
+        btnVerify.setVisibility(View.GONE);
+        ivVerified.setVisibility(View.GONE);
         loadUser();
-
         return view;
     }
 
     private void loadUser() {
         if (DCSession.getInstance().getUser() != null) {
             setupUI(DCSession.getInstance().getUser());
-        } else {
-            DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
-                @Override
-                public void onFailure(DCError error) {
-                    onError(error);
-                }
-
-                @Override
-                public void onResponse(DCUser object) {
-                    setupUI(DCSession.getInstance().getUser());
-                }
-            });
         }
+
+        DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
+            @Override
+            public void onFailure(DCError error) {
+                onError(error);
+            }
+
+            @Override
+            public void onResponse(DCUser object) {
+                setupUI(DCSession.getInstance().getUser());
+            }
+        });
     }
 
     private void setupUI(DCUser user) {
@@ -102,6 +111,10 @@ public class DCProfileOverviewFragment extends DCFragment implements View.OnClic
                         break;
                 }
             }
+
+            ivVerified.setVisibility(user.isConfirmed() ? View.VISIBLE : View.GONE);
+            btnVerify.setVisibility(user.isConfirmed() ? View.GONE : View.VISIBLE);
+            tvEmailNotVerified.setVisibility(user.isConfirmed() ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -110,6 +123,22 @@ public class DCProfileOverviewFragment extends DCFragment implements View.OnClic
         switch (view.getId()) {
             case R.id.btn_profile_edit:
                 ((DCProfileActivity) getActivity()).editProfile();
+                break;
+            case R.id.btn_verify:
+                DCApiManager.getInstance().confirmEmail(new DCResponseListener<Void>() {
+                    @Override
+                    public void onFailure(DCError error) {
+                        onError(error);
+                        btnVerify.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onResponse(Void object) {
+                        btnVerify.setVisibility(View.GONE);
+                        Snacky.builder().setActivty(getActivity()).success().setText(R.string.profile_txt_verification_email_sent).setDuration(Snacky.LENGTH_SHORT).show();
+                        loadUser();
+                    }
+                });
                 break;
         }
     }

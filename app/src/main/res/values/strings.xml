@@ -83,6 +83,9 @@
     <string name="profile_hnt_zip">Zip Code</string>
     <string name="profile_hnt_city">City</string>
     <string name="profile_hnt_country">Country</string>
+    <string name="profile_txt_email_not_verified">Your email is not verified!</string>
+    <string name="profile_txt_resend_verification_email">Resend verification email</string>
+    <string name="profile_txt_verification_email_sent">Verification email sent successfully!</string>
     
     <string name="collect_wallet_hdl_create">Create your crypto wallet at:</string>
     <string name="collect_wallet_url_ether">www.myetherwallet.com</string>
