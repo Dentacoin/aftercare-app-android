@@ -76,7 +76,7 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
     private Uri avatarUri;
     private int captchaId;
     private final Handler handler = new Handler();
-    private final int captchaInterval = 20000;
+    private final int captchaInterval = 150000;
     private CountDownTimer countDownTimer;
 
     @Override
@@ -294,7 +294,7 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
      */
     private void pickAvatar() {
         PermissionsManager.getInstance().requestPermissionsIfNecessaryForResult(getActivity(),
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                new String[]{Manifest.permission.CAMERA},
                 new PermissionsResultAction() {
                     @Override
                     public void onGranted() {
@@ -417,8 +417,10 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
                     if (captchaBitmap != null) {
                         DCSignupFragment.this.ivCaptcha.setImageBitmap(captchaBitmap);
 
-                        if (countDownTimer != null)
-                            countDownTimer.onFinish();
+                        if (countDownTimer != null) {
+                            countDownTimer.cancel();
+                            countDownTimer = null;
+                        }
 
                         pbCaptcha.setProgress(100);
                         pbCaptcha.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
