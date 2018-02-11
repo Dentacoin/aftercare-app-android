@@ -28,6 +28,7 @@ import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCGoal;
 import com.dentacoin.dentacare.network.DCApiManager;
+import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.AudibleMessage;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
@@ -132,8 +133,8 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             getFragmentManager().beginTransaction().add(R.id.container, new DCWelcomeFragment(), DCWelcomeFragment.TAG).commit();
         } else {
             showTutorials();
+            showEmailNotificaitonSent();
         }
-
         DCDashboardDataProvider.getInstance().updateDashboard(true);
     }
 
@@ -141,7 +142,23 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     public void onFragmentRemoved() {
         toolbar.setVisibility(View.VISIBLE);
         showTutorials();
+        showEmailNotificaitonSent();
         showMessage(1000);
+    }
+
+    private void showEmailNotificaitonSent() {
+        if (DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.SHOW_EMAIL_VERIFICATION, false) && DCSession.getInstance().getUser() != null) {
+            DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.SHOW_EMAIL_VERIFICATION, false);
+            Snacky.builder().setActivty(this)
+                    .success()
+                    .setText(getString(R.string.signup_txt_verification_sent, DCSession.getInstance().getUser().getEmail()))
+                    .setDuration(BaseTransientBottomBar.LENGTH_INDEFINITE)
+                    .setAction(R.string.txt_ok, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                        }
+                    }).show();
+        }
     }
 
     @Override

@@ -38,7 +38,8 @@ public class DCSharedPreferences {
         REMINDER_TO_VISIT("REMINDER_TO_VISIT"),
         HEALTHY_HABIT("HEALTHY_HABIT"),
         FIRST_LOGIN_DATE("FIRST_LOGIN_DATE"),
-        SEEN_ONBOARDING("SEEN_ONBOARDING");
+        SEEN_ONBOARDING("SEEN_ONBOARDING"),
+        SHOW_EMAIL_VERIFICATION("SHOW_EMAIL_VERIFICATION");
 
         private String key;
 
@@ -142,5 +143,7 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.REMINDER_TO_VISIT);
         removeKey(DCSharedKey.HEALTHY_HABIT);
         removeKey(DCSharedKey.FIRST_LOGIN_DATE);
+        removeKey(DCSharedKey.SEEN_ONBOARDING);
+        removeKey(DCSharedKey.SHOW_EMAIL_VERIFICATION);
     }
 }

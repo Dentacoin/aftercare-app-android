@@ -11,6 +11,7 @@
     <string name="signup_hnt_password">password</string>
     <string name="signup_hnt_captcha">enter code</string>
     <string name="signup_btn_create">Create</string>
+    <string name="signup_txt_verification_sent">Verification email sent to %1$s</string>
     <string name="error_txt_error_picking_image">An error occurred while trying to retrieve the picture!</string>
     <string name="signup_txt_permission_avatar">You need to grant us \"Camera\" permissions in order to setup an avatar</string>
     <string name="signup_txt_settings">Settings</string>

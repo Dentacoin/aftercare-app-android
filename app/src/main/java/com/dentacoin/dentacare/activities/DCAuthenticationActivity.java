@@ -351,15 +351,14 @@ public class DCAuthenticationActivity extends DCActivity {
                     @Override
                     public void onFailure(DCError error) {
                         onError(error);
-
                         if (loadingFragment != null)
                             loadingFragment.dismissAllowingStateLoss();
                     }
 
                     @Override
                     public void onResponse(DCAuthToken object) {
+                        DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.SHOW_EMAIL_VERIFICATION, true);
                         handleAuthentication(object);
-
                         if (loadingFragment != null)
                             loadingFragment.dismissAllowingStateLoss();
                     }
