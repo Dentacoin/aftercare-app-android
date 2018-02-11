@@ -261,6 +261,16 @@ public class DCApiManager {
     }
 
     /**
+     * Delete user
+     * @param responseListener
+     */
+    public void deleteUser(final DCResponseListener<Void> responseListener) {
+        String endpoint = buildPath(ENDPOINT_USER, null);
+        Request request = buildRequest(RequestMethod.DELETE, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(responseListener, Void.class));
+    }
+
+    /**
      * Logout the current user / invalidate the jwt token
      * @param listener
      */
