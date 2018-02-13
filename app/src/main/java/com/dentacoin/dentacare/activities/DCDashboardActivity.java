@@ -99,12 +99,12 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         addContentView(R.layout.activity_dashboard);
 
         setActionBarTitle(R.string.dashboard_hdl_dentacare);
-        tvDashboardDcnTotal = (TickerView) findViewById(R.id.tv_dashboard_dcn_total);
+        tvDashboardDcnTotal = findViewById(R.id.tv_dashboard_dcn_total);
         tvDashboardDcnTotal.setCharacterList(TickerUtils.getDefaultNumberList());
 
-        tlDashboardTabs = (TabLayout) findViewById(R.id.tl_dashboard_tabs);
-        vpDashboardPager = (DCVIewPager) findViewById(R.id.vp_dashboard_pager);
-        llDashboardDcnTotal = (LinearLayout) findViewById(R.id.ll_dashboard_dcn_total);
+        tlDashboardTabs = findViewById(R.id.tl_dashboard_tabs);
+        vpDashboardPager = findViewById(R.id.vp_dashboard_pager);
+        llDashboardDcnTotal = findViewById(R.id.ll_dashboard_dcn_total);
         llDashboardDcnTotal.setOnClickListener(this);
 
         vSeparator = findViewById(R.id.v_separator);
