@@ -88,14 +88,14 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
 
             Serializable serializable = arguments.getSerializable(KEY_VOICES);
             if (serializable instanceof ArrayList) {
-                voices = (ArrayList<Voice>)serializable;
+                voices =  (ArrayList)serializable;
             }
         }
 
-        tvMessageDay = (DCTextView) view.findViewById(R.id.tv_message_day);
+        tvMessageDay = view.findViewById(R.id.tv_message_day);
         tvMessageDay.setText(getString(R.string.message_day, day));
 
-        tvMessageOf = (DCTextView) view.findViewById(R.id.tv_message_of);
+        tvMessageOf = view.findViewById(R.id.tv_message_of);
         tvMessageOf.setText(getString(R.string.message_of, DCConstants.DAYS_OF_USE));
 
         if (day >= DCConstants.DAYS_OF_USE) {
@@ -112,12 +112,12 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
             }
         }, 1500);
 
-        tvMessage = (DCTextView) view.findViewById(R.id.tv_message);
+        tvMessage = view.findViewById(R.id.tv_message);
         tvMessage.setText(message);
 
-        ivMessageTooth = (ImageView) view.findViewById(R.id.iv_message_tooth);
+        ivMessageTooth = view.findViewById(R.id.iv_message_tooth);
 
-        btnMessageActivity = (DCButton) view.findViewById(R.id.btn_message_activity);
+        btnMessageActivity = view.findViewById(R.id.btn_message_activity);
         btnMessageActivity.setOnClickListener(this);
 
 
