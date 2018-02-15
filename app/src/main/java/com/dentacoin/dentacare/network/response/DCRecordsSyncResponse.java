@@ -1,16 +1,16 @@
 package com.dentacoin.dentacare.network.response;
 
-import com.dentacoin.dentacare.model.DCActivityRecord;
+import com.dentacoin.dentacare.model.DCRecord;
 
 /**
  * Created by Atanas Chervarov on 10/7/17.
  */
 
 public class DCRecordsSyncResponse {
-    private DCActivityRecord[] success;
+    private DCRecord[] success;
     private DCFailedActivityRecord[] failed;
 
-    public DCActivityRecord[] getSuccess() {
+    public DCRecord[] getSuccess() {
         return success;
     }
 

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCDashboardActivity;
-import com.dentacoin.dentacare.model.DCActivityRecord;
+import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
@@ -56,7 +56,7 @@ public class DCRinseFragment extends DCDashboardFragment {
         playMusic();
         nextStep();
         trackingTime = true;
-        record = new DCActivityRecord();
+        record = new DCRecord();
         record.setType(getType());
         record.setStartTime(new Date());
 

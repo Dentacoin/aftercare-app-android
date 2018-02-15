@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCCollectActivity;
-import com.dentacoin.dentacare.model.DCActivityRecord;
+import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCTransaction;
@@ -182,7 +182,7 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
     }
 
     @Override
-    public void onSyncNeeded(DCActivityRecord[] records) {
+    public void onSyncNeeded(DCRecord[] records) {
     }
 
     @Override

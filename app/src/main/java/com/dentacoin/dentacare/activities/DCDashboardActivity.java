@@ -23,11 +23,15 @@ import com.dentacoin.dentacare.fragments.DCMessageFragment;
 import com.dentacoin.dentacare.fragments.DCRinseFragment;
 import com.dentacoin.dentacare.fragments.DCWelcomeFragment;
 import com.dentacoin.dentacare.fragments.IDCFragmentInterface;
-import com.dentacoin.dentacare.model.DCActivityRecord;
+import com.dentacoin.dentacare.model.DCJourney;
+import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCGoal;
+import com.dentacoin.dentacare.model.DCRoutine;
+import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.network.DCApiManager;
+import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.AudibleMessage;
 import com.dentacoin.dentacare.utils.DCConstants;
@@ -232,7 +236,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     }
 
     @Override
-    public void onSyncNeeded(DCActivityRecord[] records) {
+    public void onSyncNeeded(DCRecord[] records) {
         if (records != null && !syncWarningVisible) {
             syncWarningVisible = true;
             Snacky.builder().setActivty(this).setText(R.string.dashboard_warning_sync_needed).warning().setAction(R.string.txt_yes, new View.OnClickListener() {

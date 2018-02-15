@@ -1,7 +1,7 @@
 package com.dentacoin.dentacare.utils;
 
 import com.dentacoin.dentacare.R;
-import com.dentacoin.dentacare.model.DCActivityRecord;
+import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.network.DCApiManager;
@@ -24,7 +24,7 @@ public class DCDashboardDataProvider {
     private static DCDashboardDataProvider instance;
 
     private DCDashboard dashboard;
-    private final List<DCActivityRecord> records = Collections.synchronizedList(new ArrayList<DCActivityRecord>());
+    private final List<DCRecord> records = Collections.synchronizedList(new ArrayList<DCRecord>());
     private ArrayList<IDCDashboardObserver> dashboardObservers;
 
     private boolean inRequest = false;
@@ -96,7 +96,7 @@ public class DCDashboardDataProvider {
 
                     synchronized (records) {
                         if (records.size() > 0)
-                            notifyObserversOnSyncNeeded(records.toArray(new DCActivityRecord[records.size()]));
+                            notifyObserversOnSyncNeeded(records.toArray(new DCRecord[records.size()]));
                     }
                 }
             });
@@ -108,13 +108,13 @@ public class DCDashboardDataProvider {
      * the moment it is stored and will be handled later, When error occurs observers are notified
      * On successful api call the dashboard is updated
      *
-     * @param record    Valid DCActivityRecord
+     * @param record    Valid DCRecord
      */
-    public void addActivityRecord(final DCActivityRecord record) {
+    public void addActivityRecord(final DCRecord record) {
         addActivityRecord(record, null);
     }
 
-    public void addActivityRecord(final DCActivityRecord record, final DCResponseListener<DCActivityRecord> listener) {
+    public void addActivityRecord(final DCRecord record, final DCResponseListener<DCRecord> listener) {
         if (record == null || record.getTime() < 30) {
             notifyObserversOnError(new DCError(R.string.dashboard_too_short_record));
             return;
@@ -123,14 +123,14 @@ public class DCDashboardDataProvider {
         if (record.getTime() > DCConstants.COUNTDOWN_MAX_AMOUNT + 5)
             return;
 
-        DCApiManager.getInstance().postRecord(record, new DCResponseListener<DCActivityRecord>() {
+        DCApiManager.getInstance().postRecord(record, new DCResponseListener<DCRecord>() {
             @Override
             public void onFailure(DCError error) {
                 if (error != null && error.isType(DCErrorType.NETWORK)) {
                     synchronized (records) {
                         records.add(record);
                         saveRecords();
-                        notifyObserversOnSyncNeeded(records.toArray(new DCActivityRecord[records.size()]));
+                        notifyObserversOnSyncNeeded(records.toArray(new DCRecord[records.size()]));
                     }
                 } else {
                     notifyObserversOnError(error);
@@ -141,7 +141,7 @@ public class DCDashboardDataProvider {
             }
 
             @Override
-            public void onResponse(DCActivityRecord object) {
+            public void onResponse(DCRecord object) {
                 updateDashboard(true);
 
                 if (listener != null)
@@ -157,7 +157,7 @@ public class DCDashboardDataProvider {
     public void sync(final boolean silent) {
         synchronized (records) {
             if (records.size() > 0) {
-                final DCActivityRecord[] cRecords = records.toArray(new DCActivityRecord[records.size()]);
+                final DCRecord[] cRecords = records.toArray(new DCRecord[records.size()]);
 
                 DCApiManager.getInstance().syncRecords(cRecords, new DCResponseListener<DCRecordsSyncResponse>() {
                     @Override
@@ -209,7 +209,7 @@ public class DCDashboardDataProvider {
      * Notify all observers when there are records that need to be synced
      * @param needSync
      */
-    private void notifyObserversOnSyncNeeded(DCActivityRecord[] needSync) {
+    private void notifyObserversOnSyncNeeded(DCRecord[] needSync) {
         for (IDCDashboardObserver observer : dashboardObservers) {
             observer.onSyncNeeded(needSync);
         }
@@ -254,7 +254,7 @@ public class DCDashboardDataProvider {
             if (json != null) {
                 try {
                     records.clear();
-                    DCActivityRecord[] recordsArray = DCApiManager.gson.fromJson(json, new TypeToken<DCActivityRecord[]>(){}.getType());
+                    DCRecord[] recordsArray = DCApiManager.gson.fromJson(json, new TypeToken<DCRecord[]>(){}.getType());
                     if (recordsArray != null) {
                         records.addAll(Arrays.asList(recordsArray));
                     }

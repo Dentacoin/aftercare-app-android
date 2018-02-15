@@ -1,6 +1,6 @@
 package com.dentacoin.dentacare.network.response;
 
-import com.dentacoin.dentacare.model.DCActivityRecord;
+import com.dentacoin.dentacare.model.DCRecord;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,10 +10,10 @@ import java.util.Arrays;
  */
 
 public class DCActivityRecordsResponse {
-    private DCActivityRecord[] array;
+    private DCRecord[] array;
 
-    public ArrayList<DCActivityRecord> getArray() {
-        ArrayList<DCActivityRecord> records = new ArrayList<>();
+    public ArrayList<DCRecord> getArray() {
+        ArrayList<DCRecord> records = new ArrayList<>();
         if (array != null) {
             records.addAll(Arrays.asList(array));
         }

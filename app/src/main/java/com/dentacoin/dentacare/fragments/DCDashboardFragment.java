@@ -23,7 +23,7 @@ import android.widget.RelativeLayout;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCDashboardActivity;
-import com.dentacoin.dentacare.model.DCActivityRecord;
+import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCDashboardItem;
 import com.dentacoin.dentacare.model.DCError;
@@ -78,7 +78,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     protected Routine routine;
 
     protected CountDownTimer timer;
-    protected DCActivityRecord record;
+    protected DCRecord record;
     private LinearLayout llDashboardStatistics;
     private DCTextView tvDashboardMessageContainer;
     float dashboardHolderPadding;
@@ -419,7 +419,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         playMusic();
         nextStep();
         trackingTime = true;
-        record = new DCActivityRecord();
+        record = new DCRecord();
         record.setType(getType());
         record.setStartTime(new Date());
 
@@ -536,7 +536,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     }
 
     @Override
-    public void onSyncNeeded(DCActivityRecord[] records) {
+    public void onSyncNeeded(DCRecord[] records) {
         //Override me
     }
 

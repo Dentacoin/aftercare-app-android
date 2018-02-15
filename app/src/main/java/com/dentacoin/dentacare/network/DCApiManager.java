@@ -8,13 +8,15 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 
 import com.dentacoin.dentacare.BuildConfig;
-import com.dentacoin.dentacare.model.DCActivityRecord;
+import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCAvatar;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCGoal;
+import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCOralHealthItem;
 import com.dentacoin.dentacare.model.DCResetPassword;
+import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.response.DCActivityRecordsResponse;
@@ -84,6 +86,8 @@ public class DCApiManager {
     private static final String ENDPOINT_RESET_PASSWORD = "reset";
     private static final String ENDPOINT_CAPTCHA = "captcha";
     private static final String ENDPOINT_EMAIL_CONFIRM = "confirm";
+    private static final String ENDPOINT_JOURNEY = "journey";
+    private static final String ENDPOINT_ROUTINE = "jouney/routines";
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
     private static final String HEADER_KEY_FBM ="FirebaseToken";
@@ -305,7 +309,7 @@ public class DCApiManager {
      * @param record
      * @param listener
      */
-    public void postRecord(DCActivityRecord record, DCResponseListener<DCActivityRecord> listener) {
+    public void postRecord(DCRecord record, DCResponseListener<DCRecord> listener) {
         if (record == null)
             return;
 
@@ -313,10 +317,10 @@ public class DCApiManager {
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(record));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
 
-        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCActivityRecord.class));
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCRecord.class));
     }
 
-    public void syncRecords(DCActivityRecord[] records, DCResponseListener<DCRecordsSyncResponse> listener) {
+    public void syncRecords(DCRecord[] records, DCResponseListener<DCRecordsSyncResponse> listener) {
         if (records == null || records.length == 0)
             return;
 
@@ -440,6 +444,28 @@ public class DCApiManager {
         String endpoint = buildPath(ENDPOINT_EMAIL_CONFIRM, null);
         Request request = buildRequest(RequestMethod.GET, endpoint, null);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
+     * Retrieve current journey
+     * @param listener
+     */
+    public void getJourney(final DCResponseListener<DCJourney> listener) {
+        String endpoint = buildPath(ENDPOINT_JOURNEY, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCJourney.class));
+    }
+
+    /**
+     * Post a completed routine
+     * @param routine
+     * @param listener
+     */
+    public void postRoutine(DCRoutine routine, final DCResponseListener<DCRoutine> listener) {
+        String endpoint = buildPath(ENDPOINT_ROUTINE, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(routine));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCRoutine.class));
     }
 
     /**

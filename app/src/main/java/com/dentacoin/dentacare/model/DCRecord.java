@@ -1,6 +1,7 @@
 package com.dentacoin.dentacare.model;
 
 import com.dentacoin.dentacare.utils.DCConstants;
+import com.google.gson.annotations.Expose;
 
 import java.util.Date;
 
@@ -8,24 +9,14 @@ import java.util.Date;
  * Created by Atanas Chervarov on 9/27/17.
  */
 
-public class DCActivityRecord {
+public class DCRecord {
 
-    private Date startTime;
-    private Date endTime;
-    private String type;
-//    private boolean reward = false;
-    private Integer earnedDCN;
+    @Expose() private Date startTime;
+    @Expose() private Date endTime;
+    @Expose() private String type;
 
     public Date getStartTime() { return startTime; }
     public Date getEndTime() { return endTime; }
-
-//    public boolean isReward() {
-//        return reward;
-//    }
-
-//    public void setReward(boolean reward) {
-//        this.reward = reward;
-//    }
 
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
@@ -52,10 +43,6 @@ public class DCActivityRecord {
                 break;
         }
     }
-    
-    public int getEarnedDCN() {
-        return earnedDCN != null ? earnedDCN : 0;
-    }
 
     /**
      * Returns time from start to end in seconds
@@ -66,16 +53,5 @@ public class DCActivityRecord {
             return (int)((endTime.getTime() - startTime.getTime()) / 1000);
         }
         return 0;
-    }
-
-    public boolean equals(DCActivityRecord record) {
-        if (record != null) {
-            if (type != null && record.getType() != null && type.compareTo(record.getType()) == 0) {
-                if (startTime != null && record.getStartTime() != null && startTime.compareTo(record.getStartTime()) == 0) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }

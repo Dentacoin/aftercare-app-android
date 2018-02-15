@@ -1,6 +1,6 @@
 package com.dentacoin.dentacare.utils;
 
-import com.dentacoin.dentacare.model.DCActivityRecord;
+import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 
@@ -11,6 +11,6 @@ import com.dentacoin.dentacare.model.DCError;
 public interface IDCDashboardObserver {
     void onDashboardUpdated(DCDashboard dashboard);
     void onDashboardError(DCError error);
-    void onSyncNeeded(DCActivityRecord[] records);
+    void onSyncNeeded(DCRecord[] records);
     void onSyncSuccess();
 }
