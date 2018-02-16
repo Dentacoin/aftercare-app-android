@@ -3,10 +3,12 @@ package com.dentacoin.dentacare.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -60,6 +62,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
     private LinearLayout llDrawerHeaderUserInfo;
     private ImageView ivVerified;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +80,11 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
         rlDrawerHeader = nvNavigation.getHeaderView(0).findViewById(R.id.rl_drawer_header);
         llDrawerHeaderUserInfo = nvNavigation.getHeaderView(0).findViewById(R.id.ll_drawer_header_userInfo);
         llDrawerHeaderUserInfo.setOnClickListener(this);
+
+        for (int i = 0; i < nvNavigation.getMenu().size(); ++i) {
+            final MenuItem item = nvNavigation.getMenu().getItem(i);
+            tintMenuItemIcon(R.color.charcoalGrey, item);
+        }
 
         rlDrawerHeader.setPadding(
                 (int) getResources().getDimension(R.dimen.drawer_header_padding),
@@ -109,8 +117,8 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 ArrayList<View> touchables = nvNavigation.getTouchables();
                 if (touchables != null && touchables.size() >= 8) {
                     DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(3), DCTutorialManager.TUTORIAL.COLLECT_DCN, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.TOP);
-                    DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(4), DCTutorialManager.TUTORIAL.GOALS, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
-                    DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(7), DCTutorialManager.TUTORIAL.EMERGENCY_MENU, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
+                    DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(5), DCTutorialManager.TUTORIAL.GOALS, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
+                    DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(8), DCTutorialManager.TUTORIAL.EMERGENCY_MENU, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
                 }
             }
 
@@ -210,6 +218,11 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 startActivity(collectIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
+            case R.id.drawer_nav_withdraws:
+                final Intent withdrawsIntent = new Intent(this, DCWithdrawsActivity.class);
+                startActivity(withdrawsIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                break;
             case R.id.drawer_nav_statistics:
                 final Intent statisticsIntent = new Intent(this, DCStatisticsActivity.class);
                 startActivity(statisticsIntent);
@@ -302,5 +315,15 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
 
     @Override
     public void hideTutorials() {
+    }
+
+    private static void tintMenuItemIcon(int color, MenuItem item) {
+        final Drawable drawable = item.getIcon();
+        if (drawable != null) {
+            final Drawable wrapped = DrawableCompat.wrap(drawable);
+            drawable.mutate();
+            DrawableCompat.setTint(wrapped, color);
+            item.setIcon(drawable);
+        }
     }
 }

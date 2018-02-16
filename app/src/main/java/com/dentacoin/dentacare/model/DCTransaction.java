@@ -24,10 +24,10 @@ public class DCTransaction {
     public void setAmount(int amount) {
         this.amount = amount;
     }
-
     public void setWallet(String wallet) {
         this.wallet = wallet;
     }
+    public String getWallet() { return wallet; }
 
     public STATUS getStatus() {
         if (status != null) {

@@ -20,6 +20,7 @@
     <string name="drawer_nav_goals">Achievements</string>
     <string name="drawer_nav_statistics">Statistics</string>
     <string name="drawer_nav_dentacoin">Dentacoin</string>
+    <string name="drawer_nav_withdraws">Withdraws</string>
     <string name="drawer_nav_emergency">Emergency</string>
     <string name="drawer_nav_oral_health">Oral Health</string>
     <string name="drawer_nav_settings">Settings</string>
@@ -305,4 +306,10 @@
 
     <string name="onboarding_txt_skip_question">Skip?</string>
     <string name="onboarding_txt_skip_message">Are you sure you want to skip the tutorial?</string>
+
+    <string name="withdraws_hdl_title">Withdraws</string>
+    <string name="withdraws_no_transactions_found">No withdraws found!</string>
+    <string name="withdraws_status_pending">Pending</string>
+    <string name="withdraws_status_approved">Approved</string>
+    <string name="withdraws_status_declined">Declined</string>
 </resources>
