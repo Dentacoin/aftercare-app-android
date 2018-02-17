@@ -90,7 +90,7 @@
     <string name="profile_txt_verification_email_sent">Verification email sent successfully!</string>
     <string name="profile_btn_delete">Delete my profile</string>
     <string name="profile_hdl_delete_profile">Delete your profile?</string>
-    <string name="profile_txt_delete_profile">Are you sure you want to delete your profile? This will erase all your data.</string>
+    <string name="profile_txt_delete_profile">Are you sure you want to delete your profile? Enter the code to delete your profile. This will erase all your data.</string>
     
     <string name="collect_wallet_hdl_create">Create your crypto wallet at:</string>
     <string name="collect_wallet_url_ether">www.myetherwallet.com</string>

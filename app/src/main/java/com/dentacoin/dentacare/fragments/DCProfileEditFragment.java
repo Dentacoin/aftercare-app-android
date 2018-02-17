@@ -24,6 +24,7 @@ import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
+import com.dentacoin.dentacare.network.request.DCCaptcha;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCLocalNotificationsManager;
 import com.dentacoin.dentacare.utils.DCTutorialManager;
@@ -33,6 +34,7 @@ import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCEditText;
 import com.dentacoin.dentacare.widgets.DCTextInputEditText;
 import com.dentacoin.dentacare.widgets.DCTextInputLayout;
+import com.dentacoin.dentacare.widgets.DCUserDeleteDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -239,46 +241,30 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
     }
 
     private void deleteProfile() {
-        final AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.profile_hdl_delete_profile)
-                .setMessage(R.string.profile_txt_delete_profile)
-                .setPositiveButton(R.string.txt_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        DCApiManager.getInstance().deleteUser(new DCResponseListener<Void>() {
-                            @Override
-                            public void onFailure(DCError error) {
-                                onError(error);
-                            }
+      DCUserDeleteDialog.create(new DCUserDeleteDialog.IDCUserDeleteDialog() {
+          @Override
+          public void onUserDelete(DCCaptcha captcha) {
+              DCApiManager.getInstance().deleteUser(captcha, new DCResponseListener<Void>() {
+                  @Override
+                  public void onFailure(DCError error) {
+                      onError(error);
+                  }
 
-                            @Override
-                            public void onResponse(Void object) {
-                                DCLocalNotificationsManager.getInstance().scheduleNotifications(getActivity(), true);
-
-                                DCSession.getInstance().clear();
-                                LoginManager.getInstance().logOut();
-                                TwitterCore.getInstance().getSessionManager().clearActiveSession();
-
-                                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
-
-                                GoogleSignInClient client = GoogleSignIn.getClient(getActivity(), gso);
-                                client.signOut();
-
-                                DCTutorialManager.getInstance().clear();
-
-                                ((DCActivity)getActivity()).onLogout();
-                            }
-                        });
-                    }
-                })
-                .setNegativeButton(R.string.txt_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .create();
-        dialog.show();
+                  @Override
+                  public void onResponse(Void object) {
+                      DCLocalNotificationsManager.getInstance().scheduleNotifications(getActivity(), true);
+                      DCSession.getInstance().clear();
+                      LoginManager.getInstance().logOut();
+                      TwitterCore.getInstance().getSessionManager().clearActiveSession();
+                      GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+                      GoogleSignInClient client = GoogleSignIn.getClient(getActivity(), gso);
+                      client.signOut();
+                      DCTutorialManager.getInstance().clear();
+                      ((DCActivity)getActivity()).onLogout();
+                  }
+              });
+          }
+      }).show(getFragmentManager(), DCUserDeleteDialog.TAG);
     }
 
     private void cancelAvatar() {

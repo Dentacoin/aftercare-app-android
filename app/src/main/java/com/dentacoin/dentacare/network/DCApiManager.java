@@ -18,6 +18,7 @@ import com.dentacoin.dentacare.model.DCResetPassword;
 import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.model.DCUser;
+import com.dentacoin.dentacare.network.request.DCCaptcha;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
 import com.dentacoin.dentacare.network.response.DCCaptchaResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -74,6 +75,7 @@ public class DCApiManager {
     private static final String ENDPOINT_LOGIN_USER = "login";
     private static final String ENDPOINT_LOGOUT = "logout";
     private static final String ENDPOINT_USER = "user";
+    private static final String ENDPOINT_USER_DELETE = "user/delete";
     private static final String ENDPOINT_DASHBOARD = "dashboard";
     private static final String ENDPOINT_TRANSACTIONS = "transactions";
     private static final String ENDPOINT_ORAL_HEALTH = "oralhealth";
@@ -261,11 +263,16 @@ public class DCApiManager {
 
     /**
      * Delete user
+     * @param captcha
      * @param responseListener
      */
-    public void deleteUser(final DCResponseListener<Void> responseListener) {
-        String endpoint = buildPath(ENDPOINT_USER, null);
-        Request request = buildRequest(RequestMethod.DELETE, endpoint, null);
+    public void deleteUser(DCCaptcha captcha, final DCResponseListener<Void> responseListener) {
+        if (captcha == null)
+            return;
+        
+        String endpoint = buildPath(ENDPOINT_USER_DELETE, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(captcha));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(responseListener, Void.class));
     }
 
