@@ -11,10 +11,9 @@ import android.view.ViewGroup;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCDashboardActivity;
-import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
+import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.utils.DCConstants;
-import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.Routine;
@@ -81,6 +80,24 @@ public class DCRinseFragment extends DCDashboardFragment {
     @Override
     protected void stopRecording() {
 
+        if (record != null) {
+            record.setEndTime(new Date());
+
+            if (routine != null)
+                routine.addRecord(record);
+
+            if (record.getTime() >= 29) {
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        DCGoalsDataProvider.getInstance().updateGoals(true);
+                    }
+                }, 1000);
+            }
+            record = null;
+        }
+
         if (trackingTime) {
             DCSoundManager.getInstance().cancelSounds();
             nextStep();
@@ -94,22 +111,6 @@ public class DCRinseFragment extends DCDashboardFragment {
         }
 
         timer = null;
-
-        if (record != null) {
-            record.setEndTime(new Date());
-            DCDashboardDataProvider.getInstance().addActivityRecord(record);
-
-            if (record.getTime() >= 29) {
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        DCGoalsDataProvider.getInstance().updateGoals(true);
-                    }
-                }, 1000);
-            }
-            record = null;
-        }
 
         rinseShown1 = false;
         rinseShown2 = false;
@@ -189,8 +190,9 @@ public class DCRinseFragment extends DCDashboardFragment {
                 }
                 break;
             case RINSE_DONE:
-                DCRoutineCompletedFragment routineCompletedFragment = DCRoutineCompletedFragment.create(routine.getType());
-                routineCompletedFragment.show(getFragmentManager(), DCRoutineCompletedFragment.TAG);
+                if (getActivity() instanceof DCDashboardActivity) {
+                    ((DCDashboardActivity) getActivity()).completeRoutine(routine);
+                }
                 routine.next();
                 break;
         }

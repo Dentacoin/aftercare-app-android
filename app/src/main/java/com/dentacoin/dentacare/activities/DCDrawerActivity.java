@@ -61,8 +61,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
     private RelativeLayout rlDrawerHeader;
     private LinearLayout llDrawerHeaderUserInfo;
     private ImageView ivVerified;
-
-
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

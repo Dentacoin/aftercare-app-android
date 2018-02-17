@@ -3,7 +3,6 @@ package com.dentacoin.dentacare.activities;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
@@ -21,20 +20,18 @@ import com.dentacoin.dentacare.fragments.DCFlossFragment;
 import com.dentacoin.dentacare.fragments.DCGoalDialogFragment;
 import com.dentacoin.dentacare.fragments.DCMessageFragment;
 import com.dentacoin.dentacare.fragments.DCRinseFragment;
+import com.dentacoin.dentacare.fragments.DCRoutineCompletedFragment;
 import com.dentacoin.dentacare.fragments.DCWelcomeFragment;
 import com.dentacoin.dentacare.fragments.IDCFragmentInterface;
-import com.dentacoin.dentacare.model.DCJourney;
-import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCGoal;
+import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCRoutine;
-import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.AudibleMessage;
-import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
@@ -45,13 +42,11 @@ import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.utils.Routine;
 import com.dentacoin.dentacare.widgets.DCVIewPager;
 import com.github.florent37.viewtooltip.ViewTooltip;
-import com.google.gson.JsonSyntaxException;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import de.mateware.snacky.Snacky;
 
@@ -59,7 +54,7 @@ import de.mateware.snacky.Snacky;
  * Created by Atanas Chervarov on 8/10/17.
  */
 
-public class DCDashboardActivity extends DCDrawerActivity implements IDCFragmentInterface, IDCDashboardObserver, IDCGoalsObserver, DCMessageFragment.IDCMessageFragmentListener, Routine.IRoutineListener {
+public class DCDashboardActivity extends DCDrawerActivity implements IDCFragmentInterface, IDCDashboardObserver, IDCGoalsObserver, Routine.IRoutineListener {
 
     private TabLayout tlDashboardTabs;
     private DCVIewPager vpDashboardPager;
@@ -78,8 +73,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     private DCBrushFragment brush;
     private DCRinseFragment rinse;
 
-    private final Handler handler = new Handler();
-    private Runnable messageRunnable;
 
     public void setFloss(DCFlossFragment floss) {
         this.floss = floss;
@@ -139,6 +132,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             showTutorials();
             showEmailNotificaitonSent();
         }
+
         DCDashboardDataProvider.getInstance().updateDashboard(true);
     }
 
@@ -147,7 +141,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         toolbar.setVisibility(View.VISIBLE);
         showTutorials();
         showEmailNotificaitonSent();
-        showMessage(1000);
     }
 
     private void showEmailNotificaitonSent() {
@@ -172,56 +165,19 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         DCDashboardDataProvider.getInstance().updateDashboard(true);
         DCGoalsDataProvider.getInstance().addObserver(this);
         DCGoalsDataProvider.getInstance().updateGoals(true);
-        updateDaysCounter();
+        loadAndHandleJourney();
     }
 
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        showMessage(1000);
     }
 
-    private void showMessage(long delay) {
-        if (messageRunnable != null) {
-            handler.removeCallbacks(messageRunnable);
-            messageRunnable = null;
-        }
-
-        messageRunnable = new Runnable() {
-            @Override
-            public void run() {
-                Fragment welcomeFragment = getFragmentManager().findFragmentByTag(DCWelcomeFragment.TAG);
-                Fragment goalFragment = getFragmentManager().findFragmentByTag(DCGoalDialogFragment.TAG);
-
-                if ((welcomeFragment != null && welcomeFragment.isVisible()) ||
-                        (goalFragment != null && goalFragment.isVisible()) || inRecord) {
-                    return;
-                }
-
-                if (DCMessageFragment.shouldShowMessage()) {
-                    AudibleMessage message = DCMessageFragment.getProperGreetingMessage();
-                    if (message != null) {
-                        DCMessageFragment messageFragment = DCMessageFragment.create(DCDashboardActivity.this, message);
-                        messageFragment.show(getFragmentManager(), DCMessageFragment.TAG);
-                        messageFragment.setListener(DCDashboardActivity.this);
-                    }
-                }
-            }
-        };
-
-        handler.postDelayed(messageRunnable, delay);
-    }
 
     @Override
     public void onPause() {
         DCDashboardDataProvider.getInstance().removeObserver(this);
         DCGoalsDataProvider.getInstance().removeObserver(this);
-
-        if (messageRunnable != null) {
-            handler.removeCallbacks(messageRunnable);
-            messageRunnable = null;
-        }
-
         super.onPause();
     }
 
@@ -236,8 +192,8 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     }
 
     @Override
-    public void onSyncNeeded(DCRecord[] records) {
-        if (records != null && !syncWarningVisible) {
+    public void onSyncNeeded(DCRoutine[] routines) {
+        if (routines != null && !syncWarningVisible) {
             syncWarningVisible = true;
             Snacky.builder().setActivty(this).setText(R.string.dashboard_warning_sync_needed).warning().setAction(R.string.txt_yes, new View.OnClickListener() {
                 @Override
@@ -301,7 +257,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
 
     @Override
     public void onGoalsUpdated(ArrayList<DCGoal> goals) {
-
     }
 
     @Override
@@ -336,16 +291,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.TOTAL_DCN);
         if (tutorialListener != null) {
             tutorialListener.hideTutorials();
-        }
-    }
-
-    @Override
-    public void onStartRoutine(Routine routine) {
-        this.routine = routine;
-
-        if (routine != null) {
-            routine.setListener(this);
-            routine.start();
         }
     }
 
@@ -410,32 +355,176 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         vpDashboardPager.setCurrentItem(1);
     }
 
-    private void updateDaysCounter() {
-        int day = DCSharedPreferences.loadInt(DCSharedPreferences.DCSharedKey.DAYS_COUNTER);
-        Calendar today = Calendar.getInstance();
-        String json = DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.LAST_DATE_ADDED_DAYS);
-        if (json != null) {
-            try {
-                Date lastDate = DCApiManager.gson.fromJson(json, Date.class);
-                Calendar then = Calendar.getInstance();
-                then.setTime(lastDate);
-
-                if (today.get(Calendar.YEAR) == then.get(Calendar.YEAR) && today.get(Calendar.DAY_OF_YEAR) == then.get(Calendar.DAY_OF_YEAR)) {
-                    return;
+    /**
+     * Gets the current journey
+     * if
+     * 1. Journey not started yet -> show popup for starting journey
+     * 2. Journey completed -> show journey completed popup
+     * 3. Journey failed (due to skipped days) show restart popup
+     * 4. Journey is has started -> show routine popup
+     */
+    private void loadAndHandleJourney() {
+        DCApiManager.getInstance().getJourney(new DCResponseListener<DCJourney>() {
+            @Override
+            public void onFailure(DCError error) {
+                if (error != null && error.isType("not_started_yet")) {
+                    showStartJourneyPopup();
                 }
-            } catch (JsonSyntaxException e) {
-                e.printStackTrace();
-                return;
+            }
+
+            @Override
+            public void onResponse(DCJourney object) {
+                handleJourney(object);
+            }
+        });
+    }
+
+    private void handleJourney(DCJourney journey) {
+        if (journey != null) {
+            if (journey.isCompleted()) {
+                showCompletedJourneyPopup();
+            } else if (journey.isFailed()) {
+                showFailedJourneyPopup();
+            } else {
+                showDailyJourneyPopup(journey);
             }
         }
+    }
 
-        day += 1;
-
-        if (day > DCConstants.DAYS_OF_USE) {
-            day = 1;
+    private boolean canShowPopup() {
+        Fragment welcomeFragment = getFragmentManager().findFragmentByTag(DCWelcomeFragment.TAG);
+        Fragment goalFragment = getFragmentManager().findFragmentByTag(DCGoalDialogFragment.TAG);
+        if ((welcomeFragment != null && welcomeFragment.isVisible()) || (goalFragment != null && goalFragment.isVisible()) || inRecord) {
+            return false;
         }
+        return true;
+    }
 
-        DCSharedPreferences.saveInt(DCSharedPreferences.DCSharedKey.DAYS_COUNTER, day);
-        DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.LAST_DATE_ADDED_DAYS, DCApiManager.gson.toJson(today.getTime()));
+    private void showStartJourneyPopup() {
+        if (canShowPopup()) {
+            AudibleMessage audibleMessage = AudibleMessage.getAppropriateGreeting();
+            final Routine.Type type = Routine.getAppropriateRoutineTypeForNow();
+            if (type != null) {
+                DCMessageFragment.create(
+                        getString(R.string.journey_hdl_start),
+                        getString(R.string.journey_sub_hdl_start),
+                        getString(R.string.journey_txt_start),
+                        getString(R.string.journey_btn_start),
+                        audibleMessage != null ? audibleMessage.getVoices() : null,
+                        new DCMessageFragment.IDCMessageFragment() {
+                            @Override
+                            public void onButtonClicked() {
+                                DCDashboardActivity.this.startRoutine(type);
+                            }
+                        }).show(getFragmentManager(), DCMessageFragment.TAG);
+            }
+        }
+    }
+
+    private void showCompletedJourneyPopup() {
+        if (canShowPopup()) {
+            DCMessageFragment.create(
+                    getString(R.string.journey_hdl_completed),
+                    getString(R.string.journey_sub_hdl_completed),
+                    getString(R.string.journey_txt_completed),
+                    getString(R.string.journey_btn_completed),
+                    null,
+                    new DCMessageFragment.IDCMessageFragment() {
+                        @Override
+                        public void onButtonClicked() {
+                            final Intent collectIntent = new Intent(DCDashboardActivity.this, DCCollectActivity.class);
+                            startActivity(collectIntent);
+                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        }
+                    }
+            ).show(getFragmentManager(), DCMessageFragment.TAG);
+        }
+    }
+
+    private void showFailedJourneyPopup() {
+        if (canShowPopup()) {
+            final Routine.Type type = Routine.getAppropriateRoutineTypeForNow();
+            if (type != null) {
+                DCMessageFragment.create(
+                        getString(R.string.journey_hdl_failed),
+                        getString(R.string.journey_sub_hdl_failed),
+                        getString(R.string.journey_txt_failed),
+                        getString(R.string.journey_btn_failed),
+                        null,
+                        new DCMessageFragment.IDCMessageFragment() {
+                            @Override
+                            public void onButtonClicked() {
+                                DCDashboardActivity.this.startRoutine(type);
+                            }
+                        }
+                ).show(getFragmentManager(), DCMessageFragment.TAG);
+            }
+        }
+    }
+
+    private void showDailyJourneyPopup(DCJourney journey) {
+        if (canShowPopup() && journey != null) {
+            String button = getString(R.string.btn_routine);
+
+            final Routine.Type type = Routine.getAppropriateRoutineTypeForNow();
+            if (type != null) {
+                switch (type) {
+                    case MORNING:
+                        Calendar calendar = Calendar.getInstance();
+                        if (calendar.get(Calendar.HOUR_OF_DAY) < 12) {
+                            button = getString(R.string.btn_morning);
+                        }
+                        break;
+                    case EVENING:
+                        button = getString(R.string.btn_evening);
+                        break;
+                }
+            }
+            if (type != null) {
+                AudibleMessage message = AudibleMessage.getAppropriateGreeting();
+                String title = getString(R.string.journey_hdl_daily, Integer.toString(journey.getDay()), Integer.toString(journey.getTargetDays()));
+                String subTitle = getString(R.string.journey_sub_hdl_daily, Integer.toString(journey.getSkipped()));
+
+                DCMessageFragment.create(
+                        title,
+                        subTitle,
+                        message.getMessage(this),
+                        button,
+                        message.getVoices(),
+                        new DCMessageFragment.IDCMessageFragment() {
+                            @Override
+                            public void onButtonClicked() {
+                                DCDashboardActivity.this.startRoutine(type);
+                            }
+                        }
+                ).show(getFragmentManager(), DCMessageFragment.TAG);
+            }
+        }
+    }
+
+    private void startRoutine(Routine.Type type) {
+        if (type != null) {
+            routine = new Routine(type);
+            routine.setListener(this);
+            routine.start();
+        }
+    }
+
+    public void completeRoutine(Routine completedRoutine) {
+        if (completedRoutine != null) {
+            DCDashboardDataProvider.getInstance().addRoutine(completedRoutine.getRequestObject(), new DCResponseListener<DCRoutine>() {
+                @Override
+                public void onFailure(DCError error) {
+                    onError(error);
+                }
+
+                @Override
+                public void onResponse(DCRoutine object) {
+                    if (object != null) {
+                        DCRoutineCompletedFragment.create(object).show(getFragmentManager(), DCRoutineCompletedFragment.TAG);
+                    }
+                }
+            });
+        }
     }
 }

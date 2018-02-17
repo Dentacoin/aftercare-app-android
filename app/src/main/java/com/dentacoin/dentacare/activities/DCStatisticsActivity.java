@@ -8,6 +8,7 @@ import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCUtils;
@@ -165,7 +166,7 @@ public class DCStatisticsActivity extends DCToolbarActivity implements View.OnCl
     }
 
     @Override
-    public void onSyncNeeded(DCRecord[] records) {
+    public void onSyncNeeded(DCRoutine[] routines) {
     }
 
     @Override

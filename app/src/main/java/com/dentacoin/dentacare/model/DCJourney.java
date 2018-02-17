@@ -33,4 +33,12 @@ public class DCJourney implements Serializable {
 
     /** Retrieve amount of skipped routines */
     public int getSkipped() { return skipped; }
+
+    public boolean isFailed() {
+        return skipped > tolerance;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
 }

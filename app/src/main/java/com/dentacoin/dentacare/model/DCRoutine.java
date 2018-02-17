@@ -1,6 +1,7 @@
 package com.dentacoin.dentacare.model;
 
 import com.dentacoin.dentacare.utils.DCConstants;
+import com.dentacoin.dentacare.utils.Routine;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
@@ -22,7 +23,7 @@ public class DCRoutine implements Serializable {
     @Expose(serialize = false, deserialize = true)
     private int earnedDCN;
 
-    public DCRoutine(DCConstants.DCRoutineType type) {
+    public DCRoutine(Routine.Type type) {
         setType(type);
     }
 
@@ -38,7 +39,7 @@ public class DCRoutine implements Serializable {
         return earnedDCN;
     }
 
-    public void setType(DCConstants.DCRoutineType routineType) {
+    public void setType(Routine.Type routineType) {
         switch (routineType) {
             case MORNING:
                 this.type = "morning";
@@ -47,6 +48,17 @@ public class DCRoutine implements Serializable {
                 type = "evening";
                 break;
         }
+    }
+
+    public Routine.Type getType() {
+        if (type != null) {
+            if (type.equals("morning"))
+                return Routine.Type.MORNING;
+            else if (type.equals("evening"))
+                return Routine.Type.EVENING;
+        }
+        //Defaults to morning
+        return Routine.Type.MORNING;
     }
 
     public void addRecord(DCRecord record) {
@@ -59,4 +71,21 @@ public class DCRoutine implements Serializable {
             records = recordsArray.toArray(new DCRecord[recordsArray.size()]);
         }
     }
+
+    public boolean isValid() {
+        if (type != null && records != null && records.length > 0) {
+            int time = 0;
+            for (int i = 0; i < records.length; i++) {
+                time += records[i].getTime();
+            }
+            if (type.equals("morning")) {
+                return time >= 60;
+            } else if (type.equals("evening")) {
+                return time >= 90;
+            }
+        }
+        return false;
+    }
+
+
 }

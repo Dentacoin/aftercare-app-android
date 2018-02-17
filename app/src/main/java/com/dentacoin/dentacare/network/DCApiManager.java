@@ -8,7 +8,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 
 import com.dentacoin.dentacare.BuildConfig;
-import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCAvatar;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
@@ -19,10 +18,8 @@ import com.dentacoin.dentacare.model.DCResetPassword;
 import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.model.DCUser;
-import com.dentacoin.dentacare.network.response.DCActivityRecordsResponse;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
 import com.dentacoin.dentacare.network.response.DCCaptchaResponse;
-import com.dentacoin.dentacare.network.response.DCRecordsSyncResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -78,8 +75,6 @@ public class DCApiManager {
     private static final String ENDPOINT_LOGOUT = "logout";
     private static final String ENDPOINT_USER = "user";
     private static final String ENDPOINT_DASHBOARD = "dashboard";
-    private static final String ENDPOINT_RECORDS = "records";
-    private static final String ENDPOINT_SYNC_RECORDS = "multiple-records";
     private static final String ENDPOINT_TRANSACTIONS = "transactions";
     private static final String ENDPOINT_ORAL_HEALTH = "oralhealth";
     private static final String ENDPOINT_GOALS = "goals";
@@ -87,7 +82,7 @@ public class DCApiManager {
     private static final String ENDPOINT_CAPTCHA = "captcha";
     private static final String ENDPOINT_EMAIL_CONFIRM = "confirm";
     private static final String ENDPOINT_JOURNEY = "journey";
-    private static final String ENDPOINT_ROUTINE = "jouney/routines";
+    private static final String ENDPOINT_ROUTINE = "journey/routines";
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
     private static final String HEADER_KEY_FBM ="FirebaseToken";
@@ -292,43 +287,6 @@ public class DCApiManager {
         String endpoint = buildPath(ENDPOINT_DASHBOARD, null);
         Request request = buildRequest(RequestMethod.GET, endpoint, null);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCDashboard.class));
-    }
-
-    /**
-     * Retrieves list of user records
-     * @param listener
-     */
-    public void getRecords(DCResponseListener<DCActivityRecordsResponse> listener) {
-        String endpoint = buildPath(ENDPOINT_RECORDS, null);
-        Request request = buildRequest(RequestMethod.GET, endpoint, null);
-        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCActivityRecordsResponse.class));
-    }
-
-    /**
-     * Adds an activity records
-     * @param record
-     * @param listener
-     */
-    public void postRecord(DCRecord record, DCResponseListener<DCRecord> listener) {
-        if (record == null)
-            return;
-
-        String endpoint = buildPath(ENDPOINT_RECORDS, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(record));
-        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
-
-        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCRecord.class));
-    }
-
-    public void syncRecords(DCRecord[] records, DCResponseListener<DCRecordsSyncResponse> listener) {
-        if (records == null || records.length == 0)
-            return;
-
-        String endpoint = buildPath(ENDPOINT_SYNC_RECORDS, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(records));
-        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
-
-        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCRecordsSyncResponse.class));
     }
 
     /**

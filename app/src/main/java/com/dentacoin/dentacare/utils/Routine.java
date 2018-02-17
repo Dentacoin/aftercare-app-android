@@ -1,8 +1,12 @@
 package com.dentacoin.dentacare.utils;
 
+import com.dentacoin.dentacare.model.DCRecord;
+import com.dentacoin.dentacare.model.DCRoutine;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Atanas Chervarov on 10/31/17.
@@ -29,7 +33,7 @@ public class Routine {
     }
 
     public enum Type {
-        MORNING(2, 11, new Action[] { Action.BRUSH_READY, Action.BRUSH, Action.BRUSH_DONE, Action.RINSE_READY, Action.RINSE, Action.RINSE_DONE}),                                                           //Morning routine from 2am to 11am
+        MORNING(5, 17, new Action[] { Action.BRUSH_READY, Action.BRUSH, Action.BRUSH_DONE, Action.RINSE_READY, Action.RINSE, Action.RINSE_DONE}),                                                           //Morning routine from 2am to 11am
         EVENING(17, 24, new Action[] { Action.FLOSS_READY, Action.FLOSS, Action.FLOSS_DONE, Action.BRUSH_READY, Action.BRUSH, Action.BRUSH_DONE, Action.RINSE_READY, Action.RINSE, Action.RINSE_DONE});     //Evening routine from 17pm to 24pm
 
         private int fromHourOfDay;
@@ -71,6 +75,11 @@ public class Routine {
     private Type type;
     private Action action;
     private int earned = 0;
+    private DCRoutine requestObject;
+
+    public DCRoutine getRequestObject() {
+        return requestObject;
+    }
 
     public Type getType() {
         return type;
@@ -99,6 +108,7 @@ public class Routine {
     public Routine(Type type) {
         this.type = type;
         actions = new ArrayList<>();
+        requestObject = new DCRoutine(type);
 
         if (type.getActions() != null) {
             this.actions.addAll(Arrays.asList(type.getActions()));
@@ -116,10 +126,12 @@ public class Routine {
         if (listener != null) {
             listener.onRoutineStart(this);
         }
+        requestObject.setStartTime(new Date());
         next();
     }
 
     public void next() {
+        requestObject.setEndTime(new Date());
         if (actions.size() == 0) {
             if (listener != null) {
                 listener.onRoutineEnd(this);
@@ -134,5 +146,10 @@ public class Routine {
         if (listener != null) {
             listener.onRoutineStep(this, action);
         }
+    }
+
+    public void addRecord(DCRecord record) {
+        if (requestObject != null)
+            requestObject.addRecord(record);
     }
 }

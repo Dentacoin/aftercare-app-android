@@ -169,7 +169,7 @@
 
     <string name="dashboard_warning_sync_needed">Your data was not synchronized. Do you want to do this now?</string>
     <string name="dashboard_success_sync">Sync successful!</string>
-    <string name="dashboard_too_short_record">You can do better that this! Sessions shorter that 30 seconds are not recorded!</string>
+    <string name="dashboard_too_short_record">You can do better that this! Sessions shorter that 30 seconds are not recorded within the routine!</string>
 
     <string name="statistics_hdl_statistics">Statistics</string>
 
@@ -236,10 +236,10 @@
     <string name="notifications_hdl_healthy_habits_10">See your dentist at least twice a year</string>
     <string name="notifications_txt_healthy_habits_10">At minimum, you should see your dentist for cleanings and checkups twice a year</string>
     
-    <string name="message_day">Day %d</string>
-    <string name="message_of">of %d</string>
+
     <string name="message_congratulations">Congratulations!\nYou have reached 90 days!</string>
-    
+
+    <string name="message_day_routine_start">Hello sunshine. It is a beautiful day. Let’s get you started properly.</string>
     <string name="message_morning_routine_start">Good morning sunshine. It is a beautiful day. Let’s get you started properly.</string>
 
     <string name="message_morning_routine_2">Let’s start with brushing your teeth. Make sure your toothbrush is not dry, and apply toothpaste as the size of pea grain. Press the start button when you are ready to brush</string>
@@ -259,7 +259,7 @@
     <string name="message_rinse_3">You\'re done, spit the solution out in the sink.</string>
     <string name="message_rinse_4">You have completed your first morning brush. Amazing job!</string>
 
-    <string name="message_morning_routine_end">Congratulations!\nNow you are ready to Amaze the world with your beautiful smile. Make big things today and come back in the evening before going to bed.\nHave a nice day ahead.</string>
+    <string name="message_morning_routine_end">Congratulations!\nNow you are ready to Amaze the world with your beautiful smile.\n\nMake big things today and come back in the evening before going to bed.\n\nHave a nice day ahead.</string>
 
     <string name="message_evening_routine_start">Good evening, darling. Did you have a good day? Are you on the way to becoming a legend?</string>
     <string name="message_evening_routine_2">Now let’s get you ready for bed. Rest is important. Hygiene too!</string>
@@ -290,7 +290,7 @@
     <string name="onboarding_txt_message_1">Start your journey towards a beautiful smile!</string>
 
     <string name="onboarding_txt_title_2">Journeys</string>
-    <string name="onboarding_txt_message_2">Complete 90 days of consecutive user, or 180 routines altogether and collect your DCN reward!</string>
+    <string name="onboarding_txt_message_2">Complete 90 days of consecutive use, or 180 routines altogether and collect your DCN reward!</string>
 
     <string name="onboarding_txt_title_3">Routines</string>
     <string name="onboarding_txt_message_3">Complete your morning and evening routines and earn DCN daily!</string>
@@ -312,4 +312,27 @@
     <string name="withdraws_status_pending">Pending</string>
     <string name="withdraws_status_approved">Approved</string>
     <string name="withdraws_status_declined">Declined</string>
+
+    <string name="journey_hdl_start">Start your journey</string>
+    <string name="journey_sub_hdl_start">towards a beautiful smile</string>
+    <string name="journey_txt_start">Complete 90 days of consecutive morning and evening routines.\n\nComplete 180 routines altogether and collect your\nDCN reward!</string>
+    <string name="journey_btn_start">Start journey!</string>
+
+    <string name="journey_hdl_completed">Congratulations!</string>
+    <string name="journey_sub_hdl_completed">Journey completed!</string>
+    <string name="journey_txt_completed">You have completed your 90 days journey, congratulations! You can collect your reward now!</string>
+    <string name="journey_btn_completed">Collect reward!</string>
+
+    <string name="journey_hdl_failed">Oh no..</string>
+    <string name="journey_sub_hdl_failed">Journey failed!</string>
+    <string name="journey_txt_failed">Unfortunately you exceeded your 10 days tolerance, therefore you have to start your journey over!</string>
+    <string name="journey_btn_failed">Start over!</string>
+
+    <string name="journey_hdl_daily">Day %1$s of %2$s</string>
+    <string name="journey_sub_hdl_daily">Skipped %1$s routines</string>
+    <string name="journey_btn_daily">Start routine</string>
+
+    <string name="btn_morning">Start morning routine</string>
+    <string name="btn_evening">Start evening routine</string>
+    <string name="btn_routine">Start routine</string>
 </resources>

@@ -43,7 +43,6 @@ public class DCConstants {
     public static final int DAYS_OF_USE = 90;
 
     public enum DCActivityType { FLOSS, BRUSH, RINSE }
-    public enum DCRoutineType { MORNING, EVENING }
     public enum DCStatisticsType { DAILY, WEEKLY, MONTHLY }
     public enum DCGoalType { DEFAULT, WEEK, MONTH, YEAR }
 }

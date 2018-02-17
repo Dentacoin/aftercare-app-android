@@ -27,6 +27,7 @@ import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCDashboardItem;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
@@ -35,6 +36,7 @@ import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.utils.Music;
 import com.dentacoin.dentacare.utils.Routine;
+import com.dentacoin.dentacare.utils.Voice;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCDashboardTeeth;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
@@ -448,6 +450,25 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     }
 
     protected void stopRecording() {
+
+        if (record != null) {
+            record.setEndTime(new Date());
+
+            if (routine != null)
+                routine.addRecord(record);
+
+            if (record.getTime() > 30) {
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        DCGoalsDataProvider.getInstance().updateGoals(true);
+                    }
+                }, 1000);
+            }
+            record = null;
+        }
+
         if (trackingTime) {
             DCSoundManager.getInstance().cancelSounds();
             nextStep();
@@ -461,22 +482,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
         timer = null;
         milisUntilFinished = 0;
-
-        if (record != null) {
-            record.setEndTime(new Date());
-            DCDashboardDataProvider.getInstance().addActivityRecord(record);
-
-            if (record.getTime() > 30) {
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        DCGoalsDataProvider.getInstance().updateGoals(true);
-                    }
-                }, 1000);
-            }
-            record = null;
-        }
 
         updateView();
         toggleRecordView(trackingTime || routine != null);
@@ -536,7 +541,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     }
 
     @Override
-    public void onSyncNeeded(DCRecord[] records) {
+    public void onSyncNeeded(DCRoutine[] routines) {
         //Override me
     }
 
@@ -567,7 +572,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     }
 
     @Override
-    public void onRoutineStep(Routine routine, Routine.Action action) {
+    public void onRoutineStep(final Routine routine, Routine.Action action) {
         this.routine = routine;
         updateView();
     }
@@ -596,4 +601,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
             playMusic();
         }
     }
+
+
 }

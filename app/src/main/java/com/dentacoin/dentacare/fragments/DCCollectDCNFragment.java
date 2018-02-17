@@ -10,6 +10,7 @@ import com.dentacoin.dentacare.activities.DCCollectActivity;
 import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
@@ -45,12 +46,12 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_collect_dcn, container, false);
         wallet = DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.DEFAULT_WALLET);
-        btnCollect = (DCButton) view.findViewById(R.id.btn_collect);
+        btnCollect = view.findViewById(R.id.btn_collect);
         btnCollect.setOnClickListener(this);
-        tvCollectCollected = (DCTextView) view.findViewById(R.id.tv_collect_collected);
-        tvCollectCurrentBalance = (DCTextView) view.findViewById(R.id.tv_collect_current_balance);
-        etCollectAmount = (DCEditText) view.findViewById(R.id.et_collect_amount);
-        tvCollectInfo = (DCTextView) view.findViewById(R.id.tv_collect_info);
+        tvCollectCollected = view.findViewById(R.id.tv_collect_collected);
+        tvCollectCurrentBalance = view.findViewById(R.id.tv_collect_current_balance);
+        etCollectAmount = view.findViewById(R.id.et_collect_amount);
+        tvCollectInfo = view.findViewById(R.id.tv_collect_info);
         tvCollectInfo.setOnClickListener(this);
         loadingFragment = showLoading();
         btnCollect.setEnabled(false);
@@ -182,7 +183,7 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
     }
 
     @Override
-    public void onSyncNeeded(DCRecord[] records) {
+    public void onSyncNeeded(DCRoutine[] routines) {
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 
 import com.dentacoin.dentacare.R;
+import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.utils.AudibleMessage;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.Routine;
@@ -28,16 +29,19 @@ public class DCRoutineCompletedFragment extends DCDialogFragment {
     public static final String TAG = DCRoutineCompletedFragment.class.getSimpleName();
 
     private static final String KEY_ROUTINE_TYPE = "KEY_ROUTINE_TYPE";
+    private static final String KEY_EARNED = "KEY_EARNED";
 
     private ShareButton fbShare;
     private DCTextView tvMessage;
     private DCTextView tvCompleted;
+    private DCTextView tvEarned;
     private ImageView ivTooth;
 
-    public static DCRoutineCompletedFragment create(Routine.Type type) {
+    public static DCRoutineCompletedFragment create(DCRoutine routine) {
         final DCRoutineCompletedFragment fragment = new DCRoutineCompletedFragment();
         Bundle arguments = new Bundle();
-        arguments.putSerializable(KEY_ROUTINE_TYPE, type);
+        arguments.putSerializable(KEY_ROUTINE_TYPE, routine.getType());
+        arguments.putInt(KEY_EARNED, routine.getEarnedDCN());
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -45,10 +49,12 @@ public class DCRoutineCompletedFragment extends DCDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_routine_completed, container);
-        fbShare = (ShareButton) view.findViewById(R.id.fb_share);
-        tvMessage = (DCTextView) view.findViewById(R.id.tv_message);
-        tvCompleted = (DCTextView) view.findViewById(R.id.tv_completed);
-        ivTooth = (ImageView) view.findViewById(R.id.iv_tooth);
+        fbShare = view.findViewById(R.id.fb_share);
+        tvMessage =  view.findViewById(R.id.tv_message);
+        tvCompleted = view.findViewById(R.id.tv_completed);
+        ivTooth = view.findViewById(R.id.iv_tooth);
+        tvEarned = view.findViewById(R.id.tv_earned);
+        tvEarned.setVisibility(View.GONE);
 
         if (getArguments() != null) {
             final Routine.Type routineType = (Routine.Type)getArguments().getSerializable(KEY_ROUTINE_TYPE);
@@ -56,6 +62,13 @@ public class DCRoutineCompletedFragment extends DCDialogFragment {
             if (routineType != null) {
                 AudibleMessage audibleMessage;
                 String shareLinkMessage;
+
+                int earned = getArguments().getInt(KEY_EARNED, 0);
+
+                if (earned > 0) {
+                    tvEarned.setText(getString(R.string.message_hdl_earned_dcn, Integer.toString(earned)));
+                    tvEarned.setVisibility(View.VISIBLE);
+                }
 
                 switch (routineType) {
                     case MORNING:
@@ -68,8 +81,11 @@ public class DCRoutineCompletedFragment extends DCDialogFragment {
                         break;
                 }
 
-                tvMessage.setText(audibleMessage.getMessage(getActivity()));
+                if (earned > 0) {
+                    shareLinkMessage += getString(R.string.message_hdl_earned_dcn, Integer.toString(earned));
+                }
 
+                tvMessage.setText(audibleMessage.getMessage(getActivity()));
                 ShareLinkContent shareLinkContent = new ShareLinkContent.Builder()
                         .setContentUrl(Uri.parse(DCConstants.DENTACARE_GOOGLE_PLAY))
                         .setShareHashtag(new ShareHashtag.Builder()
