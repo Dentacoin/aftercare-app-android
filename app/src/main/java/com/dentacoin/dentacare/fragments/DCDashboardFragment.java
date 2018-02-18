@@ -26,6 +26,7 @@ import com.dentacoin.dentacare.activities.DCDashboardActivity;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCDashboardItem;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.utils.DCConstants;
@@ -285,7 +286,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         if (dashboardItem != null) {
             timerDashboardLast.setTimerDisplay(DCUtils.secondsToTime(dashboardItem.getLastTime()));
             timerDashboardleft.setTimerDisplay(Integer.toString(dashboardItem.getLeft()));
-            timerDashboardEarned.setTimerDisplay(Integer.toString(dashboardItem.getEarned()));
 
             switch (selectedStatistics) {
                 case WEEKLY:
@@ -395,6 +395,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         super.onResume();
         DCDashboardDataProvider.getInstance().addObserver(this);
         DCDashboardDataProvider.getInstance().updateDashboard(false);
+        DCDashboardDataProvider.getInstance().updateJourney(false);
         resumeRecording();
     }
 
@@ -532,6 +533,18 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     @Override
     public void onDashboardUpdated(DCDashboard dashboard) {
         //Override me
+    }
+
+
+    @Override
+    public void onJourneyUpdated(DCJourney journey) {
+        if (journey != null && journey.getLastRoutine() != null && timerDashboardEarned != null) {
+            timerDashboardEarned.setTimerDisplay(Integer.toString(journey.getLastRoutine().getEarnedDCN()));
+        }
+    }
+
+    @Override
+    public void onJourneyError(DCError error) {
     }
 
     @Override

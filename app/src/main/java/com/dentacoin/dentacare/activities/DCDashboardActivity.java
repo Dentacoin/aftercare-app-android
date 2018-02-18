@@ -28,7 +28,6 @@ import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCGoal;
 import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCRoutine;
-import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.AudibleMessage;
@@ -141,7 +140,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         toolbar.setVisibility(View.VISIBLE);
         showTutorials();
         showEmailNotificaitonSent();
-        loadAndHandleJourney();
     }
 
     private void showEmailNotificaitonSent() {
@@ -150,12 +148,8 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             Snacky.builder().setActivty(this)
                     .success()
                     .setText(getString(R.string.signup_txt_verification_sent, DCSession.getInstance().getUser().getEmail()))
-                    .setDuration(BaseTransientBottomBar.LENGTH_INDEFINITE)
-                    .setAction(R.string.txt_ok, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                        }
-                    }).show();
+                    .setDuration(BaseTransientBottomBar.LENGTH_LONG)
+                    .show();
         }
     }
 
@@ -164,9 +158,10 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         super.onResume();
         DCDashboardDataProvider.getInstance().addObserver(this);
         DCDashboardDataProvider.getInstance().updateDashboard(true);
+        DCDashboardDataProvider.getInstance().updateJourney(true);
+
         DCGoalsDataProvider.getInstance().addObserver(this);
         DCGoalsDataProvider.getInstance().updateGoals(true);
-        loadAndHandleJourney();
     }
 
     @Override
@@ -356,31 +351,9 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         vpDashboardPager.setCurrentItem(1);
     }
 
-    /**
-     * Gets the current journey
-     * if
-     * 1. Journey not started yet -> show popup for starting journey
-     * 2. Journey completed -> show journey completed popup
-     * 3. Journey failed (due to skipped days) show restart popup
-     * 4. Journey is has started -> show routine popup
-     */
-    private void loadAndHandleJourney() {
-        DCApiManager.getInstance().getJourney(new DCResponseListener<DCJourney>() {
-            @Override
-            public void onFailure(DCError error) {
-                if (error != null && error.isType("not_started_yet")) {
-                    showStartJourneyPopup();
-                }
-            }
 
-            @Override
-            public void onResponse(DCJourney object) {
-                handleJourney(object);
-            }
-        });
-    }
-
-    private void handleJourney(DCJourney journey) {
+    @Override
+    public void onJourneyUpdated(DCJourney journey) {
         if (journey != null) {
             if (journey.isCompleted()) {
                 showCompletedJourneyPopup();
@@ -389,6 +362,13 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             } else {
                 showDailyJourneyPopup(journey);
             }
+        }
+    }
+
+    @Override
+    public void onJourneyError(DCError error) {
+        if (error != null && error.isType("not_started_yet")) {
+            showStartJourneyPopup();
         }
     }
 
@@ -407,7 +387,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
 
     private void showStartJourneyPopup() {
         if (canShowPopup()) {
-            AudibleMessage audibleMessage = AudibleMessage.getAppropriateGreeting();
             final Routine.Type type = Routine.getAppropriateRoutineTypeForNow();
             if (type != null) {
                 DCMessageFragment.create(
@@ -415,7 +394,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                         getString(R.string.journey_sub_hdl_start),
                         getString(R.string.journey_txt_start),
                         getString(R.string.journey_btn_start),
-                        audibleMessage != null ? audibleMessage.getVoices() : null,
+                        null,
                         new DCMessageFragment.IDCMessageFragment() {
                             @Override
                             public void onButtonClicked() {
@@ -484,8 +463,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                         button = getString(R.string.btn_evening);
                         break;
                 }
-            }
-            if (type != null) {
+
                 AudibleMessage message = AudibleMessage.getAppropriateGreeting();
                 String title = getString(R.string.journey_hdl_daily, Integer.toString(journey.getDay()), Integer.toString(journey.getTargetDays()));
                 String subTitle = getString(R.string.journey_sub_hdl_daily, Integer.toString(journey.getSkipped()), Integer.toString(journey.getTolerance()));

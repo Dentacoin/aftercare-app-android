@@ -11,6 +11,7 @@ import com.dentacoin.dentacare.activities.DCCollectActivity;
 import com.dentacoin.dentacare.activities.DCProfileActivity;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.network.DCApiManager;
@@ -170,5 +171,13 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
 
     @Override
     public void onSyncSuccess() {
+    }
+
+    @Override
+    public void onJourneyUpdated(DCJourney journey) {
+    }
+
+    @Override
+    public void onJourneyError(DCError error) {
     }
 }

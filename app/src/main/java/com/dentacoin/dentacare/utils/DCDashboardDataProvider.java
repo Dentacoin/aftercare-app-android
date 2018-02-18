@@ -3,6 +3,7 @@ package com.dentacoin.dentacare.utils;
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
@@ -22,11 +23,13 @@ public class DCDashboardDataProvider {
 
     private static DCDashboardDataProvider instance;
     private DCDashboard dashboard;
+    private DCJourney journey;
 
     private final List<DCRoutine> routines = Collections.synchronizedList(new ArrayList<DCRoutine>());
     private ArrayList<IDCDashboardObserver> dashboardObservers;
 
     private boolean inRequest = false;
+    private boolean inRequestJourney = false;
 
     public static synchronized DCDashboardDataProvider getInstance() {
         if (instance == null)
@@ -141,6 +144,37 @@ public class DCDashboardDataProvider {
         } else {
             routines.add(routine);
             notifyObserversOnSyncNeeded(routines.toArray(new DCRoutine[routines.size()]));
+        }
+    }
+
+    /**
+     * Get latest journey data
+     */
+    public void updateJourney(boolean hard) {
+        if (!hard && journey != null) {
+            for (IDCDashboardObserver observer : dashboardObservers) {
+                observer.onJourneyUpdated(journey);
+            }
+        } else {
+            if (inRequestJourney)
+                return;
+            inRequestJourney = true;
+            DCApiManager.getInstance().getJourney(new DCResponseListener<DCJourney>() {
+                @Override
+                public void onFailure(DCError error) {
+                    for (IDCDashboardObserver observer : dashboardObservers) {
+                        observer.onJourneyError(error);
+                    }
+                }
+
+                @Override
+                public void onResponse(DCJourney object) {
+                    DCDashboardDataProvider.this.journey = object;
+                    for (IDCDashboardObserver observer : dashboardObservers) {
+                        observer.onJourneyUpdated(object);
+                    }
+                }
+            });
         }
     }
 
