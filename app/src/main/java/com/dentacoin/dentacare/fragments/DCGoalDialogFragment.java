@@ -45,23 +45,25 @@ public class DCGoalDialogFragment extends DCDialogFragment {
     private DCTextView tvGoalTitle;
     private DCTextView tvGoalDescription;
     private ShareButton fbGoalShare;
+    private DCTextView tvGoalAward;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_goal, container);
 
-        rlGoalBadge = (RelativeLayout) view.findViewById(R.id.rl_goal_badge);
-        ivGoalDottedBackground = (ImageView) view.findViewById(R.id.iv_goal_dotted_background);
-        ivGoalFlag = (ImageView) view.findViewById(R.id.iv_goal_flag);
-        rlGoalBackground = (RelativeLayout) view.findViewById(R.id.rl_goal_background);
-        ivGoalBackground = (ImageView) view.findViewById(R.id.iv_goal_background);
-        ivGoalIconTooth = (ImageView) view.findViewById(R.id.iv_goal_icon_tooth);
-        tvGoalNumber = (DCTextView) view.findViewById(R.id.tv_goal_number);
-        ivGoalStar = (ImageView) view.findViewById(R.id.iv_goal_star);
+        rlGoalBadge = view.findViewById(R.id.rl_goal_badge);
+        ivGoalDottedBackground = view.findViewById(R.id.iv_goal_dotted_background);
+        ivGoalFlag = view.findViewById(R.id.iv_goal_flag);
+        rlGoalBackground = view.findViewById(R.id.rl_goal_background);
+        ivGoalBackground = view.findViewById(R.id.iv_goal_background);
+        ivGoalIconTooth = view.findViewById(R.id.iv_goal_icon_tooth);
+        tvGoalNumber = view.findViewById(R.id.tv_goal_number);
+        ivGoalStar = view.findViewById(R.id.iv_goal_star);
+        tvGoalAward = view.findViewById(R.id.tv_goal_award);
 
-        tvGoalTitle = (DCTextView) view.findViewById(R.id.tv_goal_title);
-        tvGoalDescription = (DCTextView) view.findViewById(R.id.tv_goal_description);
-        fbGoalShare = (ShareButton) view.findViewById(R.id.fb_goal_share);
+        tvGoalTitle = view.findViewById(R.id.tv_goal_title);
+        tvGoalDescription = view.findViewById(R.id.tv_goal_description);
+        fbGoalShare = view.findViewById(R.id.fb_goal_share);
         fbGoalShare.setVisibility(View.GONE);
 
         ivGoalFlag.setImageDrawable(getResources().getDrawable(R.drawable.badge_bg_unachieved_flag));
@@ -84,6 +86,8 @@ public class DCGoalDialogFragment extends DCDialogFragment {
         if (goal != null) {
             tvGoalTitle.setText(goal.getTitle());
             tvGoalDescription.setText(goal.getDescription());
+            tvGoalAward.setText(getString(R.string.txt_dcn, goal.getReward()));
+
             if (goal.getAmount() != null) {
                 tvGoalNumber.setText(String.format(Locale.ENGLISH, "%d", goal.getAmount()));
                 ivGoalIconTooth.setVisibility(View.GONE);

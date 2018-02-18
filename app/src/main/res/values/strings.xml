@@ -332,7 +332,7 @@
     <string name="journey_btn_failed">Start over!</string>
 
     <string name="journey_hdl_daily">Day %1$s of %2$s</string>
-    <string name="journey_sub_hdl_daily">Skipped %1$s routines</string>
+    <string name="journey_sub_hdl_daily">Skipped routines\n%1$s of %2$s</string>
     <string name="journey_btn_daily">Start routine</string>
 
     <string name="btn_morning">Start morning routine</string>

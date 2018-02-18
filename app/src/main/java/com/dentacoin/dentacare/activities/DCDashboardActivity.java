@@ -488,7 +488,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             if (type != null) {
                 AudibleMessage message = AudibleMessage.getAppropriateGreeting();
                 String title = getString(R.string.journey_hdl_daily, Integer.toString(journey.getDay()), Integer.toString(journey.getTargetDays()));
-                String subTitle = getString(R.string.journey_sub_hdl_daily, Integer.toString(journey.getSkipped()));
+                String subTitle = getString(R.string.journey_sub_hdl_daily, Integer.toString(journey.getSkipped()), Integer.toString(journey.getTolerance()));
 
                 DCMessageFragment.create(
                         title,
