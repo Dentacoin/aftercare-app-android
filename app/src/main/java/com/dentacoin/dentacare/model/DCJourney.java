@@ -15,6 +15,7 @@ public class DCJourney implements Serializable {
     private boolean completed;
     private int day;
     private int skipped;
+    private DCRoutine lastRoutine;
 
     /** Retrieve the journey's start date */
     public Date getStartDate() { return startDate; }
@@ -41,4 +42,8 @@ public class DCJourney implements Serializable {
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
+
+    public DCRoutine getLastRoutine() { return lastRoutine; }
+
+
 }

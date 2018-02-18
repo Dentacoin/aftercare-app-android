@@ -45,13 +45,13 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_collect_wallet, container, false);
-        btnCollectSend = (DCButton) view.findViewById(R.id.collect_btn_send);
+        btnCollectSend = view.findViewById(R.id.collect_btn_send);
         btnCollectSend.setOnClickListener(this);
         btnCollectSend.setEnabled(false);
 
-        ivCollectQrScan = (ImageView) view.findViewById(R.id.iv_collect_qr_scan);
+        ivCollectQrScan = view.findViewById(R.id.iv_collect_qr_scan);
         ivCollectQrScan.setOnClickListener(this);
-        etCollectWallet = (DCEditText) view.findViewById(R.id.et_collect_wallet);
+        etCollectWallet = view.findViewById(R.id.et_collect_wallet);
 
         etCollectWallet.addTextChangedListener(new TextWatcher() {
             @Override

@@ -141,6 +141,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         toolbar.setVisibility(View.VISIBLE);
         showTutorials();
         showEmailNotificaitonSent();
+        loadAndHandleJourney();
     }
 
     private void showEmailNotificaitonSent() {
@@ -392,9 +393,13 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     }
 
     private boolean canShowPopup() {
+        Fragment messageFragment = getFragmentManager().findFragmentByTag(DCMessageFragment.TAG);
         Fragment welcomeFragment = getFragmentManager().findFragmentByTag(DCWelcomeFragment.TAG);
         Fragment goalFragment = getFragmentManager().findFragmentByTag(DCGoalDialogFragment.TAG);
-        if ((welcomeFragment != null && welcomeFragment.isVisible()) || (goalFragment != null && goalFragment.isVisible()) || inRecord) {
+
+        if ((messageFragment != null && messageFragment.isVisible()) ||
+            (welcomeFragment != null && welcomeFragment.isVisible()) ||
+            (goalFragment != null && goalFragment.isVisible()) || inRecord) {
             return false;
         }
         return true;

@@ -117,6 +117,7 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
         ivCaptcha = view.findViewById(R.id.iv_captcha);
         pbCaptcha = view.findViewById(R.id.pb_captcha);
         pbCaptcha.setMax(100);
+        ivCaptcha.setOnClickListener(this);
 
         tietSignupPassword.addTextChangedListener(new TextWatcher() {
             @Override
@@ -225,6 +226,10 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
                 break;
             case R.id.btn_signup_create:
                 signup();
+                break;
+            case R.id.iv_captcha:
+                stopUpdatingCaptcha();
+                startUpdatingCaptcha();
                 break;
 
         }
