@@ -23,10 +23,10 @@ import android.widget.RelativeLayout;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCDashboardActivity;
-import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCDashboardItem;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
@@ -36,7 +36,6 @@ import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.utils.Music;
 import com.dentacoin.dentacare.utils.Routine;
-import com.dentacoin.dentacare.utils.Voice;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCDashboardTeeth;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
@@ -601,6 +600,4 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
             playMusic();
         }
     }
-
-
 }

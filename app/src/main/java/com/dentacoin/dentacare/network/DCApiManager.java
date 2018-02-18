@@ -90,11 +90,11 @@ public class DCApiManager {
     private static final String HEADER_KEY_FBM ="FirebaseToken";
 
     public static final Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd HH:mm:ss")
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
             .create();
 
     public static final Gson gsonExopse = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd HH:mm:ss")
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
             .excludeFieldsWithoutExposeAnnotation()
             .create();
 
