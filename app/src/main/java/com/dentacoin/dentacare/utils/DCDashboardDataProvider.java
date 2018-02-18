@@ -158,6 +158,7 @@ public class DCDashboardDataProvider {
         } else {
             if (inRequestJourney)
                 return;
+
             inRequestJourney = true;
             DCApiManager.getInstance().getJourney(new DCResponseListener<DCJourney>() {
                 @Override
@@ -165,6 +166,7 @@ public class DCDashboardDataProvider {
                     for (IDCDashboardObserver observer : dashboardObservers) {
                         observer.onJourneyError(error);
                     }
+                    inRequestJourney = false;
                 }
 
                 @Override
@@ -173,6 +175,7 @@ public class DCDashboardDataProvider {
                     for (IDCDashboardObserver observer : dashboardObservers) {
                         observer.onJourneyUpdated(object);
                     }
+                    inRequestJourney = false;
                 }
             });
         }
@@ -315,6 +318,8 @@ public class DCDashboardDataProvider {
      */
     public void clear() {
         dashboardObservers.clear();
+        journey = null;
+        dashboard = null;
         synchronized (routines) {
             routines.clear();
         }

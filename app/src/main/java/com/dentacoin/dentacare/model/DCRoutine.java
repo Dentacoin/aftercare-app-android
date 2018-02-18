@@ -35,6 +35,10 @@ public class DCRoutine implements Serializable {
         this.endTime = endTime;
     }
 
+    public Date getEndTime() {
+        return endTime;
+    }
+
     public int getEarnedDCN() {
         return earnedDCN;
     }

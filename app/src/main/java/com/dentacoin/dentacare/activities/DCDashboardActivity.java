@@ -359,7 +359,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                 showCompletedJourneyPopup();
             } else if (journey.isFailed()) {
                 showFailedJourneyPopup();
-            } else {
+            } else if (journey.shouldShowDailyPopup()) {
                 showDailyJourneyPopup(journey);
             }
         }

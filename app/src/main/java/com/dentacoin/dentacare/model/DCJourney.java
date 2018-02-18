@@ -1,5 +1,7 @@
 package com.dentacoin.dentacare.model;
 
+import com.dentacoin.dentacare.utils.Routine;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -45,5 +47,29 @@ public class DCJourney implements Serializable {
 
     public DCRoutine getLastRoutine() { return lastRoutine; }
 
+    public boolean shouldShowDailyPopup() {
+        if (lastRoutine == null)
+            return true;
 
+        Routine.Type appropriateType = Routine.getAppropriateRoutineTypeForNow();
+
+        if (appropriateType != null && appropriateType != lastRoutine.getType())
+            return true;
+
+        if (appropriateType != null && appropriateType == lastRoutine.getType()) {
+            Date timeLastRoutine = lastRoutine.getEndTime();
+            if (timeLastRoutine != null) {
+                Date now = new Date();
+                long difference = now.getTime() - timeLastRoutine.getTime();
+                long s = difference / 1000;
+                long m = s / 60;
+                long h = m / 60;
+
+                if (h >= 8)
+                    return true;
+            }
+        }
+
+        return false;
+    }
 }

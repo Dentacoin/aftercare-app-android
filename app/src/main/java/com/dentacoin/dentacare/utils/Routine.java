@@ -33,21 +33,39 @@ public class Routine {
     }
 
     public enum Type {
-        MORNING(5, 17, new Action[] { Action.BRUSH_READY, Action.BRUSH, Action.BRUSH_DONE, Action.RINSE_READY, Action.RINSE, Action.RINSE_DONE}),                                                           //Morning routine from 2am to 11am
-        EVENING(17, 24, new Action[] { Action.FLOSS_READY, Action.FLOSS, Action.FLOSS_DONE, Action.BRUSH_READY, Action.BRUSH, Action.BRUSH_DONE, Action.RINSE_READY, Action.RINSE, Action.RINSE_DONE});     //Evening routine from 17pm to 24pm
+        /** from 5 to 17*/
+        MORNING(5, 12, new Action[] { Action.BRUSH_READY, Action.BRUSH, Action.BRUSH_DONE, Action.RINSE_READY, Action.RINSE, Action.RINSE_DONE}),                                                           //Morning routine from 2am to 11am
+        /** from 17 to 02*/
+        EVENING(17, 9, new Action[] { Action.FLOSS_READY, Action.FLOSS, Action.FLOSS_DONE, Action.BRUSH_READY, Action.BRUSH, Action.BRUSH_DONE, Action.RINSE_READY, Action.RINSE, Action.RINSE_DONE});     //Evening routine from 17pm to 24pm
 
         private int fromHourOfDay;
-        private int toHourOfDay;
+        private int addHours;
         private Action[] actions;
 
-        Type(int fromHourOfDay, int toHourOfDay, Action[] actions) {
+        Type(int fromHourOfDay, int addHours, Action[] actions) {
             this.fromHourOfDay = fromHourOfDay;
-            this.toHourOfDay = toHourOfDay;
+            this.addHours = addHours;
             this.actions = actions;
         }
 
         public boolean inTimeFrame(int hour) {
-            return hour >= fromHourOfDay && hour <= toHourOfDay;
+            Calendar target = Calendar.getInstance();
+            target.set(Calendar.HOUR_OF_DAY, hour);
+            target.set(Calendar.MINUTE, 0);
+            target.set(Calendar.SECOND, 0);
+
+            Calendar from = Calendar.getInstance();
+            target.set(Calendar.HOUR_OF_DAY, fromHourOfDay);
+            target.set(Calendar.MINUTE, 0);
+            target.set(Calendar.SECOND, 0);
+
+            Calendar to = Calendar.getInstance();
+            target.set(Calendar.HOUR_OF_DAY, fromHourOfDay);
+            target.set(Calendar.MINUTE, 0);
+            target.set(Calendar.SECOND, 0);
+            to.add(Calendar.HOUR_OF_DAY, addHours);
+
+            return ((target.compareTo(from) >= 0) && (target.compareTo(to) <= 0));
         }
 
         public Action[] getActions() {
