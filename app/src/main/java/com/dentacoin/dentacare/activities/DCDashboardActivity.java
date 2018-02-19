@@ -385,10 +385,12 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         return true;
     }
 
+    private boolean popupShown = false;
     private void showStartJourneyPopup() {
-        if (canShowPopup()) {
+        if (canShowPopup() && !popupShown) {
             final Routine.Type type = Routine.getAppropriateRoutineTypeForNow();
             if (type != null) {
+                popupShown = true;
                 DCMessageFragment.create(
                         getString(R.string.journey_hdl_start),
                         getString(R.string.journey_sub_hdl_start),
@@ -399,6 +401,12 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                             @Override
                             public void onButtonClicked() {
                                 DCDashboardActivity.this.startRoutine(type);
+                                popupShown = false;
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                popupShown = false;
                             }
                         }).show(getFragmentManager(), DCMessageFragment.TAG);
             }
@@ -406,7 +414,8 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     }
 
     private void showCompletedJourneyPopup() {
-        if (canShowPopup()) {
+        if (canShowPopup() && !popupShown) {
+            popupShown = true;
             DCMessageFragment.create(
                     getString(R.string.journey_hdl_completed),
                     getString(R.string.journey_sub_hdl_completed),
@@ -419,6 +428,12 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                             final Intent collectIntent = new Intent(DCDashboardActivity.this, DCCollectActivity.class);
                             startActivity(collectIntent);
                             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                            popupShown = false;
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            popupShown = false;
                         }
                     }
             ).show(getFragmentManager(), DCMessageFragment.TAG);
@@ -426,9 +441,10 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     }
 
     private void showFailedJourneyPopup() {
-        if (canShowPopup()) {
+        if (canShowPopup() && !popupShown) {
             final Routine.Type type = Routine.getAppropriateRoutineTypeForNow();
             if (type != null) {
+                popupShown = true;
                 DCMessageFragment.create(
                         getString(R.string.journey_hdl_failed),
                         getString(R.string.journey_sub_hdl_failed),
@@ -439,6 +455,12 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                             @Override
                             public void onButtonClicked() {
                                 DCDashboardActivity.this.startRoutine(type);
+                                popupShown = false;
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                popupShown = false;
                             }
                         }
                 ).show(getFragmentManager(), DCMessageFragment.TAG);
@@ -447,7 +469,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     }
 
     private void showDailyJourneyPopup(DCJourney journey) {
-        if (canShowPopup() && journey != null) {
+        if (canShowPopup() && journey != null && !popupShown) {
             String button = getString(R.string.btn_routine);
 
             final Routine.Type type = Routine.getAppropriateRoutineTypeForNow();
@@ -467,7 +489,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                 AudibleMessage message = AudibleMessage.getAppropriateGreeting();
                 String title = getString(R.string.journey_hdl_daily, Integer.toString(journey.getDay()), Integer.toString(journey.getTargetDays()));
                 String subTitle = getString(R.string.journey_sub_hdl_daily, Integer.toString(journey.getSkipped()), Integer.toString(journey.getTolerance()));
-
+                popupShown = true;
                 DCMessageFragment.create(
                         title,
                         subTitle,
@@ -478,6 +500,12 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                             @Override
                             public void onButtonClicked() {
                                 DCDashboardActivity.this.startRoutine(type);
+                                popupShown = false;
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                popupShown = false;
                             }
                         }
                 ).show(getFragmentManager(), DCMessageFragment.TAG);

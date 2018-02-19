@@ -31,6 +31,7 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
 
     public interface IDCMessageFragment {
         void onButtonClicked();
+        void onCancel();
     }
 
     public static final String TAG = DCLoginFragment.class.getSimpleName();
@@ -159,6 +160,11 @@ public class DCMessageFragment extends DCDialogFragment implements View.OnClickL
     @Override
     public void onCancel(DialogInterface dialog) {
         super.onCancel(dialog);
+
+        if (listener != null)
+            listener.onCancel();
+
         DCSoundManager.getInstance().cancelSounds();
     }
+
 }
