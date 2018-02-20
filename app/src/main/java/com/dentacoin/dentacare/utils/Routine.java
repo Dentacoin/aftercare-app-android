@@ -55,14 +55,14 @@ public class Routine {
             target.set(Calendar.SECOND, 0);
 
             Calendar from = Calendar.getInstance();
-            target.set(Calendar.HOUR_OF_DAY, fromHourOfDay);
-            target.set(Calendar.MINUTE, 0);
-            target.set(Calendar.SECOND, 0);
+            from.set(Calendar.HOUR_OF_DAY, fromHourOfDay);
+            from.set(Calendar.MINUTE, 0);
+            from.set(Calendar.SECOND, 0);
 
             Calendar to = Calendar.getInstance();
-            target.set(Calendar.HOUR_OF_DAY, fromHourOfDay);
-            target.set(Calendar.MINUTE, 0);
-            target.set(Calendar.SECOND, 0);
+            to.set(Calendar.HOUR_OF_DAY, fromHourOfDay);
+            to.set(Calendar.MINUTE, 0);
+            to.set(Calendar.SECOND, 0);
             to.add(Calendar.HOUR_OF_DAY, addHours);
 
             return ((target.compareTo(from) >= 0) && (target.compareTo(to) <= 0));
