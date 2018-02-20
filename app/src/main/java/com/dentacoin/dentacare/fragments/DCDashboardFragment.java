@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.TypedValue;
@@ -29,9 +30,11 @@ import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCRoutine;
+import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
+import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
@@ -46,6 +49,8 @@ import com.dentacoin.dentacare.widgets.DCTextView;
 import com.dentacoin.dentacare.widgets.DCTimerView;
 
 import java.util.Date;
+
+import de.mateware.snacky.Snacky;
 
 /**
  * Created by Atanas Chervarov on 8/18/17.
@@ -610,6 +615,17 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     public void onMusicEnded(Music music) {
         if (trackingTime || routine != null) {
             playMusic();
+        }
+    }
+
+    public void showEmailNotificaitonSent() {
+        if (DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.SHOW_EMAIL_VERIFICATION, false) && DCSession.getInstance().getUser() != null) {
+            DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.SHOW_EMAIL_VERIFICATION, false);
+            Snacky.builder().setActivty(getActivity())
+                    .success()
+                    .setText(getString(R.string.signup_txt_verification_sent, DCSession.getInstance().getUser().getEmail()))
+                    .setDuration(BaseTransientBottomBar.LENGTH_LONG)
+                    .show();
         }
     }
 }

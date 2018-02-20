@@ -14,6 +14,7 @@ import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCDashboardActivity;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.utils.DCConstants;
+import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.dentacoin.dentacare.utils.Routine;
@@ -67,7 +68,7 @@ public class DCBrushFragment extends DCDashboardFragment {
         }
     }
 
-    private void showSpotlightTutorial(Tutorial tutorial, float x, float y) {
+    private void showSpotlightTutorial(final Tutorial tutorial, float x, float y) {
         SimpleTarget qrTarget = new SimpleTarget.Builder(getActivity())
                 .setPoint(x, y)
                 .setRadius(140f) // radius of the Target
@@ -76,13 +77,17 @@ public class DCBrushFragment extends DCDashboardFragment {
 
         Spotlight.with(getActivity())
                 .setOverlayColor(getResources().getColor(R.color.blackTransparent80)) // background overlay color
-                .setDuration(1000L) // duration of Spotlight emerging and disappearing in ms
+                .setDuration(500L) // duration of Spotlight emerging and disappearing in ms
                 .setAnimation(new DecelerateInterpolator(2f)) // animation of Spotlight
                 .setTargets(qrTarget) // set targets. see below for more info
                 .setOnSpotlightEndedListener(new OnSpotlightEndedListener() { // callback when Spotlight ends
                     @Override
                     public void onEnded() {
                         DCTutorialManager.getInstance().showNext();
+                        if (tutorial == Tutorial.DASHBOARD_STATISTICS) {
+                            DCDashboardDataProvider.getInstance().updateJourney(true);
+                            showEmailNotificaitonSent();
+                        }
                     }
                 })
                 .start(); // start Spotlight

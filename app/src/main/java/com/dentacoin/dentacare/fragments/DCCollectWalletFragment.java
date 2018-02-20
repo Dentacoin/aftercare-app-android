@@ -169,7 +169,7 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
                             .build();
                     Spotlight.with(getActivity())
                             .setOverlayColor(getResources().getColor(R.color.blackTransparent80)) // background overlay color
-                            .setDuration(1000L) // duration of Spotlight emerging and disappearing in ms
+                            .setDuration(500L) // duration of Spotlight emerging and disappearing in ms
                             .setAnimation(new DecelerateInterpolator(2f)) // animation of Spotlight
                             .setTargets(qrTarget) // set targets. see below for more info
                             .start(); // start Spotlight

@@ -390,7 +390,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
 
         Spotlight.with(this)
                 .setOverlayColor(getResources().getColor(R.color.blackTransparent80)) // background overlay color
-                .setDuration(1000L) // duration of Spotlight emerging and disappearing in ms
+                .setDuration(500L) // duration of Spotlight emerging and disappearing in ms
                 .setAnimation(new DecelerateInterpolator(2f)) // animation of Spotlight
                 .setTargets(qrTarget) // set targets. see below for more info
                 .setOnSpotlightEndedListener(new OnSpotlightEndedListener() { // callback when Spotlight ends
