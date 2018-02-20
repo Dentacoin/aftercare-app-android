@@ -259,7 +259,6 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
                       GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
                       GoogleSignInClient client = GoogleSignIn.getClient(getActivity(), gso);
                       client.signOut();
-                      DCTutorialManager.getInstance().clear();
                       ((DCActivity)getActivity()).onLogout();
                   }
               });

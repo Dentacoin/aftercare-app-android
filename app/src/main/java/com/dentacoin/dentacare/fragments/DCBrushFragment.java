@@ -7,17 +7,23 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCDashboardActivity;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.utils.DCConstants;
+import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.dentacoin.dentacare.utils.Routine;
+import com.dentacoin.dentacare.utils.Tutorial;
 import com.dentacoin.dentacare.utils.Voice;
 import com.dentacoin.dentacare.widgets.DCDashboardTeeth;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
-import com.github.florent37.viewtooltip.ViewTooltip;
+import com.takusemba.spotlight.OnSpotlightEndedListener;
+import com.takusemba.spotlight.SimpleTarget;
+import com.takusemba.spotlight.Spotlight;
 
 /**
  * Created by Atanas Chervarov on 9/27/17.
@@ -49,7 +55,6 @@ public class DCBrushFragment extends DCDashboardFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof DCDashboardActivity) {
-            ((DCDashboardActivity) context).setTutorialListener(this);
             ((DCDashboardActivity) context).setBrush(this);
         }
     }
@@ -58,30 +63,94 @@ public class DCBrushFragment extends DCDashboardFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         if (activity instanceof DCDashboardActivity) {
-            ((DCDashboardActivity) activity).setTutorialListener(this);
             ((DCDashboardActivity) activity).setBrush(this);
         }
     }
 
-    @Override
-    public void showTutorials() {
-        super.showTutorials();
-        if (isAdded() && getActivity() != null) {
-            DCTutorialManager.getInstance().showTutorial(getActivity(), timerDashboardLast, DCTutorialManager.TUTORIAL.LAST_ACTIVITY_TIME, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.TOP);
-            DCTutorialManager.getInstance().showTutorial(getActivity(), timerDashboardleft, DCTutorialManager.TUTORIAL.LEFT_ACTIVITIES_COUNT, ViewTooltip.ALIGN.START, ViewTooltip.Position.TOP);
-            DCTutorialManager.getInstance().showTutorial(getActivity(), timerDashboardEarned, DCTutorialManager.TUTORIAL.DCN_EARNED, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
-            DCTutorialManager.getInstance().showTutorial(getActivity(), rlDashboardArrowHolder, DCTutorialManager.TUTORIAL.DASHBOARD_STATISTICS, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.TOP);
-        }
+    private void showSpotlightTutorial(Tutorial tutorial, float x, float y) {
+        SimpleTarget qrTarget = new SimpleTarget.Builder(getActivity())
+                .setPoint(x, y)
+                .setRadius(140f) // radius of the Target
+                .setDescription(getString(tutorial.getResourceId())) // description
+                .build();
+
+        Spotlight.with(getActivity())
+                .setOverlayColor(getResources().getColor(R.color.blackTransparent80)) // background overlay color
+                .setDuration(1000L) // duration of Spotlight emerging and disappearing in ms
+                .setAnimation(new DecelerateInterpolator(2f)) // animation of Spotlight
+                .setTargets(qrTarget) // set targets. see below for more info
+                .setOnSpotlightEndedListener(new OnSpotlightEndedListener() { // callback when Spotlight ends
+                    @Override
+                    public void onEnded() {
+                        DCTutorialManager.getInstance().showNext();
+                    }
+                })
+                .start(); // start Spotlight
+
+        DCSharedPreferences.setShownTutorial(tutorial, true);
     }
 
     @Override
-    public void hideTutorials() {
-        super.hideTutorials();
-        DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.LAST_ACTIVITY_TIME);
-        DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.LEFT_ACTIVITIES_COUNT);
-        DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.DCN_EARNED);
-        DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.DASHBOARD_STATISTICS);
+    public void showTutorial(final Tutorial tutorial) {
+        super.showTutorial(tutorial);
+        if (tutorial != null) {
+            switch (tutorial) {
+                case LAST_ACTIVITY_TIME:
+                    timerDashboardLast.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            timerDashboardLast.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            int[] location = new int[2];
+                            timerDashboardLast.getLocationInWindow(location);
+                            float oneX = location[0] + timerDashboardLast.getWidth() / 2f;
+                            float oneY = location[1] + timerDashboardLast.getHeight() / 2f;
+                            showSpotlightTutorial(tutorial, oneX, oneY);
+                        }
+                    });
+                    break;
+                case LEFT_ACTIVITIES_COUNT:
+                    timerDashboardleft.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            timerDashboardleft.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            int[] location = new int[2];
+                            timerDashboardleft.getLocationInWindow(location);
+                            float oneX = location[0] + timerDashboardleft.getWidth() / 2f;
+                            float oneY = location[1] + timerDashboardleft.getHeight() / 2f;
+                            showSpotlightTutorial(tutorial, oneX, oneY);
+                        }
+                    });
+                    break;
+                case DCN_EARNED:
+                    timerDashboardEarned.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            timerDashboardEarned.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            int[] location = new int[2];
+                            timerDashboardEarned.getLocationInWindow(location);
+                            float oneX = location[0] + timerDashboardEarned.getWidth() / 2f;
+                            float oneY = location[1] + timerDashboardEarned.getHeight() / 2f;
+                            showSpotlightTutorial(tutorial, oneX, oneY);
+                        }
+                    });
+                    break;
+                case DASHBOARD_STATISTICS:
+                    rlDashboardArrowHolder.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            rlDashboardArrowHolder.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            int[] location = new int[2];
+                            rlDashboardArrowHolder.getLocationInWindow(location);
+                            float oneX = location[0] + rlDashboardArrowHolder.getWidth() / 2f;
+                            float oneY = location[1] + rlDashboardArrowHolder.getHeight() / 2f;
+                            showSpotlightTutorial(tutorial, oneX, oneY);
+                        }
+                    });
+                    break;
+            }
+        }
     }
+
 
     private boolean ulvisible;
     private boolean wlvisible;

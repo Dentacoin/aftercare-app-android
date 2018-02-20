@@ -101,7 +101,7 @@ public class DCSharedPreferences {
         return getInstance().preferences.getStringSet(DCSharedKey.SHOWED_TUTORIALS.getKey(), new HashSet<String>());
     }
 
-    public static void setShownTutorial(DCTutorialManager.TUTORIAL tutorial, boolean shown) {
+    public static void setShownTutorial(Tutorial tutorial, boolean shown) {
         Set<String> shownTutorials = getShownTutorials();
         HashSet<String> tutorials = new HashSet<>();
         tutorials.addAll(shownTutorials);
@@ -141,5 +141,6 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.FIRST_LOGIN_DATE);
         removeKey(DCSharedKey.SEEN_ONBOARDING);
         removeKey(DCSharedKey.SHOW_EMAIL_VERIFICATION);
+        removeKey(DCSharedKey.SHOWED_TUTORIALS);
     }
 }

@@ -14,6 +14,7 @@
     <color name="greyTransparent">#80d7d7d7</color>
     <color name="whiteTransparent">#48ffffff</color>
     <color name="dark">#1d1d26</color>
+    <color name="blackTransparent80">#CC000000</color>
     <color name="blackTransparent50">#80000000</color>
     <color name="blackTransparent10">#1A000000</color>
     <color name="darkSkyBlue">#4990e2</color>

@@ -17,6 +17,8 @@ import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -30,19 +32,21 @@ import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCCustomTypefaceSpan;
 import com.dentacoin.dentacare.utils.DCFonts;
 import com.dentacoin.dentacare.utils.DCLocalNotificationsManager;
+import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDCTutorial;
+import com.dentacoin.dentacare.utils.Tutorial;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.login.LoginManager;
-import com.github.florent37.viewtooltip.ViewTooltip;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.takusemba.spotlight.OnSpotlightEndedListener;
+import com.takusemba.spotlight.SimpleTarget;
+import com.takusemba.spotlight.Spotlight;
 import com.twitter.sdk.android.core.TwitterCore;
-
-import java.util.ArrayList;
 
 /**
  * Created by Atanas Chervarov on 8/11/17.
@@ -111,28 +115,21 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
                 loadUserData(true);
-
-                DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, sdvDrawerHeaderAvatar, DCTutorialManager.TUTORIAL.EDIT_PROFILE, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.RIGHT);
-                ArrayList<View> touchables = nvNavigation.getTouchables();
-                if (touchables != null && touchables.size() >= 8) {
-                    DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(3), DCTutorialManager.TUTORIAL.COLLECT_DCN, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.TOP);
-                    DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(5), DCTutorialManager.TUTORIAL.GOALS, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
-                    DCTutorialManager.getInstance().showTutorial(DCDrawerActivity.this, nvNavigation.getTouchables().get(8), DCTutorialManager.TUTORIAL.EMERGENCY_MENU, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
-                }
+                DCTutorialManager.getInstance().showNext();
             }
 
             @Override
             public void onDrawerStateChanged(int newState) {
                 super.onDrawerStateChanged(newState);
-                if (newState != DrawerLayout.STATE_IDLE && drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.EDIT_PROFILE);
-                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.COLLECT_DCN);
-                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.GOALS);
-                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.EMERGENCY_MENU);
-                }
-                else if (newState != DrawerLayout.STATE_IDLE && !drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    hideTutorials();
-                }
+//                if (newState != DrawerLayout.STATE_IDLE && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.EDIT_PROFILE);
+//                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.COLLECT_DCN);
+//                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.GOALS);
+//                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.EMERGENCY_MENU);
+//                }
+//                else if (newState != DrawerLayout.STATE_IDLE && !drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//                    hideTutorials();
+//                }
             }
         };
 
@@ -276,7 +273,6 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                                         GoogleSignInClient client = GoogleSignIn.getClient(DCDrawerActivity.this, gso);
                                         client.signOut();
 
-                                        DCTutorialManager.getInstance().clear();
                                         onLogout();
                                     }
                                 });
@@ -309,11 +305,117 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
     }
 
     @Override
-    public void showTutorials() {
+    public void showTutorial(final Tutorial tutorial) {
+        if (tutorial != null && drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            switch (tutorial) {
+                case EDIT_PROFILE:
+                    sdvDrawerHeaderAvatar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            sdvDrawerHeaderAvatar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            int[] location = new int[2];
+                            sdvDrawerHeaderAvatar.getLocationInWindow(location);
+                            float oneX = location[0] + sdvDrawerHeaderAvatar.getWidth() / 2f;
+                            float oneY = location[1] + sdvDrawerHeaderAvatar.getHeight() / 2f;
+                            showSpotlightTutorial(tutorial, oneX, oneY);
+                        }
+                    });
+                    break;
+                case COLLECT_DCN:
+                    final View collectDCN = nvNavigation.getTouchables().get(3);
+                    collectDCN.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            collectDCN.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            int[] location = new int[2];
+                            collectDCN.getLocationInWindow(location);
+                            float oneX = location[0] + collectDCN.getWidth() / 3f;
+                            float oneY = location[1] + collectDCN.getHeight() / 2f;
+                            showSpotlightTutorial(tutorial, oneX, oneY);
+                        }
+                    });
+                    break;
+                case WITHDRAWS:
+                    final View withdraws = nvNavigation.getTouchables().get(4);
+                    withdraws.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            withdraws.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            int[] location = new int[2];
+                            withdraws.getLocationInWindow(location);
+                            float oneX = location[0] + withdraws.getWidth() / 3f;
+                            float oneY = location[1] + withdraws.getHeight() / 2f;
+                            showSpotlightTutorial(tutorial, oneX, oneY);
+                        }
+                    });
+                    break;
+                case GOALS:
+                    final View goals = nvNavigation.getTouchables().get(5);
+                    goals.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            goals.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            int[] location = new int[2];
+                            goals.getLocationInWindow(location);
+                            float oneX = location[0] + goals.getWidth() / 3f;
+                            float oneY = location[1] + goals.getHeight() / 2f;
+                            showSpotlightTutorial(tutorial, oneX, oneY);
+                        }
+                    });
+                    break;
+                case EMERGENCY_MENU:
+                    final View emergency = nvNavigation.getTouchables().get(7);
+                    emergency.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            emergency.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            int[] location = new int[2];
+                            emergency.getLocationInWindow(location);
+                            float oneX = location[0] + emergency.getWidth() / 3f;
+                            float oneY = location[1] + emergency.getHeight() / 2f;
+                            showSpotlightTutorial(tutorial, oneX, oneY);
+                        }
+                    });
+                    break;
+            }
+        }
+    }
+
+    private void showSpotlightTutorial(Tutorial tutorial, float x, float y) {
+        SimpleTarget qrTarget = new SimpleTarget.Builder(this)
+                .setPoint(x, y)
+                .setRadius(140f) // radius of the Target
+                .setDescription(getString(tutorial.getResourceId())) // description
+                .build();
+
+        Spotlight.with(this)
+                .setOverlayColor(getResources().getColor(R.color.blackTransparent80)) // background overlay color
+                .setDuration(1000L) // duration of Spotlight emerging and disappearing in ms
+                .setAnimation(new DecelerateInterpolator(2f)) // animation of Spotlight
+                .setTargets(qrTarget) // set targets. see below for more info
+                .setOnSpotlightEndedListener(new OnSpotlightEndedListener() { // callback when Spotlight ends
+                    @Override
+                    public void onEnded() {
+                        DCTutorialManager.getInstance().showNext();
+                    }
+                })
+                .start(); // start Spotlight
+
+        DCSharedPreferences.setShownTutorial(tutorial, true);
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DCTutorialManager.getInstance().subscribe(this);
     }
 
     @Override
-    public void hideTutorials() {
+    public void onPause() {
+        DCTutorialManager.getInstance().unsubscribe(this);
+        super.onPause();
     }
 
     private static void tintMenuItemIcon(int color, MenuItem item) {

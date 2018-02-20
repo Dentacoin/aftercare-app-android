@@ -202,6 +202,7 @@
     <string name="tutorial_txt_emergency_menu">Send us emergency request</string>
     <string name="tutorial_txt_qr_code">Scan your wallet\'s QR code</string>
     <string name="tutorial_txt_sick_tooth">Show us where it hurts</string>
+    <string name="tutorial_txt_withdraws">Watch your withdraw requests</string>
 
     <string name="notifications_txt_daily_brushing_1">Hey there! Did you brush your teeth yet?</string>
     <string name="notifications_txt_change_brush_1">When is the last time you changed your toothbrush?</string>

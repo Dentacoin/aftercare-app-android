@@ -10,7 +10,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 
 import com.dentacoin.dentacare.R;
@@ -37,12 +39,14 @@ import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.utils.IDCGoalsObserver;
-import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.utils.Routine;
+import com.dentacoin.dentacare.utils.Tutorial;
 import com.dentacoin.dentacare.widgets.DCVIewPager;
-import com.github.florent37.viewtooltip.ViewTooltip;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
+import com.takusemba.spotlight.OnSpotlightEndedListener;
+import com.takusemba.spotlight.SimpleTarget;
+import com.takusemba.spotlight.Spotlight;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,7 +69,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     private boolean syncWarningVisible = false;
     private boolean inRecord = false;
 
-    private IDCTutorial tutorialListener;
     private Routine routine;
 
     private DCFlossFragment floss;
@@ -85,9 +88,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         this.rinse = rinse;
     }
 
-    public void setTutorialListener(IDCTutorial tutorialListener) {
-        this.tutorialListener = tutorialListener;
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,7 +120,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                hideTutorials();
             }
         });
 
@@ -128,7 +127,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             toolbar.setVisibility(View.GONE);
             getFragmentManager().beginTransaction().add(R.id.container, new DCWelcomeFragment(), DCWelcomeFragment.TAG).commit();
         } else {
-            showTutorials();
+            DCTutorialManager.getInstance().showNext();
             showEmailNotificaitonSent();
         }
 
@@ -138,7 +137,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     @Override
     public void onFragmentRemoved() {
         toolbar.setVisibility(View.VISIBLE);
-        showTutorials();
+        DCTutorialManager.getInstance().showNext();
         showEmailNotificaitonSent();
     }
 
@@ -162,6 +161,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
 
         DCGoalsDataProvider.getInstance().addObserver(this);
         DCGoalsDataProvider.getInstance().updateGoals(true);
+
     }
 
     @Override
@@ -223,7 +223,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                 }
                 break;
         }
-        hideTutorials();
     }
 
     public void toggleRecordMode(boolean inRecord) {
@@ -247,8 +246,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             vpDashboardPager.setSwipeEnabled(true);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
-
-        hideTutorials();
     }
 
     @Override
@@ -267,7 +264,6 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         arguments.putSerializable(DCGoalDialogFragment.KEY_GOAL, goal);
         goalFragment.setArguments(arguments);
         goalFragment.show(getFragmentManager(), DCGoalDialogFragment.TAG);
-        hideTutorials();
     }
 
     @Override
@@ -275,18 +271,45 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     }
 
     @Override
-    public void showTutorials() {
-        DCTutorialManager.getInstance().showTutorial(this, tvDashboardDcnTotal, DCTutorialManager.TUTORIAL.TOTAL_DCN, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.BOTTOM);
-        if (tutorialListener != null) {
-            tutorialListener.showTutorials();
-        }
-    }
+    public void showTutorial(final Tutorial tutorial) {
+        super.showTutorial(tutorial);
 
-    @Override
-    public void hideTutorials() {
-        DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.TOTAL_DCN);
-        if (tutorialListener != null) {
-            tutorialListener.hideTutorials();
+        if (tutorial != null) {
+            switch (tutorial) {
+                case TOTAL_DCN:
+                    tvDashboardDcnTotal.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            tvDashboardDcnTotal.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            int[] location = new int[2];
+                            tvDashboardDcnTotal.getLocationInWindow(location);
+                            float oneX = location[0] + tvDashboardDcnTotal.getWidth() / 2f;
+                            float oneY = location[1] + tvDashboardDcnTotal.getHeight() / 2f;
+
+                            SimpleTarget qrTarget = new SimpleTarget.Builder(DCDashboardActivity.this)
+                                    .setPoint(oneX, oneY)
+                                    .setRadius(120f) // radius of the Target
+                                    .setDescription(getString(tutorial.getResourceId())) // description
+                                    .build();
+
+                            Spotlight.with(DCDashboardActivity.this)
+                                    .setOverlayColor(getResources().getColor(R.color.blackTransparent80)) // background overlay color
+                                    .setDuration(1000L) // duration of Spotlight emerging and disappearing in ms
+                                    .setAnimation(new DecelerateInterpolator(2f)) // animation of Spotlight
+                                    .setTargets(qrTarget) // set targets. see below for more info
+                                    .setOnSpotlightEndedListener(new OnSpotlightEndedListener() { // callback when Spotlight ends
+                                        @Override
+                                        public void onEnded() {
+                                            DCTutorialManager.getInstance().showNext();
+                                        }
+                                    })
+                                    .start(); // start Spotlight
+
+                            DCSharedPreferences.setShownTutorial(Tutorial.TOTAL_DCN, true);
+                        }
+                    });
+                    break;
+            }
         }
     }
 

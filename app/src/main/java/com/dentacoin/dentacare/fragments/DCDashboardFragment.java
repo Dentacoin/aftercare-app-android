@@ -32,11 +32,13 @@ import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
+import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.utils.Music;
 import com.dentacoin.dentacare.utils.Routine;
+import com.dentacoin.dentacare.utils.Tutorial;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCDashboardTeeth;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
@@ -153,7 +155,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                             reverseAnimStarted = true;
                             drawableTransition.reverseTransition(250);
                         }
-                        hideTutorials();
                         break;
                 }
             }
@@ -396,12 +397,14 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         DCDashboardDataProvider.getInstance().addObserver(this);
         DCDashboardDataProvider.getInstance().updateDashboard(false);
         DCDashboardDataProvider.getInstance().updateJourney(false);
+        DCTutorialManager.getInstance().subscribe(this);
         resumeRecording();
     }
 
     @Override
     public void onPause() {
         DCDashboardDataProvider.getInstance().removeObserver(this);
+        DCTutorialManager.getInstance().unsubscribe(this);
         pauseRecording();
         super.onPause();
     }
@@ -563,11 +566,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     }
 
     @Override
-    public void showTutorials() {
-    }
-
-    @Override
-    public void hideTutorials() {
+    public void showTutorial(Tutorial tutorial) {
     }
 
     public void nextStep() {

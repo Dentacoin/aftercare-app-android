@@ -11,6 +11,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
 import com.anthonycr.grant.PermissionsManager;
@@ -20,11 +22,11 @@ import com.dentacoin.dentacare.activities.DCCollectActivity;
 import com.dentacoin.dentacare.activities.DCQRScannerActivity;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
-import com.dentacoin.dentacare.utils.DCTutorialManager;
-import com.dentacoin.dentacare.utils.IDCTutorial;
+import com.dentacoin.dentacare.utils.Tutorial;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCEditText;
-import com.github.florent37.viewtooltip.ViewTooltip;
+import com.takusemba.spotlight.SimpleTarget;
+import com.takusemba.spotlight.Spotlight;
 
 import java.util.regex.Matcher;
 
@@ -34,7 +36,7 @@ import de.mateware.snacky.Snacky;
  * Created by Atanas Chervarov on 9/10/17.
  */
 
-public class DCCollectWalletFragment extends DCFragment implements View.OnClickListener, IDCTutorial {
+public class DCCollectWalletFragment extends DCFragment implements View.OnClickListener {
 
     private static final int REQUEST_CODE_CAMERA_QR_SCAN = 1001;
 
@@ -76,7 +78,8 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
         });
 
         etCollectWallet.setText(DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.DEFAULT_WALLET));
-        showTutorials();
+
+        showTutorial();
         return view;
     }
 
@@ -96,7 +99,6 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
                 scanQRCode();
                 break;
         }
-        hideTutorials();
     }
 
     private void scanQRCode() {
@@ -148,13 +150,33 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
         }
     }
 
-    @Override
-    public void showTutorials() {
-        DCTutorialManager.getInstance().showTutorial(getActivity(), ivCollectQrScan, DCTutorialManager.TUTORIAL.QR_CODE, ViewTooltip.ALIGN.CENTER, ViewTooltip.Position.LEFT);
-    }
+    private void showTutorial() {
+        if (!DCSharedPreferences.getShownTutorials().contains(Tutorial.QR_CODE.name())) {
+            ivCollectQrScan.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    ivCollectQrScan.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int[] location = new int[2];
+                    ivCollectQrScan.getLocationInWindow(location);
+                    float oneX = location[0] + ivCollectQrScan.getWidth() / 2f;
+                    float oneY = location[1] + ivCollectQrScan.getHeight() / 2f;
 
-    @Override
-    public void hideTutorials() {
-        DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.QR_CODE);
+                    SimpleTarget qrTarget = new SimpleTarget.Builder(getActivity())
+                            .setPoint(oneX, oneY)
+                            .setRadius(80f) // radius of the Target
+                            .setTitle("Add your wallet") // title
+                            .setDescription(getString(R.string.tutorial_txt_qr_code)) // description
+                            .build();
+                    Spotlight.with(getActivity())
+                            .setOverlayColor(getResources().getColor(R.color.blackTransparent80)) // background overlay color
+                            .setDuration(1000L) // duration of Spotlight emerging and disappearing in ms
+                            .setAnimation(new DecelerateInterpolator(2f)) // animation of Spotlight
+                            .setTargets(qrTarget) // set targets. see below for more info
+                            .start(); // start Spotlight
+
+                    DCSharedPreferences.setShownTutorial(Tutorial.QR_CODE, true);
+                }
+            });
+        }
     }
 }
