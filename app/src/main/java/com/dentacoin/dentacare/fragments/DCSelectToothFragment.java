@@ -26,14 +26,14 @@ public class DCSelectToothFragment extends DCFragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_select_tooth, container, false);
 
-        rlEmergencyTeeth = (RelativeLayout) view.findViewById(R.id.rl_emergency_teeth);
-        btnEmergencyNext = (DCButton) view.findViewById(R.id.btn_emergency_next);
+        rlEmergencyTeeth = view.findViewById(R.id.rl_emergency_teeth);
+        btnEmergencyNext = view.findViewById(R.id.btn_emergency_next);
         btnEmergencyNext.setOnClickListener(this);
         btnEmergencyNext.setEnabled(false);
 
         teeth = new DCTooth[32];
         for (int i = 0; i < 32; i++) {
-            teeth[i] = (DCTooth) view.findViewById(getResources().getIdentifier("iv_t" + (i + 1), "id", getActivity().getPackageName()));
+            teeth[i] = view.findViewById(getResources().getIdentifier("iv_t" + (i + 1), "id", getActivity().getPackageName()));
             teeth[i].setListener(DCSelectToothFragment.this);
         }
 

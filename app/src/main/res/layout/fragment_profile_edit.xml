@@ -176,8 +176,15 @@
                 style="@style/DCButton.Auth"
                 android:text="@string/txt_update"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginTop="20dp"/>
+
+            <com.dentacoin.dentacare.widgets.DCButton
+                android:id="@+id/btn_profile_delete"
+                style="@style/DCButton.Auth.Red"
+                android:text="@string/profile_btn_delete"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

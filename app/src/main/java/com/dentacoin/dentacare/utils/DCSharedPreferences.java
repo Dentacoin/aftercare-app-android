@@ -19,7 +19,6 @@ public class DCSharedPreferences {
         WELCOME_SCREEN("WELCOME_SCREEN"),
         DEFAULT_WALLET("DEFAULT_WALLET"),
         DASHBOARD("DASHBOARD"),
-        RECORDS("RECORDS"),
         GOALS("GOALS"),
         GOALS_REACHED("GOALS_REACHED"),
         SHOWED_TUTORIALS("SHOWED_TUTORIALS"),
@@ -27,8 +26,6 @@ public class DCSharedPreferences {
         LAST_MESSAGE_TIME("LAST_MESSAGE_TIME"),
         SOUND_ENABLED("SOUND_ENABLED"),
         MUSIC_ENABLED("MUSIC_ENABLED"),
-        DAYS_COUNTER("DAYS_COUNTER"),
-        LAST_DATE_ADDED_DAYS("LAST_DATE_ADDED_DAYS"),
         LAST_LOGGED_EMAIL("LAST_LOGGED_EMAIL"),
         //Notification keys
         DAILY_BRUSHING("DAILY_BRUSHING"),
@@ -37,7 +34,10 @@ public class DCSharedPreferences {
         COLLECT_DENTACOIN("COLLECT_DENTACOIN"),
         REMINDER_TO_VISIT("REMINDER_TO_VISIT"),
         HEALTHY_HABIT("HEALTHY_HABIT"),
-        FIRST_LOGIN_DATE("FIRST_LOGIN_DATE");
+        FIRST_LOGIN_DATE("FIRST_LOGIN_DATE"),
+        SEEN_ONBOARDING("SEEN_ONBOARDING"),
+        SHOW_EMAIL_VERIFICATION("SHOW_EMAIL_VERIFICATION"),
+        ROUTINES("ROUTINES");
 
         private String key;
 
@@ -101,7 +101,7 @@ public class DCSharedPreferences {
         return getInstance().preferences.getStringSet(DCSharedKey.SHOWED_TUTORIALS.getKey(), new HashSet<String>());
     }
 
-    public static void setShownTutorial(DCTutorialManager.TUTORIAL tutorial, boolean shown) {
+    public static void setShownTutorial(Tutorial tutorial, boolean shown) {
         Set<String> shownTutorials = getShownTutorials();
         HashSet<String> tutorials = new HashSet<>();
         tutorials.addAll(shownTutorials);
@@ -125,14 +125,12 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.WELCOME_SCREEN);
         removeKey(DCSharedKey.DEFAULT_WALLET);
         removeKey(DCSharedKey.DASHBOARD);
-        removeKey(DCSharedKey.RECORDS);
+        removeKey(DCSharedKey.ROUTINES);
         removeKey(DCSharedKey.GOALS_REACHED);
         removeKey(DCSharedKey.FEMALE_VOICE);
         removeKey(DCSharedKey.LAST_MESSAGE_TIME);
         removeKey(DCSharedKey.SOUND_ENABLED);
         removeKey(DCSharedKey.MUSIC_ENABLED);
-        removeKey(DCSharedKey.DAYS_COUNTER);
-        removeKey(DCSharedKey.LAST_DATE_ADDED_DAYS);
         removeKey(DCSharedKey.FIRST_LOGIN_DATE);
         removeKey(DCSharedKey.DAILY_BRUSHING);
         removeKey(DCSharedKey.CHANGE_BRUSH);
@@ -141,5 +139,8 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.REMINDER_TO_VISIT);
         removeKey(DCSharedKey.HEALTHY_HABIT);
         removeKey(DCSharedKey.FIRST_LOGIN_DATE);
+        removeKey(DCSharedKey.SEEN_ONBOARDING);
+        removeKey(DCSharedKey.SHOW_EMAIL_VERIFICATION);
+        removeKey(DCSharedKey.SHOWED_TUTORIALS);
     }
 }

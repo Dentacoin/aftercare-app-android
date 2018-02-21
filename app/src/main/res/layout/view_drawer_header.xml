@@ -16,12 +16,24 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/sdv_drawer_header_avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:roundAsCircle="true"
-            app:placeholderImage="@drawable/welcome_avatar_holder"/>
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_drawer_header_avatar"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                app:roundAsCircle="true"
+                app:placeholderImage="@drawable/welcome_avatar_holder"/>
+            <ImageView
+                android:id="@+id/iv_verified"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_verified_user_white_24dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -32,8 +44,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingLeft="20dp"
-                android:paddingStart="20dp">
+                android:paddingLeft="8dp"
+                android:paddingStart="8dp">
 
                 <com.dentacoin.dentacare.widgets.DCTextView
                     android:id="@+id/tv_drawer_header_fullname"

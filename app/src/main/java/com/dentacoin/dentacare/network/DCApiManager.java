@@ -8,19 +8,19 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 
 import com.dentacoin.dentacare.BuildConfig;
-import com.dentacoin.dentacare.model.DCActivityRecord;
 import com.dentacoin.dentacare.model.DCAvatar;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCGoal;
+import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCOralHealthItem;
 import com.dentacoin.dentacare.model.DCResetPassword;
+import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.model.DCUser;
-import com.dentacoin.dentacare.network.response.DCActivityRecordsResponse;
+import com.dentacoin.dentacare.network.request.DCCaptcha;
 import com.dentacoin.dentacare.network.response.DCAuthToken;
 import com.dentacoin.dentacare.network.response.DCCaptchaResponse;
-import com.dentacoin.dentacare.network.response.DCRecordsSyncResponse;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -75,20 +75,27 @@ public class DCApiManager {
     private static final String ENDPOINT_LOGIN_USER = "login";
     private static final String ENDPOINT_LOGOUT = "logout";
     private static final String ENDPOINT_USER = "user";
+    private static final String ENDPOINT_USER_DELETE = "user/delete";
     private static final String ENDPOINT_DASHBOARD = "dashboard";
-    private static final String ENDPOINT_RECORDS = "records";
-    private static final String ENDPOINT_SYNC_RECORDS = "multiple-records";
     private static final String ENDPOINT_TRANSACTIONS = "transactions";
     private static final String ENDPOINT_ORAL_HEALTH = "oralhealth";
     private static final String ENDPOINT_GOALS = "goals";
     private static final String ENDPOINT_RESET_PASSWORD = "reset";
     private static final String ENDPOINT_CAPTCHA = "captcha";
+    private static final String ENDPOINT_EMAIL_CONFIRM = "confirm";
+    private static final String ENDPOINT_JOURNEY = "journey";
+    private static final String ENDPOINT_ROUTINE = "journey/routines";
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
     private static final String HEADER_KEY_FBM ="FirebaseToken";
 
     public static final Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd HH:mm:ss")
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
+            .create();
+
+    public static final Gson gsonExopse = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
+            .excludeFieldsWithoutExposeAnnotation()
             .create();
 
     public static synchronized DCApiManager getInstance() {
@@ -157,7 +164,7 @@ public class DCApiManager {
             return;
 
         String endpoint = buildPath(ENDPOINT_REGISTER_USER, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(user));
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(user));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(responseListener, DCAuthToken.class));
     }
@@ -172,7 +179,7 @@ public class DCApiManager {
             return;
 
         String endpoint = buildPath(ENDPOINT_LOGIN_USER, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(user));
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(user));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(responseListener, DCAuthToken.class));
     }
@@ -215,11 +222,11 @@ public class DCApiManager {
             return;
 
         String endpoint = buildPath(ENDPOINT_USER, null);
-        String payload = gson.toJson(user);
+        String payload = gsonExopse.toJson(user);
 
         //FIXME: fix null values serialization
         try {
-            JsonObject jsonObject = (JsonObject) gson.toJsonTree(user);
+            JsonObject jsonObject = (JsonObject) gsonExopse.toJsonTree(user);
             if (jsonObject != null) {
                 if (jsonObject.get("avatar_64") == null && jsonObject.get("avatar") == null) {
                     jsonObject.addProperty("avatar_64", false);
@@ -255,6 +262,21 @@ public class DCApiManager {
     }
 
     /**
+     * Delete user
+     * @param captcha
+     * @param responseListener
+     */
+    public void deleteUser(DCCaptcha captcha, final DCResponseListener<Void> responseListener) {
+        if (captcha == null)
+            return;
+        
+        String endpoint = buildPath(ENDPOINT_USER_DELETE, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(captcha));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(responseListener, Void.class));
+    }
+
+    /**
      * Logout the current user / invalidate the jwt token
      * @param listener
      */
@@ -272,43 +294,6 @@ public class DCApiManager {
         String endpoint = buildPath(ENDPOINT_DASHBOARD, null);
         Request request = buildRequest(RequestMethod.GET, endpoint, null);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCDashboard.class));
-    }
-
-    /**
-     * Retrieves list of user records
-     * @param listener
-     */
-    public void getRecords(DCResponseListener<DCActivityRecordsResponse> listener) {
-        String endpoint = buildPath(ENDPOINT_RECORDS, null);
-        Request request = buildRequest(RequestMethod.GET, endpoint, null);
-        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCActivityRecordsResponse.class));
-    }
-
-    /**
-     * Adds an activity records
-     * @param record
-     * @param listener
-     */
-    public void postRecord(DCActivityRecord record, DCResponseListener<DCActivityRecord> listener) {
-        if (record == null)
-            return;
-
-        String endpoint = buildPath(ENDPOINT_RECORDS, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(record));
-        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
-
-        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCActivityRecord.class));
-    }
-
-    public void syncRecords(DCActivityRecord[] records, DCResponseListener<DCRecordsSyncResponse> listener) {
-        if (records == null || records.length == 0)
-            return;
-
-        String endpoint = buildPath(ENDPOINT_SYNC_RECORDS, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(records));
-        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
-
-        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCRecordsSyncResponse.class));
     }
 
     /**
@@ -414,6 +399,38 @@ public class DCApiManager {
         String endpoint = buildPath(ENDPOINT_CAPTCHA, null);
         Request request = buildRequest(RequestMethod.GET, endpoint, null);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCCaptchaResponse.class));
+    }
+
+    /**
+     * Request confirmation email
+     * @param listener
+     */
+    public void confirmEmail(final DCResponseListener<Void> listener) {
+        String endpoint = buildPath(ENDPOINT_EMAIL_CONFIRM, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
+     * Retrieve current journey
+     * @param listener
+     */
+    public void getJourney(final DCResponseListener<DCJourney> listener) {
+        String endpoint = buildPath(ENDPOINT_JOURNEY, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCJourney.class));
+    }
+
+    /**
+     * Post a completed routine
+     * @param routine
+     * @param listener
+     */
+    public void postRoutine(DCRoutine routine, final DCResponseListener<DCRoutine> listener) {
+        String endpoint = buildPath(ENDPOINT_ROUTINE, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(routine));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCRoutine.class));
     }
 
     /**

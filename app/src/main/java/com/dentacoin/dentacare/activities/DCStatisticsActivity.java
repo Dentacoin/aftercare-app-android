@@ -5,9 +5,10 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.dentacoin.dentacare.R;
-import com.dentacoin.dentacare.model.DCActivityRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCJourney;
+import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCUtils;
@@ -46,27 +47,26 @@ public class DCStatisticsActivity extends DCToolbarActivity implements View.OnCl
         addContentView(R.layout.activity_statistics);
         setActionBarTitle(R.string.statistics_hdl_statistics);
 
-        btnStatisticsDaily = (DCButton) findViewById(R.id.btn_statistics_daily);
-        btnStatisticsWeekly = (DCButton) findViewById(R.id.btn_statistics_weekly);
-        btnStatisticsMonthly = (DCButton) findViewById(R.id.btn_statistics_monthly);
+        btnStatisticsDaily = findViewById(R.id.btn_statistics_daily);
+        btnStatisticsWeekly = findViewById(R.id.btn_statistics_weekly);
+        btnStatisticsMonthly = findViewById(R.id.btn_statistics_monthly);
 
         btnStatisticsDaily.setOnClickListener(this);
         btnStatisticsWeekly.setOnClickListener(this);
         btnStatisticsMonthly.setOnClickListener(this);
 
 
-        tvStatisticsFlossTimes = (DCTimerView) findViewById(R.id.tv_statistics_floss_times);
-        tvStatisticsFlossLeft = (DCTimerView) findViewById(R.id.tv_statistics_floss_left);
-        tvStatisticsFlossAverage = (DCTimerView) findViewById(R.id.tv_statistics_floss_average);
+        tvStatisticsFlossTimes = findViewById(R.id.tv_statistics_floss_times);
+        tvStatisticsFlossLeft = findViewById(R.id.tv_statistics_floss_left);
+        tvStatisticsFlossAverage = findViewById(R.id.tv_statistics_floss_average);
 
-        tvStatisticsBrushTimes = (DCTimerView) findViewById(R.id.tv_statistics_brush_times);
-        tvStatisticsBrushLeft = (DCTimerView) findViewById(R.id.tv_statistics_brush_left);
-        tvStatisticsBrushAverage = (DCTimerView) findViewById(R.id.tv_statistics_brush_average);
+        tvStatisticsBrushTimes = findViewById(R.id.tv_statistics_brush_times);
+        tvStatisticsBrushLeft = findViewById(R.id.tv_statistics_brush_left);
+        tvStatisticsBrushAverage = findViewById(R.id.tv_statistics_brush_average);
 
-        tvStatisticsRinseTimes = (DCTimerView) findViewById(R.id.tv_statistics_rinse_times);
-        tvStatisticsRinseLeft = (DCTimerView) findViewById(R.id.tv_statistics_rinse_left);
-        tvStatisticsRinseAverage = (DCTimerView) findViewById(R.id.tv_statistics_rinse_average);
-
+        tvStatisticsRinseTimes = findViewById(R.id.tv_statistics_rinse_times);
+        tvStatisticsRinseLeft = findViewById(R.id.tv_statistics_rinse_left);
+        tvStatisticsRinseAverage = findViewById(R.id.tv_statistics_rinse_average);
 
         DCDashboardDataProvider.getInstance().updateDashboard(false);
         DCDashboardDataProvider.getInstance().updateDashboard(true);
@@ -165,10 +165,18 @@ public class DCStatisticsActivity extends DCToolbarActivity implements View.OnCl
     }
 
     @Override
-    public void onSyncNeeded(DCActivityRecord[] records) {
+    public void onSyncNeeded(DCRoutine[] routines) {
     }
 
     @Override
     public void onSyncSuccess() {
+    }
+
+    @Override
+    public void onJourneyUpdated(DCJourney journey) {
+    }
+
+    @Override
+    public void onJourneyError(DCError error) {
     }
 }

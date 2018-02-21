@@ -11,6 +11,7 @@
     <string name="signup_hnt_password">password</string>
     <string name="signup_hnt_captcha">enter code</string>
     <string name="signup_btn_create">Create</string>
+    <string name="signup_txt_verification_sent">Verification email sent to %1$s</string>
     <string name="error_txt_error_picking_image">An error occurred while trying to retrieve the picture!</string>
     <string name="signup_txt_permission_avatar">You need to grant us \"Camera\" permissions in order to setup an avatar</string>
     <string name="signup_txt_settings">Settings</string>
@@ -19,6 +20,7 @@
     <string name="drawer_nav_goals">Achievements</string>
     <string name="drawer_nav_statistics">Statistics</string>
     <string name="drawer_nav_dentacoin">Dentacoin</string>
+    <string name="drawer_nav_withdraws">Withdraws</string>
     <string name="drawer_nav_emergency">Emergency</string>
     <string name="drawer_nav_oral_health">Oral Health</string>
     <string name="drawer_nav_settings">Settings</string>
@@ -73,7 +75,7 @@
 
     <string name="about_hdl_about">About Dentacare</string>
     <string name="about_hdl_heading">Form sustainable oral \nhealth habits</string>
-    <string name="about_txt_about">An interactive aftercare app to assist patients in steps to be followed post - treatment, aiming at developing long - lasting oral hygiene habits in both children and adults.</string>
+    <string name="about_txt_about">Dentacoin is the first Blockchain solution created for the global dental industry. DCN is the custom ERC20 token, which serves all Dentacoin tools. Through using Dentacoin tools, you are contributing to our mission towards improving dental care and making it accessible for everyone worldwide.</string>
     <string name="about_url_dentacare">dentacare.com</string>
 
     <string name="profile_hdl_my_profile">My profile</string>
@@ -83,6 +85,12 @@
     <string name="profile_hnt_zip">Zip Code</string>
     <string name="profile_hnt_city">City</string>
     <string name="profile_hnt_country">Country</string>
+    <string name="profile_txt_email_not_verified">Your email is not verified!</string>
+    <string name="profile_txt_resend_verification_email">Resend verification email</string>
+    <string name="profile_txt_verification_email_sent">Verification email sent successfully!</string>
+    <string name="profile_btn_delete">Delete my profile</string>
+    <string name="profile_hdl_delete_profile">Delete your profile?</string>
+    <string name="profile_txt_delete_profile">Are you sure you want to delete your profile? Enter the code to delete your profile. This will erase all your data.</string>
     
     <string name="collect_wallet_hdl_create">Create your crypto wallet at:</string>
     <string name="collect_wallet_url_ether">www.myetherwallet.com</string>
@@ -95,7 +103,7 @@
     <string name="collect_wallet_hnt_amount">Amount</string>
     <string name="collect_wallet_btn_collect">Collect</string>
     <string name="collect_wallet_txt_what_is">What is Dentacoin?</string>
-    <string name="collect_wallet_sent_collect_request">Successfully sent collect request. You will receive your DCN shortly.</string>
+    <string name="collect_wallet_sent_collect_request">Successfully sent collect request! You can follow your request status it the \"Withdraws\" section.</string>
 
     <string name="error_not_implemented">Feature not yet implemented!</string>
     <string name="settings_hdl_settings">Settings</string>
@@ -121,11 +129,14 @@
     <string name="collect_txt_wallet_copied">Wallet copied!</string>
     <string name="collect_txt_what_is_dentacoin">What is Dentacoin?</string>
     <string name="collect_hdl_collected_dcn">Collected DCN in Wallet</string>
-    <string name="collect_hdl_current_balance">Current Balance in App</string>
+    <string name="collect_hdl_total_dcn">Total amount</string>
+    <string name="collect_hdl_current_balance">Withdrawable amount</string>
     <string name="collect_hnt_amount">Amount</string>
     <string name="collect_error_retrieving_data">There was an error trying to retrieve your data. Please try again later.</string>
     <string name="collect_error_not_enough">Sorry but you don\'t have such amount of DCN yet!</string>
     <string name="collect_error_not_enough_use">Sorry but you have to use Dentacare app for at least 3 months to be able to withdraw earned DCN!</string>
+    <string name="collect_error_not_confirmed">Sorry, in order to make withdraw requests you need to verify your email address first!</string>
+    <string name="collect_error_btn_verify">Verify</string>
 
     <string name="dashboard_tab_floss">FLOSS</string>
     <string name="dashboard_tab_brush">BRUSH</string>
@@ -161,7 +172,7 @@
 
     <string name="dashboard_warning_sync_needed">Your data was not synchronized. Do you want to do this now?</string>
     <string name="dashboard_success_sync">Sync successful!</string>
-    <string name="dashboard_too_short_record">You can do better that this! Sessions shorter that 30 seconds are not recorded!</string>
+    <string name="dashboard_too_short_record">You can do better that this! Sessions shorter that 30 seconds are not recorded within the routine!</string>
 
     <string name="statistics_hdl_statistics">Statistics</string>
 
@@ -191,6 +202,7 @@
     <string name="tutorial_txt_emergency_menu">Send us emergency request</string>
     <string name="tutorial_txt_qr_code">Scan your wallet\'s QR code</string>
     <string name="tutorial_txt_sick_tooth">Show us where it hurts</string>
+    <string name="tutorial_txt_withdraws">Watch your withdraw requests</string>
 
     <string name="notifications_txt_daily_brushing_1">Hey there! Did you brush your teeth yet?</string>
     <string name="notifications_txt_change_brush_1">When is the last time you changed your toothbrush?</string>
@@ -228,10 +240,10 @@
     <string name="notifications_hdl_healthy_habits_10">See your dentist at least twice a year</string>
     <string name="notifications_txt_healthy_habits_10">At minimum, you should see your dentist for cleanings and checkups twice a year</string>
     
-    <string name="message_day">Day %d</string>
-    <string name="message_of">of %d</string>
+
     <string name="message_congratulations">Congratulations!\nYou have reached 90 days!</string>
-    
+
+    <string name="message_day_routine_start">Hello sunshine. It is a beautiful day. Let’s get you started properly.</string>
     <string name="message_morning_routine_start">Good morning sunshine. It is a beautiful day. Let’s get you started properly.</string>
 
     <string name="message_morning_routine_2">Let’s start with brushing your teeth. Make sure your toothbrush is not dry, and apply toothpaste as the size of pea grain. Press the start button when you are ready to brush</string>
@@ -251,7 +263,7 @@
     <string name="message_rinse_3">You\'re done, spit the solution out in the sink.</string>
     <string name="message_rinse_4">You have completed your first morning brush. Amazing job!</string>
 
-    <string name="message_morning_routine_end">Congratulations!\nNow you are ready to Amaze the world with your beautiful smile. Make big things today and come back in the evening before going to bed.\nHave a nice day ahead.</string>
+    <string name="message_morning_routine_end">Congratulations!\nNow you are ready to Amaze the world with your beautiful smile.\n\nMake big things today and come back in the evening before going to bed.\n\nHave a nice day ahead.</string>
 
     <string name="message_evening_routine_start">Good evening, darling. Did you have a good day? Are you on the way to becoming a legend?</string>
     <string name="message_evening_routine_2">Now let’s get you ready for bed. Rest is important. Hygiene too!</string>
@@ -273,4 +285,58 @@
 
     <string name="message_hdl_earned_dcn">%1$sDCN earned!</string>
     <string name="message_hdl_routine_completed">Routine completed!</string>
+    
+    <string name="onboarding_txt_skip"><u>Skip</u></string>
+    <string name="onboarding_txt_next">Next</string>
+    <string name="onboarding_txt_got_it">I got it!</string>
+    
+    <string name="onboarding_txt_title_1">Start your journey</string>
+    <string name="onboarding_txt_message_1">Start your journey towards a beautiful smile!</string>
+
+    <string name="onboarding_txt_title_2">Journeys</string>
+    <string name="onboarding_txt_message_2">Complete 90 days of consecutive use, or 180 routines altogether and collect your DCN reward!</string>
+
+    <string name="onboarding_txt_title_3">Routines</string>
+    <string name="onboarding_txt_message_3">Complete your morning and evening routines and earn DCN daily!</string>
+
+    <string name="onboarding_txt_title_4">Watch your earnings</string>
+    <string name="onboarding_txt_message_4">Check your current DCN Balance. Watch it grow each time you complete a routine!</string>
+
+    <string name="onboarding_txt_title_5">Complete achievements</string>
+    <string name="onboarding_txt_message_5">Try complete different achievements and earn even more DCN!</string>
+
+    <string name="onboarding_txt_title_6">Withdraw</string>
+    <string name="onboarding_txt_message_6">Collect your earnings!\nOnce you\'ve completed your 90 days cycle!</string>
+
+    <string name="onboarding_txt_skip_question">Skip?</string>
+    <string name="onboarding_txt_skip_message">Are you sure you want to skip the tutorial?</string>
+
+    <string name="withdraws_hdl_title">Withdraws</string>
+    <string name="withdraws_no_transactions_found">No withdraws found!</string>
+    <string name="withdraws_status_pending">Pending</string>
+    <string name="withdraws_status_approved">Approved</string>
+    <string name="withdraws_status_declined">Declined</string>
+
+    <string name="journey_hdl_start">Start your journey</string>
+    <string name="journey_sub_hdl_start">towards a beautiful smile</string>
+    <string name="journey_txt_start">Complete 90 days of consecutive morning and evening routines.\n\nComplete 180 routines with 20 routines tolerance and collect your\nDCN reward!</string>
+    <string name="journey_btn_start">Start journey!</string>
+
+    <string name="journey_hdl_completed">Congratulations!</string>
+    <string name="journey_sub_hdl_completed">Journey completed!</string>
+    <string name="journey_txt_completed">You have completed your 90 days journey, congratulations! You can collect your reward now!</string>
+    <string name="journey_btn_completed">Collect reward!</string>
+
+    <string name="journey_hdl_failed">Oh no..</string>
+    <string name="journey_sub_hdl_failed">Journey failed!</string>
+    <string name="journey_txt_failed">Unfortunately you exceeded your 10 days tolerance, therefore you have to start your journey over!</string>
+    <string name="journey_btn_failed">Start over!</string>
+
+    <string name="journey_hdl_daily">Day %1$s of %2$s</string>
+    <string name="journey_sub_hdl_daily">Skipped routines\n%1$s of %2$s</string>
+    <string name="journey_btn_daily">Start routine</string>
+
+    <string name="btn_morning">Start morning routine</string>
+    <string name="btn_evening">Start evening routine</string>
+    <string name="btn_routine">Start routine</string>
 </resources>

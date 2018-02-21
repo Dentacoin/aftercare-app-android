@@ -36,10 +36,10 @@ public class DCGoalsActivity extends DCToolbarActivity implements SwipeRefreshLa
         addContentView(R.layout.activity_goals);
         setActionBarTitle(R.string.goals_hdl_goals);
 
-        srlGoals = (SwipeRefreshLayout) findViewById(R.id.srl_goals);
+        srlGoals = findViewById(R.id.srl_goals);
         srlGoals.setOnRefreshListener(this);
-        rvGoals = (RecyclerView) findViewById(R.id.rv_goals);
-        llGoalsNoGoals = (LinearLayout) findViewById(R.id.ll_goals_no_goals);
+        rvGoals = findViewById(R.id.rv_goals);
+        llGoalsNoGoals = findViewById(R.id.ll_goals_no_goals);
 
         adapter = new DCGoalsAdapter(this, this);
         rvGoals.setAdapter(adapter);

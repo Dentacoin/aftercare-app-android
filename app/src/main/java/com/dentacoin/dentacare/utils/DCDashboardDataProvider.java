@@ -1,12 +1,12 @@
 package com.dentacoin.dentacare.utils;
 
 import com.dentacoin.dentacare.R;
-import com.dentacoin.dentacare.model.DCActivityRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCJourney;
+import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
-import com.dentacoin.dentacare.network.response.DCRecordsSyncResponse;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
@@ -22,12 +22,14 @@ import java.util.List;
 public class DCDashboardDataProvider {
 
     private static DCDashboardDataProvider instance;
-
     private DCDashboard dashboard;
-    private final List<DCActivityRecord> records = Collections.synchronizedList(new ArrayList<DCActivityRecord>());
+    private DCJourney journey;
+
+    private final List<DCRoutine> routines = Collections.synchronizedList(new ArrayList<DCRoutine>());
     private ArrayList<IDCDashboardObserver> dashboardObservers;
 
     private boolean inRequest = false;
+    private boolean inRequestJourney = false;
 
     public static synchronized DCDashboardDataProvider getInstance() {
         if (instance == null)
@@ -39,7 +41,7 @@ public class DCDashboardDataProvider {
     private DCDashboardDataProvider() {
         dashboardObservers = new ArrayList<>();
         loadDashboard();
-        loadRecords();
+        loadRoutines();
         sync(true);
     }
 
@@ -72,7 +74,6 @@ public class DCDashboardDataProvider {
         if (!hard && dashboard != null) {
             notifyObserversOnDashboardUpdated();
         } else {
-
             if (inRequest)
                 return;
 
@@ -94,9 +95,9 @@ public class DCDashboardDataProvider {
                     notifyObserversOnDashboardUpdated();
                     inRequest = false;
 
-                    synchronized (records) {
-                        if (records.size() > 0)
-                            notifyObserversOnSyncNeeded(records.toArray(new DCActivityRecord[records.size()]));
+                    synchronized (routines) {
+                        if (routines.size() > 0)
+                            notifyObserversOnSyncNeeded(routines.toArray(new DCRoutine[routines.size()]));
                     }
                 }
             });
@@ -104,79 +105,114 @@ public class DCDashboardDataProvider {
     }
 
     /**
-     * Tries to make an api call with the given record object, if there is no Network Connectivity at
-     * the moment it is stored and will be handled later, When error occurs observers are notified
+     * Adds the routine to the stack and tries to sync it with the backend
      * On successful api call the dashboard is updated
      *
-     * @param record    Valid DCActivityRecord
+     * @param routine    Valid DCRoutine
      */
-    public void addActivityRecord(final DCActivityRecord record) {
-        addActivityRecord(record, null);
-    }
-
-    public void addActivityRecord(final DCActivityRecord record, final DCResponseListener<DCActivityRecord> listener) {
-        if (record == null || record.getTime() < 30) {
+    public void addRoutine(final DCRoutine routine, final DCResponseListener<DCRoutine> listener) {
+        if (routine == null || !routine.isValid()) {
             notifyObserversOnError(new DCError(R.string.dashboard_too_short_record));
             return;
         }
 
-        if (record.getTime() > DCConstants.COUNTDOWN_MAX_AMOUNT + 5)
-            return;
-
-        DCApiManager.getInstance().postRecord(record, new DCResponseListener<DCActivityRecord>() {
-            @Override
-            public void onFailure(DCError error) {
-                if (error != null && error.isType(DCErrorType.NETWORK)) {
-                    synchronized (records) {
-                        records.add(record);
-                        saveRecords();
-                        notifyObserversOnSyncNeeded(records.toArray(new DCActivityRecord[records.size()]));
-                    }
-                } else {
-                    notifyObserversOnError(error);
-                }
-
-                if (listener != null)
-                    listener.onFailure(error);
-            }
-
-            @Override
-            public void onResponse(DCActivityRecord object) {
-                updateDashboard(true);
-
-                if (listener != null)
-                    listener.onResponse(object);
-            }
-        });
-    }
-
-    /**
-     * Try to sync all records with the server
-     * @param silent
-     */
-    public void sync(final boolean silent) {
-        synchronized (records) {
-            if (records.size() > 0) {
-                final DCActivityRecord[] cRecords = records.toArray(new DCActivityRecord[records.size()]);
-
-                DCApiManager.getInstance().syncRecords(cRecords, new DCResponseListener<DCRecordsSyncResponse>() {
-                    @Override
-                    public void onFailure(DCError error) {
+        if (routines.size() == 0) {
+            DCApiManager.getInstance().postRoutine(routine, new DCResponseListener<DCRoutine>() {
+                @Override
+                public void onFailure(DCError error) {
+                    if (error != null && error.isType(DCErrorType.NETWORK)) {
+                        synchronized (routines) {
+                            routines.add(routine);
+                            saveRoutines();
+                            notifyObserversOnSyncNeeded(routines.toArray(new DCRoutine[routines.size()]));
+                        }
+                    } else {
                         notifyObserversOnError(error);
                     }
 
-                    @Override
-                    public void onResponse(DCRecordsSyncResponse object) {
-                        if (object != null) {
-                            //TODO: clear only succeeded records
-                            synchronized (records) {
-                                records.clear();
-                                saveRecords();
-                                updateDashboard(true);
+                    if (listener != null)
+                        listener.onFailure(error);
+                }
 
-                                if (!silent)
-                                    notifyObserversOnSyncSuccess();
+                @Override
+                public void onResponse(DCRoutine object) {
+                    updateDashboard(true);
+                    if (listener != null)
+                        listener.onResponse(object);
+                }
+            });
+        } else {
+            routines.add(routine);
+            notifyObserversOnSyncNeeded(routines.toArray(new DCRoutine[routines.size()]));
+        }
+    }
+
+    /**
+     * Get latest journey data
+     */
+    public void updateJourney(boolean hard) {
+        if (!hard && journey != null) {
+            for (IDCDashboardObserver observer : dashboardObservers) {
+                observer.onJourneyUpdated(journey);
+            }
+        } else {
+            if (inRequestJourney)
+                return;
+
+            inRequestJourney = true;
+            DCApiManager.getInstance().getJourney(new DCResponseListener<DCJourney>() {
+                @Override
+                public void onFailure(DCError error) {
+                    for (IDCDashboardObserver observer : dashboardObservers) {
+                        observer.onJourneyError(error);
+                    }
+                    inRequestJourney = false;
+                }
+
+                @Override
+                public void onResponse(DCJourney object) {
+                    DCDashboardDataProvider.this.journey = object;
+                    for (IDCDashboardObserver observer : dashboardObservers) {
+                        observer.onJourneyUpdated(object);
+                    }
+                    inRequestJourney = false;
+                }
+            });
+        }
+    }
+
+    /**
+     * Try to sync all routines with the server
+     * @param silent
+     */
+    public void sync(final boolean silent) {
+        synchronized (routines) {
+            if (routines.size() > 0) {
+                final DCRoutine routine = routines.get(0);
+                DCApiManager.getInstance().postRoutine(routine, new DCResponseListener<DCRoutine>() {
+                    @Override
+                    public void onFailure(DCError error) {
+                        if (!silent)
+                            notifyObserversOnError(error);
+
+                        if (error != null && !error.isType(DCErrorType.NETWORK)) {
+                            synchronized (routines) {
+                                routines.remove(routine);
+                                saveRoutines();
+                                sync(silent);
                             }
+                        }
+                    }
+
+                    @Override
+                    public void onResponse(DCRoutine object) {
+                        if (object != null) {
+                            routines.remove(routine);
+                            saveRoutines();
+                            if (!silent)
+                                notifyObserversOnSyncSuccess();
+
+                            sync(silent);
                         }
                     }
                 });
@@ -206,17 +242,17 @@ public class DCDashboardDataProvider {
     }
 
     /**
-     * Notify all observers when there are records that need to be synced
+     * Notify all observers when there are routines that need to be synced
      * @param needSync
      */
-    private void notifyObserversOnSyncNeeded(DCActivityRecord[] needSync) {
+    private void notifyObserversOnSyncNeeded(DCRoutine[] needSync) {
         for (IDCDashboardObserver observer : dashboardObservers) {
             observer.onSyncNeeded(needSync);
         }
     }
 
     /**
-     * Notify all observers when all records were synced
+     * Notify all observers when all routines were synced
      */
     private void notifyObserversOnSyncSuccess() {
         for (IDCDashboardObserver observer : dashboardObservers) {
@@ -232,7 +268,9 @@ public class DCDashboardDataProvider {
         if (json != null) {
             try {
                 dashboard = DCApiManager.gson.fromJson(json, DCDashboard.class);
-            } catch (JsonSyntaxException e) { }
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -246,41 +284,44 @@ public class DCDashboardDataProvider {
     }
 
     /**
-     * Load failed records from preferences
+     * Load failed routines from preferences
      */
-    private void loadRecords() {
-        synchronized (records) {
-            String json = DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.RECORDS);
+    private void loadRoutines() {
+        synchronized (routines) {
+            String json = DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.ROUTINES);
             if (json != null) {
                 try {
-                    records.clear();
-                    DCActivityRecord[] recordsArray = DCApiManager.gson.fromJson(json, new TypeToken<DCActivityRecord[]>(){}.getType());
-                    if (recordsArray != null) {
-                        records.addAll(Arrays.asList(recordsArray));
+                    routines.clear();
+                    DCRoutine[] routinesArray = DCApiManager.gson.fromJson(json, new TypeToken<DCRoutine[]>(){}.getType());
+                    if (routinesArray != null) {
+                        routines.addAll(Arrays.asList(routinesArray));
                     }
-                } catch (JsonSyntaxException e) { }
+                } catch (JsonSyntaxException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     /**
-     * Save failed records to preferences
+     * Save failed routines to preferences
      */
-    private void saveRecords() {
-        synchronized (records) {
-            DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.RECORDS, DCApiManager.gson.toJson(records.toArray()));
+    private void saveRoutines() {
+        synchronized (routines) {
+            DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.ROUTINES, DCApiManager.gson.toJson(routines.toArray()));
         }
     }
 
     /**
-     * Clear current dashboard & records
+     * Clear current dashboard & routines
      * Use this on logout
      */
     public void clear() {
         dashboardObservers.clear();
-
-        synchronized (records) {
-            records.clear();
+        journey = null;
+        dashboard = null;
+        synchronized (routines) {
+            routines.clear();
         }
     }
 }

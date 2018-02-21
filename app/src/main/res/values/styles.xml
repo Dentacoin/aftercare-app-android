@@ -40,6 +40,14 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="DCButton.Auth.Red" parent="DCButton">
+        <item name="android:layout_width">@dimen/button_default_width</item>
+        <item name="android:layout_height">@dimen/button_default_height</item>
+        <item name="android:background">@drawable/bg_button_red</item>
+        <item name="android:textColor">@drawable/color_default_button</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="DCButton.Social" parent="DCButton">
         <item name="android:layout_width">@dimen/button_auth_social_width</item>
         <item name="android:layout_height">@dimen/button_auth_social_height</item>
@@ -145,6 +153,12 @@
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="DCTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabPaddingStart">2dp</item>
+        <item name="tabPaddingEnd">2dp</item>
     </style>
 
 </resources>

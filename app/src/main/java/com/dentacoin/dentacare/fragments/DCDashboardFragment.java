@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.TypedValue;
@@ -23,18 +24,24 @@ import android.widget.RelativeLayout;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCDashboardActivity;
-import com.dentacoin.dentacare.model.DCActivityRecord;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCDashboardItem;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCJourney;
+import com.dentacoin.dentacare.model.DCRecord;
+import com.dentacoin.dentacare.model.DCRoutine;
+import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
+import com.dentacoin.dentacare.utils.DCSharedPreferences;
+import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.utils.IDCTutorial;
 import com.dentacoin.dentacare.utils.Music;
 import com.dentacoin.dentacare.utils.Routine;
+import com.dentacoin.dentacare.utils.Tutorial;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCDashboardTeeth;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
@@ -42,6 +49,8 @@ import com.dentacoin.dentacare.widgets.DCTextView;
 import com.dentacoin.dentacare.widgets.DCTimerView;
 
 import java.util.Date;
+
+import de.mateware.snacky.Snacky;
 
 /**
  * Created by Atanas Chervarov on 8/18/17.
@@ -78,7 +87,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     protected Routine routine;
 
     protected CountDownTimer timer;
-    protected DCActivityRecord record;
+    protected DCRecord record;
     private LinearLayout llDashboardStatistics;
     private DCTextView tvDashboardMessageContainer;
     float dashboardHolderPadding;
@@ -91,38 +100,38 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        llBottomStatistics = (LinearLayout) view.findViewById(R.id.ll_bottom_statistics);
+        llBottomStatistics = view.findViewById(R.id.ll_bottom_statistics);
         bottomSheetBehavior = BottomSheetBehavior.from(llBottomStatistics);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        ivDashboardDownArrow = (ImageView) view.findViewById(R.id.iv_dashboard_down_arrow);
-        ivDashboardUpArrow = (ImageView) view.findViewById(R.id.iv_dashboard_up_arrow);
-        timerDashboard = (DCTimerView) view.findViewById(R.id.timer_dashboard);
-        timerDashboardLast = (DCTimerView) view.findViewById(R.id.timer_dashboard_last);
-        timerDashboardleft = (DCTimerView) view.findViewById(R.id.timer_dashboard_left);
-        timerDashboardEarned = (DCTimerView) view.findViewById(R.id.timer_dashboard_earned);
-        btnDashboardRecord = (DCButton) view.findViewById(R.id.btn_dashboard_record);
+        ivDashboardDownArrow = view.findViewById(R.id.iv_dashboard_down_arrow);
+        ivDashboardUpArrow = view.findViewById(R.id.iv_dashboard_up_arrow);
+        timerDashboard = view.findViewById(R.id.timer_dashboard);
+        timerDashboardLast = view.findViewById(R.id.timer_dashboard_last);
+        timerDashboardleft = view.findViewById(R.id.timer_dashboard_left);
+        timerDashboardEarned = view.findViewById(R.id.timer_dashboard_earned);
+        btnDashboardRecord = view.findViewById(R.id.btn_dashboard_record);
         btnDashboardRecord.setOnClickListener(this);
-        tvDashboardStatisticsTitle = (DCTextView) view.findViewById(R.id.tv_dashboard_statistics_title);
-        btnDashboardDaily = (DCButton) view.findViewById(R.id.btn_dashboard_daily);
+        tvDashboardStatisticsTitle = view.findViewById(R.id.tv_dashboard_statistics_title);
+        btnDashboardDaily = view.findViewById(R.id.btn_dashboard_daily);
         btnDashboardDaily.setOnClickListener(this);
-        btnDashboardWeekly = (DCButton) view.findViewById(R.id.btn_dashboard_weekly);
+        btnDashboardWeekly = view.findViewById(R.id.btn_dashboard_weekly);
         btnDashboardWeekly.setOnClickListener(this);
-        btnDashboardMonthly = (DCButton) view.findViewById(R.id.btn_dashboard_monthly);
+        btnDashboardMonthly = view.findViewById(R.id.btn_dashboard_monthly);
         btnDashboardMonthly.setOnClickListener(this);
-        timerDashboardTimes = (DCTimerView) view.findViewById(R.id.timer_dashboard_times);
-        timerDashboardTimeLeft = (DCTimerView) view.findViewById(R.id.timer_dashboard_time_left);
-        timerDashboardAverageTime = (DCTimerView) view.findViewById(R.id.timer_dashboard_average_time);
-        rlDashboardArrowHolder = (RelativeLayout) view.findViewById(R.id.rl_dashboard_arrow_holder);
+        timerDashboardTimes = view.findViewById(R.id.timer_dashboard_times);
+        timerDashboardTimeLeft = view.findViewById(R.id.timer_dashboard_time_left);
+        timerDashboardAverageTime = view.findViewById(R.id.timer_dashboard_average_time);
+        rlDashboardArrowHolder = view.findViewById(R.id.rl_dashboard_arrow_holder);
         rlDashboardArrowHolder.setOnClickListener(this);
-        dtDashboardTeeth = (DCDashboardTeeth) view.findViewById(R.id.dt_dashboard_teeth);
+        dtDashboardTeeth = view.findViewById(R.id.dt_dashboard_teeth);
         dtDashboardTeeth.setVisibility(View.GONE);
-        llDashboardStatistics = (LinearLayout) view.findViewById(R.id.ll_dashboard_statistics);
+        llDashboardStatistics = view.findViewById(R.id.ll_dashboard_statistics);
         llDashboardStatistics.setVisibility(View.VISIBLE);
-        tvDashboardMessageContainer = (DCTextView) view.findViewById(R.id.tv_dashboard_message_container);
+        tvDashboardMessageContainer = view.findViewById(R.id.tv_dashboard_message_container);
         tvDashboardMessageContainer.setVisibility(View.GONE);
         tvDashboardMessageContainer.setText("");
-        rlTimerHolder = (RelativeLayout) view.findViewById(R.id.rl_timer_holder);
-        llDashboardHolder = (LinearLayout) view.findViewById(R.id.ll_dashboard_holder);
+        rlTimerHolder = view.findViewById(R.id.rl_timer_holder);
+        llDashboardHolder = view.findViewById(R.id.ll_dashboard_holder);
 
         final Resources r = getResources();
         dashboardHolderPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, r.getDisplayMetrics());
@@ -151,7 +160,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                             reverseAnimStarted = true;
                             drawableTransition.reverseTransition(250);
                         }
-                        hideTutorials();
                         break;
                 }
             }
@@ -284,7 +292,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         if (dashboardItem != null) {
             timerDashboardLast.setTimerDisplay(DCUtils.secondsToTime(dashboardItem.getLastTime()));
             timerDashboardleft.setTimerDisplay(Integer.toString(dashboardItem.getLeft()));
-            timerDashboardEarned.setTimerDisplay(Integer.toString(dashboardItem.getEarned()));
 
             switch (selectedStatistics) {
                 case WEEKLY:
@@ -394,12 +401,15 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         super.onResume();
         DCDashboardDataProvider.getInstance().addObserver(this);
         DCDashboardDataProvider.getInstance().updateDashboard(false);
+        DCDashboardDataProvider.getInstance().updateJourney(false);
+        DCTutorialManager.getInstance().subscribe(this);
         resumeRecording();
     }
 
     @Override
     public void onPause() {
         DCDashboardDataProvider.getInstance().removeObserver(this);
+        DCTutorialManager.getInstance().unsubscribe(this);
         pauseRecording();
         super.onPause();
     }
@@ -419,7 +429,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         playMusic();
         nextStep();
         trackingTime = true;
-        record = new DCActivityRecord();
+        record = new DCRecord();
         record.setType(getType());
         record.setStartTime(new Date());
 
@@ -448,6 +458,25 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     }
 
     protected void stopRecording() {
+
+        if (record != null) {
+            record.setEndTime(new Date());
+
+            if (routine != null)
+                routine.addRecord(record);
+
+            if (record.getTime() > 30) {
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        DCGoalsDataProvider.getInstance().updateGoals(true);
+                    }
+                }, 1000);
+            }
+            record = null;
+        }
+
         if (trackingTime) {
             DCSoundManager.getInstance().cancelSounds();
             nextStep();
@@ -461,22 +490,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
         timer = null;
         milisUntilFinished = 0;
-
-        if (record != null) {
-            record.setEndTime(new Date());
-            DCDashboardDataProvider.getInstance().addActivityRecord(record);
-
-            if (record.getTime() > 30) {
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        DCGoalsDataProvider.getInstance().updateGoals(true);
-                    }
-                }, 1000);
-            }
-            record = null;
-        }
 
         updateView();
         toggleRecordView(trackingTime || routine != null);
@@ -530,13 +543,25 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         //Override me
     }
 
+
+    @Override
+    public void onJourneyUpdated(DCJourney journey) {
+        if (journey != null && journey.getLastRoutine() != null && timerDashboardEarned != null) {
+            timerDashboardEarned.setTimerDisplay(Integer.toString(journey.getLastRoutine().getEarnedDCN()));
+        }
+    }
+
+    @Override
+    public void onJourneyError(DCError error) {
+    }
+
     @Override
     public void onDashboardError(DCError error) {
         //Override me
     }
 
     @Override
-    public void onSyncNeeded(DCActivityRecord[] records) {
+    public void onSyncNeeded(DCRoutine[] routines) {
         //Override me
     }
 
@@ -546,11 +571,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     }
 
     @Override
-    public void showTutorials() {
-    }
-
-    @Override
-    public void hideTutorials() {
+    public void showTutorial(Tutorial tutorial) {
     }
 
     public void nextStep() {
@@ -567,7 +588,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     }
 
     @Override
-    public void onRoutineStep(Routine routine, Routine.Action action) {
+    public void onRoutineStep(final Routine routine, Routine.Action action) {
         this.routine = routine;
         updateView();
     }
@@ -594,6 +615,17 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     public void onMusicEnded(Music music) {
         if (trackingTime || routine != null) {
             playMusic();
+        }
+    }
+
+    public void showEmailNotificaitonSent() {
+        if (DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.SHOW_EMAIL_VERIFICATION, false) && DCSession.getInstance().getUser() != null) {
+            DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.SHOW_EMAIL_VERIFICATION, false);
+            Snacky.builder().setActivty(getActivity())
+                    .success()
+                    .setText(getString(R.string.signup_txt_verification_sent, DCSession.getInstance().getUser().getEmail()))
+                    .setDuration(BaseTransientBottomBar.LENGTH_LONG)
+                    .show();
         }
     }
 }

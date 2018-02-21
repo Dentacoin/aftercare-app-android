@@ -5,6 +5,5 @@ package com.dentacoin.dentacare.utils;
  */
 
 public interface IDCTutorial {
-    void showTutorials();
-    void hideTutorials();
+    void showTutorial(Tutorial tutorial);
 }

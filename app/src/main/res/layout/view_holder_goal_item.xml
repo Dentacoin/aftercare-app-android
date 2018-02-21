@@ -5,7 +5,7 @@
     android:id="@+id/ll_goal_item"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="wrap_content"
     android:paddingTop="16dp">
 
     <RelativeLayout
@@ -59,5 +59,7 @@
         android:lines="2"
         android:textAlignment="center"
         android:layout_gravity="center"
-        android:paddingTop="10dp"/>
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
 </LinearLayout>

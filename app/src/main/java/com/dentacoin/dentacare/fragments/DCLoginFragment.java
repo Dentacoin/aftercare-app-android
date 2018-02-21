@@ -46,7 +46,7 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        ivLoginLogo = (ImageView) view.findViewById(R.id.iv_login_logo);
+        ivLoginLogo = view.findViewById(R.id.iv_login_logo);
 
         Resources r = getResources();
         float translationPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, r.getDisplayMetrics());
@@ -63,26 +63,26 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener,
 
         ivLoginLogo.startAnimation(logoAnimationSet);
 
-        btnLoginFacebook = (DCButton) view.findViewById(R.id.btn_login_facebook);
+        btnLoginFacebook = view.findViewById(R.id.btn_login_facebook);
         btnLoginFacebook.setOnClickListener(this);
 
-        btnLoginGoogle = (DCButton) view.findViewById(R.id.btn_login_google);
+        btnLoginGoogle = view.findViewById(R.id.btn_login_google);
         btnLoginGoogle.setOnClickListener(this);
 
-        btnLoginTwitter = (DCButton) view.findViewById(R.id.btn_login_twitter);
+        btnLoginTwitter = view.findViewById(R.id.btn_login_twitter);
         btnLoginTwitter.setOnClickListener(this);
 
-        btnLogin = (DCButton) view.findViewById(R.id.btn_login_login);
+        btnLogin = view.findViewById(R.id.btn_login_login);
         btnLogin.setOnClickListener(this);
 
-        tilLoginEmail = (DCTextInputLayout) view.findViewById(R.id.til_login_email);
-        tietLoginEmail = (DCTextInputEditText) view.findViewById(R.id.tiet_login_email);
+        tilLoginEmail = view.findViewById(R.id.til_login_email);
+        tietLoginEmail = view.findViewById(R.id.tiet_login_email);
         tietLoginEmail.setOnFocusChangeListener(this);
 
-        tilLoginPassword = (DCTextInputLayout) view.findViewById(R.id.til_login_password);
-        tietLoginPassword = (DCTextInputEditText) view.findViewById(R.id.tiet_login_password);
+        tilLoginPassword = view.findViewById(R.id.til_login_password);
+        tietLoginPassword = view.findViewById(R.id.tiet_login_password);
 
-        tvLoginForgotPassword = (DCTextView) view.findViewById(R.id.tv_login_forgot_password);
+        tvLoginForgotPassword = view.findViewById(R.id.tv_login_forgot_password);
         tvLoginForgotPassword.setOnClickListener(this);
 
         return view;

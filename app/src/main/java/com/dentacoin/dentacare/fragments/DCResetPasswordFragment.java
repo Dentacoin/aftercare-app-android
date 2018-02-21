@@ -38,15 +38,15 @@ public class DCResetPasswordFragment extends DCFragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_reset_password, container, false);
-        tilResetEmail = (DCTextInputLayout) view.findViewById(R.id.til_reset_email);
-        tietResetEmail = (DCTextInputEditText) view.findViewById(R.id.tiet_reset_email);
-        btnResetSend = (DCButton) view.findViewById(R.id.btn_reset_send);
+        tilResetEmail = view.findViewById(R.id.til_reset_email);
+        tietResetEmail = view.findViewById(R.id.tiet_reset_email);
+        btnResetSend = view.findViewById(R.id.btn_reset_send);
         btnResetSend.setOnClickListener(this);
-        tvResetSuccess = (DCTextView) view.findViewById(R.id.tv_reset_success);
+        tvResetSuccess = view.findViewById(R.id.tv_reset_success);
         tvResetSuccess.setVisibility(View.GONE);
-        llResetPassword = (LinearLayout) view.findViewById(R.id.ll_reset_password);
+        llResetPassword = view.findViewById(R.id.ll_reset_password);
         llResetPassword.setVisibility(View.VISIBLE);
-        btnResetOk = (DCButton) view.findViewById(R.id.btn_reset_ok);
+        btnResetOk = view.findViewById(R.id.btn_reset_ok);
         btnResetOk.setOnClickListener(this);
         btnResetOk.setVisibility(View.GONE);
         return view;

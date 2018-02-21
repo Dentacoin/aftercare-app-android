@@ -3,6 +3,7 @@ package com.dentacoin.dentacare.model;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 
 import com.dentacoin.dentacare.utils.DCErrorType;
 
@@ -103,5 +104,12 @@ public class DCError {
 
     public boolean isType(DCErrorType type) {
         return code == type.getCode();
+    }
+
+    public boolean isType(@NonNull String string) {
+        if (getErrors() != null && getErrors().length > 0) {
+            return string.equals(getErrors()[0]);
+        }
+        return false;
     }
 }

@@ -11,6 +11,10 @@
             android:title="@string/drawer_nav_dentacoin"
             android:icon="@drawable/nav_collect"/>
         <item
+            android:id="@+id/drawer_nav_withdraws"
+            android:title="@string/drawer_nav_withdraws"
+            android:icon="@drawable/ic_play_for_work_black_36dp"/>
+        <item
             android:id="@+id/drawer_nav_goals"
             android:title="@string/drawer_nav_goals"
             android:icon="@drawable/nav_goals"/>

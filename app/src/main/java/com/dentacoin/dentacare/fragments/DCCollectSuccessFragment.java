@@ -42,9 +42,9 @@ public class DCCollectSuccessFragment extends DCFragment {
             amount = arguments.getInt(KEY_DCN_AMOUNT);
         }
 
-        ivCollectDentacoin = (ImageView) view.findViewById(R.id.iv_collect_dentacoin);
-        tvCollectAmount = (DCTextView) view.findViewById(R.id.tv_collect_amount);
-        tvCollectMessage = (DCTextView) view.findViewById(R.id.tv_collect_message);
+        ivCollectDentacoin = view.findViewById(R.id.iv_collect_dentacoin);
+        tvCollectAmount = view.findViewById(R.id.tv_collect_amount);
+        tvCollectMessage = view.findViewById(R.id.tv_collect_message);
         tvCollectAmount.setText(getString(R.string.txt_dcn, amount));
 
         Resources r = getResources();

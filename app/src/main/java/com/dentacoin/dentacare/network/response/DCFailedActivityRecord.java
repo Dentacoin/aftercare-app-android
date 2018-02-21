@@ -1,6 +1,6 @@
 package com.dentacoin.dentacare.network.response;
 
-import com.dentacoin.dentacare.model.DCActivityRecord;
+import com.dentacoin.dentacare.model.DCRecord;
 import com.dentacoin.dentacare.model.DCError;
 
 /**
@@ -8,6 +8,6 @@ import com.dentacoin.dentacare.model.DCError;
  */
 
 public class DCFailedActivityRecord {
-    private DCActivityRecord record;
+    private DCRecord record;
     private DCError error;
 }

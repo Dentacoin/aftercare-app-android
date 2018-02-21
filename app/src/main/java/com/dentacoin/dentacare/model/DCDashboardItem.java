@@ -8,7 +8,6 @@ import com.dentacoin.dentacare.utils.DCConstants;
 
 public class DCDashboardItem {
     private int lastTime;
-    private int earned;
     private int left;
 
     DCDashboardPeriod daily;
@@ -16,7 +15,6 @@ public class DCDashboardItem {
     DCDashboardPeriod monthly;
 
     public int getLastTime() { return lastTime; }
-    public int getEarned() { return earned; }
     public int getLeft() { return left; }
 
     public DCDashboardPeriod getDaily() { return daily; }

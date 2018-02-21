@@ -29,8 +29,8 @@ public class DCToolbarActivity extends DCActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentView());
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        container = (FrameLayout) findViewById(R.id.container);
+        toolbar = findViewById(R.id.toolbar);
+        container = findViewById(R.id.container);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
 
@@ -41,7 +41,7 @@ public class DCToolbarActivity extends DCActivity {
 
             View customActionbarView = View.inflate(this, R.layout.view_actionbar, null);
             actionBar.setCustomView(customActionbarView, new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            actionbarTitle = (DCTextView) customActionbarView.findViewById(R.id.tv_actionbar_title);
+            actionbarTitle = customActionbarView.findViewById(R.id.tv_actionbar_title);
         }
     }
 

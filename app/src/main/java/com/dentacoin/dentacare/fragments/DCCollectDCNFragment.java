@@ -1,5 +1,6 @@
 package com.dentacoin.dentacare.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,9 +8,11 @@ import android.view.ViewGroup;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCCollectActivity;
-import com.dentacoin.dentacare.model.DCActivityRecord;
+import com.dentacoin.dentacare.activities.DCProfileActivity;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCJourney;
+import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
@@ -19,7 +22,6 @@ import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDCDashboardObserver;
 import com.dentacoin.dentacare.widgets.DCButton;
-import com.dentacoin.dentacare.widgets.DCEditText;
 import com.dentacoin.dentacare.widgets.DCTextView;
 
 import de.mateware.snacky.Snacky;
@@ -32,65 +34,39 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
 
     public static final String TAG = DCCollectDCNFragment.class.getSimpleName();
     private DCButton btnCollect;
-    private DCTextView tvCollectCollected;
-    private DCTextView tvCollectCurrentBalance;
-    private DCEditText etCollectAmount;
+    private DCTextView tvCollectTotal;
+    private DCTextView tvCollectAvailable;
     private DCTextView tvCollectInfo;
     private String wallet;
     private DCDashboard dashboard;
-    private int collected = 0;
     DCLoadingFragment loadingFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_collect_dcn, container, false);
         wallet = DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.DEFAULT_WALLET);
-        btnCollect = (DCButton) view.findViewById(R.id.btn_collect);
+        btnCollect = view.findViewById(R.id.btn_collect);
         btnCollect.setOnClickListener(this);
-        tvCollectCollected = (DCTextView) view.findViewById(R.id.tv_collect_collected);
-        tvCollectCurrentBalance = (DCTextView) view.findViewById(R.id.tv_collect_current_balance);
-        etCollectAmount = (DCEditText) view.findViewById(R.id.et_collect_amount);
-        tvCollectInfo = (DCTextView) view.findViewById(R.id.tv_collect_info);
+        tvCollectTotal = view.findViewById(R.id.tv_collect_total);
+        tvCollectAvailable = view.findViewById(R.id.tv_collect_available);
+        tvCollectInfo = view.findViewById(R.id.tv_collect_info);
         tvCollectInfo.setOnClickListener(this);
         loadingFragment = showLoading();
         btnCollect.setEnabled(false);
         DCDashboardDataProvider.getInstance().updateDashboard(true);
-        getTransactions();
         setupView();
         return view;
     }
 
-    private void getTransactions() {
-        DCApiManager.getInstance().getTransactions(new DCResponseListener<DCTransaction[]>() {
-            @Override
-            public void onFailure(DCError error) {
-                collected = 0;
-                setupView();
-            }
-
-            @Override
-            public void onResponse(DCTransaction[] object) {
-                collected = 0;
-                if (object != null && object.length > 0) {
-                    for (int i = 0; i < object.length; i++) {
-                        DCTransaction transaction = object[i];
-                        if (transaction.getStatus() == DCTransaction.STATUS.APPROVED || transaction.getStatus() == DCTransaction.STATUS.PENDING) {
-                            collected += transaction.getAmount();
-                        }
-                    }
-                }
-                setupView();
-            }
-        });
-    }
-
     private void setupView() {
-        tvCollectCollected.setText(getString(R.string.txt_dcn, collected));
-        tvCollectCurrentBalance.setText(getString(R.string.txt_dcn, 0));
+        tvCollectTotal.setText(getString(R.string.txt_dcn, 0));
+        tvCollectAvailable.setText(getString(R.string.txt_dcn, 0));
+        btnCollect.setEnabled(false);
 
         if (dashboard != null) {
-            tvCollectCurrentBalance.setText(getString(R.string.txt_dcn, dashboard.getTotalDCN()));
-            etCollectAmount.setText(Integer.toString(dashboard.getTotalDCN()));
+            tvCollectTotal.setText(getString(R.string.txt_dcn, dashboard.getTotalDCN()));
+            tvCollectAvailable.setText(getString(R.string.txt_dcn, dashboard.getEarnedDCN()));
+            btnCollect.setEnabled(dashboard.getEarnedDCN() > 0);
         }
     }
 
@@ -98,49 +74,57 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_collect:
-                if (dashboard != null && !etCollectAmount.getText().toString().isEmpty() && etCollectAmount.getText().toString().length() < 8) {
-                    try {
-                        final int amount = Integer.parseInt(etCollectAmount.getText().toString());
-                        if (amount > 0 && amount <= dashboard.getTotalDCN()) {
-                            final DCTransaction transaction = new DCTransaction();
-                            transaction.setAmount(amount);
-                            transaction.setWallet(wallet);
-
-                            DCApiManager.getInstance().postTransaction(transaction, new DCResponseListener<Void>() {
-                                @Override
-                                public void onFailure(DCError error) {
-                                    if (error != null) {
-                                        String message = error.getMessage(getActivity());
-                                        if ("user_cannot_withdraw".equals(message) && getActivity() != null) {
-                                            Snacky.builder()
-                                                    .setActivty(getActivity())
-                                                    .error()
-                                                    .setText(R.string.collect_error_not_enough_use)
-                                                    .setDuration(Snacky.LENGTH_INDEFINITE)
-                                                    .setAction(R.string.txt_ok, new View.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(View view) {
-                                                        }
-                                                    })
-                                                    .show();
-                                            return;
-                                        }
-                                    }
+                if (dashboard != null) {
+                    final DCTransaction transaction = new DCTransaction();
+                    transaction.setAmount(dashboard.getEarnedDCN());
+                    transaction.setWallet(wallet);
+                    DCApiManager.getInstance().postTransaction(transaction, new DCResponseListener<Void>() {
+                        @Override
+                        public void onFailure(DCError error) {
+                            if (error != null && getActivity() != null) {
+                                if (error.isType("user_cannot_withdraw")) {
+                                    Snacky.builder()
+                                            .setActivty(getActivity())
+                                            .error()
+                                            .setText(R.string.collect_error_not_enough_use)
+                                            .setDuration(Snacky.LENGTH_INDEFINITE)
+                                            .setAction(R.string.txt_ok, new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                }
+                                            })
+                                            .show();
+                                    return;
+                                }
+                                else if (error.isType("user_not_confirmed")) {
+                                    Snacky.builder()
+                                            .setActivty(getActivity())
+                                            .warning()
+                                            .setText(R.string.collect_error_not_confirmed)
+                                            .setDuration(Snacky.LENGTH_INDEFINITE)
+                                            .setAction(R.string.collect_error_btn_verify, new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    final Intent profileIntent = new Intent(getActivity(), DCProfileActivity.class);
+                                                    startActivity(profileIntent);
+                                                    getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                                                }
+                                            })
+                                            .show();
+                                }
+                                else {
                                     onError(error);
                                 }
-
-                                @Override
-                                public void onResponse(Void object) {
-                                    if (getActivity() != null && isAdded()) {
-                                        ((DCCollectActivity) getActivity()).showSuccessScreen(amount);
-                                    }
-                                }
-                            });
-                        } else {
-                            Snacky.builder().setActivty(getActivity()).error().setText(R.string.collect_error_not_enough).show();
+                            }
                         }
-                    } catch (NumberFormatException e) {
-                    }
+
+                        @Override
+                        public void onResponse(Void object) {
+                            if (getActivity() != null && isAdded()) {
+                                ((DCCollectActivity) getActivity()).showSuccessScreen(dashboard.getEarnedDCN());
+                            }
+                        }
+                    });
                 }
                 break;
             case R.id.tv_collect_info:
@@ -182,10 +166,18 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
     }
 
     @Override
-    public void onSyncNeeded(DCActivityRecord[] records) {
+    public void onSyncNeeded(DCRoutine[] routines) {
     }
 
     @Override
     public void onSyncSuccess() {
+    }
+
+    @Override
+    public void onJourneyUpdated(DCJourney journey) {
+    }
+
+    @Override
+    public void onJourneyError(DCError error) {
     }
 }

@@ -9,6 +9,8 @@ public enum Voice {
     MORNING_GREETING("sounds/voice/male/morning/greeting.mp3", "sounds/voice/female/morning/greeting.mp3"),
     EVENING_GREETING("sounds/voice/male/evening/greeting.mp3", "sounds/voice/female/evening/greeting.mp3"),
 
+    DAY_GREETING("sounds/voice/male/day/greeting.mp3", "sounds/voice/female/evening/greeting.mp3"),
+
     BRUSH_EVENING_START("sounds/voice/male/evening/brush/1.mp3", "sounds/voice/female/evening/brush/1.mp3"),
     BRUSH_MORNING_START("sounds/voice/male/morning/brush/1.mp3", "sounds/voice/female/morning/brush/1.mp3"),
 

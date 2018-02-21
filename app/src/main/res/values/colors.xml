@@ -14,6 +14,7 @@
     <color name="greyTransparent">#80d7d7d7</color>
     <color name="whiteTransparent">#48ffffff</color>
     <color name="dark">#1d1d26</color>
+    <color name="blackTransparent80">#CC000000</color>
     <color name="blackTransparent50">#80000000</color>
     <color name="blackTransparent10">#1A000000</color>
     <color name="darkSkyBlue">#4990e2</color>
@@ -22,4 +23,6 @@
     <color name="pinkishRed">#b3ed2224</color>
     <color name="lightBlueAlpha">#b30a93f7</color>
     <color name="charcoalGrey">#4a4a4a</color>
+    <color name="green">#2bc32b</color>
+    <color name="orange">#e57c25</color>
 </resources>
