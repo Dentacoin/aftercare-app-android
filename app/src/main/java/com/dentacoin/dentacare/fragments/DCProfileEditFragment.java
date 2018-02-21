@@ -435,7 +435,7 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
 
     private void pickAvatar() {
         PermissionsManager.getInstance().requestPermissionsIfNecessaryForResult(getActivity(),
-                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                new String[]{ Manifest.permission.CAMERA },
                 new PermissionsResultAction() {
                     @Override
                     public void onGranted() {
