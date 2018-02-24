@@ -31,7 +31,6 @@ import com.dentacoin.dentacare.model.DCGoal;
 import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.network.DCResponseListener;
-import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.AudibleMessage;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
@@ -369,7 +368,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                 showCompletedJourneyPopup();
             } else if (journey.isFailed()) {
                 showFailedJourneyPopup();
-            } else if (journey.shouldShowDailyPopup()) {
+            } else if (journey.canStartRoutine()) {
                 showDailyJourneyPopup(journey);
             }
         }
@@ -479,7 +478,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     }
 
     private void showDailyJourneyPopup(DCJourney journey) {
-        if (canShowPopup() && journey != null && !popupShown) {
+        if (canShowPopup() && journey != null && !popupShown && DCDashboardDataProvider.getInstance().shouldShowPopup()) {
             String button = getString(R.string.btn_routine);
 
             final Routine.Type type = Routine.getAppropriateRoutineTypeForNow();
@@ -500,6 +499,9 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                 String title = getString(R.string.journey_hdl_daily, Integer.toString(journey.getDay()), Integer.toString(journey.getTargetDays()));
                 String subTitle = getString(R.string.journey_sub_hdl_daily, Integer.toString(journey.getSkipped()), Integer.toString(journey.getTolerance()));
                 popupShown = true;
+
+                DCDashboardDataProvider.getInstance().onJourneyPopupShown();
+
                 DCMessageFragment.create(
                         title,
                         subTitle,
@@ -523,7 +525,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         }
     }
 
-    private void startRoutine(Routine.Type type) {
+    public void startRoutine(Routine.Type type) {
         if (type != null) {
             routine = new Routine(type);
             routine.setListener(this);

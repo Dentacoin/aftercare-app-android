@@ -35,7 +35,9 @@ public class DCJourney implements Serializable {
     public int getDay() { return day; }
 
     /** Retrieve amount of skipped routines */
-    public int getSkipped() { return skipped; }
+    public int getSkipped() {
+        return Math.max(0, skipped);
+    }
 
     public boolean isFailed() {
         return skipped > tolerance;
@@ -47,7 +49,7 @@ public class DCJourney implements Serializable {
 
     public DCRoutine getLastRoutine() { return lastRoutine; }
 
-    public boolean shouldShowDailyPopup() {
+    public boolean canStartRoutine() {
         if (lastRoutine == null)
             return true;
 
@@ -55,21 +57,20 @@ public class DCJourney implements Serializable {
 
         if (appropriateType != null && appropriateType != lastRoutine.getType())
             return true;
-
-        if (appropriateType != null && appropriateType == lastRoutine.getType()) {
-            Date timeLastRoutine = lastRoutine.getEndTime();
-            if (timeLastRoutine != null) {
-                Date now = new Date();
-                long difference = now.getTime() - timeLastRoutine.getTime();
-                long s = difference / 1000;
-                long m = s / 60;
-                long h = m / 60;
-
-                if (h >= 8)
-                    return true;
-            }
-        }
+        else if (appropriateType != null && appropriateType == lastRoutine.getType() && !lastRoutine.wasToday())
+            return true;
 
         return false;
+    }
+
+    public int getRoutinesLeftForToday() {
+        if (lastRoutine != null) {
+            if (lastRoutine.getType() == Routine.Type.MORNING && lastRoutine.wasToday()) {
+                return 1;
+            } else if (lastRoutine.getType() == Routine.Type.EVENING && lastRoutine.wasToday()) {
+                return 0;
+            }
+        }
+        return 2;
     }
 }

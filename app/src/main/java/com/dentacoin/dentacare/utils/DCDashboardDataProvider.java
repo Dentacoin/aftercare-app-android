@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,8 @@ import java.util.List;
  */
 
 public class DCDashboardDataProvider {
+
+    private static final long TIME_PASSED_MILLIS = 10 * 60 * 1000;
 
     private static DCDashboardDataProvider instance;
     private DCDashboard dashboard;
@@ -30,6 +33,7 @@ public class DCDashboardDataProvider {
 
     private boolean inRequest = false;
     private boolean inRequestJourney = false;
+    private Date lastJourneyPopupShownDate;
 
     public static synchronized DCDashboardDataProvider getInstance() {
         if (instance == null)
@@ -61,6 +65,18 @@ public class DCDashboardDataProvider {
      */
     public void removeObserver(IDCDashboardObserver observer) {
         dashboardObservers.remove(observer);
+    }
+
+    public void onJourneyPopupShown() {
+        this.lastJourneyPopupShownDate = new Date();
+    }
+
+    public boolean shouldShowPopup() {
+        if (lastJourneyPopupShownDate == null)
+            return true;
+
+        Date now = new Date();
+        return now.getTime() - lastJourneyPopupShownDate.getTime() > TIME_PASSED_MILLIS;
     }
 
     /**

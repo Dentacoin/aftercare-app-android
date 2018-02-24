@@ -70,7 +70,7 @@
                 android:layout_marginLeft="35dp"
                 android:layout_marginRight="35dp"
                 app:text="3"
-                app:title="@string/dashboard_lbl_floss_left"
+                app:title="@string/dashboard_lbl_routines_left"
                 app:type="smallInfo"/>
 
             <com.dentacoin.dentacare.widgets.DCTimerView
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:text="0"
-                app:title="@string/dashboard_lbl_dcn_earned"
+                app:title="@string/dashboard_lbl_day"
                 app:type="smallInfo"/>
         </LinearLayout>
 
