@@ -64,6 +64,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     private ImageView ivDashboardDownArrow;
     private ImageView ivDashboardUpArrow;
     boolean reverseAnimStarted = false;
+    private DCJourney journey;
 
     protected DCTimerView timerDashboard;
     protected DCTimerView timerDashboardLast;
@@ -92,10 +93,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     private DCTextView tvDashboardMessageContainer;
     float dashboardHolderPadding;
     private CoordinatorLayout.LayoutParams dashboardParams = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
     private float tHeight;
-    private float tWidth;
-    private float ratio;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -108,9 +106,12 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         timerDashboard = view.findViewById(R.id.timer_dashboard);
         timerDashboardLast = view.findViewById(R.id.timer_dashboard_last);
         timerDashboardleft = view.findViewById(R.id.timer_dashboard_left);
+        timerDashboardleft.setTitle(getString(R.string.dashboard_lbl_routines_left));
+        timerDashboardleft.setTimerDisplay(Integer.toString(2));
         timerDashboardEarned = view.findViewById(R.id.timer_dashboard_earned);
         btnDashboardRecord = view.findViewById(R.id.btn_dashboard_record);
         btnDashboardRecord.setOnClickListener(this);
+
         tvDashboardStatisticsTitle = view.findViewById(R.id.tv_dashboard_statistics_title);
         btnDashboardDaily = view.findViewById(R.id.btn_dashboard_daily);
         btnDashboardDaily.setOnClickListener(this);
@@ -134,7 +135,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         llDashboardHolder = view.findViewById(R.id.ll_dashboard_holder);
 
         final Resources r = getResources();
-        dashboardHolderPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, r.getDisplayMetrics());
+        dashboardHolderPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, r.getDisplayMetrics());
 
         ivDashboardDownArrow.setAlpha(0.0f);
         ivDashboardUpArrow.setAlpha(1.0f);
@@ -176,10 +177,6 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         setSelectedStatistics(DCConstants.DCStatisticsType.DAILY);
 
         tHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 375.4f, getResources().getDisplayMetrics());
-        tWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 227.1f, getResources().getDisplayMetrics());
-
-        ratio = tHeight / tWidth;
-
         rlTimerHolder.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -203,29 +200,19 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
     protected void updateTeethView() {
         if (rlTimerHolder != null) {
-            if (rlTimerHolder.getHeight() != 0 && dtDashboardTeeth.getHeight() != 0) {
-                float scaleX = dtDashboardTeeth.getScaleX();
-                float scaleY = dtDashboardTeeth.getScaleY();
+            if (rlTimerHolder.getHeight() != 0) {
+                float containerHeight = (float) rlTimerHolder.getHeight();
+                 if (containerHeight != 0) {
+                     float scaleY = containerHeight / tHeight;
+                     if (scaleY < 1.0f)
+                         scaleY = 1.0f;
 
-                float pHeight = (float) rlTimerHolder.getHeight();
-                float pWidth = (float) rlTimerHolder.getWidth();
-                float height = (float) dtDashboardTeeth.getHeight();
-                float width = (float) dtDashboardTeeth.getWidth();
-
-                if (pHeight > height) {
-                    scaleY = pHeight / height;
-                } else if (pHeight < height) {
-                    scaleY = height / pHeight;
-                }
-
-                scaleY = DCUtils.round(scaleY, 3);
-                scaleX = DCUtils.round((height * scaleY) / (ratio * width), 3);
-
-                if (scaleY != dtDashboardTeeth.getScaleY() || scaleX != dtDashboardTeeth.getScaleX()) {
-                    dtDashboardTeeth.setScaleY(scaleY);
-                    dtDashboardTeeth.setScaleX((scaleX));
-                    dtDashboardTeeth.invalidate();
-                }
+                     if (dtDashboardTeeth.getScaleX() != scaleY || dtDashboardTeeth.getScaleY() != scaleY) {
+                         dtDashboardTeeth.setScaleY(scaleY);
+                         dtDashboardTeeth.setScaleX(scaleY);
+                         dtDashboardTeeth.invalidate();
+                     }
+                 }
             }
         }
     }
@@ -289,10 +276,13 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                 break;
         }
 
+        if (journey != null) {
+            timerDashboardEarned.setTimerDisplay(Integer.toString(journey.getDay()) + "/" + Integer.toString(journey.getTargetDays()));
+            timerDashboardleft.setTimerDisplay(Integer.toString(journey.getRoutinesLeftForToday()));
+        }
+
         if (dashboardItem != null) {
             timerDashboardLast.setTimerDisplay(DCUtils.secondsToTime(dashboardItem.getLastTime()));
-            timerDashboardleft.setTimerDisplay(Integer.toString(dashboardItem.getLeft()));
-
             switch (selectedStatistics) {
                 case WEEKLY:
                     timerDashboardTimes.setTimerDisplay(Integer.toString(dashboardItem.getWeekly().getTimes()));
@@ -314,25 +304,36 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
             switch (getType()) {
                 case BRUSH:
                     timerDashboardLast.setTitle(getString(R.string.dashboard_lbl_last_brush));
-                    timerDashboardleft.setTitle(getString(R.string.dashboard_lbl_brush_left));
                     btnDashboardRecord.setText(getString(R.string.dashboard_btn_start_brush));
                     tvDashboardStatisticsTitle.setText(getString(R.string.dashboard_lbl_brush_statistics));
                     timerDashboardTimes.setTitle(getString(R.string.dashboard_lbl_times_brushed));
                     break;
                 case RINSE:
                     timerDashboardLast.setTitle(getString(R.string.dashboard_lbl_last_rinse));
-                    timerDashboardleft.setTitle(getString(R.string.dashboard_lbl_rinse_left));
                     btnDashboardRecord.setText(getString(R.string.dashboard_btn_start_rinse));
                     tvDashboardStatisticsTitle.setText(getString(R.string.dashboard_lbl_rinse_statistics));
                     timerDashboardTimes.setTitle(getString(R.string.dashboard_lbl_times_rinsed));
                     break;
                 default:
                     timerDashboardLast.setTitle(getString(R.string.dashboard_lbl_last_floss));
-                    timerDashboardleft.setTitle(getString(R.string.dashboard_lbl_floss_left));
                     btnDashboardRecord.setText(getString(R.string.dashboard_btn_start_floss));
                     tvDashboardStatisticsTitle.setText(getString(R.string.dashboard_lbl_floss_statistics));
                     timerDashboardTimes.setTitle(getString(R.string.dashboard_lbl_times_flossed));
                     break;
+            }
+
+            if (journey != null && journey.canStartRoutine()) {
+                Routine.Type routineType = Routine.getAppropriateRoutineTypeForNow();
+                if (routineType != null) {
+                    switch (routineType) {
+                        case EVENING:
+                            btnDashboardRecord.setText(getString(R.string.btn_evening));
+                            break;
+                        case MORNING:
+                            btnDashboardRecord.setText(getString(R.string.btn_morning));
+                            break;
+                    }
+                }
             }
 
             if (trackingTime || routine != null) {
@@ -417,8 +418,13 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     protected void toggleRecording() {
         if (trackingTime)
             stopRecording();
-        else
+        else if (routine == null && journey != null && journey.canStartRoutine()) {
+            if (getActivity() instanceof DCDashboardActivity) {
+                ((DCDashboardActivity) getActivity()).startRoutine(Routine.getAppropriateRoutineTypeForNow());
+            }
+        } else {
             startRecording();
+        }
     }
 
 
@@ -546,9 +552,8 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
     @Override
     public void onJourneyUpdated(DCJourney journey) {
-        if (journey != null && journey.getLastRoutine() != null && timerDashboardEarned != null) {
-            timerDashboardEarned.setTimerDisplay(Integer.toString(journey.getLastRoutine().getEarnedDCN()));
-        }
+        this.journey = journey;
+        updateView();
     }
 
     @Override

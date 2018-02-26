@@ -8,6 +8,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:id="@+id/rl_timer_progress_holder">
         <ProgressBar
             android:id="@+id/pb_timer_progress"

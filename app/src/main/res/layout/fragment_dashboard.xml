@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="35dp">
+        android:layout_marginBottom="24dp">
 
         <RelativeLayout
             android:id="@+id/rl_timer_holder"
@@ -70,7 +70,7 @@
                 android:layout_marginLeft="35dp"
                 android:layout_marginRight="35dp"
                 app:text="3"
-                app:title="@string/dashboard_lbl_floss_left"
+                app:title="@string/dashboard_lbl_routines_left"
                 app:type="smallInfo"/>
 
             <com.dentacoin.dentacare.widgets.DCTimerView
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:text="0"
-                app:title="@string/dashboard_lbl_dcn_earned"
+                app:title="@string/dashboard_lbl_day"
                 app:type="smallInfo"/>
         </LinearLayout>
 
@@ -86,8 +86,8 @@
             android:id="@+id/btn_dashboard_record"
             style="@style/DCButton.Dashboard"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
             android:text="@string/dashboard_btn_start_floss"/>
     </LinearLayout>
 
@@ -100,7 +100,7 @@
         android:background="@drawable/rectangle_gradient_blue"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
         android:layout_height="300dp"
-        app:behavior_peekHeight="35dp"
+        app:behavior_peekHeight="24dp"
         app:behavior_hideable="true">
 
         <RelativeLayout
@@ -108,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="16dp">
+            android:padding="8dp">
             <ImageView
                 android:id="@+id/iv_dashboard_down_arrow"
                 android:layout_width="wrap_content"

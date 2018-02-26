@@ -161,7 +161,7 @@
     <string name="dashboard_btn_stop">Stop</string>
 
     <string name="dashboard_lbl_dcn_earned">DCN Earned</string>
-
+    <string name="dashboard_lbl_day">Day</string>
     <string name="dashboard_lbl_brush_left">Brush left</string>
     <string name="dashboard_lbl_floss_left">Floss left</string>
     <string name="dashboard_lbl_rinse_left">Rinse left</string>
@@ -169,6 +169,8 @@
     <string name="dashboard_lbl_last_brush">Last brush</string>
     <string name="dashboard_lbl_last_floss">Last floss</string>
     <string name="dashboard_lbl_last_rinse">Last rinse</string>
+
+    <string name="dashboard_lbl_routines_left">Routines left</string>
 
     <string name="dashboard_warning_sync_needed">Your data was not synchronized. Do you want to do this now?</string>
     <string name="dashboard_success_sync">Sync successful!</string>
@@ -193,8 +195,8 @@
 
     <string name="tutorial_txt_total_dcn">This is the total amount of DCN you\'ve earned.</string>
     <string name="tutorial_txt_last_activity_time">Last recorded time</string>
-    <string name="tutorial_txt_left_activities_count">Remaining activities for today</string>
-    <string name="tutorial_txt_earned_dcn">Earned DCN from this activity</string>
+    <string name="tutorial_txt_left_activities_count">Remaining routines for today</string>
+    <string name="tutorial_txt_earned_dcn">Current day of your journey</string>
     <string name="tutorial_txt_click_edit_profile">Click here to edit your profile!</string>
     <string name="tutorial_txt_collect_dcn">Send DCN to your wallet!</string>
     <string name="tutorial_txt_goals_menu">Achieve goals &amp; earn DCN</string>

@@ -48,11 +48,9 @@ public class Routine {
             this.actions = actions;
         }
 
-        public boolean inTimeFrame(int hour) {
+        public boolean inTimeFrame(Date timeTarget) {
             Calendar target = Calendar.getInstance();
-            target.set(Calendar.HOUR_OF_DAY, hour);
-            target.set(Calendar.MINUTE, 0);
-            target.set(Calendar.SECOND, 0);
+            target.setTime(timeTarget);
 
             Calendar from = Calendar.getInstance();
             from.set(Calendar.HOUR_OF_DAY, fromHourOfDay);
@@ -76,11 +74,10 @@ public class Routine {
     public static Type getAppropriateRoutineTypeForNow() {
         Type[] types = { Type.MORNING, Type.EVENING };
 
-        Calendar calendar = Calendar.getInstance();
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        Date timeNow = new Date();
 
         for (Type type : types) {
-            if (type.inTimeFrame(hourOfDay)) {
+            if (type.inTimeFrame(timeNow)) {
                 return type;
             }
         }

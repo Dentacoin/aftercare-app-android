@@ -7,6 +7,7 @@ import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -91,5 +92,14 @@ public class DCRoutine implements Serializable {
         return false;
     }
 
-
+    public boolean wasToday() {
+        if (getEndTime() != null) {
+            Calendar endDate = Calendar.getInstance();
+            endDate.setTime(getEndTime());
+            Calendar now = Calendar.getInstance();
+            now.setTime(new Date());
+            return endDate.get(Calendar.YEAR) == now.get(Calendar.YEAR) && endDate.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR);
+        }
+        return false;
+    }
 }
