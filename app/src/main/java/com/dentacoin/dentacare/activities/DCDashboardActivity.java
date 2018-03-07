@@ -423,8 +423,11 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     }
 
     private void showCompletedJourneyPopup() {
-        if (canShowPopup() && !popupShown) {
+        if (canShowPopup() && !popupShown && DCDashboardDataProvider.getInstance().shouldShowCompletedJourneyPopup()) {
             popupShown = true;
+
+            DCDashboardDataProvider.getInstance().setShownCompletedJourneyPopup();
+
             DCMessageFragment.create(
                     getString(R.string.journey_hdl_completed),
                     getString(R.string.journey_sub_hdl_completed),

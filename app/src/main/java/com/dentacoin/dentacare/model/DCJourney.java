@@ -29,7 +29,9 @@ public class DCJourney implements Serializable {
     public int getTolerance() { return tolerance; }
 
     /** If the routine has completed */
-    public boolean isCompleted() { return completed; }
+    public boolean isCompleted() {
+        return completed && skipped <= tolerance;
+    }
 
     /** Retrieve current day */
     public int getDay() { return day; }
