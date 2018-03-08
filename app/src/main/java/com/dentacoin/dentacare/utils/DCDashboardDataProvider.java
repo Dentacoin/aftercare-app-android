@@ -79,6 +79,22 @@ public class DCDashboardDataProvider {
         return now.getTime() - lastJourneyPopupShownDate.getTime() > TIME_PASSED_MILLIS;
     }
 
+
+
+    private Date lastJourneyCompletedPopupShownDate;
+
+    public void setShownCompletedJourneyPopup() {
+        lastJourneyCompletedPopupShownDate = new Date();
+    }
+
+    public boolean shouldShowCompletedJourneyPopup() {
+        if (lastJourneyCompletedPopupShownDate == null)
+            return true;
+
+        Date now = new Date();
+        return now.getTime() - lastJourneyCompletedPopupShownDate.getTime() > TIME_PASSED_MILLIS;
+    }
+
     /**
      * Initiates a dashboard update from either user saved data or makes an api call
      * and notify all observers
