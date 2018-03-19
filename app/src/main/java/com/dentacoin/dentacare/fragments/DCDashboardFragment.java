@@ -94,6 +94,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     float dashboardHolderPadding;
     private CoordinatorLayout.LayoutParams dashboardParams = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     private float tHeight;
+    private float tWidth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -177,6 +178,8 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         setSelectedStatistics(DCConstants.DCStatisticsType.DAILY);
 
         tHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 375.4f, getResources().getDisplayMetrics());
+        tWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 237.1f, getResources().getDisplayMetrics());
+
         rlTimerHolder.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -203,13 +206,20 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
             if (rlTimerHolder.getHeight() != 0) {
                 float containerHeight = (float) rlTimerHolder.getHeight();
                  if (containerHeight != 0) {
-                     float scaleY = containerHeight / tHeight;
-                     if (scaleY < 1.0f)
-                         scaleY = 1.0f;
+                     float scaleY = 1.0f;
+                     float scaleX = 1.0f;
 
-                     if (dtDashboardTeeth.getScaleX() != scaleY || dtDashboardTeeth.getScaleY() != scaleY) {
+                     if (containerHeight > tHeight) {
+                         scaleY = containerHeight / tHeight;
+                         scaleX = scaleY;
+                     } else if (containerHeight < tHeight) {
+                         scaleY = 1.0f;
+                         scaleX = (containerHeight / tHeight);
+                     }
+
+                     if (dtDashboardTeeth.getScaleX() != scaleX || dtDashboardTeeth.getScaleY() != scaleY) {
                          dtDashboardTeeth.setScaleY(scaleY);
-                         dtDashboardTeeth.setScaleX(scaleY);
+                         dtDashboardTeeth.setScaleX(scaleX);
                          dtDashboardTeeth.invalidate();
                      }
                  }
