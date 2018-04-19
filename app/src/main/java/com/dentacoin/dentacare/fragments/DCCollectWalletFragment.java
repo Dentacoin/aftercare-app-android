@@ -119,7 +119,7 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
                                     .warning()
                                     .setDuration(Snacky.LENGTH_LONG)
                                     .setText(R.string.collect_txt_permission_camera)
-                                    .setAction(R.string.collect_txt_permission_camera_settings, new View.OnClickListener() {
+                                    .setAction(R.string.txt_settings, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             Intent intent = new Intent();
@@ -164,7 +164,7 @@ public class DCCollectWalletFragment extends DCFragment implements View.OnClickL
                     SimpleTarget qrTarget = new SimpleTarget.Builder(getActivity())
                             .setPoint(oneX, oneY)
                             .setRadius(80f) // radius of the Target
-                            .setTitle("Add your wallet") // title
+                            .setTitle(getString(R.string.collect_wallet_hdl_add)) // title
                             .setDescription(getString(R.string.tutorial_txt_qr_code)) // description
                             .build();
                     Spotlight.with(getActivity())

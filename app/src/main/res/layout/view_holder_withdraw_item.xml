@@ -27,13 +27,12 @@
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PENDING"
                 android:layout_gravity="center"/>
         </LinearLayout>
         <com.dentacoin.dentacare.widgets.DCTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="to:"
+            android:text="@string/withdraws_lbl_to"
             android:paddingTop="8dp"
             android:textColor="@color/charcoalGrey"/>
         <com.dentacoin.dentacare.widgets.DCTextView
@@ -42,14 +41,12 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:ellipsize="middle"
-            android:textColor="@color/charcoalGrey"
-            android:text="0"/>
+            android:textColor="@color/charcoalGrey"/>
         <com.dentacoin.dentacare.widgets.DCTextView
             android:id="@+id/tv_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/charcoalGrey"
-            android:text="0"/>
+            android:textColor="@color/charcoalGrey"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

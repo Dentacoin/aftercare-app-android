@@ -26,9 +26,9 @@ public class DCSendMessageFragment extends DCFragment implements View.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_send_message, container, false);
-        etEmergencyMessage = (EditText) view.findViewById(R.id.et_emergency_message);
-        tietEmergencyPhone = (DCTextInputEditText) view.findViewById(R.id.tiet_emergency_phone);
-        btnEmergencySend = (DCButton) view.findViewById(R.id.btn_emergency_send);
+        etEmergencyMessage = view.findViewById(R.id.et_emergency_message);
+        tietEmergencyPhone = view.findViewById(R.id.tiet_emergency_phone);
+        btnEmergencySend = view.findViewById(R.id.btn_emergency_send);
         btnEmergencySend.setOnClickListener(this);
         return view;
     }

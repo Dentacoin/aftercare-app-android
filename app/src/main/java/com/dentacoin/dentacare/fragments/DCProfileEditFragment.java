@@ -27,7 +27,6 @@ import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.network.request.DCCaptcha;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCLocalNotificationsManager;
-import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDatePickerListener;
 import com.dentacoin.dentacare.widgets.DCButton;
@@ -268,7 +267,7 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
 
     private void cancelAvatar() {
         final AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.hdl_profile_remove_title)
+                .setTitle(R.string.profile_hdl_remove_avatar)
                 .setPositiveButton(R.string.txt_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -450,7 +449,7 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
                                     .warning()
                                     .setDuration(Snacky.LENGTH_LONG)
                                     .setText(R.string.signup_txt_permission_avatar)
-                                    .setAction(R.string.signup_txt_settings, new View.OnClickListener() {
+                                    .setAction(R.string.txt_settings, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             Intent intent = new Intent();

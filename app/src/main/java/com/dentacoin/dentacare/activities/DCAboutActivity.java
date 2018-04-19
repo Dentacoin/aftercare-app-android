@@ -24,10 +24,10 @@ public class DCAboutActivity extends DCToolbarActivity implements View.OnClickLi
         addContentView(R.layout.activity_about);
         setActionBarTitle(R.string.about_hdl_about);
 
-        tvAboutWebsite = (DCTextView) findViewById(R.id.tv_about_website);
+        tvAboutWebsite = findViewById(R.id.tv_about_website);
         tvAboutWebsite.setOnClickListener(this);
 
-        tvAboutVersion = (DCTextView) findViewById(R.id.tv_about_version);
+        tvAboutVersion = findViewById(R.id.tv_about_version);
         tvAboutVersion.setText(DCUtils.getAppVersion(this));
     }
 

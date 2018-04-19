@@ -29,7 +29,7 @@ public class DCFirebaseMessagingService extends FirebaseMessagingService {
 
     private void showNotification(RemoteMessage remoteMessage) {
         if (remoteMessage != null && remoteMessage.getNotification() != null) {
-            String title = getString(R.string.txt_app_name);
+            String title = getString(R.string.app_name);
             String message = "";
 
             Intent intent = new Intent(this, LaunchActivity.class);

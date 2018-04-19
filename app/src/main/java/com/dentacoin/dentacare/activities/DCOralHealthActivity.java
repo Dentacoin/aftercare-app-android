@@ -35,9 +35,9 @@ public class DCOralHealthActivity extends DCToolbarActivity implements SwipeRefr
         addContentView(R.layout.activity_oral_health);
         setActionBarTitle(R.string.oral_health_hdl_oral_health);
 
-        rvOralHealth = (RecyclerView) findViewById(R.id.rv_oral_health);
-        llOralHealthNoPosts = (LinearLayout) findViewById(R.id.ll_oral_health_no_posts);
-        srlOralHealth = (SwipeRefreshLayout) findViewById(R.id.srl_oral_health);
+        rvOralHealth = findViewById(R.id.rv_oral_health);
+        llOralHealthNoPosts = findViewById(R.id.ll_oral_health_no_posts);
+        srlOralHealth = findViewById(R.id.srl_oral_health);
         srlOralHealth.setOnRefreshListener(this);
 
         adapter = new DCOralHealthAdapter(this);

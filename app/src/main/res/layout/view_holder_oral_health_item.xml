@@ -8,16 +8,13 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="3dp"
     app:cardElevation="2dp">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_oral_health_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,7 +22,6 @@
             android:layout_alignParentBottom="true"
             android:padding="16dp"
             android:background="@drawable/rectangle_gradient_black">
-
             <com.dentacoin.dentacare.widgets.DCTextView
                 android:id="@+id/tv_oral_health_item_title"
                 android:layout_width="match_parent"
@@ -33,7 +29,6 @@
                 android:singleLine="true"
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
-
             <com.dentacoin.dentacare.widgets.DCTextView
                 android:id="@+id/tv_oral_health_description"
                 android:paddingTop="10dp"

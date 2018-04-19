@@ -40,9 +40,9 @@ public class DCWelcomeFragment extends DCFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_welcome, container, false);
-        sdvWelcomeAvatar = (SimpleDraweeView) view.findViewById(R.id.sdv_welcome_avatar);
-        tvWelcome = (DCTextView) view.findViewById(R.id.tv_welcome);
-        tvWelcomeName = (DCTextView) view.findViewById(R.id.tv_welcome_name);
+        sdvWelcomeAvatar = view.findViewById(R.id.sdv_welcome_avatar);
+        tvWelcome = view.findViewById(R.id.tv_welcome);
+        tvWelcomeName = view.findViewById(R.id.tv_welcome_name);
 
         Resources r = getResources();
         float translationPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, r.getDisplayMetrics());

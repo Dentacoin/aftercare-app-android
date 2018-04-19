@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <android.support.design.widget.TabLayout
             android:id="@+id/tl_dashboard_tabs"
             android:layout_width="match_parent"
@@ -19,7 +18,6 @@
             app:tabSelectedTextColor="@color/white"
             app:tabTextAppearance="@style/DCDashboardTabTextAppearance"
             app:tabTextColor="@color/white"/>
-
         <LinearLayout
             android:id="@+id/ll_dashboard_dcn_total"
             android:layout_width="wrap_content"
@@ -27,26 +25,22 @@
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:padding="8dp">
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/dentacoin"/>
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
                 android:paddingStart="15dp"
                 android:orientation="vertical">
-
                 <com.dentacoin.dentacare.widgets.DCTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="total"
+                    android:text="@string/dashboard_hdl_total"
                     android:textSize="11sp"
                     android:textAllCaps="true"/>
-
                 <com.robinhood.ticker.TickerView
                     android:id="@+id/tv_dashboard_dcn_total"
                     android:layout_width="wrap_content"
@@ -56,7 +50,6 @@
                     app:ticker_animationDuration="1500"/>
             </LinearLayout>
         </LinearLayout>
-
         <View
             android:id="@+id/v_separator"
             android:layout_width="match_parent"
@@ -64,14 +57,12 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@color/lightGrey"/>
-
         <com.dentacoin.dentacare.widgets.DCVIewPager
             android:id="@+id/vp_dashboard_pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
     </LinearLayout>
-
     <FrameLayout
         android:id="@+id/test"
         android:layout_width="match_parent"
