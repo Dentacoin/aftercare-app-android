@@ -104,7 +104,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
 
         vSeparator = findViewById(R.id.v_separator);
 
-        adapter = new DCDashboardPagerAdapter(getFragmentManager());
+        adapter = new DCDashboardPagerAdapter(this, getFragmentManager());
         vpDashboardPager.setAdapter(adapter);
         tlDashboardTabs.setupWithViewPager(vpDashboardPager);
         vpDashboardPager.setCurrentItem(1);

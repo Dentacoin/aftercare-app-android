@@ -3,8 +3,10 @@ package com.dentacoin.dentacare.adapters;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 
+import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.fragments.DCBrushFragment;
 import com.dentacoin.dentacare.fragments.DCFlossFragment;
 import com.dentacoin.dentacare.fragments.DCRinseFragment;
@@ -16,9 +18,15 @@ import com.dentacoin.dentacare.fragments.DCRinseFragment;
 public class DCDashboardPagerAdapter extends FragmentPagerAdapter {
 
     private static final int DASHBOARDS_COUNT = 3;
+    private String flossTitle;
+    private String brushTitle;
+    private String rinseTitle;
 
-    public DCDashboardPagerAdapter(FragmentManager fm) {
+    public DCDashboardPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
+        flossTitle = context.getString(R.string.dashboard_tab_floss);
+        brushTitle = context.getString(R.string.dashboard_tab_brush);
+        rinseTitle = context.getString(R.string.dashboard_tab_rinse);
     }
 
     @Override
@@ -43,11 +51,11 @@ public class DCDashboardPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "FLOSS";
+                return flossTitle;
             case 1:
-                return "BRUSH";
+                return brushTitle;
             case 2:
-                return "RINSE";
+                return rinseTitle;
         }
         return null;
     }
