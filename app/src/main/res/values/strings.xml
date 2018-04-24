@@ -5,7 +5,7 @@
  Release: Working copy
  Locale: en, English
  Exported by: atanaschervarov
- Exported at: Thu, 19 Apr 2018 09:59:01 +0300
+ Exported at: Tue, 24 Apr 2018 23:32:36 +0300
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Dentacare</string>
@@ -222,7 +222,6 @@
     <string name="tutorial_txt_emergency_menu">Send us emergency request</string>
     <string name="tutorial_txt_qr_code">Scan your wallet\'s QR code</string>
     <string name="tutorial_txt_sick_tooth">Show us where it hurts</string>
-    <string name="utorial_txt_withdraws">Watch your withdraw requests</string>
     <string name="collect_wallet_hdl_add">Add your wallet</string>
     <string name="dashboard_lbl_routines_left">Routines left</string>
     <string name="dashboard_btn_start_floss">Floss</string>
@@ -286,4 +285,28 @@
     <string name="dashboard_hdl_dentacare">Dentacare</string>
     <string name="error_not_implemented">Feature not yet implemented!</string>
     <string name="tutorial_txt_withdraws">Watch your withdraw requests</string>
+    <string name="btn_spotlight_done">Done</string>
+    <string name="btn_spotlight_continue">Continue</string>
+    <string name="btn_mission_popup_share">Share</string>
+    <string name="btn_goal_popup_share">Share</string>
+    <string name="btn_settings_reset">Reset</string>
+    <string name="tutorial_txt_dashboard_arrow_2">Tap to open statistics</string>
+    <string name="message_brush_congratulations">Now you are done. Congratulations!</string>
+    <string name="profile_wrong_code_error">Wrong Code</string>
+    <string name="error_popup_title">Error</string>
+    <string name="info_popup_title">Info</string>
+    <string name="profile_upload_avatar_option_title">Choose Option</string>
+    <string name="profile_upload_avatar_option_1">Camera</string>
+    <string name="profile_upload_avatar_option_2">Library</string>
+    <string name="profile_upload_avatar_error">Your device has no %1$s</string>
+    <string name="error_txt_last_name_too_short">Last name is too short!</string>
+    <string name="error_txt_wrong_city_country">Wrong City, Country.</string>
+    <string name="error_txt_wrong_zip_code">Wrong Zip Code</string>
+    <string name="error_txt_wrong_format_wallet">Your Wallet address is not in correct format.</string>
+    <string name="error_txt_wrong_phone_number">Phone not valid</string>
+    <string name="error_txt_cant_send_emails">Sorry but your device can\'t or isn\'t configured to send emails.</string>
+    <string name="user_agreement_title">User Agreement</string>
+    <string name="emergency_email_subject">Dental Case Inquiry</string>
+    <string name="settings_category_title_help">Help</string>
+    <string name="settings_category_help_1">Spotlights &amp; Tutorials</string>
 </resources>
