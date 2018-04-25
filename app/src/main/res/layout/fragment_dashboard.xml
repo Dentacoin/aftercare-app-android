@@ -42,32 +42,36 @@
         <LinearLayout
             android:id="@+id/ll_dashboard_statistics"
             android:visibility="gone"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:gravity="center">
             <com.dentacoin.dentacare.widgets.DCTimerView
                 android:id="@+id/timer_dashboard_last"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 app:text="0:00"
                 app:title="@string/dashboard_lbl_last_floss"
-                app:type="smallInfo"/>
+                app:type="smallInfo"
+                android:gravity="center_horizontal"/>
             <com.dentacoin.dentacare.widgets.DCTimerView
                 android:id="@+id/timer_dashboard_left"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="35dp"
-                android:layout_marginRight="35dp"
+                android:layout_weight="1"
                 app:text="3"
+                android:gravity="center_horizontal"
                 app:title="@string/dashboard_lbl_routines_left"
                 app:type="smallInfo"/>
             <com.dentacoin.dentacare.widgets.DCTimerView
                 android:id="@+id/timer_dashboard_earned"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 app:text="0"
+                android:gravity="center_horizontal"
                 app:title="@string/dashboard_lbl_day"
                 app:type="smallInfo"/>
         </LinearLayout>
