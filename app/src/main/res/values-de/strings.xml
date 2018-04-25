@@ -139,7 +139,7 @@
     <string name="error_txt_message_too_short">Die Nachricht ist zu kurz, geben Sie bitte genauere Beschreibung.</string>
     <string name="feedback_hdl_thank_you">Danke schön!</string>
     <string name="feedback_txt_message_sent">Ihre Meinung ist uns wichtig.</string>
-    <string name="email_subject">Notfallanfrage von verwenden können,</string>
+    <string name="email_subject">Notfallanfrage von verwenden können %1$s</string>
     <string name="email_send_via">Senden Sie eine Notfall E-Mail über...</string>
     <string name="goals_hdl_goals">Leistungen</string>
     <string name="goals_txt_no_goals_found">Keine Leistungen gefunden!</string>
