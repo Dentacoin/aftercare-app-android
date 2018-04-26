@@ -47,18 +47,18 @@ public class DCSettingsActivity extends DCToolbarActivity implements CompoundBut
         addContentView(R.layout.activity_settings);
         setActionBarTitle(R.string.settings_hdl_settings);
 
-        tvSettingsVoice = (DCTextView) findViewById(R.id.tv_settings_voice);
-        swSettingsSounds = (Switch) findViewById(R.id.sw_settings_sounds);
-        swSettingsMusic = (Switch) findViewById(R.id.sw_settings_music);
-        swSettingsVoice = (Switch) findViewById(R.id.sw_settings_voice);
-        swSettingsDailyBrushing = (Switch) findViewById(R.id.sw_settings_daily_brushing);
-        swSettingsChangeBrush = (Switch) findViewById(R.id.sw_settings_change_brush);
-        swSettingsVisitDentist = (Switch) findViewById(R.id.sw_settings_visit_dentist);
-        swSettingsReminderToVisit = (Switch) findViewById(R.id.sw_settings_reminder_to_visit);
-        swSettingsHealthyHabits = (Switch) findViewById(R.id.sw_settings_healthy_habits);
-        swSettingsEnableNotifications = (Switch) findViewById(R.id.sw_settings_enable_notifications);
-        llSettingsEnableNotifications = (LinearLayout) findViewById(R.id.ll_settings_enable_notifications);
-        llSettingsNotifications = (LinearLayout) findViewById(R.id.ll_settings_notifications);
+        tvSettingsVoice = findViewById(R.id.tv_settings_voice);
+        swSettingsSounds = findViewById(R.id.sw_settings_sounds);
+        swSettingsMusic = findViewById(R.id.sw_settings_music);
+        swSettingsVoice = findViewById(R.id.sw_settings_voice);
+        swSettingsDailyBrushing = findViewById(R.id.sw_settings_daily_brushing);
+        swSettingsChangeBrush = findViewById(R.id.sw_settings_change_brush);
+        swSettingsVisitDentist = findViewById(R.id.sw_settings_visit_dentist);
+        swSettingsReminderToVisit = findViewById(R.id.sw_settings_reminder_to_visit);
+        swSettingsHealthyHabits = findViewById(R.id.sw_settings_healthy_habits);
+        swSettingsEnableNotifications = findViewById(R.id.sw_settings_enable_notifications);
+        llSettingsEnableNotifications = findViewById(R.id.ll_settings_enable_notifications);
+        llSettingsNotifications = findViewById(R.id.ll_settings_notifications);
 
         setupUI();
 

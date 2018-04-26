@@ -314,7 +314,7 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
                                     .warning()
                                     .setDuration(Snacky.LENGTH_LONG)
                                     .setText(R.string.signup_txt_permission_avatar)
-                                    .setAction(R.string.signup_txt_settings, new View.OnClickListener() {
+                                    .setAction(R.string.txt_settings, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent();

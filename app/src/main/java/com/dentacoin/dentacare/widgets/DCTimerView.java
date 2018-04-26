@@ -51,9 +51,9 @@ public class DCTimerView extends RelativeLayout {
     private void init(AttributeSet attributeSet) {
         inflate(getContext(), R.layout.view_timer, this);
 
-        pbTimerProgress = (ProgressBar) findViewById(R.id.pb_timer_progress);
-        tvTimerDisplay = (DCTextView) findViewById(R.id.tv_timer_display);
-        tvTimerTitle = (DCTextView) findViewById(R.id.tv_timer_title);
+        pbTimerProgress = findViewById(R.id.pb_timer_progress);
+        tvTimerDisplay = findViewById(R.id.tv_timer_display);
+        tvTimerTitle = findViewById(R.id.tv_timer_title);
         tvTimerTitle.setVisibility(GONE);
 
         if (attributeSet != null) {

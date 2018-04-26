@@ -121,15 +121,6 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
             @Override
             public void onDrawerStateChanged(int newState) {
                 super.onDrawerStateChanged(newState);
-//                if (newState != DrawerLayout.STATE_IDLE && drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.EDIT_PROFILE);
-//                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.COLLECT_DCN);
-//                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.GOALS);
-//                    DCTutorialManager.getInstance().hideTutorial(DCTutorialManager.TUTORIAL.EMERGENCY_MENU);
-//                }
-//                else if (newState != DrawerLayout.STATE_IDLE && !drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//                    hideTutorials();
-//                }
             }
         };
 

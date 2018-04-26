@@ -35,9 +35,9 @@ public class DCSentFeedbackFragment extends DCFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_sent_feedback, container, false);
 
-        ivFeedbackTooth = (ImageView) view.findViewById(R.id.iv_feedback_tooth);
-        tvFeedbackThankYou = (DCTextView) view.findViewById(R.id.tv_feedback_thank_you);
-        tvFeedbackMessage = (DCTextView) view.findViewById(R.id.tv_feedback_message);
+        ivFeedbackTooth = view.findViewById(R.id.iv_feedback_tooth);
+        tvFeedbackThankYou = view.findViewById(R.id.tv_feedback_thank_you);
+        tvFeedbackMessage = view.findViewById(R.id.tv_feedback_message);
 
 
         Resources r = getResources();

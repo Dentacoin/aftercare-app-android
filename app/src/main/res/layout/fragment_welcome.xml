@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:background="@drawable/rectangle_gradient_blue">
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +14,6 @@
         android:layout_centerInParent="true"
         android:src="@drawable/shape"
         android:layout_marginTop="20dp"/>
-
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/sdv_welcome_avatar"
         android:layout_width="180dp"
@@ -26,7 +24,6 @@
         app:roundingBorderColor="@color/white"
         fresco:fadeDuration="1000"
         fresco:roundingBorderWidth="5dp"/>
-
     <com.dentacoin.dentacare.widgets.DCTextView
         android:id="@+id/tv_welcome"
         android:layout_width="wrap_content"
@@ -39,7 +36,6 @@
         android:textColor="@color/white"
         android:layout_above="@id/sdv_welcome_avatar"
         android:layout_marginBottom="100dp"/>
-
     <com.dentacoin.dentacare.widgets.DCTextView
         android:id="@+id/tv_welcome_name"
         android:layout_width="wrap_content"

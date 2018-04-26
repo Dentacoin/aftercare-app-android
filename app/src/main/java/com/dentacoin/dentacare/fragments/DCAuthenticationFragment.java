@@ -25,11 +25,11 @@ public class DCAuthenticationFragment extends DCFragment implements View.OnClick
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_authentication, container, false);
-        ivAuthDentacoinLogo = (ImageView) view.findViewById(R.id.iv_auth_dentacoin_logo);
-        ivAuthLogo = (ImageView) view.findViewById(R.id.iv_auth_logo);
-        btnAuthSignup = (DCButton) view.findViewById(R.id.btn_auth_signup);
+        ivAuthDentacoinLogo = view.findViewById(R.id.iv_auth_dentacoin_logo);
+        ivAuthLogo = view.findViewById(R.id.iv_auth_logo);
+        btnAuthSignup = view.findViewById(R.id.btn_auth_signup);
         btnAuthSignup.setOnClickListener(this);
-        btnAuthLogin = (DCButton) view.findViewById(R.id.btn_auth_login);
+        btnAuthLogin = view.findViewById(R.id.btn_auth_login);
         btnAuthLogin.setOnClickListener(this);
         return view;
     }

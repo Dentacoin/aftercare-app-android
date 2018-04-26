@@ -29,6 +29,24 @@ public class DCTransaction {
     }
     public String getWallet() { return wallet; }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setStatus(STATUS status) {
+        switch (status) {
+            case PENDING:
+                this.status = "pending approval";
+                break;
+            case APPROVED:
+                this.status = "approved";
+                break;
+            case DECLINED:
+                this.status = "declined";
+                break;
+        }
+    }
+
     public STATUS getStatus() {
         if (status != null) {
             if (status.equals("approved")) {

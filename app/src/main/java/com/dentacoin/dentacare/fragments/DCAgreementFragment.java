@@ -34,13 +34,12 @@ public class DCAgreementFragment extends DCFragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_agreement, container, false);
 
-        wvAgreement = (WebView) view.findViewById(R.id.wv_agreement);
-        wvAgreement.loadUrl("file:///android_asset/web/user-agreement.html");
-
-        btnAgreementAccept = (DCButton) view.findViewById(R.id.btn_agreement_accept);
+        wvAgreement = view.findViewById(R.id.wv_agreement);
+        wvAgreement.loadData(getString(R.string.user_agreement), "text/html; charset=utf-8", "UTF-8");
+        btnAgreementAccept = view.findViewById(R.id.btn_agreement_accept);
         btnAgreementAccept.setOnClickListener(this);
 
-        btnAgreementDecline = (DCButton) view.findViewById(R.id.btn_agreement_decline);
+        btnAgreementDecline = view.findViewById(R.id.btn_agreement_decline);
         btnAgreementDecline.setOnClickListener(this);
 
         return view;
