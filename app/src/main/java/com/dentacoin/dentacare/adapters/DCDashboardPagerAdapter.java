@@ -38,9 +38,9 @@ public class DCDashboardPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new DCFlossFragment();
-            case 1:
                 return new DCBrushFragment();
+            case 1:
+                return new DCFlossFragment();
             case 2:
                 return new DCRinseFragment();
         }
@@ -51,9 +51,9 @@ public class DCDashboardPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return flossTitle;
-            case 1:
                 return brushTitle;
+            case 1:
+                return flossTitle;
             case 2:
                 return rinseTitle;
         }

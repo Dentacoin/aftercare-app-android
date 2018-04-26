@@ -107,7 +107,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         adapter = new DCDashboardPagerAdapter(this, getFragmentManager());
         vpDashboardPager.setAdapter(adapter);
         tlDashboardTabs.setupWithViewPager(vpDashboardPager);
-        vpDashboardPager.setCurrentItem(1);
+        vpDashboardPager.setCurrentItem(0);
         vpDashboardPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -305,12 +305,12 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
 
         switch (action) {
             case FLOSS_READY:
-                vpDashboardPager.setCurrentItem(0);
+                vpDashboardPager.setCurrentItem(1);
                 if (floss != null)
                     floss.onRoutineStart(routine);
                 break;
             case BRUSH_READY:
-                vpDashboardPager.setCurrentItem(1);
+                vpDashboardPager.setCurrentItem(0);
                 if (brush != null)
                     brush.onRoutineStart(routine);
                 break;
@@ -357,7 +357,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
 
         this.routine = null;
 
-        vpDashboardPager.setCurrentItem(1);
+        vpDashboardPager.setCurrentItem(0);
     }
 
 
