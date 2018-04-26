@@ -22,7 +22,7 @@
     <string name="about_hdl_about">Über Dentacare</string>
     <string name="about_hdl_heading">Formen Sie nachhaltige \ngesunde Mundgewohnheiten</string>
     <string name="about_txt_about">Dentacoin ist die erste Blockchain-Lösung, die für die globale Dental-Industrie geschaffen wurde. DCN ist der maßgeschneiderte ERC20 Token, der allen Dentacoin Tools dient. Durch die Benutzung der Dentacoin Tools tragen Sie zu unserer Mission zur Verbesserung der Zahnpflege bei, und dazu, dass sie weltweit für jeden zugänglich wird.</string>
-    <string name="about_url_dentacare">dentacare.com</string>
+    <string name="about_url_dentacare">dentacare.dentacoin.com</string>
     <string name="signup_hnt_first_name">Vorname</string>
     <string name="signup_hnt_last_name">Nachname</string>
     <string name="signup_hnt_captcha">Code eingeben</string>

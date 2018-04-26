@@ -55,14 +55,18 @@
                 app:text="0:00"
                 app:title="@string/dashboard_lbl_last_floss"
                 app:type="smallInfo"
-                android:gravity="center_horizontal"/>
+                android:gravity="center_horizontal"
+                android:layout_gravity="top"/>
             <com.dentacoin.dentacare.widgets.DCTimerView
                 android:id="@+id/timer_dashboard_left"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:text="3"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
                 android:gravity="center_horizontal"
+                android:layout_gravity="top"
                 app:title="@string/dashboard_lbl_routines_left"
                 app:type="smallInfo"/>
             <com.dentacoin.dentacare.widgets.DCTimerView
@@ -72,6 +76,7 @@
                 android:layout_height="wrap_content"
                 app:text="0"
                 android:gravity="center_horizontal"
+                android:layout_gravity="top"
                 app:title="@string/dashboard_lbl_day"
                 app:type="smallInfo"/>
         </LinearLayout>
@@ -150,24 +155,27 @@
             android:gravity="center">
             <com.dentacoin.dentacare.widgets.DCTimerView
                 android:id="@+id/timer_dashboard_times"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 app:type="smallProgress"
                 app:text="0"
                 app:title="@string/dashboard_lbl_times_rinsed"/>
             <com.dentacoin.dentacare.widgets.DCTimerView
                 android:id="@+id/timer_dashboard_time_left"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 app:type="smallProgress"
                 app:text="0:00"
                 app:title="@string/dashboard_lbl_time_left"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"/>
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
             <com.dentacoin.dentacare.widgets.DCTimerView
                 android:id="@+id/timer_dashboard_average_time"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 app:type="smallProgress"
                 app:text="0:00"
                 app:title="@string/dashboard_lbl_average_time"/>

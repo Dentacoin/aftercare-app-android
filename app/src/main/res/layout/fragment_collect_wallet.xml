@@ -26,11 +26,12 @@
                     app:type="smallInfo"
                     android:layout_gravity="center"/>
                 <com.dentacoin.dentacare.widgets.DCTextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/collect_wallet_hdl_create"
                     android:textSize="24sp"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:textAlignment="center"/>
                 <com.dentacoin.dentacare.widgets.DCTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -56,7 +57,7 @@
                     app:type="smallInfo"
                     android:layout_gravity="center"/>
                 <com.dentacoin.dentacare.widgets.DCTextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/collect_wallet_hdl_send_us"
                     android:textSize="24sp"
