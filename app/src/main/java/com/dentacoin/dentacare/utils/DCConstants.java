@@ -31,6 +31,7 @@ public class DCConstants {
     public static final Pattern IBAN_SHORT_PATTERN = Pattern.compile("[A-Z0-9]{34}");
 
     public static final SimpleDateFormat DATE_FORMAT_BIRTHDAY = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+    public static final SimpleDateFormat DATE_FORMAT_LAST_ACTIVITY = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
 
     public static final int MIN_AGE = 13;
     public static final int MAX_AGE = 99;
@@ -44,4 +45,12 @@ public class DCConstants {
     public enum DCActivityType { FLOSS, BRUSH, RINSE }
     public enum DCStatisticsType { DAILY, WEEKLY, MONTHLY }
     public enum DCGoalType { DEFAULT, WEEK, MONTH, YEAR }
+
+    public final static String GENDER_MALE = "male";
+    public final static String GENDER_FEMALE = "female";
+    public final static String GENDER_UNSPECIFIED = "unspecified";
+
+    public final static String FRIEND_FRIEND = "friend";
+    public final static String FRIEND_FAMILY = "family";
+    public final static String FRIEND_CHILD = "child";
 }

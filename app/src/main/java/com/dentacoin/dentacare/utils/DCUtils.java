@@ -179,6 +179,54 @@ public class DCUtils {
         pickDate(context,startDate, minDate, maxDate, listener);
     }
 
+
+    public static void pickBirthyear(Context context, int year, final IDatePickerListener listener) {
+        final Calendar calendar = Calendar.getInstance();
+
+        int currentYear = calendar.get(Calendar.YEAR);
+
+        if (year > 0 && year < currentYear) {
+            calendar.set(Calendar.YEAR, year);
+        }
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
+            }
+        }, year, 0, 0);
+
+        datePickerDialog.getDatePicker().setCalendarViewShown(false);
+
+        datePickerDialog.show();
+
+//        int year = calendar.get(Calendar.YEAR);
+//        int month = calendar.get(Calendar.MONTH);
+//        int day = calendar.get(Calendar.DAY_OF_MONTH);
+//
+//        DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker view, int y, int m, int d) {
+//                if (listener != null) {
+//                    calendar.set(Calendar.YEAR, y);
+//                    calendar.set(Calendar.MONTH, m);
+//                    calendar.set(Calendar.DAY_OF_MONTH, d);
+//                    listener.onPickedDate(calendar.getTime());
+//                }
+//            }
+//        }, year, month, day);
+//
+//        if (from != null) {
+//            datePickerDialog.getDatePicker().setMinDate(from.getTime());
+//        }
+//
+//        if (to != null) {
+//            datePickerDialog.getDatePicker().setMaxDate(to.getTime());
+//        }
+//
+//        datePickerDialog.show();
+    }
+
     /**
      * Encode image to base64 string
      * @param uri

@@ -9,8 +9,10 @@ import android.net.Uri;
 
 import com.dentacoin.dentacare.BuildConfig;
 import com.dentacoin.dentacare.model.DCAvatar;
+import com.dentacoin.dentacare.model.DCChild;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCFriend;
 import com.dentacoin.dentacare.model.DCGoal;
 import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCOralHealthItem;
@@ -29,6 +31,7 @@ import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -85,6 +88,8 @@ public class DCApiManager {
     private static final String ENDPOINT_EMAIL_CONFIRM = "confirm";
     private static final String ENDPOINT_JOURNEY = "journey";
     private static final String ENDPOINT_ROUTINE = "journey/routines";
+    private static final String ENDPOINT_CHILDREN = "children";
+    private static final String ENDPOINT_FRIENDS = "friends";
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
     private static final String HEADER_KEY_FBM ="FirebaseToken";
@@ -431,6 +436,28 @@ public class DCApiManager {
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(routine));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCRoutine.class));
+    }
+
+    /**
+     * Create a new proxy child account
+     * @param child
+     * @param listener
+     */
+    public void postChild(DCChild child, final DCResponseListener<DCChild> listener) {
+        String endpoint = buildPath(ENDPOINT_CHILDREN, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(child));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCChild.class));
+    }
+
+    /**
+     * Retrieve family & friends
+     * @param listener
+     */
+    public void getFriends(final DCResponseListener<DCFriend[]> listener) {
+        String endpoint = buildPath(ENDPOINT_FRIENDS, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCFriend[].class));
     }
 
     /**

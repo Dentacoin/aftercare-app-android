@@ -9,15 +9,15 @@ import com.mukesh.countrypicker.Country;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.dentacoin.dentacare.utils.DCConstants.GENDER_FEMALE;
+import static com.dentacoin.dentacare.utils.DCConstants.GENDER_MALE;
+import static com.dentacoin.dentacare.utils.DCConstants.GENDER_UNSPECIFIED;
+
 /**
  * Created by Atanas Chervarov on 8/7/17.
  */
 
 public class DCUser {
-
-    public final static String GENDER_MALE = "male";
-    public final static String GENDER_FEMALE = "female";
-    public final static String GENDER_UNSPECIFIED = "unspecified";
     @Expose() private String email;
     @Expose() private String password;
     @Expose() private String firstname;

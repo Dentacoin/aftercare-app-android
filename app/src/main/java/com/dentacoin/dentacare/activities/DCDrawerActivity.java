@@ -215,6 +215,11 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                 startActivity(statisticsIntent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
+            case R.id.drawer_nav_friends:
+                final Intent familyFriendsIntent = new Intent(this, DCFamilyAndFriendsActivity.class);
+                startActivity(familyFriendsIntent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                break;
             case R.id.drawer_nav_emergency:
                 final Intent emergencyIntent = new Intent(this, DCEmergencyActivity.class);
                 startActivity(emergencyIntent);

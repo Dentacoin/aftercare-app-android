@@ -185,11 +185,11 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
         btnProfileFemale.setSelected(false);
 
         if (user.getGender() != null) {
-            if (DCUser.GENDER_MALE.equals(user.getGender())) {
+            if (DCConstants.GENDER_MALE.equals(user.getGender())) {
                 btnProfileMale.setSelected(true);
                 btnProfileFemale.setSelected(false);
             }
-            else if (DCUser.GENDER_FEMALE.equals(user.getGender())) {
+            else if (DCConstants.GENDER_FEMALE.equals(user.getGender())) {
                 btnProfileMale.setSelected(false);
                 btnProfileFemale.setSelected(true);
             }
@@ -223,11 +223,11 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
                 pickLocation();
                 break;
             case R.id.btn_profile_male:
-                user.setGender(DCUser.GENDER_MALE);
+                user.setGender(DCConstants.GENDER_MALE);
                 setUser(user);
                 break;
             case R.id.btn_profile_female:
-                user.setGender(DCUser.GENDER_FEMALE);
+                user.setGender(DCConstants.GENDER_FEMALE);
                 setUser(user);
                 break;
             case R.id.iv_profile_close:

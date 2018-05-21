@@ -412,8 +412,9 @@ public class DCSignupFragment extends DCFragment implements View.OnClickListener
         DCApiManager.getInstance().getCaptcha(new DCResponseListener<DCCaptchaResponse>() {
             @Override
             public void onFailure(DCError error) {
-                //ignoring errors for now
+                onError(error);
             }
+
             @Override
             public void onResponse(DCCaptchaResponse object) {
                 if (object !=  null && isAdded()) {

@@ -76,6 +76,22 @@
         <item name="android:layout_height">@dimen/button_dashboard_statistics_height</item>
     </style>
 
+    <style name="DCButton.Decline">
+        <item name="android:background">@drawable/bg_button_red</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="DCButton.Accept">
+        <item name="android:background">@drawable/bg_button_gradient_blue</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <style name="DCButton.Rectangle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -93,11 +109,11 @@
     </style>
 
     <style name="DCEditText.Collect" parent="DCEditText">
-        <item name="backgroundTint">@color/lightGrey</item>
+        <item name="backgroundTint">@color/charcoalGrey</item>
         <item name="android:textColor">@color/charcoalGrey</item>
         <item name="android:textCursorDrawable">@null</item>
-        <item name="android:textColorHighlight">@color/lightGrey</item>
-        <item name="android:colorActivatedHighlight">@color/lightGrey</item>
+        <item name="android:textColorHighlight">@color/charcoalGrey</item>
+        <item name="android:colorActivatedHighlight">@color/charcoalGrey</item>
     </style>
 
     <style name="DCTextInputLayout" parent="Widget.Design.TextInputLayout">
@@ -115,9 +131,9 @@
         <item name="android:textColorHint">@color/charcoalGrey</item>
         <item name="android:textColorHighlight">@color/charcoalGrey</item>
         <item name="colorAccent">@color/charcoalGrey</item>
-        <item name="colorControlNormal">@color/lightGrey</item>
-        <item name="colorControlActivated">@color/lightGrey</item>
-        <item name="colorControlHighlight">@color/lightGrey</item>
+        <item name="colorControlNormal">@color/charcoalGrey</item>
+        <item name="colorControlActivated">@color/charcoalGrey</item>
+        <item name="colorControlHighlight">@color/charcoalGrey</item>
     </style>
 
     <style name="DCSwitch" parent="Widget.AppCompat.CompoundButton.Switch">

@@ -140,6 +140,12 @@ android {
             buildConfigField 'String', 'HOST', hostLive
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
@@ -171,6 +177,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:12.0.1'
     implementation 'com.robinhood.ticker:ticker:1.2.1'
     implementation 'com.github.takusemba:spotlight:1.3.1'
+    implementation 'org.zakariya.stickyheaders:stickyheaders:0.7.6'
     androidTestImplementation 'junit:junit:4.12'
 }
 

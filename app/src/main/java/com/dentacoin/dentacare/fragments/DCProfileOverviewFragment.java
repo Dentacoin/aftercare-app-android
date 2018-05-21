@@ -13,6 +13,7 @@ import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
+import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -100,10 +101,10 @@ public class DCProfileOverviewFragment extends DCFragment implements View.OnClic
                 tvProfileGender.setVisibility(View.VISIBLE);
 
                 switch (user.getGender()) {
-                    case DCUser.GENDER_MALE:
+                    case DCConstants.GENDER_MALE:
                         tvProfileGender.setText(R.string.gender_male);
                         break;
-                    case DCUser.GENDER_FEMALE:
+                    case DCConstants.GENDER_FEMALE:
                         tvProfileGender.setText(R.string.gender_female);
                         break;
                     default:

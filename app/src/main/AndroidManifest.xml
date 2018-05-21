@@ -116,6 +116,14 @@
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme"/>
         <activity
+            android:name=".activities.DCFamilyAndFriendsActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activities.DCCreateChildAccount"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme"/>
+        <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
