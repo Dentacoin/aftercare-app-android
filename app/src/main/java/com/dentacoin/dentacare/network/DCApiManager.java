@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -90,6 +91,8 @@ public class DCApiManager {
     private static final String ENDPOINT_ROUTINE = "journey/routines";
     private static final String ENDPOINT_CHILDREN = "children";
     private static final String ENDPOINT_FRIENDS = "friends";
+    private static final String ENDPOINT_FRIEND_GOALS = "friends/{0}/goals";
+    private static final String ENDPOINT_FRIEND_DASHBOARD = "friends/{0}/dashboard";
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
     private static final String HEADER_KEY_FBM ="FirebaseToken";
@@ -458,6 +461,31 @@ public class DCApiManager {
         String endpoint = buildPath(ENDPOINT_FRIENDS, null);
         Request request = buildRequest(RequestMethod.GET, endpoint, null);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCFriend[].class));
+    }
+
+
+    /**
+     * Retrieve achieved goals of a friend
+     * @param friendId
+     * @param listener
+     */
+    public void getFriendGoals(int friendId, final DCResponseListener<DCGoal[]> listener) {
+        String friendGoalsPath = MessageFormat.format(ENDPOINT_FRIEND_GOALS, Integer.toString(friendId));
+        String endpoint = buildPath(friendGoalsPath, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCGoal[].class));
+    }
+
+    /**
+     * Retrieve dashboard of a friend
+     * @param friendId
+     * @param listener
+     */
+    public void getFriendStatistics(int friendId, final DCResponseListener<DCDashboard> listener) {
+        String friendDashboardPath = MessageFormat.format(ENDPOINT_FRIEND_DASHBOARD, Integer.toString(friendId));
+        String endpoint = buildPath(friendDashboardPath, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCDashboard.class));
     }
 
     /**

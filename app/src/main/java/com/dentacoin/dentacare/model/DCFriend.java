@@ -5,12 +5,13 @@ import android.net.Uri;
 
 import com.dentacoin.dentacare.utils.DCConstants;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Atanas Chervarov on 11.05.18.
  */
-public class DCFriend {
+public class DCFriend implements Serializable {
     private int id;
 
     private String firstname;

@@ -99,10 +99,15 @@ public class DCFamilyAndFriendsActivity extends DCToolbarActivity implements Swi
     private void inviteFriends() {
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        onRefresh();
+    }
+    
     @Override
     public void onFriendClicked(DCFriend friend) {
-        
+        startActivity(DCFriendDetailsActivity.createIntent(this, friend));
     }
 
     @Override

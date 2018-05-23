@@ -330,4 +330,7 @@
     <string name="family_hdl_friends">Friends</string>
     <string name="btn_accept">Accept</string>
     <string name="btn_decline">Decline</string>
+    <string name="friend_tab_info">Info</string>
+    <string name="friend_tab_statistics">Statistics</string>
+    <string name="friend_tab_goals">Goals</string>
 </resources>
