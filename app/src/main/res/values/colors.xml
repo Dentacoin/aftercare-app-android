@@ -25,4 +25,5 @@
     <color name="charcoalGrey">#4a4a4a</color>
     <color name="green">#2bc32b</color>
     <color name="orange">#e57c25</color>
+    <color name="warning">#ffa900</color>
 </resources>
