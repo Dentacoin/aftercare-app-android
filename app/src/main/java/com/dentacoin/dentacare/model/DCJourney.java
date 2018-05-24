@@ -34,7 +34,9 @@ public class DCJourney implements Serializable {
     }
 
     /** Retrieve current day */
-    public int getDay() { return day; }
+    public int getDay() {
+        return Math.min(day, 90);
+    }
 
     /** Retrieve amount of skipped routines */
     public int getSkipped() {
