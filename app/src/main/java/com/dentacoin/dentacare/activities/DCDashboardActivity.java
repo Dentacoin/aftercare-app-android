@@ -148,7 +148,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
 
     private void checkConsent() {
         if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.CONSENT, false)) {
-            llDashboardPrivacyNotice.setVisibility(View.VISIBLE);
+            llDashboardPrivacyNotice.setVisibility(routine == null && !inRecord ? View.VISIBLE : View.GONE);
         } else {
             llDashboardPrivacyNotice.setVisibility(View.GONE);
         }
@@ -271,6 +271,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             vpDashboardPager.setSwipeEnabled(true);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+        checkConsent();
     }
 
     @Override
@@ -572,6 +573,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             routine = new Routine(type);
             routine.setListener(this);
             routine.start();
+            checkConsent();
         }
     }
 
@@ -588,8 +590,13 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                     if (object != null) {
                         DCRoutineCompletedFragment.create(object).show(getFragmentManager(), DCRoutineCompletedFragment.TAG);
                     }
+
+                    DCDashboardDataProvider.getInstance().updateDashboard(true);
+                    DCDashboardDataProvider.getInstance().updateJourney(true);
+                    DCGoalsDataProvider.getInstance().updateGoals(true);
                 }
             });
         }
+        checkConsent();
     }
 }
