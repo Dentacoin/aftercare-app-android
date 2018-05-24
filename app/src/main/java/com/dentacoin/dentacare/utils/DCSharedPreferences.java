@@ -37,7 +37,8 @@ public class DCSharedPreferences {
         FIRST_LOGIN_DATE("FIRST_LOGIN_DATE"),
         SEEN_ONBOARDING("SEEN_ONBOARDING"),
         SHOW_EMAIL_VERIFICATION("SHOW_EMAIL_VERIFICATION"),
-        ROUTINES("ROUTINES");
+        ROUTINES("ROUTINES"),
+        CONSENT("CONSENT");
 
         private String key;
 
@@ -115,7 +116,6 @@ public class DCSharedPreferences {
         getInstance().preferences.edit().putStringSet(DCSharedKey.SHOWED_TUTORIALS.getKey(), tutorials).apply();
     }
 
-
     /**
      * Cleans all saved user data
      */
@@ -142,5 +142,6 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.SEEN_ONBOARDING);
         removeKey(DCSharedKey.SHOW_EMAIL_VERIFICATION);
         removeKey(DCSharedKey.SHOWED_TUTORIALS);
+        removeKey(DCSharedKey.CONSENT);
     }
 }

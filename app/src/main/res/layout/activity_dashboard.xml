@@ -19,6 +19,33 @@
             app:tabTextAppearance="@style/DCDashboardTabTextAppearance"
             app:tabTextColor="@color/white"/>
         <LinearLayout
+            android:id="@+id/ll_dashboard_privacy_notice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/warning"
+            android:visibility="gone">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_info_white_24"
+                android:padding="8dp"
+                android:layout_gravity="center_vertical"/>
+            <com.dentacoin.dentacare.widgets.DCTextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/notice_txt_privacy_update"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:layout_gravity="center_vertical"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_chevron_right_white_24"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/ll_dashboard_dcn_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

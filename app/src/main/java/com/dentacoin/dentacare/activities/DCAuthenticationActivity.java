@@ -346,6 +346,8 @@ public class DCAuthenticationActivity extends DCActivity {
         agreementFragment.setListener(new DCAgreementFragment.IDCAgreementListener() {
             @Override
             public void onAgreementAccepted() {
+                DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.CONSENT, true);
+                user.setHasConsent(true);
                 final DCLoadingFragment loadingFragment = showLoading();
                 DCApiManager.getInstance().registerUser(user, new DCResponseListener<DCAuthToken>() {
                     @Override
