@@ -1,5 +1,7 @@
 package com.dentacoin.dentacare.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ public class DCAgreementFragment extends DCFragment implements View.OnClickListe
     private DCButton btnAgreementAccept;
     private DCButton btnAgreementDecline;
     private IDCAgreementListener listener;
+    private IDCFragmentInterface idcFragmentInterface;
 
     public void setListener(IDCAgreementListener listener) {
         this.listener = listener;
@@ -35,7 +38,8 @@ public class DCAgreementFragment extends DCFragment implements View.OnClickListe
         View view = inflater.inflate(R.layout.fragment_agreement, container, false);
 
         wvAgreement = view.findViewById(R.id.wv_agreement);
-        wvAgreement.loadData(getString(R.string.user_agreement), "text/html; charset=utf-8", "UTF-8");
+        wvAgreement.loadUrl("file:///android_asset/web/user-agreement.html");
+
         btnAgreementAccept = view.findViewById(R.id.btn_agreement_accept);
         btnAgreementAccept.setOnClickListener(this);
 
@@ -56,6 +60,24 @@ public class DCAgreementFragment extends DCFragment implements View.OnClickListe
 
         if (getActivity() != null && getActivity().getFragmentManager() != null) {
             getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+            if (idcFragmentInterface != null)
+                idcFragmentInterface.onFragmentRemoved();
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof IDCFragmentInterface) {
+            idcFragmentInterface = (IDCFragmentInterface) context;
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof IDCFragmentInterface) {
+            idcFragmentInterface = (IDCFragmentInterface) activity;
         }
     }
 }

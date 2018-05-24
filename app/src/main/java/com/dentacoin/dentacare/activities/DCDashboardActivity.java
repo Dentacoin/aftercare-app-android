@@ -1,6 +1,7 @@
 package com.dentacoin.dentacare.activities;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.adapters.DCDashboardPagerAdapter;
+import com.dentacoin.dentacare.fragments.DCAgreementFragment;
 import com.dentacoin.dentacare.fragments.DCBrushFragment;
 import com.dentacoin.dentacare.fragments.DCFlossFragment;
 import com.dentacoin.dentacare.fragments.DCGoalDialogFragment;
@@ -74,6 +76,8 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     private DCBrushFragment brush;
     private DCRinseFragment rinse;
 
+    private LinearLayout llDashboardPrivacyNotice;
+
 
     public void setFloss(DCFlossFragment floss) {
         this.floss = floss;
@@ -101,6 +105,16 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         vpDashboardPager = findViewById(R.id.vp_dashboard_pager);
         llDashboardDcnTotal = findViewById(R.id.ll_dashboard_dcn_total);
         llDashboardDcnTotal.setOnClickListener(this);
+
+        llDashboardPrivacyNotice = findViewById(R.id.ll_dashboard_privacy_notice);
+        llDashboardPrivacyNotice.setVisibility(View.GONE);
+
+        llDashboardPrivacyNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPrivacyNoticeClicked();
+            }
+        });
 
         vSeparator = findViewById(R.id.v_separator);
 
@@ -132,6 +146,32 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         DCDashboardDataProvider.getInstance().updateDashboard(true);
     }
 
+    private void checkConsent() {
+        if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.CONSENT, false)) {
+            llDashboardPrivacyNotice.setVisibility(View.VISIBLE);
+        } else {
+            llDashboardPrivacyNotice.setVisibility(View.GONE);
+        }
+    }
+
+    private void onPrivacyNoticeClicked() {
+        DCAgreementFragment agreementFragment = new DCAgreementFragment();
+        agreementFragment.setListener(new DCAgreementFragment.IDCAgreementListener() {
+            @Override
+            public void onAgreementAccepted() {
+                DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.CONSENT, true);
+                llDashboardPrivacyNotice.setVisibility(View.GONE);
+            }
+        });
+
+        final FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+        transaction.add(R.id.container, agreementFragment);
+        transaction.addToBackStack(DCAgreementFragment.TAG);
+        transaction.commit();
+        toolbar.setVisibility(View.GONE);
+    }
+
     @Override
     public void onFragmentRemoved() {
         toolbar.setVisibility(View.VISIBLE);
@@ -144,10 +184,9 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         DCDashboardDataProvider.getInstance().addObserver(this);
         DCDashboardDataProvider.getInstance().updateDashboard(true);
         DCDashboardDataProvider.getInstance().updateJourney(true);
-
         DCGoalsDataProvider.getInstance().addObserver(this);
         DCGoalsDataProvider.getInstance().updateGoals(true);
-
+        checkConsent();
     }
 
     @Override
