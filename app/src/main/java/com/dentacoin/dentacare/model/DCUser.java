@@ -38,8 +38,17 @@ public class DCUser {
     @Expose() private String twitterAccessTokenSecret;
     @Expose() private Integer captchaId;
     @Expose() private String captchaCode;
+    @Expose(serialize = false, deserialize = false) private boolean consent;
     @Expose(serialize = false, deserialize = true)
     private boolean confirmed = false;
+
+    public void setHasConsent(boolean consent) {
+        this.consent = consent;
+    }
+
+    public boolean hasConsent() {
+        return consent;
+    }
 
     public boolean isConfirmed() {
         return confirmed;
