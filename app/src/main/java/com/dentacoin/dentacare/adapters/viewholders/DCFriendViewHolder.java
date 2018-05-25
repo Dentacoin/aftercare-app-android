@@ -55,10 +55,10 @@ public class DCFriendViewHolder extends SectioningAdapter.ItemViewHolder {
         sdvAvatar.setImageURI(friend.getAvatarUrl(sdvAvatar.getContext()));
         sdvAvatar.getHierarchy().setPlaceholderImage(friend.isChild() ? childDrawable : accountDrawable);
         tvName.setText(friend.getFullName());
-        tvLastActivity.setVisibility(View.GONE);
+
+        tvLastActivity.setText(R.string.txt_no_activity_yet);
         if (friend.getLastActivity() != null) {
             tvLastActivity.setText(DCConstants.DATE_FORMAT_LAST_ACTIVITY.format(friend.getLastActivity()));
-            tvLastActivity.setVisibility(View.VISIBLE);
         }
 
         cvFriend.setOnClickListener(v -> {

@@ -54,18 +54,24 @@
                     android:singleLine="true"
                     android:textColor="@color/charcoalGrey"/>
             </com.dentacoin.dentacare.widgets.DCTextInputLayout>
-            <com.dentacoin.dentacare.widgets.DCEditText
-                android:id="@+id/et_child_birthyear"
+            <com.dentacoin.dentacare.widgets.DCTextInputLayout
+                android:id="@+id/til_child_birthyear"
+                android:theme="@style/DCTextInputLayout.Collect"
                 android:layout_marginRight="32dp"
                 android:layout_marginLeft="32dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="24dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/DCEditText.Collect"
-                android:hint="@string/child_hnt_birthyear"
-                android:focusableInTouchMode="false"
-                android:textColor="@color/charcoalGrey"
-                android:editable="false"/>
+                android:layout_height="wrap_content">
+                <com.dentacoin.dentacare.widgets.DCEditText
+                    android:id="@+id/et_child_birthyear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/DCEditText.Collect"
+                    android:hint="@string/child_hnt_birthyear"
+                    android:focusableInTouchMode="false"
+                    android:textColor="@color/charcoalGrey"
+                    android:editable="false"/>
+            </com.dentacoin.dentacare.widgets.DCTextInputLayout>
         </LinearLayout>
     </RelativeLayout>
     <RelativeLayout

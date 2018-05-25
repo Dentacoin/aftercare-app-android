@@ -15,6 +15,7 @@
         </attr>
         <attr name="title" format="string"/>
         <attr name="text" format="string"/>
+        <attr name="textColor" format="color"/>
         <attr name="primary" format="integer"/>
         <attr name="secondary" format="integer"/>
     </declare-styleable>

@@ -315,6 +315,7 @@
     <string name="child_hdl_title">Create child account</string>
     <string name="child_hnt_name">Name</string>
     <string name="child_hnt_birthyear">Birth year</string>
+    <string name="txt_error_invalid_birthyear">Set valid year</string>
     <string name="child_hdl_create">Create a new child account</string>
     <string name="child_txt_create_account">Create a new child account associated with yours so you can easily track your child\'s dental routines.</string>
     <string name="child_btn_create">Create</string>
@@ -334,4 +335,7 @@
     <string name="friend_tab_statistics">Statistics</string>
     <string name="friend_tab_goals">Goals</string>
     <string name="notice_txt_privacy_update">We are updating our privacy policy, please take a few moments to review it</string>
+    <string name="txt_last_active_on">Last activity on %1$s</string>
+    <string name="txt_no_activity_yet">No activity yet</string>
+    <string name="child_btn_edit">Edit account</string>
 </resources>

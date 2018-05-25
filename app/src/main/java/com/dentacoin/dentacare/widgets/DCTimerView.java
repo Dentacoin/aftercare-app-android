@@ -78,7 +78,11 @@ public class DCTimerView extends RelativeLayout {
                 tvTimerTitle.setText(typedArray.getString(R.styleable.DCTimerView_title));
                 setProgress(typedArray.getInt(R.styleable.DCTimerView_primary, 1000));
                 setSecondaryProgress(typedArray.getInt(R.styleable.DCTimerView_secondary, 0));
-                
+
+                if (typedArray.getColor(R.styleable.DCTimerView_textColor, -1) != -1) {
+                    tvTimerDisplay.setTextColor(typedArray.getColor(R.styleable.DCTimerView_textColor, getContext().getResources().getColor(R.color.white)));
+                    tvTimerTitle.setTextColor(typedArray.getColor(R.styleable.DCTimerView_textColor, getContext().getResources().getColor(R.color.white)));
+                }
             } finally {
                 typedArray.recycle();
             }

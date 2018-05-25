@@ -75,7 +75,7 @@
         <item name="android:layout_width">@dimen/button_dashboard_statistics_width</item>
         <item name="android:layout_height">@dimen/button_dashboard_statistics_height</item>
     </style>
-
+    
     <style name="DCButton.Decline">
         <item name="android:background">@drawable/bg_button_red</item>
         <item name="android:layout_width">wrap_content</item>

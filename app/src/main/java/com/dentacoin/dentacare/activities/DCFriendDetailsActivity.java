@@ -50,7 +50,6 @@ public class DCFriendDetailsActivity extends DCToolbarActivity {
         tlFriend.setupWithViewPager(vpFriend);
         vpFriend.setCurrentItem(0);
 
-        setTitle(friend.getFullName());
+        setActionBarTitle(friend.getFullName());
     }
-
 }

@@ -1,6 +1,5 @@
 package com.dentacoin.dentacare.activities;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -11,7 +10,6 @@ import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 
 import com.dentacoin.dentacare.R;
-import com.dentacoin.dentacare.fragments.DCDialogFragment;
 import com.dentacoin.dentacare.fragments.DCLoadingFragment;
 import com.dentacoin.dentacare.model.DCChild;
 import com.dentacoin.dentacare.model.DCError;
@@ -38,6 +36,7 @@ public class DCCreateChildAccount extends DCToolbarActivity {
     private DCTextInputLayout tilChildName;
     private DCTextInputEditText tietChildName;
     private DCEditText etChildBirthyear;
+    private DCTextInputLayout tilChildBirthyear;
 
     private DCTextView tvChildName;
 
@@ -62,6 +61,7 @@ public class DCCreateChildAccount extends DCToolbarActivity {
         btnChildCreate = findViewById(R.id.btn_child_create);
         btnChildUseAccount = findViewById(R.id.btn_child_use_account);
         btnChildDone = findViewById(R.id.btn_child_done);
+        tilChildBirthyear = findViewById(R.id.til_child_birthyear);
 
         rlChildCreate.setVisibility(View.VISIBLE);
         rlChildCreated.setVisibility(View.GONE);
@@ -78,6 +78,8 @@ public class DCCreateChildAccount extends DCToolbarActivity {
     private boolean validate() {
         tilChildName.setError(null);
         tilChildName.setErrorEnabled(false);
+        tilChildBirthyear.setError(null);
+        tilChildBirthyear.setErrorEnabled(false);
 
         if (TextUtils.isEmpty(tietChildName.getText().toString())) {
             tilChildName.setErrorEnabled(true);
@@ -92,6 +94,11 @@ public class DCCreateChildAccount extends DCToolbarActivity {
         else if (!DCUtils.isValidName(tietChildName.getText().toString())) {
             tilChildName.setErrorEnabled(true);
             tilChildName.setError(getString(R.string.error_txt_first_name_too_long));
+            return false;
+        }
+        else if (child.getBirthyear() <= 0) {
+            tilChildBirthyear.setErrorEnabled(true);
+            tilChildBirthyear.setError(getString(R.string.txt_error_invalid_birthyear));
             return false;
         }
 

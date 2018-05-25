@@ -6,6 +6,7 @@ import android.net.Uri;
 import com.dentacoin.dentacare.utils.DCConstants;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -18,7 +19,6 @@ public class DCFriend implements Serializable {
     private String lastname;
     private String gender;
     private String email;
-
     private int birthyear;
     private Date birthday;
 
@@ -103,5 +103,36 @@ public class DCFriend implements Serializable {
 
     public Date getLastActivity() {
         return lastActivity;
+    }
+
+    public Integer getAge() {
+        Calendar nowCalendar = Calendar.getInstance();
+        nowCalendar.setTime(new Date());
+        int yearDiff = 0;
+
+        if (birthday != null) {
+            Calendar birthdayCalendar = Calendar.getInstance();
+            birthdayCalendar.setTime(birthday);
+
+            yearDiff = nowCalendar.get(Calendar.YEAR) - birthdayCalendar.get(Calendar.YEAR);
+
+            if (birthdayCalendar.get(Calendar.MONTH) > nowCalendar.get(Calendar.MONTH) ||
+                    birthdayCalendar.get(Calendar.MONTH) == nowCalendar.get(Calendar.MONTH) &&
+                            birthdayCalendar.get(Calendar.DATE) > nowCalendar.get(Calendar.DATE)) {
+                yearDiff --;
+            }
+        }
+        else if (birthyear > 0) {
+            Calendar birthYearCalendar = Calendar.getInstance();
+            birthYearCalendar.set(Calendar.YEAR, birthyear);
+            birthYearCalendar.set(Calendar.MONTH, 1);
+            birthYearCalendar.set(Calendar.DAY_OF_MONTH, 1);
+            yearDiff = nowCalendar.get(Calendar.YEAR) - birthYearCalendar.get(Calendar.YEAR);
+        }
+
+        if (yearDiff > 0)
+            return yearDiff;
+
+        return null;
     }
 }
