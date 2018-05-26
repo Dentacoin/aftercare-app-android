@@ -15,19 +15,16 @@
         <com.dentacoin.dentacare.widgets.DCButton
             android:id="@+id/btn_statistics_daily"
             style="@style/DCButton.Statistics"
-            android:background="@color/brightSkyBlue"
             android:text="@string/dashboard_btn_daily"/>
         <com.dentacoin.dentacare.widgets.DCButton
             android:id="@+id/btn_statistics_weekly"
             style="@style/DCButton.Statistics"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/brightSkyBlue"
             android:text="@string/dashboard_btn_weekly"/>
         <com.dentacoin.dentacare.widgets.DCButton
             android:id="@+id/btn_statistics_monthly"
             style="@style/DCButton.Statistics"
-            android:background="@color/brightSkyBlue"
             android:text="@string/dashboard_btn_monthly"/>
     </LinearLayout>
     <LinearLayout
