@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.model.DCFriend;
@@ -33,6 +34,9 @@ public class DCFriendViewHolder extends SectioningAdapter.ItemViewHolder {
     private final DCButton btnAccept;
     private final Drawable childDrawable;
     private final Drawable accountDrawable;
+    private final DCTextView tvFriendRequest;
+    private final ImageView ivFriendArrow;
+
     private final IDCFriendListener listener;
 
     public DCFriendViewHolder(View view, IDCFriendListener listener) {
@@ -41,6 +45,9 @@ public class DCFriendViewHolder extends SectioningAdapter.ItemViewHolder {
         sdvAvatar = view.findViewById(R.id.sdv_avatar);
         tvName = view.findViewById(R.id.tv_name);
         tvLastActivity = view.findViewById(R.id.tv_last_activity);
+        tvFriendRequest = view.findViewById(R.id.tv_friend_request);
+        ivFriendArrow = view.findViewById(R.id.iv_friend_arrow);
+
         btnDecline = view.findViewById(R.id.btn_decline);
         btnAccept = view.findViewById(R.id.btn_accept);
         final Context context = sdvAvatar.getContext();
@@ -55,25 +62,36 @@ public class DCFriendViewHolder extends SectioningAdapter.ItemViewHolder {
         sdvAvatar.setImageURI(friend.getAvatarUrl(sdvAvatar.getContext()));
         sdvAvatar.getHierarchy().setPlaceholderImage(friend.isChild() ? childDrawable : accountDrawable);
         tvName.setText(friend.getFullName());
+        tvFriendRequest.setVisibility(View.GONE);
+        ivFriendArrow.setVisibility(View.VISIBLE);
+        tvLastActivity.setVisibility(View.VISIBLE);
 
         tvLastActivity.setText(R.string.txt_no_activity_yet);
         if (friend.getLastActivity() != null) {
             tvLastActivity.setText(DCConstants.DATE_FORMAT_LAST_ACTIVITY.format(friend.getLastActivity()));
         }
 
-        cvFriend.setOnClickListener(v -> {
-            if (listener != null)
-                listener.onFriendClicked(friend);
-        });
+        if (friend.needsAccept()) {
+            tvLastActivity.setVisibility(View.GONE);
+            tvFriendRequest.setVisibility(View.VISIBLE);
+            ivFriendArrow.setVisibility(View.GONE);
+            cvFriend.setOnClickListener(null);
+            btnAccept.setOnClickListener(v -> {
+                if (listener != null)
+                    listener.onAccept(friend);
+            });
 
-        btnAccept.setOnClickListener(v -> {
-            if (listener != null)
-                listener.onAccept(friend);
-        });
-
-        btnDecline.setOnClickListener(v -> {
-            if (listener != null)
-                listener.onDecline(friend);
-        });
+            btnDecline.setOnClickListener(v -> {
+                if (listener != null)
+                    listener.onDecline(friend);
+            });
+        } else {
+            btnAccept.setOnClickListener(null);
+            btnDecline.setOnClickListener(null);
+            cvFriend.setOnClickListener(v -> {
+                if (listener != null)
+                    listener.onFriendClicked(friend);
+            });
+        }
     }
 }

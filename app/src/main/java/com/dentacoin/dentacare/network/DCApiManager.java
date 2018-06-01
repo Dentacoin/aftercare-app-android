@@ -14,6 +14,8 @@ import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCFriend;
 import com.dentacoin.dentacare.model.DCGoal;
+import com.dentacoin.dentacare.model.DCInvitationAccept;
+import com.dentacoin.dentacare.model.DCInvitationToken;
 import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCOralHealthItem;
 import com.dentacoin.dentacare.model.DCResetPassword;
@@ -93,6 +95,12 @@ public class DCApiManager {
     private static final String ENDPOINT_FRIENDS = "friends";
     private static final String ENDPOINT_FRIEND_GOALS = "friends/{0}/goals";
     private static final String ENDPOINT_FRIEND_DASHBOARD = "friends/{0}/dashboard";
+    private static final String ENDPOINT_INVITATIONS_RETRIEVE = "invitations/request";
+    private static final String ENDPOINT_INVITATIONS_REQUESTED = "invitations/requested/{0}";
+    private static final String ENDPOINT_INVITATIONS_APPROVE = "invitations/approve";
+    private static final String ENDPOINT_INVITATIONS_ACCEPT = "invitations/accept";
+    private static final String ENDPOINT_INVITATIONS_DECLINE = "invitations/decline";
+
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
     private static final String HEADER_KEY_FBM ="FirebaseToken";
@@ -486,6 +494,66 @@ public class DCApiManager {
         String endpoint = buildPath(friendDashboardPath, null);
         Request request = buildRequest(RequestMethod.GET, endpoint, null);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCDashboard.class));
+    }
+
+
+    /**
+     * Retrieve new invitation token
+     * @param listener
+     */
+    public void getInvitationToken(final DCResponseListener<DCInvitationToken> listener) {
+        String endpoint = buildPath(ENDPOINT_INVITATIONS_RETRIEVE, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(new ArrayList<>()));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCInvitationToken.class));
+    }
+
+    /**
+     * Retrieve invitation info
+     * @param token
+     * @param listener
+     */
+    public void getInvitationRequest(String token, final DCResponseListener<DCUser> listener) {
+        String path = MessageFormat.format(ENDPOINT_INVITATIONS_REQUESTED, token);
+        String endpoint = buildPath(path, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCUser.class));
+    }
+
+    /**
+     * Approve invitation
+     * @param token
+     * @param listener
+     */
+    public void approveInvitation(String token, final DCResponseListener<Void> listener) {
+        String endpoint = buildPath(ENDPOINT_INVITATIONS_APPROVE, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(new DCInvitationToken(token)));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
+     * Accept invitation
+     * @param userId
+     * @param listener
+     */
+    public void acceptInvitation(int userId, final DCResponseListener<Void> listener) {
+        String endpoint = buildPath(ENDPOINT_INVITATIONS_ACCEPT, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(new DCInvitationAccept(userId)));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
+     * Decline invitation
+     * @param userId
+     * @param listener
+     */
+    public void declineInvitation(int userId, final DCResponseListener<Void> listener) {
+        String endpoint = buildPath(ENDPOINT_INVITATIONS_DECLINE, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(new DCInvitationAccept(userId)));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
     }
 
     /**

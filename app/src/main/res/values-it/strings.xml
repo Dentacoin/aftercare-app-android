@@ -338,4 +338,9 @@
     <string name="txt_last_active_on">Last activity on %1$s</string>
     <string name="txt_no_activity_yet">No activity yet</string>
     <string name="child_btn_edit">Edit account</string>
+    <string name="invites_txt_send_via">Send invitation via...</string>
+    <string name="family_txt_added_to_list">%1$s added to friends list!</string>
+    <string name="family_txt_request_declined">Friend request declined!</string>
+    <string name="invites_txt_friend_request">Wants to be your friend and share profile details with you!</string>
+    <string name="invites_txt_friend_request_success">Successfully sent friend request!</string>
 </resources>

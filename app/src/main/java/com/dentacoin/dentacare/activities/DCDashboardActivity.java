@@ -22,6 +22,7 @@ import com.dentacoin.dentacare.fragments.DCAgreementFragment;
 import com.dentacoin.dentacare.fragments.DCBrushFragment;
 import com.dentacoin.dentacare.fragments.DCFlossFragment;
 import com.dentacoin.dentacare.fragments.DCGoalDialogFragment;
+import com.dentacoin.dentacare.fragments.DCInvitationDialogFragment;
 import com.dentacoin.dentacare.fragments.DCMessageFragment;
 import com.dentacoin.dentacare.fragments.DCRinseFragment;
 import com.dentacoin.dentacare.fragments.DCRoutineCompletedFragment;
@@ -32,7 +33,10 @@ import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCGoal;
 import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCRoutine;
+import com.dentacoin.dentacare.model.DCUser;
+import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
+import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.AudibleMessage;
 import com.dentacoin.dentacare.utils.DCDashboardDataProvider;
 import com.dentacoin.dentacare.utils.DCGoalsDataProvider;
@@ -109,12 +113,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         llDashboardPrivacyNotice = findViewById(R.id.ll_dashboard_privacy_notice);
         llDashboardPrivacyNotice.setVisibility(View.GONE);
 
-        llDashboardPrivacyNotice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onPrivacyNoticeClicked();
-            }
-        });
+        llDashboardPrivacyNotice.setOnClickListener(v -> onPrivacyNoticeClicked());
 
         vSeparator = findViewById(R.id.v_separator);
 
@@ -139,7 +138,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.WELCOME_SCREEN, false)) {
             toolbar.setVisibility(View.GONE);
             getFragmentManager().beginTransaction().add(R.id.container, new DCWelcomeFragment(), DCWelcomeFragment.TAG).commit();
-        } else {
+        } else if (!DCTutorialManager.getInstance().hasShownAll(new Tutorial[] { Tutorial.TOTAL_DCN, Tutorial.DASHBOARD_STATISTICS, Tutorial.LAST_ACTIVITY_TIME, Tutorial.LEFT_ACTIVITIES_COUNT, Tutorial.DCN_EARNED })) {
             DCTutorialManager.getInstance().showNext();
         }
 
@@ -156,12 +155,9 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
 
     private void onPrivacyNoticeClicked() {
         DCAgreementFragment agreementFragment = new DCAgreementFragment();
-        agreementFragment.setListener(new DCAgreementFragment.IDCAgreementListener() {
-            @Override
-            public void onAgreementAccepted() {
-                DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.CONSENT, true);
-                llDashboardPrivacyNotice.setVisibility(View.GONE);
-            }
+        agreementFragment.setListener(() -> {
+            DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.CONSENT, true);
+            llDashboardPrivacyNotice.setVisibility(View.GONE);
         });
 
         final FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -187,6 +183,21 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         DCGoalsDataProvider.getInstance().addObserver(this);
         DCGoalsDataProvider.getInstance().updateGoals(true);
         checkConsent();
+
+        if (DCSession.getInstance().getInvitationToken() != null && DCTutorialManager.getInstance().hasShownAll(new Tutorial[] { Tutorial.TOTAL_DCN, Tutorial.DASHBOARD_STATISTICS, Tutorial.LAST_ACTIVITY_TIME, Tutorial.LEFT_ACTIVITIES_COUNT, Tutorial.DCN_EARNED })) {
+            final String token = DCSession.getInstance().getInvitationToken();
+            DCApiManager.getInstance().getInvitationRequest(token, new DCResponseListener<DCUser>() {
+                @Override
+                public void onFailure(DCError error) {
+                }
+
+                @Override
+                public void onResponse(DCUser object) {
+                    DCSession.getInstance().setInvitationToken(null);
+                    DCInvitationDialogFragment.create(token, object).show(getFragmentManager(), "");
+                }
+            });
+        }
     }
 
     @Override

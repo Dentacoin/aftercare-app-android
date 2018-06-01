@@ -6,6 +6,7 @@ import com.dentacoin.dentacare.network.DCSession;
 import com.google.gson.annotations.Expose;
 import com.mukesh.countrypicker.Country;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -17,7 +18,9 @@ import static com.dentacoin.dentacare.utils.DCConstants.GENDER_UNSPECIFIED;
  * Created by Atanas Chervarov on 8/7/17.
  */
 
-public class DCUser {
+public class DCUser implements Serializable {
+    @Expose(serialize = false, deserialize = true)
+    private int id;
     @Expose() private String email;
     @Expose() private String password;
     @Expose() private String firstname;

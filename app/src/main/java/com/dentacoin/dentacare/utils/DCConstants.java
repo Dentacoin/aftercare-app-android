@@ -25,6 +25,10 @@ public class DCConstants {
     public static final String DENTACARE_WEBSITE = "https://dentacare.dentacoin.com/";
     public static final String DENTACOIN_WEBSITE = "https://www.dentacoin.com/";
     public static final String DENTACARE_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.dentacoin.dentacare";
+    public static final String FIREBASE_SHARE_LINK = "https://cx355.app.goo.gl/";
+    public static final String IOS_BUNDLE_ID = "com.dentacoin.dentacare-app";
+
+    public static final String REGEX_INVITES = "/invites/.*";
 
     public static final Pattern ADDRESS_PATTERN = Pattern.compile("^0x[a-fA-F0-9]{40}");
     public static final Pattern IBAN_LONG_PATTERN = Pattern.compile("[A-Z0-9]{35}");

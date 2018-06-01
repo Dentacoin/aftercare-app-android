@@ -2,6 +2,7 @@ package com.dentacoin.dentacare.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,11 @@ import com.dentacoin.dentacare.widgets.DCTimerView;
 /**
  * Created by Atanas Chervarov on 22.05.18.
  */
-public class DCFriendStatisticsFragment extends DCFragment implements View.OnClickListener {
+public class DCFriendStatisticsFragment extends DCFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String KEY_FRIEND = "KEY_FRIEND";
+
+    private SwipeRefreshLayout srlStatistics;
 
     private DCButton btnStatisticsDaily;
     private DCButton btnStatisticsWeekly;
@@ -60,6 +63,9 @@ public class DCFriendStatisticsFragment extends DCFragment implements View.OnCli
             friend = (DCFriend) getArguments().getSerializable(KEY_FRIEND);
         }
 
+        srlStatistics = view.findViewById(R.id.srl_statistics);
+        srlStatistics.setOnRefreshListener(this);
+
         btnStatisticsDaily = view.findViewById(R.id.btn_statistics_daily);
         btnStatisticsWeekly = view.findViewById(R.id.btn_statistics_weekly);
         btnStatisticsMonthly = view.findViewById(R.id.btn_statistics_monthly);
@@ -85,15 +91,22 @@ public class DCFriendStatisticsFragment extends DCFragment implements View.OnCli
         return view;
     }
 
+    @Override
+    public void onRefresh() {
+        loadStatistics();
+    }
+
     private void loadStatistics() {
         DCApiManager.getInstance().getFriendStatistics(friend.getId(), new DCResponseListener<DCDashboard>() {
             @Override
             public void onFailure(DCError error) {
+                srlStatistics.setRefreshing(false);
                 onError(error);
             }
 
             @Override
             public void onResponse(DCDashboard object) {
+                srlStatistics.setRefreshing(false);
                 DCFriendStatisticsFragment.this.dashboard = object;
                 setupView();
             }

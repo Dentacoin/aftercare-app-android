@@ -19,7 +19,8 @@ public class DCTimerView extends RelativeLayout {
     public enum DCTimerType {
         BIG_PROGRESS,
         SMALL_PROGRESS,
-        SMALL_INFO
+        SMALL_INFO,
+        SMALL_PROGRESS_DARK
     }
 
     private ProgressBar pbTimerProgress;
@@ -68,6 +69,9 @@ public class DCTimerView extends RelativeLayout {
                         break;
                     case 2:
                         setupTimer(DCTimerType.SMALL_INFO);
+                        break;
+                    case 3:
+                        setupTimer(DCTimerType.SMALL_PROGRESS_DARK);
                         break;
                     default:
                         setupTimer(DCTimerType.BIG_PROGRESS);
@@ -143,6 +147,15 @@ public class DCTimerView extends RelativeLayout {
                 tvTimerDisplay.setTypeface(DCFonts.getFont(getContext(), DCFonts.FONT_LATO_REGULAR));
                 tvTimerDisplay.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.timer_text_size_small_info));
                 pbTimerProgress.setSecondaryProgress(1000);
+                break;
+            case SMALL_PROGRESS_DARK:
+                pbTimerProgress.setLayoutParams(new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.timer_size_small_progress), (int) getResources().getDimension(R.dimen.timer_size_small_progress)));
+                pbTimerProgress.setProgressDrawable(getResources().getDrawable(R.drawable.circular_small_progressbar_info_dark_background));
+                tvTimerTitle.setVisibility(VISIBLE);
+                tvTimerTitle.setTextColor(getResources().getColor(R.color.charcoalGrey));
+                tvTimerDisplay.setTextColor(getResources().getColor(R.color.charcoalGrey));
+                tvTimerDisplay.setTypeface(DCFonts.getFont(getContext(), DCFonts.FONT_LATO_LIGHT));
+                tvTimerDisplay.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.timer_text_size_small_progress));
                 break;
             default:
                 break;

@@ -2,14 +2,13 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorAccent">
+    android:layout_height="wrap_content">
     <com.dentacoin.dentacare.widgets.DCTextView
         android:id="@+id/tv_header_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:gravity="left|start"
-        android:textColor="@color/white"
+        android:textColor="@color/charcoalGrey"
         android:textSize="16sp"/>
 </FrameLayout>

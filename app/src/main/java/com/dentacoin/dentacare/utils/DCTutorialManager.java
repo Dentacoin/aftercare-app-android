@@ -55,4 +55,16 @@ public class DCTutorialManager {
             }
         }
     }
+
+    public boolean hasShownAll(Tutorial[] tutorials) {
+        if (tutorials != null) {
+            for (Tutorial tutorial : tutorials) {
+                if (!DCSharedPreferences.getShownTutorials().contains(tutorial.name())) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 }

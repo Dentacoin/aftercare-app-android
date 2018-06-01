@@ -97,5 +97,4 @@ public class DCFriendInfoFragment extends DCFragment {
     private void onEditAccount() {
         //TODO:
     }
-
 }

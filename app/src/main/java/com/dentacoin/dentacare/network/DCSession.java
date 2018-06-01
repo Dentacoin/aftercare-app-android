@@ -22,6 +22,7 @@ public class DCSession {
     private DCAuthToken authToken;
     private DCUser user;
     private String socialAvatar;
+    private String invitationToken;
 
     public synchronized static DCSession getInstance() {
         if (instance == null)
@@ -32,12 +33,18 @@ public class DCSession {
 
     private DCSession() { }
 
+
+    public void setInvitationToken(String invitationToken) {
+        this.invitationToken = invitationToken;
+    }
+
+    public String getInvitationToken() {
+        return invitationToken;
+    }
+
     public void loadSocialAvatar(Context context) {
-        DCUtils.getUserAvatarFromSocialMedia(context, new DCUtils.ISocialAvatar() {
-            @Override
-            public void onSocialAvatarRetrieved(String url) {
-                socialAvatar = url;
-            }
+        DCUtils.getUserAvatarFromSocialMedia(context, url -> {
+            socialAvatar = url;
         });
     }
 
