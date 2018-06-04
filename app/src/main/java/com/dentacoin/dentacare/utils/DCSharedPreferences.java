@@ -37,9 +37,8 @@ public class DCSharedPreferences {
         FIRST_LOGIN_DATE("FIRST_LOGIN_DATE"),
         SEEN_ONBOARDING("SEEN_ONBOARDING"),
         SHOW_EMAIL_VERIFICATION("SHOW_EMAIL_VERIFICATION"),
-        ROUTINES("ROUTINES"),
-        CONSENT("CONSENT");
-
+        ROUTINES("ROUTINES");
+        
         private String key;
 
         DCSharedKey(String key) {
@@ -142,6 +141,15 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.SEEN_ONBOARDING);
         removeKey(DCSharedKey.SHOW_EMAIL_VERIFICATION);
         removeKey(DCSharedKey.SHOWED_TUTORIALS);
-        removeKey(DCSharedKey.CONSENT);
+    }
+
+    /**
+     * Partially clean user prefs when switching to child accounts
+     */
+    public static void partialClean() {
+        removeKey(DCSharedKey.AUTH_TOKEN);
+        removeKey(DCSharedKey.USER);
+        removeKey(DCSharedKey.GOALS_REACHED);
+        removeKey(DCSharedKey.ROUTINES);
     }
 }

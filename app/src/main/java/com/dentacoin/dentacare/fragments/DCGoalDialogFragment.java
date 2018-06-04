@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.model.DCGoal;
+import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.widgets.DCTextView;
 import com.facebook.share.model.ShareHashtag;
@@ -60,6 +61,10 @@ public class DCGoalDialogFragment extends DCDialogFragment {
         tvGoalNumber = view.findViewById(R.id.tv_goal_number);
         ivGoalStar = view.findViewById(R.id.iv_goal_star);
         tvGoalAward = view.findViewById(R.id.tv_goal_award);
+
+        if (DCSession.getInstance().getUser() != null && DCSession.getInstance().getUser().isChild()) {
+            tvGoalAward.setVisibility(View.GONE);
+        }
 
         tvGoalTitle = view.findViewById(R.id.tv_goal_title);
         tvGoalDescription = view.findViewById(R.id.tv_goal_description);

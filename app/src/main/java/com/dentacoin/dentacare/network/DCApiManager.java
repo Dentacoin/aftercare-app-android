@@ -10,6 +10,7 @@ import android.net.Uri;
 import com.dentacoin.dentacare.BuildConfig;
 import com.dentacoin.dentacare.model.DCAvatar;
 import com.dentacoin.dentacare.model.DCChild;
+import com.dentacoin.dentacare.model.DCChildLogin;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCFriend;
@@ -100,6 +101,7 @@ public class DCApiManager {
     private static final String ENDPOINT_INVITATIONS_APPROVE = "invitations/approve";
     private static final String ENDPOINT_INVITATIONS_ACCEPT = "invitations/accept";
     private static final String ENDPOINT_INVITATIONS_DECLINE = "invitations/decline";
+    private static final String ENDPOINT_LOGIN_CHILD = "children/login";
 
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
@@ -247,6 +249,9 @@ public class DCApiManager {
                 if (jsonObject.get("avatar_64") == null && jsonObject.get("avatar") == null) {
                     jsonObject.addProperty("avatar_64", false);
                     jsonObject.addProperty("avatar",false);
+                }
+                if (jsonObject.get("email") != null) {
+                    jsonObject.remove("email");
                 }
                 payload = jsonObject.toString();
             }
@@ -554,6 +559,18 @@ public class DCApiManager {
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(new DCInvitationAccept(userId)));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
+     * Login as a child
+     * @param id
+     * @param listener
+     */
+    public void loginAsChild(int id, final DCResponseListener<DCAuthToken> listener) {
+        String endpoint = buildPath(ENDPOINT_LOGIN_CHILD, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(new DCChildLogin(id)));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCAuthToken.class));
     }
 
     /**

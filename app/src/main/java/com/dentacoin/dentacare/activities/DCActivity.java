@@ -8,7 +8,18 @@ import com.anthonycr.grant.PermissionsManager;
 import com.dentacoin.dentacare.LaunchActivity;
 import com.dentacoin.dentacare.fragments.DCLoadingFragment;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCUser;
+import com.dentacoin.dentacare.network.DCApiManager;
+import com.dentacoin.dentacare.network.DCResponseListener;
+import com.dentacoin.dentacare.network.DCSession;
+import com.dentacoin.dentacare.network.response.DCAuthToken;
+import com.dentacoin.dentacare.utils.DCLocalNotificationsManager;
 import com.dentacoin.dentacare.widgets.DCSoundManager;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.twitter.sdk.android.core.TwitterCore;
 
 /**
  * Created by Atanas Chervarov on 7/29/17.
@@ -46,11 +57,52 @@ public class DCActivity extends AppCompatActivity {
      * Call this after clearing the session data
      */
     public void onLogout() {
+        DCLocalNotificationsManager.getInstance().scheduleNotifications(this, true);
+        DCSession.getInstance().clear();
+
+        LoginManager.getInstance().logOut();
+        TwitterCore.getInstance().getSessionManager().clearActiveSession();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+        GoogleSignInClient client = GoogleSignIn.getClient(this, gso);
+        client.signOut();
+
         final Intent intent = new Intent(this, LaunchActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
+
+
+    /**
+     * Switch accounts
+     */
+    public void onAccountSwitch(DCAuthToken token) {
+        DCSession.getInstance().partialClear();
+
+        LoginManager.getInstance().logOut();
+        TwitterCore.getInstance().getSessionManager().clearActiveSession();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
+        GoogleSignInClient client = GoogleSignIn.getClient(this, gso);
+        client.signOut();
+
+        DCSession.getInstance().setAuthToken(token);
+
+        DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
+            @Override
+            public void onFailure(DCError error) {
+                onError(error);
+            }
+
+            @Override
+            public void onResponse(DCUser object) {
+                final Intent intent = new Intent(DCActivity.this, DCDashboardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

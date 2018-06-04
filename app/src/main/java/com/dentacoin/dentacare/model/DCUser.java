@@ -41,9 +41,15 @@ public class DCUser implements Serializable {
     @Expose() private String twitterAccessTokenSecret;
     @Expose() private Integer captchaId;
     @Expose() private String captchaCode;
-    @Expose(serialize = false, deserialize = false) private boolean consent;
-    @Expose(serialize = false, deserialize = true)
-    private boolean confirmed = false;
+    @Expose() private boolean consent;
+    @Expose(serialize = false, deserialize = true) private boolean confirmed = false;
+    @Expose(serialize = false, deserialize = true) private String accountType;
+    @Expose(serialize = false, deserialize = true) private boolean isChild;
+
+    //TODO: fix!
+    public boolean isChild() {
+        return isChild;
+    }
 
     public void setHasConsent(boolean consent) {
         this.consent = consent;

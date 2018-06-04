@@ -2,12 +2,18 @@ package com.dentacoin.dentacare.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.dentacoin.dentacare.R;
+import com.dentacoin.dentacare.activities.DCActivity;
+import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCFriend;
+import com.dentacoin.dentacare.network.DCApiManager;
+import com.dentacoin.dentacare.network.DCResponseListener;
+import com.dentacoin.dentacare.network.response.DCAuthToken;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCTextView;
@@ -91,7 +97,33 @@ public class DCFriendInfoFragment extends DCFragment {
     }
 
     private void onUseAccount() {
-        //TODO:
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.child_hdl_use_account)
+                .setMessage(R.string.child_txt_use_account)
+                .setNegativeButton(R.string.txt_cancel, (dialog, i) -> {
+                    dialog.dismiss();
+                })
+                .setPositiveButton(R.string.txt_ok, (dialog, i) -> {
+                    DCLoadingFragment loadingFragment = showLoading();
+                    DCApiManager.getInstance().loginAsChild(friend.getId(), new DCResponseListener<DCAuthToken>() {
+                        @Override
+                        public void onFailure(DCError error) {
+                            loadingFragment.dismissAllowingStateLoss();
+                            onError(error);
+                        }
+
+                        @Override
+                        public void onResponse(DCAuthToken token) {
+                            loadingFragment.dismissAllowingStateLoss();
+                            if (token != null && token.isValid()) {
+                                ((DCActivity) getActivity()).onAccountSwitch(token);
+                            }
+                        }
+                    });
+                })
+                .create()
+                .show();
+
     }
 
     private void onEditAccount() {

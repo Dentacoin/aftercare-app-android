@@ -167,20 +167,37 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
 
                 @Override
                 public void onResponse(DCUser object) {
-                    updateNavigationHeader(object);
+                    updateNavigationDrawer(object);
                 }
             });
         } else {
-            updateNavigationHeader(DCSession.getInstance().getUser());
+            updateNavigationDrawer(DCSession.getInstance().getUser());
         }
     }
 
-    private void updateNavigationHeader(DCUser user) {
+    private void updateNavigationDrawer(DCUser user) {
         if (user != null) {
             sdvDrawerHeaderAvatar.setImageURI(user.getAvatarUrl(DCDrawerActivity.this));
+            if (user.isChild()) {
+                sdvDrawerHeaderAvatar.getHierarchy().setPlaceholderImage(getResources().getDrawable(R.drawable.baseline_face_white_48));
+            } else {
+                sdvDrawerHeaderAvatar.getHierarchy().setPlaceholderImage(getResources().getDrawable(R.drawable.welcome_avatar_holder));
+            }
             tvDrawerHeaderFullname.setText(user.getFullName());
-            tvDrawerHeaderEmail.setText(user.getEmail());
+            tvDrawerHeaderEmail.setVisibility(View.GONE);
+            if (user.getEmail() != null) {
+                tvDrawerHeaderEmail.setText(user.getEmail());
+                tvDrawerHeaderEmail.setVisibility(View.VISIBLE);
+            }
+
             ivVerified.setVisibility(user.isConfirmed() ? View.VISIBLE : View.GONE);
+
+            Menu menu = nvNavigation.getMenu();
+            if (menu != null) {
+                menu.getItem(1).setVisible(!user.isChild());
+                menu.getItem(2).setVisible(!user.isChild());
+                menu.getItem(5).setVisible(!user.isChild());
+            }
         }
     }
 
@@ -258,17 +275,6 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
 
                                     @Override
                                     public void onResponse(Void object) {
-                                        DCLocalNotificationsManager.getInstance().scheduleNotifications(DCDrawerActivity.this, true);
-                                        DCSession.getInstance().clear();
-                                        LoginManager.getInstance().logOut();
-                                        TwitterCore.getInstance().getSessionManager().clearActiveSession();
-
-                                        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                                                .build();
-
-                                        GoogleSignInClient client = GoogleSignIn.getClient(DCDrawerActivity.this, gso);
-                                        client.signOut();
-
                                         onLogout();
                                     }
                                 });
@@ -360,7 +366,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                     });
                     break;
                 case EMERGENCY_MENU:
-                    final View emergency = nvNavigation.getTouchables().get(7);
+                    final View emergency = nvNavigation.getTouchables().get(8);
                     emergency.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
                         public void onGlobalLayout() {

@@ -15,6 +15,7 @@ import com.dentacoin.dentacare.model.DCChild;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
+import com.dentacoin.dentacare.network.response.DCAuthToken;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCEditText;
@@ -166,112 +167,116 @@ public class DCCreateChildAccount extends DCToolbarActivity {
     }
 
     private void initSuccessUI(DCChild child) {
-        tvChildName.setText(child.getFirstname());
-        AlphaAnimation fadeOutChildCreateButton = new AlphaAnimation(1, 0);
-        fadeOutChildCreateButton.setDuration(300);
-        fadeOutChildCreateButton.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
+        if (child != null) {
+            this.child = child;
 
-            }
+            tvChildName.setText(child.getFirstname());
+            AlphaAnimation fadeOutChildCreateButton = new AlphaAnimation(1, 0);
+            fadeOutChildCreateButton.setDuration(300);
+            fadeOutChildCreateButton.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                btnChildCreate.setVisibility(View.GONE);
-            }
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    btnChildCreate.setVisibility(View.GONE);
+                }
 
-            }
-        });
-        btnChildCreate.startAnimation(fadeOutChildCreateButton);
+                @Override
+                public void onAnimationRepeat(Animation animation) {
 
-        AlphaAnimation fadeOutChildCreate = new AlphaAnimation(1, 0);
-        fadeOutChildCreate.setDuration(300);
-        fadeOutChildCreate.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
+                }
+            });
+            btnChildCreate.startAnimation(fadeOutChildCreateButton);
 
-            }
+            AlphaAnimation fadeOutChildCreate = new AlphaAnimation(1, 0);
+            fadeOutChildCreate.setDuration(300);
+            fadeOutChildCreate.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                rlChildCreate.setVisibility(View.GONE);
-            }
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    rlChildCreate.setVisibility(View.GONE);
+                }
 
-            }
-        });
+                @Override
+                public void onAnimationRepeat(Animation animation) {
 
-        rlChildCreate.startAnimation(fadeOutChildCreate);
+                }
+            });
 
-
-        AlphaAnimation fadeInChildCreated = new AlphaAnimation(0, 1);
-        fadeInChildCreated.setDuration(500);
-        fadeInChildCreated.setStartOffset(300);
-        fadeInChildCreated.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                rlChildCreated.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        rlChildCreated.startAnimation(fadeInChildCreated);
-
-        AlphaAnimation fadeInChildUseAccount = new AlphaAnimation(0, 1);
-        fadeInChildUseAccount.setDuration(300);
-        fadeInChildUseAccount.setStartOffset(500);
-        fadeInChildUseAccount.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                btnChildUseAccount.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        btnChildUseAccount.startAnimation(fadeInChildUseAccount);
+            rlChildCreate.startAnimation(fadeOutChildCreate);
 
 
-        AlphaAnimation fadeInChildDoneButton = new AlphaAnimation(0, 1);
-        fadeInChildDoneButton.setDuration(300);
-        fadeInChildDoneButton.setStartOffset(600);
-        fadeInChildDoneButton.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                btnChildDone.setVisibility(View.VISIBLE);
-            }
+            AlphaAnimation fadeInChildCreated = new AlphaAnimation(0, 1);
+            fadeInChildCreated.setDuration(500);
+            fadeInChildCreated.setStartOffset(300);
+            fadeInChildCreated.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    rlChildCreated.setVisibility(View.VISIBLE);
+                }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
+                @Override
+                public void onAnimationEnd(Animation animation) {
 
-            }
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+                @Override
+                public void onAnimationRepeat(Animation animation) {
 
-            }
-        });
-        btnChildDone.startAnimation(fadeInChildDoneButton);
+                }
+            });
+            rlChildCreated.startAnimation(fadeInChildCreated);
+
+            AlphaAnimation fadeInChildUseAccount = new AlphaAnimation(0, 1);
+            fadeInChildUseAccount.setDuration(300);
+            fadeInChildUseAccount.setStartOffset(500);
+            fadeInChildUseAccount.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    btnChildUseAccount.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            btnChildUseAccount.startAnimation(fadeInChildUseAccount);
+
+
+            AlphaAnimation fadeInChildDoneButton = new AlphaAnimation(0, 1);
+            fadeInChildDoneButton.setDuration(300);
+            fadeInChildDoneButton.setStartOffset(600);
+            fadeInChildDoneButton.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    btnChildDone.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            btnChildDone.startAnimation(fadeInChildDoneButton);
+        }
     }
 
     private void onDone() {
@@ -286,8 +291,22 @@ public class DCCreateChildAccount extends DCToolbarActivity {
                     dialog.dismiss();
                 })
                 .setPositiveButton(R.string.txt_ok, (dialog, i) -> {
-                    //TODO: switch accounts
-                    finish();
+                    DCLoadingFragment loadingFragment = showLoading();
+                    DCApiManager.getInstance().loginAsChild(child.getId(), new DCResponseListener<DCAuthToken>() {
+                        @Override
+                        public void onFailure(DCError error) {
+                            loadingFragment.dismissAllowingStateLoss();
+                            onError(error);
+                        }
+
+                        @Override
+                        public void onResponse(DCAuthToken token) {
+                            loadingFragment.dismissAllowingStateLoss();
+                            if (token != null && token.isValid()) {
+                                onAccountSwitch(token);
+                            }
+                        }
+                    });
                 })
                 .create()
                 .show();

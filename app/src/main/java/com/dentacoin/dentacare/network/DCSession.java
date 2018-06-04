@@ -20,9 +20,11 @@ public class DCSession {
 
     private static DCSession instance;
     private DCAuthToken authToken;
+
     private DCUser user;
     private String socialAvatar;
     private String invitationToken;
+
 
     public synchronized static DCSession getInstance() {
         if (instance == null)
@@ -48,6 +50,12 @@ public class DCSession {
         });
     }
 
+    public boolean isChildUser() {
+        if (getUser() != null) {
+            return getUser().isChild();
+        }
+         return false;
+    }
     public String getCurrentUserSocialAvatar() {
         return socialAvatar;
     }
@@ -59,11 +67,12 @@ public class DCSession {
 
             String lastLoggedIn = DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.LAST_LOGGED_EMAIL);
 
-            if (lastLoggedIn != null && lastLoggedIn.compareTo(user.getEmail()) != 0) {
-                DCSharedPreferences.removeKey(DCSharedPreferences.DCSharedKey.SHOWED_TUTORIALS);
+            if (user.getEmail() != null) {
+                if (lastLoggedIn != null && lastLoggedIn.compareTo(user.getEmail()) != 0) {
+                    DCSharedPreferences.removeKey(DCSharedPreferences.DCSharedKey.SHOWED_TUTORIALS);
+                }
+                DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.LAST_LOGGED_EMAIL, user.getEmail());
             }
-            
-            DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.LAST_LOGGED_EMAIL, user.getEmail());
 
             if (DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE) == null) {
                 Date now = new Date();
@@ -126,6 +135,17 @@ public class DCSession {
     public void clear() {
         DCSharedPreferences.clean();
         DCDashboardDataProvider.getInstance().clear();
+        authToken = null;
+        user = null;
+        socialAvatar = null;
+    }
+
+    /**
+     * Clear session & partially prefs for child account switch
+     */
+    public void partialClear() {
+        DCSharedPreferences.partialClean();
+        DCDashboardDataProvider.getInstance().clear();;
         authToken = null;
         user = null;
         socialAvatar = null;

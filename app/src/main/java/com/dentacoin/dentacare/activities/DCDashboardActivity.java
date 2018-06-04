@@ -109,6 +109,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         vpDashboardPager = findViewById(R.id.vp_dashboard_pager);
         llDashboardDcnTotal = findViewById(R.id.ll_dashboard_dcn_total);
         llDashboardDcnTotal.setOnClickListener(this);
+        llDashboardDcnTotal.setVisibility(DCSession.getInstance().isChildUser() ? View.GONE : View.VISIBLE);
 
         llDashboardPrivacyNotice = findViewById(R.id.ll_dashboard_privacy_notice);
         llDashboardPrivacyNotice.setVisibility(View.GONE);
@@ -146,8 +147,8 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     }
 
     private void checkConsent() {
-        if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.CONSENT, false)) {
-            llDashboardPrivacyNotice.setVisibility(routine == null && !inRecord ? View.VISIBLE : View.GONE);
+        if (routine == null && !inRecord && !DCSession.getInstance().isChildUser() && DCSession.getInstance().getUser() != null) {
+            llDashboardPrivacyNotice.setVisibility(DCSession.getInstance().getUser().hasConsent() ? View.GONE : View.VISIBLE);
         } else {
             llDashboardPrivacyNotice.setVisibility(View.GONE);
         }
@@ -156,8 +157,22 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
     private void onPrivacyNoticeClicked() {
         DCAgreementFragment agreementFragment = new DCAgreementFragment();
         agreementFragment.setListener(() -> {
-            DCSharedPreferences.saveBoolean(DCSharedPreferences.DCSharedKey.CONSENT, true);
-            llDashboardPrivacyNotice.setVisibility(View.GONE);
+            DCUser user = DCSession.getInstance().getUser();
+            if (user != null) {
+                user.setHasConsent(true);
+                DCApiManager.getInstance().patchUser(user, new DCResponseListener<DCUser>() {
+                    @Override
+                    public void onFailure(DCError error) {
+                        onError(error);
+                    }
+
+                    @Override
+                    public void onResponse(DCUser object) {
+                        DCSession.getInstance().setUser(object);
+                    }
+                });
+                llDashboardPrivacyNotice.setVisibility(View.GONE);
+            }
         });
 
         final FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -277,7 +292,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         } else {
             toolbar.setVisibility(View.VISIBLE);
             tlDashboardTabs.setVisibility(View.VISIBLE);
-            llDashboardDcnTotal.setVisibility(View.VISIBLE);
+            llDashboardDcnTotal.setVisibility(DCSession.getInstance().isChildUser() ? View.GONE : View.VISIBLE);
             vSeparator.setVisibility(View.VISIBLE);
             vpDashboardPager.setSwipeEnabled(true);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

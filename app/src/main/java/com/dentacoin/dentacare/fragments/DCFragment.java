@@ -14,12 +14,6 @@ import com.dentacoin.dentacare.model.DCError;
 public class DCFragment extends Fragment {
     protected static final String TAG = DCFragment.class.getSimpleName();
 
-    protected void onBackPressed() {
-        if (getActivity() != null) {
-            getActivity().onBackPressed();
-        }
-    }
-
     public void onError(DCError error) {
         if (error != null && getActivity() != null) {
             Activity activity = getActivity();
