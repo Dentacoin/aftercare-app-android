@@ -150,7 +150,8 @@ public class DCError {
             ErrorKey.ERROR_USER_DELETE,
             ErrorKey.ERROR_MISSING_CAPTCHA_ID,
             ErrorKey.ERROR_MISSING_CAPTCHA,
-            ErrorKey.ERROR_JOURNEY_NOT_STARTED
+            ErrorKey.ERROR_JOURNEY_NOT_STARTED,
+            ErrorKey.ERROR_DELETE_CHILD
     };
 
     public enum ErrorKey {
@@ -181,7 +182,8 @@ public class DCError {
         ERROR_USER_DELETE("error_deleting_user", R.string.server_error_delete_user),
         ERROR_MISSING_CAPTCHA_ID("missing_captcha_id", R.string.server_error_no_captcha_id),
         ERROR_MISSING_CAPTCHA("missing_captcha_code", R.string.server_error_no_captcha),
-        ERROR_JOURNEY_NOT_STARTED("not_started_yet", R.string.server_error_journey_not_started);
+        ERROR_JOURNEY_NOT_STARTED("not_started_yet", R.string.server_error_journey_not_started),
+        ERROR_DELETE_CHILD("error_delete_child", R.string.server_error_delete_child);
 
         String key;
         int resourceId;

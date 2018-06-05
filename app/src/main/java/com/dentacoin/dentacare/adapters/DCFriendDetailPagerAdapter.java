@@ -3,7 +3,7 @@ package com.dentacoin.dentacare.adapters;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentStatePagerAdapter;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.fragments.DCFriendGoalsFragment;
@@ -14,13 +14,13 @@ import com.dentacoin.dentacare.model.DCFriend;
 /**
  * Created by Atanas Chervarov on 21.05.18.
  */
-public class DCFriendDetailPagerAdapter extends FragmentPagerAdapter {
+public class DCFriendDetailPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int COUNT = 3;
     private final String infoTitle;
     private final String statisticsTitle;
     private final String goalsTitle;
-    private final DCFriend friend;
+    private DCFriend friend;
 
     public DCFriendDetailPagerAdapter(Context context, DCFriend friend, FragmentManager fm) {
         super(fm);
@@ -28,6 +28,11 @@ public class DCFriendDetailPagerAdapter extends FragmentPagerAdapter {
         statisticsTitle = context.getString(R.string.friend_tab_statistics);
         goalsTitle = context.getString(R.string.friend_tab_goals);
         this.friend = friend;
+    }
+
+    public void setFriend(DCFriend friend) {
+        this.friend = friend;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -46,6 +51,11 @@ public class DCFriendDetailPagerAdapter extends FragmentPagerAdapter {
                 return DCFriendGoalsFragment.create(friend);
         }
         return null;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     @Override

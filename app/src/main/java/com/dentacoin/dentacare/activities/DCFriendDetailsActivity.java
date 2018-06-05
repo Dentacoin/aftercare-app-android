@@ -8,7 +8,11 @@ import android.support.design.widget.TabLayout;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.adapters.DCFriendDetailPagerAdapter;
+import com.dentacoin.dentacare.model.DCChild;
+import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCFriend;
+import com.dentacoin.dentacare.network.DCApiManager;
+import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.widgets.DCVIewPager;
 
 /**
@@ -51,5 +55,50 @@ public class DCFriendDetailsActivity extends DCToolbarActivity {
         vpFriend.setCurrentItem(0);
 
         setActionBarTitle(friend.getFullName());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_EDIT_CHILD && resultCode == RESULT_OK) {
+            if (data.getSerializableExtra(KEY_UPDATE_OBJECT) instanceof DCChild) {
+                onUpdate();
+            }
+            else if (data.getSerializableExtra(KEY_DELETE_OBJECT) instanceof DCChild) {
+                finish();
+            }
+        }
+    }
+
+    private void setupUI(DCFriend friend) {
+        if (friend != null) {
+            this.friend = friend;
+            setActionBarTitle(friend.getFullName());
+            if (adapter != null) {
+                adapter.setFriend(friend);
+            }
+        }
+    }
+
+    private void onUpdate() {
+        DCApiManager.getInstance().getFriends(new DCResponseListener<DCFriend[]>() {
+            @Override
+            public void onFailure(DCError error) {
+                onError(error);
+                finish();
+            }
+
+            @Override
+            public void onResponse(DCFriend[] friends) {
+                if (friends != null) {
+                    for (DCFriend friendObject : friends) {
+                        if (friendObject.getId() == friend.getId()) {
+                            setupUI(friendObject);
+                            return;
+                        }
+                    }
+                }
+            }
+        });
     }
 }

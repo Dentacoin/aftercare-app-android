@@ -2,20 +2,31 @@ package com.dentacoin.dentacare.model;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Atanas Chervarov on 10.05.18.
  */
-public class DCChild {
+public class DCChild implements Serializable {
+
+    public DCChild() {
+    }
+
+    public DCChild(int id, String firstname, int birthyear) {
+        this.id = id;
+        this.firstname = firstname;
+        this.birthyear = birthyear;
+    }
+
     @Expose(serialize = false, deserialize = true)
-    private int id;
+    protected int id;
     @Expose()
-    private String firstname;
+    protected String firstname;
     @Expose()
-    private int birthyear;
+    protected int birthyear;
     @Expose(serialize = false, deserialize = true)
-    private Date lastactivity;
+    protected Date lastactivity;
 
     public int getId() {
         return id;
@@ -29,8 +40,12 @@ public class DCChild {
         return birthyear;
     }
 
-    public Date getLastactivity() {
+    public Date getLastActivity() {
         return lastactivity;
+    }
+
+    public void setLastactivity(Date lastactivity) {
+        this.lastactivity = lastactivity;
     }
 
     public void setFirstname(String firstname) {

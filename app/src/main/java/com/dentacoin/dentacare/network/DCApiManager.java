@@ -93,6 +93,7 @@ public class DCApiManager {
     private static final String ENDPOINT_JOURNEY = "journey";
     private static final String ENDPOINT_ROUTINE = "journey/routines";
     private static final String ENDPOINT_CHILDREN = "children";
+    private static final String ENDPOINT_PATCH_CHILD = "children/{0}";
     private static final String ENDPOINT_FRIENDS = "friends";
     private static final String ENDPOINT_FRIEND_GOALS = "friends/{0}/goals";
     private static final String ENDPOINT_FRIEND_DASHBOARD = "friends/{0}/dashboard";
@@ -464,6 +465,32 @@ public class DCApiManager {
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(child));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCChild.class));
+    }
+
+    /**
+     * Update child account
+     * @param id
+     * @param child
+     * @param listener
+     */
+    public void patchChild(int id, DCChild child, final DCResponseListener<DCChild> listener) {
+        String path = MessageFormat.format(ENDPOINT_PATCH_CHILD, Integer.toString(id));
+        String endpoint = buildPath(path, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(child));
+        Request request = buildRequest(RequestMethod.PATCH, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCChild.class));
+    }
+
+    /**
+     * Delete child account
+     * @param id
+     * @param listener
+     */
+    public void deleteChild(int id, final DCResponseListener<Void> listener) {
+        String path = MessageFormat.format(ENDPOINT_PATCH_CHILD, Integer.toString(id));
+        String endpoint = buildPath(path, null);
+        Request request = buildRequest(RequestMethod.DELETE, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
     }
 
     /**

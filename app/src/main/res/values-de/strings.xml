@@ -371,4 +371,7 @@
     <string name="server_error_no_captcha_id">Internal error: Missing captcha id!</string>
     <string name="server_error_journey_not_started">User didn\'t start any journey yet!</string>
     <string name="server_error_invalid_gender">Invalid gender type</string>
+    <string name="server_error_delete_child">Error deleting child!</string>
+    <string name="child_btn_delete">Delete</string>
+    <string name="child_hdl_delete">Delete child account?</string>
 </resources>

@@ -35,7 +35,7 @@ public class DCConstants {
     public static final Pattern IBAN_SHORT_PATTERN = Pattern.compile("[A-Z0-9]{34}");
 
     public static final SimpleDateFormat DATE_FORMAT_BIRTHDAY = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
-    public static final SimpleDateFormat DATE_FORMAT_LAST_ACTIVITY = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+    public static final SimpleDateFormat DATE_FORMAT_LAST_ACTIVITY = new SimpleDateFormat("dd MMM yyyy HH:mm", Locale.ENGLISH);
 
     public static final int MIN_AGE = 13;
     public static final int MAX_AGE = 99;

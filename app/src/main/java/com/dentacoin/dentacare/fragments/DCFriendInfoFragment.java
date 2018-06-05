@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCActivity;
+import com.dentacoin.dentacare.activities.DCEditChildAccountActivity;
+import com.dentacoin.dentacare.model.DCChild;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCFriend;
 import com.dentacoin.dentacare.network.DCApiManager;
@@ -127,6 +129,7 @@ public class DCFriendInfoFragment extends DCFragment {
     }
 
     private void onEditAccount() {
-        //TODO:
+        DCChild child = new DCChild(friend.getId(), friend.getFirstname(), friend.getBirthyear());
+        getActivity().startActivityForResult(DCEditChildAccountActivity.createIntent(getActivity(), child), DCActivity.REQUEST_CODE_EDIT_CHILD);
     }
 }

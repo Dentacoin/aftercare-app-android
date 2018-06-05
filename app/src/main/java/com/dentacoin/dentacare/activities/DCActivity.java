@@ -27,6 +27,12 @@ import com.twitter.sdk.android.core.TwitterCore;
  */
 
 public class DCActivity extends AppCompatActivity {
+
+    public static final int REQUEST_CODE_EDIT_CHILD = 9001;
+
+    protected static final String KEY_UPDATE_OBJECT = "KEY_UPDATE_OBJECT";
+    protected static final String KEY_DELETE_OBJECT = "KEY_DELETE_OBJECT";
+
     protected static final String TAG = DCActivity.class.getSimpleName();
 
     @Override

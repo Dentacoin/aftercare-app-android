@@ -1,7 +1,6 @@
 package com.dentacoin.dentacare.model;
 
 import android.content.Context;
-import android.net.Uri;
 
 import com.dentacoin.dentacare.utils.DCConstants;
 
@@ -12,28 +11,16 @@ import java.util.Date;
 /**
  * Created by Atanas Chervarov on 11.05.18.
  */
-public class DCFriend implements Serializable {
-    private int id;
+public class DCFriend extends DCChild implements Serializable {
 
-    private String firstname;
     private String lastname;
     private String gender;
     private String email;
-    private int birthyear;
     private Date birthday;
 
     private DCAvatar avatar;
     private String type;
-    private Date lastActivity;
     private boolean needsAccept;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
 
     public String getLastname() {
         return lastname;
@@ -47,16 +34,8 @@ public class DCFriend implements Serializable {
         return needsAccept;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
     public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-
-    public void setLastActivity(Date lastActivity) {
-        this.lastActivity = lastActivity;
     }
 
     public void setNeedsAccept(boolean needsAccept) {
@@ -99,10 +78,6 @@ public class DCFriend implements Serializable {
             return avatar.getAvatarUrl(context);
         }
         return null;
-    }
-
-    public Date getLastActivity() {
-        return lastActivity;
     }
 
     public Integer getAge() {
