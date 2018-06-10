@@ -35,7 +35,7 @@ public class DCSoundManager {
 
     private IDCSoundListener listener;
 
-    private Music[] music = {
+    private static final Music[] playList = {
             Music.SONG1,
             Music.SONG2,
             Music.SONG3,
@@ -47,7 +47,7 @@ public class DCSoundManager {
             Music.SONG9
     };
 
-    private Music currentMusic;
+    private int currentSong = 0;
 
     public static synchronized DCSoundManager getInstance() {
         if (instance == null)
@@ -190,12 +190,33 @@ public class DCSoundManager {
         }
     }
 
+
+    public void playCurrent(Context context) {
+        if (currentSong > playList.length -1)
+            currentSong = 0;
+        else if (currentSong < 0)
+            currentSong = playList.length - 1;
+
+        playMusic(context, playList[currentSong]);
+    }
+
+    public void skipNext(Context context) {
+        currentSong++;
+        playCurrent(context);
+    }
+
+    public void skipPrev(Context context) {
+        currentSong--;
+        playCurrent(context);
+    }
+
+
     /**
      * Plays MUSIC if music is enabled
      * @param context
      * @param music
      */
-    public void playMusic(Context context, final Music music) {
+    private void playMusic(Context context, final Music music) {
         if (!musicEnabled || context == null)
             return;
 
@@ -255,7 +276,7 @@ public class DCSoundManager {
      * Resume music if currently playing
      */
     public void resumeMusic() {
-        if (musicPlayer != null && soundEnabled) {
+        if (musicPlayer != null && musicEnabled) {
             try {
                 if (!musicPlayer.isPlaying()) {
                     musicPlayer.start();

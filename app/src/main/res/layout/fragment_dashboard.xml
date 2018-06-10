@@ -40,6 +40,42 @@
             android:gravity="center"
             android:ellipsize="end"/>
         <LinearLayout
+            android:id="@+id/ll_dashboard_music_controls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+            android:layout_gravity="center_horizontal">
+            <com.dentacoin.dentacare.widgets.DCButton
+                android:id="@+id/btn_dashboard_skip_prev"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/baseline_skip_previous_black_36"
+                android:layout_gravity="center_vertical"/>
+            <com.dentacoin.dentacare.widgets.DCButton
+                android:id="@+id/btn_dashboard_play"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/baseline_play_circle_filled_black_48"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"/>
+            <com.dentacoin.dentacare.widgets.DCButton
+                android:id="@+id/btn_dashboard_pause"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/baseline_pause_circle_filled_black_48"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"/>
+            <com.dentacoin.dentacare.widgets.DCButton
+                android:id="@+id/btn_dashboard_skip_next"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/baseline_skip_next_black_36"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/ll_dashboard_statistics"
             android:visibility="gone"
             android:layout_width="match_parent"
