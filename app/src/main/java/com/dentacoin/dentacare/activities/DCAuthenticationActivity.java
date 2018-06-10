@@ -379,17 +379,27 @@ public class DCAuthenticationActivity extends DCActivity {
         if (DCSession.getInstance().isValid()) {
             DCSession.getInstance().loadSocialAvatar(this);
             DCLocalNotificationsManager.getInstance().scheduleNotifications(this, false);
-            if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.SEEN_ONBOARDING, false)) {
-                final Intent intent = new Intent(this, DCOnboardingActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                finish();
-            } else {
-                final Intent intent = new Intent(this, DCDashboardActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                finish();
-            }
+            DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
+                @Override
+                public void onFailure(DCError error) {
+                    onError(error);
+                }
+
+                @Override
+                public void onResponse(DCUser object) {
+                    if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.SEEN_ONBOARDING, false)) {
+                        final Intent intent = new Intent(DCAuthenticationActivity.this, DCOnboardingActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        final Intent intent = new Intent(DCAuthenticationActivity.this, DCDashboardActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            });
         }
     }
 }

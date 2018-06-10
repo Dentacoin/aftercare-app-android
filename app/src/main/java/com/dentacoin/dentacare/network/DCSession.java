@@ -70,6 +70,7 @@ public class DCSession {
             if (user.getEmail() != null) {
                 if (lastLoggedIn != null && lastLoggedIn.compareTo(user.getEmail()) != 0) {
                     DCSharedPreferences.removeKey(DCSharedPreferences.DCSharedKey.SHOWED_TUTORIALS);
+                    DCSharedPreferences.removeKey(DCSharedPreferences.DCSharedKey.SEEN_ONBOARDING);
                 }
                 DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.LAST_LOGGED_EMAIL, user.getEmail());
             }

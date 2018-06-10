@@ -138,9 +138,7 @@ public class DCSharedPreferences {
         removeKey(DCSharedKey.REMINDER_TO_VISIT);
         removeKey(DCSharedKey.HEALTHY_HABIT);
         removeKey(DCSharedKey.FIRST_LOGIN_DATE);
-        removeKey(DCSharedKey.SEEN_ONBOARDING);
         removeKey(DCSharedKey.SHOW_EMAIL_VERIFICATION);
-        removeKey(DCSharedKey.SHOWED_TUTORIALS);
     }
 
     /**
