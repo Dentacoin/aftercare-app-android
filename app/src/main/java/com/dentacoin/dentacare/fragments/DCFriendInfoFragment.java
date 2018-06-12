@@ -1,6 +1,7 @@
 package com.dentacoin.dentacare.fragments;
 
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -46,6 +47,7 @@ public class DCFriendInfoFragment extends DCFragment {
     private DCTextView tvFriendLastActivity;
     private DCButton btnChildUseAccount;
     private DCButton btnChildEdit;
+    private DCButton btnFriendDelete;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -67,6 +69,10 @@ public class DCFriendInfoFragment extends DCFragment {
         btnChildEdit = view.findViewById(R.id.btn_child_edit);
         btnChildEdit.setVisibility(friend.isChild() ? View.VISIBLE : View.GONE);
         btnChildEdit.setOnClickListener(v -> onEditAccount());
+
+        btnFriendDelete = view.findViewById(R.id.btn_friend_delete);
+        btnFriendDelete.setVisibility(friend.isChild() ? View.GONE : View.VISIBLE);
+        btnFriendDelete.setOnClickListener(v -> onDeleteAccount());
 
         sdvFriendAvatar.setImageURI(friend.getAvatarUrl(getActivity()));
 
@@ -131,5 +137,34 @@ public class DCFriendInfoFragment extends DCFragment {
     private void onEditAccount() {
         DCChild child = new DCChild(friend.getId(), friend.getFirstname(), friend.getBirthyear());
         getActivity().startActivityForResult(DCEditChildAccountActivity.createIntent(getActivity(), child), DCActivity.REQUEST_CODE_EDIT_CHILD);
+    }
+
+    public void onDeleteAccount() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.friend_hdl_delete)
+                .setPositiveButton(R.string.txt_ok, (dialog, i) -> {
+                    DCLoadingFragment loadingFragment = showLoading();
+                    DCApiManager.getInstance().deleteFriend(friend.getId(), new DCResponseListener<Void>() {
+                        @Override
+                        public void onFailure(DCError error) {
+                            onError(error);
+                            loadingFragment.dismissAllowingStateLoss();
+                        }
+
+                        @Override
+                        public void onResponse(Void object) {
+                            if (getActivity() != null) {
+                                getActivity().finish();
+                            }
+                            loadingFragment.dismissAllowingStateLoss();
+                        }
+                    });
+                })
+                .setNegativeButton(R.string.txt_cancel, (dialog, i) -> {
+                    dialog.dismiss();
+                })
+                .create()
+                .show();
+
     }
 }

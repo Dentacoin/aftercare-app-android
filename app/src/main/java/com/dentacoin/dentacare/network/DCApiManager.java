@@ -95,6 +95,7 @@ public class DCApiManager {
     private static final String ENDPOINT_CHILDREN = "children";
     private static final String ENDPOINT_PATCH_CHILD = "children/{0}";
     private static final String ENDPOINT_FRIENDS = "friends";
+    private static final String ENDPOINT_PATCH_FRIEND = "friends/{0}";
     private static final String ENDPOINT_FRIEND_GOALS = "friends/{0}/goals";
     private static final String ENDPOINT_FRIEND_DASHBOARD = "friends/{0}/dashboard";
     private static final String ENDPOINT_INVITATIONS_RETRIEVE = "invitations/request";
@@ -598,6 +599,18 @@ public class DCApiManager {
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(new DCChildLogin(id)));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCAuthToken.class));
+    }
+
+    /**
+     * Delete friend
+     * @param id
+     * @param listener
+     */
+    public void deleteFriend(int id, final DCResponseListener<Void> listener) {
+        String path = MessageFormat.format(ENDPOINT_PATCH_FRIEND, Integer.toString(id));
+        String endpoint = buildPath(path, null);
+        Request request = buildRequest(RequestMethod.DELETE, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
     }
 
     /**

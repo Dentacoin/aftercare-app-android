@@ -83,6 +83,12 @@
                 android:text="@string/btn_child_use_account"
                 android:layout_margin="8dp"
                 android:visibility="gone"/>
+            <com.dentacoin.dentacare.widgets.DCButton
+                android:id="@+id/btn_friend_delete"
+                style="@style/DCButton.Auth.Red"
+                android:text="@string/child_btn_delete"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="8dp"/>
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

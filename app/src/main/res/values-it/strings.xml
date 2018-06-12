@@ -374,4 +374,5 @@
     <string name="server_error_delete_child">Error deleting child!</string>
     <string name="child_btn_delete">Delete</string>
     <string name="child_hdl_delete">Delete child account?</string>
+    <string name="friend_hdl_delete">Remove from friends?</string>
 </resources>
