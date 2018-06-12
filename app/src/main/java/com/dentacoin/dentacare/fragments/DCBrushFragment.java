@@ -168,34 +168,34 @@ public class DCBrushFragment extends DCDashboardFragment {
         super.handleClockTick(millisUntilFinished);
         float t = (DCConstants.COUNTDOWN_MAX_AMOUNT - millisUntilFinished) / 1000.0f;
 
-        if (t > 0 && t < 30 && !ulvisible) {
-            dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.UL, getResources().getColor(R.color.lightBlueAlpha));
-            ulvisible = true;
+        if (t > 0 && t < 30 && !urvisible) {
+            dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.UR, getResources().getColor(R.color.lightBlueAlpha));
+            urvisible = true;
             DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_STEP_1);
             setMessage(getString(R.string.message_brush_1));
         }
-        else if (t > 30 && t < 60 && !wlvisible) {
+        else if (t > 30 && t < 60 && !ulvisible) {
             setRecordButtonEnabled(true);
+            dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.UL, getResources().getColor(R.color.lightBlueAlpha));
+            ulvisible = true;
+            dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.UR);
+            urvisible = false;
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_STEP_2);
+            setMessage(getString(R.string.message_brush_2));
+        }
+        else if (t > 60 && t < 90 && !wlvisible) {
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.WL, getResources().getColor(R.color.lightBlueAlpha));
             wlvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.UL);
             ulvisible = false;
-            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_STEP_2);
-            setMessage(getString(R.string.message_brush_2));
+            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_STEP_3);
+            setMessage(getString(R.string.message_brush_3));
         }
-        else if (t > 60 && t < 90 && !wrvisible) {
+        else if (t > 90 && t < 120 && !wrvisible) {
             dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.WR, getResources().getColor(R.color.lightBlueAlpha));
             wrvisible = true;
             dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.WL);
             wlvisible = false;
-            DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_STEP_3);
-            setMessage(getString(R.string.message_brush_3));
-        }
-        else if (t > 90 && t < 120 && !urvisible) {
-            dtDashboardTeeth.fadeIn(DCDashboardTeeth.Quadrant.UR, getResources().getColor(R.color.lightBlueAlpha));
-            urvisible = true;
-            dtDashboardTeeth.fadeOut(DCDashboardTeeth.Quadrant.WR);
-            wrvisible = false;
             DCSoundManager.getInstance().playVoice(getActivity(), Voice.BRUSH_STEP_4);
             setMessage(getString(R.string.message_brush_4));
         } else if (t > 120 && !pressStopWhenReady) {
