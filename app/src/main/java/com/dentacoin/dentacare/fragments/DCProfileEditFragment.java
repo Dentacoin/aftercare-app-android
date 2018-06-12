@@ -24,9 +24,7 @@ import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
 import com.dentacoin.dentacare.network.DCSession;
-import com.dentacoin.dentacare.network.request.DCCaptcha;
 import com.dentacoin.dentacare.utils.DCConstants;
-import com.dentacoin.dentacare.utils.DCLocalNotificationsManager;
 import com.dentacoin.dentacare.utils.DCUtils;
 import com.dentacoin.dentacare.utils.IDatePickerListener;
 import com.dentacoin.dentacare.widgets.DCButton;
@@ -35,10 +33,6 @@ import com.dentacoin.dentacare.widgets.DCTextInputEditText;
 import com.dentacoin.dentacare.widgets.DCTextInputLayout;
 import com.dentacoin.dentacare.widgets.DCUserDeleteDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
@@ -48,7 +42,6 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.mukesh.countrypicker.Country;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-import com.twitter.sdk.android.core.TwitterCore;
 
 import java.io.File;
 import java.util.Date;
@@ -185,11 +178,11 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
         btnProfileFemale.setSelected(false);
 
         if (user.getGender() != null) {
-            if (DCUser.GENDER_MALE.equals(user.getGender())) {
+            if (DCConstants.GENDER_MALE.equals(user.getGender())) {
                 btnProfileMale.setSelected(true);
                 btnProfileFemale.setSelected(false);
             }
-            else if (DCUser.GENDER_FEMALE.equals(user.getGender())) {
+            else if (DCConstants.GENDER_FEMALE.equals(user.getGender())) {
                 btnProfileMale.setSelected(false);
                 btnProfileFemale.setSelected(true);
             }
@@ -223,11 +216,11 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
                 pickLocation();
                 break;
             case R.id.btn_profile_male:
-                user.setGender(DCUser.GENDER_MALE);
+                user.setGender(DCConstants.GENDER_MALE);
                 setUser(user);
                 break;
             case R.id.btn_profile_female:
-                user.setGender(DCUser.GENDER_FEMALE);
+                user.setGender(DCConstants.GENDER_FEMALE);
                 setUser(user);
                 break;
             case R.id.iv_profile_close:
@@ -240,28 +233,18 @@ public class DCProfileEditFragment extends DCFragment implements View.OnClickLis
     }
 
     private void deleteProfile() {
-      DCUserDeleteDialog.create(new DCUserDeleteDialog.IDCUserDeleteDialog() {
-          @Override
-          public void onUserDelete(DCCaptcha captcha) {
-              DCApiManager.getInstance().deleteUser(captcha, new DCResponseListener<Void>() {
-                  @Override
-                  public void onFailure(DCError error) {
-                      onError(error);
-                  }
+      DCUserDeleteDialog.create(captcha -> {
+          DCApiManager.getInstance().deleteUser(captcha, new DCResponseListener<Void>() {
+              @Override
+              public void onFailure(DCError error) {
+                  onError(error);
+              }
 
-                  @Override
-                  public void onResponse(Void object) {
-                      DCLocalNotificationsManager.getInstance().scheduleNotifications(getActivity(), true);
-                      DCSession.getInstance().clear();
-                      LoginManager.getInstance().logOut();
-                      TwitterCore.getInstance().getSessionManager().clearActiveSession();
-                      GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build();
-                      GoogleSignInClient client = GoogleSignIn.getClient(getActivity(), gso);
-                      client.signOut();
-                      ((DCActivity)getActivity()).onLogout();
-                  }
-              });
-          }
+              @Override
+              public void onResponse(Void object) {
+                  ((DCActivity)getActivity()).onLogout();
+              }
+          });
       }).show(getFragmentManager(), DCUserDeleteDialog.TAG);
     }
 

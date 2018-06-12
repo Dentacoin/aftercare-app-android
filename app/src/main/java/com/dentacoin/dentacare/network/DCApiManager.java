@@ -9,9 +9,14 @@ import android.net.Uri;
 
 import com.dentacoin.dentacare.BuildConfig;
 import com.dentacoin.dentacare.model.DCAvatar;
+import com.dentacoin.dentacare.model.DCChild;
+import com.dentacoin.dentacare.model.DCChildLogin;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCFriend;
 import com.dentacoin.dentacare.model.DCGoal;
+import com.dentacoin.dentacare.model.DCInvitationAccept;
+import com.dentacoin.dentacare.model.DCInvitationToken;
 import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCOralHealthItem;
 import com.dentacoin.dentacare.model.DCResetPassword;
@@ -29,6 +34,8 @@ import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -85,6 +92,19 @@ public class DCApiManager {
     private static final String ENDPOINT_EMAIL_CONFIRM = "confirm";
     private static final String ENDPOINT_JOURNEY = "journey";
     private static final String ENDPOINT_ROUTINE = "journey/routines";
+    private static final String ENDPOINT_CHILDREN = "children";
+    private static final String ENDPOINT_PATCH_CHILD = "children/{0}";
+    private static final String ENDPOINT_FRIENDS = "friends";
+    private static final String ENDPOINT_PATCH_FRIEND = "friends/{0}";
+    private static final String ENDPOINT_FRIEND_GOALS = "friends/{0}/goals";
+    private static final String ENDPOINT_FRIEND_DASHBOARD = "friends/{0}/dashboard";
+    private static final String ENDPOINT_INVITATIONS_RETRIEVE = "invitations/request";
+    private static final String ENDPOINT_INVITATIONS_REQUESTED = "invitations/requested/{0}";
+    private static final String ENDPOINT_INVITATIONS_APPROVE = "invitations/approve";
+    private static final String ENDPOINT_INVITATIONS_ACCEPT = "invitations/accept";
+    private static final String ENDPOINT_INVITATIONS_DECLINE = "invitations/decline";
+    private static final String ENDPOINT_LOGIN_CHILD = "children/login";
+
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
     private static final String HEADER_KEY_FBM ="FirebaseToken";
@@ -231,6 +251,9 @@ public class DCApiManager {
                 if (jsonObject.get("avatar_64") == null && jsonObject.get("avatar") == null) {
                     jsonObject.addProperty("avatar_64", false);
                     jsonObject.addProperty("avatar",false);
+                }
+                if (jsonObject.get("email") != null) {
+                    jsonObject.remove("email");
                 }
                 payload = jsonObject.toString();
             }
@@ -431,6 +454,163 @@ public class DCApiManager {
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(routine));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCRoutine.class));
+    }
+
+    /**
+     * Create a new proxy child account
+     * @param child
+     * @param listener
+     */
+    public void postChild(DCChild child, final DCResponseListener<DCChild> listener) {
+        String endpoint = buildPath(ENDPOINT_CHILDREN, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(child));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCChild.class));
+    }
+
+    /**
+     * Update child account
+     * @param id
+     * @param child
+     * @param listener
+     */
+    public void patchChild(int id, DCChild child, final DCResponseListener<DCChild> listener) {
+        String path = MessageFormat.format(ENDPOINT_PATCH_CHILD, Integer.toString(id));
+        String endpoint = buildPath(path, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(child));
+        Request request = buildRequest(RequestMethod.PATCH, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCChild.class));
+    }
+
+    /**
+     * Delete child account
+     * @param id
+     * @param listener
+     */
+    public void deleteChild(int id, final DCResponseListener<Void> listener) {
+        String path = MessageFormat.format(ENDPOINT_PATCH_CHILD, Integer.toString(id));
+        String endpoint = buildPath(path, null);
+        Request request = buildRequest(RequestMethod.DELETE, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
+     * Retrieve family & friends
+     * @param listener
+     */
+    public void getFriends(final DCResponseListener<DCFriend[]> listener) {
+        String endpoint = buildPath(ENDPOINT_FRIENDS, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCFriend[].class));
+    }
+
+
+    /**
+     * Retrieve achieved goals of a friend
+     * @param friendId
+     * @param listener
+     */
+    public void getFriendGoals(int friendId, final DCResponseListener<DCGoal[]> listener) {
+        String friendGoalsPath = MessageFormat.format(ENDPOINT_FRIEND_GOALS, Integer.toString(friendId));
+        String endpoint = buildPath(friendGoalsPath, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCGoal[].class));
+    }
+
+    /**
+     * Retrieve dashboard of a friend
+     * @param friendId
+     * @param listener
+     */
+    public void getFriendStatistics(int friendId, final DCResponseListener<DCDashboard> listener) {
+        String friendDashboardPath = MessageFormat.format(ENDPOINT_FRIEND_DASHBOARD, Integer.toString(friendId));
+        String endpoint = buildPath(friendDashboardPath, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCDashboard.class));
+    }
+
+
+    /**
+     * Retrieve new invitation token
+     * @param listener
+     */
+    public void getInvitationToken(final DCResponseListener<DCInvitationToken> listener) {
+        String endpoint = buildPath(ENDPOINT_INVITATIONS_RETRIEVE, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(new ArrayList<>()));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCInvitationToken.class));
+    }
+
+    /**
+     * Retrieve invitation info
+     * @param token
+     * @param listener
+     */
+    public void getInvitationRequest(String token, final DCResponseListener<DCUser> listener) {
+        String path = MessageFormat.format(ENDPOINT_INVITATIONS_REQUESTED, token);
+        String endpoint = buildPath(path, null);
+        Request request = buildRequest(RequestMethod.GET, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCUser.class));
+    }
+
+    /**
+     * Approve invitation
+     * @param token
+     * @param listener
+     */
+    public void approveInvitation(String token, final DCResponseListener<Void> listener) {
+        String endpoint = buildPath(ENDPOINT_INVITATIONS_APPROVE, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(new DCInvitationToken(token)));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
+     * Accept invitation
+     * @param userId
+     * @param listener
+     */
+    public void acceptInvitation(int userId, final DCResponseListener<Void> listener) {
+        String endpoint = buildPath(ENDPOINT_INVITATIONS_ACCEPT, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(new DCInvitationAccept(userId)));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
+     * Decline invitation
+     * @param userId
+     * @param listener
+     */
+    public void declineInvitation(int userId, final DCResponseListener<Void> listener) {
+        String endpoint = buildPath(ENDPOINT_INVITATIONS_DECLINE, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(new DCInvitationAccept(userId)));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
+    }
+
+    /**
+     * Login as a child
+     * @param id
+     * @param listener
+     */
+    public void loginAsChild(int id, final DCResponseListener<DCAuthToken> listener) {
+        String endpoint = buildPath(ENDPOINT_LOGIN_CHILD, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(new DCChildLogin(id)));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCAuthToken.class));
+    }
+
+    /**
+     * Delete friend
+     * @param id
+     * @param listener
+     */
+    public void deleteFriend(int id, final DCResponseListener<Void> listener) {
+        String path = MessageFormat.format(ENDPOINT_PATCH_FRIEND, Integer.toString(id));
+        String endpoint = buildPath(path, null);
+        Request request = buildRequest(RequestMethod.DELETE, endpoint, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, Void.class));
     }
 
     /**

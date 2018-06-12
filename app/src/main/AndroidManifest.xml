@@ -2,7 +2,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dentacoin.dentacare"
-    android:versionName="1.0.2">
+    android:versionName="1.1.0">
     
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -53,6 +53,13 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="dentacare.dentacoin.com" android:scheme="http"/>
+                <data android:host="dentacare.dentacoin.com" android:scheme="https"/>
             </intent-filter>
         </activity>
         <activity
@@ -113,6 +120,22 @@
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".activities.DCWithdrawsActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activities.DCFamilyAndFriendsActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activities.DCCreateChildAccount"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activities.DCFriendDetailsActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activities.DCEditChildAccountActivity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/AppTheme"/>
         <activity

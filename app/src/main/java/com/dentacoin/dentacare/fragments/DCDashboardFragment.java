@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -84,6 +86,12 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     private RelativeLayout rlTimerHolder;
     private LinearLayout llDashboardHolder;
 
+    private LinearLayout llDashboardMusicControls;
+    private DCButton btnDashboardSkipPrev;
+    private DCButton btnDashboardPlay;
+    private DCButton btnDashboardPause;
+    private DCButton btnDashboardSkipNext;
+
     protected boolean trackingTime = false;
     protected Routine routine;
 
@@ -95,6 +103,26 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
     private CoordinatorLayout.LayoutParams dashboardParams = new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     private float tHeight;
     private float tWidth;
+
+    private Animation scaleDownAnimation;
+    private Animation scaleUpAnimation;
+    private AnimationSet btnAnimation;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        scaleDownAnimation = new ScaleAnimation(1.0f, 0.75f, 1.0f, 0.75f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleDownAnimation.setDuration(50);
+
+        scaleUpAnimation = new ScaleAnimation(0.75f, 1.0f, 0.75f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleUpAnimation.setDuration(50);
+        scaleUpAnimation.setStartOffset(50);
+
+        btnAnimation = new AnimationSet(true);
+        btnAnimation.addAnimation(scaleDownAnimation);
+        btnAnimation.addAnimation(scaleUpAnimation);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
@@ -134,6 +162,19 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
         tvDashboardMessageContainer.setText("");
         rlTimerHolder = view.findViewById(R.id.rl_timer_holder);
         llDashboardHolder = view.findViewById(R.id.ll_dashboard_holder);
+
+        llDashboardMusicControls = view.findViewById(R.id.ll_dashboard_music_controls);
+        btnDashboardSkipPrev = view.findViewById(R.id.btn_dashboard_skip_prev);
+        btnDashboardPlay = view.findViewById(R.id.btn_dashboard_play);
+        btnDashboardPause = view.findViewById(R.id.btn_dashboard_pause);
+        btnDashboardSkipNext = view.findViewById(R.id.btn_dashboard_skip_next);
+        llDashboardMusicControls.setVisibility(View.GONE);
+
+        btnDashboardSkipPrev.setOnClickListener(v -> onMusicSkipPrev());
+        btnDashboardSkipNext.setOnClickListener(v -> onMusicSkipNext());
+        btnDashboardPlay.setOnClickListener(v -> onMusicPlay());
+        btnDashboardPause.setOnClickListener(v -> onMusicPause());
+
 
         final Resources r = getResources();
         dashboardHolderPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, r.getDisplayMetrics());
@@ -361,6 +402,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                 llDashboardStatistics.setVisibility(View.GONE);
                 tvDashboardMessageContainer.clearAnimation();
                 tvDashboardMessageContainer.setVisibility(View.VISIBLE);
+                toggleMusicControls(true);
             } else {
                 dashboardParams.setMargins(0, 0, 0, (int)dashboardHolderPadding);
                 llBottomStatistics.setVisibility(View.VISIBLE);
@@ -371,9 +413,26 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                 llDashboardStatistics.setVisibility(View.VISIBLE);
                 tvDashboardMessageContainer.clearAnimation();
                 tvDashboardMessageContainer.setVisibility(View.GONE);
+                toggleMusicControls(false);
             }
 
             llDashboardHolder.setLayoutParams(dashboardParams);
+        }
+    }
+
+    protected void toggleMusicControls(boolean visible) {
+        if (visible && DCSoundManager.getInstance().isMusicEnabled()) {
+            llDashboardMusicControls.setVisibility(View.VISIBLE);
+
+            if (DCSoundManager.getInstance().isMusicPlaying()) {
+                btnDashboardPause.setVisibility(View.VISIBLE);
+                btnDashboardPlay.setVisibility(View.GONE);
+            } else {
+                btnDashboardPlay.setVisibility(View.VISIBLE);
+                btnDashboardPause.setVisibility(View.GONE);
+            }
+        } else {
+            llDashboardMusicControls.setVisibility(View.GONE);
         }
     }
 
@@ -618,7 +677,7 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
 
     public void playMusic() {
         if (getActivity() != null && !DCSoundManager.getInstance().isMusicPlaying()) {
-            DCSoundManager.getInstance().playMusic(getActivity(), Music.getRandomSong());
+            DCSoundManager.getInstance().skipNext(getActivity());
         }
     }
 
@@ -642,5 +701,44 @@ public abstract class DCDashboardFragment extends DCFragment implements IDCDashb
                     .setDuration(BaseTransientBottomBar.LENGTH_LONG)
                     .show();
         }
+    }
+
+
+    private void onMusicSkipPrev() {
+        btnDashboardSkipPrev.setScaleY(1.0f);
+        btnDashboardSkipPrev.setScaleX(1.0f);
+        btnDashboardSkipPrev.startAnimation(btnAnimation);
+        DCSoundManager.getInstance().skipPrev(getActivity());
+        updateView();
+    }
+
+    private void onMusicSkipNext() {
+        btnDashboardSkipNext.setScaleX(1.0f);
+        btnDashboardSkipNext.setScaleY(1.0f);
+        btnDashboardSkipNext.startAnimation(btnAnimation);
+        DCSoundManager.getInstance().skipNext(getActivity());
+        updateView();
+    }
+
+    private void onMusicPlay() {
+        btnDashboardPause.setScaleX(1.0f);
+        btnDashboardPause.setScaleY(1.0f);
+        btnDashboardPlay.setScaleX(1.0f);
+        btnDashboardPlay.setScaleX(1.0f);
+        btnDashboardPause.startAnimation(btnAnimation);
+        btnDashboardPlay.startAnimation(btnAnimation);
+        DCSoundManager.getInstance().resumeMusic();
+        updateView();
+    }
+
+    private void onMusicPause() {
+        btnDashboardPause.setScaleX(1.0f);
+        btnDashboardPause.setScaleY(1.0f);
+        btnDashboardPlay.setScaleX(1.0f);
+        btnDashboardPlay.setScaleX(1.0f);
+        btnDashboardPause.startAnimation(btnAnimation);
+        btnDashboardPlay.startAnimation(btnAnimation);
+        DCSoundManager.getInstance().pauseMusic();
+        updateView();
     }
 }

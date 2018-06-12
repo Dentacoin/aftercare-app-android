@@ -7,15 +7,15 @@ import java.util.Random;
  */
 
 public enum Music {
-    SONG1("", "sounds/music/1.mp3"),
-    SONG2("", "sounds/music/2.mp3"),
-    SONG3("", "sounds/music/3.mp3"),
-    SONG4("", "sounds/music/4.mp3"),
-    SONG5("", "sounds/music/5.mp3"),
-    SONG6("", "sounds/music/6.mp3"),
-    SONG7("", "sounds/music/7.mp3"),
-    SONG8("", "sounds/music/8.mp3"),
-    SONG9("", "sounds/music/9.mp3");
+    SONG1("Song 1", "sounds/music/1.mp3"),
+    SONG2("Song 2", "sounds/music/2.mp3"),
+    SONG3("Song 3", "sounds/music/3.mp3"),
+    SONG4("Song 4", "sounds/music/4.mp3"),
+    SONG5("Song 5", "sounds/music/5.mp3"),
+    SONG6("Song 6", "sounds/music/6.mp3"),
+    SONG7("Song 7", "sounds/music/7.mp3"),
+    SONG8("Song 8", "sounds/music/8.mp3"),
+    SONG9("Song 9", "sounds/music/9.mp3");
 
     private String title;
     private String path;

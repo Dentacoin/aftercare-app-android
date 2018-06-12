@@ -8,9 +8,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
-
     <include layout="@layout/activity_toolbar"/>
-
     <android.support.design.widget.NavigationView
         android:id="@+id/nv_navigation"
         android:layout_width="wrap_content"
@@ -20,5 +18,4 @@
         app:menu="@menu/menu_drawer"
         android:fitsSystemWindows="true"
         style="@style/DCNavigationView"/>
-
 </android.support.v4.widget.DrawerLayout>

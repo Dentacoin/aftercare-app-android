@@ -35,12 +35,9 @@ public class DCResponseHandler<T> implements Callback {
     @Override
     public void onFailure(Call call, final IOException e) {
         Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (responseListener != null)
-                    responseListener.onFailure(new DCError(DCErrorType.NETWORK));
-            }
+        handler.post(() -> {
+            if (responseListener != null)
+                responseListener.onFailure(new DCError(DCErrorType.NETWORK));
         });
     }
 
@@ -53,41 +50,36 @@ public class DCResponseHandler<T> implements Callback {
                     final String jsonString = response.body().string();
                     Log.d("RESPONSE", jsonString);
 
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            int jsonCode = 200;
-                            try {
-                                JsonObject jsonObject = DCApiManager.gson.fromJson(jsonString, JsonObject.class);
-                                if (jsonObject != null) {
-                                    JsonElement element = jsonObject.get("code");
-                                    if (element != null) {
-                                        String responseCode = element.toString();
-                                        jsonCode = Integer.valueOf(responseCode);
-                                    }
+                    handler.post(() -> {
+                        int jsonCode = 200;
+                        try {
+                            JsonObject jsonObject = DCApiManager.gson.fromJson(jsonString, JsonObject.class);
+                            if (jsonObject != null) {
+                                JsonElement element = jsonObject.get("code");
+                                if (element != null) {
+                                    String responseCode = element.toString();
+                                    jsonCode = Integer.valueOf(responseCode);
                                 }
-                            } catch (JsonSyntaxException | IllegalStateException | NumberFormatException e) {
                             }
+                        } catch (JsonSyntaxException | IllegalStateException | NumberFormatException e) {
+//                            e.printStackTrace();
+                        }
 
-                            try {
-                                if (response.code() >= 200 && response.code() < 300 && jsonCode >= 200 && jsonCode < 300) {
-                                    T object = DCApiManager.gson.fromJson(jsonString, clazz);
-                                    responseListener.onResponse(object);
-                                } else {
-                                    DCError error = DCApiManager.gson.fromJson(jsonString, DCError.class);
-                                    responseListener.onFailure(error);
-                                }
-                            } catch (JsonSyntaxException | IllegalStateException e) {
-                                responseListener.onFailure(new DCError(DCErrorType.JSONSYNTAX));
+                        try {
+                            if (response.code() >= 200 && response.code() < 300 && jsonCode >= 200 && jsonCode < 300) {
+                                T object = DCApiManager.gson.fromJson(jsonString, clazz);
+                                responseListener.onResponse(object);
+                            } else {
+                                DCError error = DCApiManager.gson.fromJson(jsonString, DCError.class);
+                                responseListener.onFailure(error);
                             }
+                        } catch (JsonSyntaxException | IllegalStateException e) {
+                            responseListener.onFailure(new DCError(DCErrorType.JSONSYNTAX));
                         }
                     });
                 } catch (NullPointerException e) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            responseListener.onFailure(new DCError(DCErrorType.UNKNOWN));
-                        }
+                    handler.post(() -> {
+                        responseListener.onFailure(new DCError(DCErrorType.UNKNOWN));
                     });
                 }
             }

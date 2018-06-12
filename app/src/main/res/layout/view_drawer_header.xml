@@ -10,12 +10,10 @@
     android:paddingRight="25dp"
     android:paddingBottom="25dp"
     android:background="@drawable/rectangle_gradient_light_blue">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
         <RelativeLayout
             android:layout_width="60dp"
             android:layout_height="60dp">
@@ -34,19 +32,17 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <LinearLayout
                 android:id="@+id/ll_drawer_header_userInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_centerVertical="true"
                 android:paddingLeft="8dp"
                 android:paddingStart="8dp">
-
                 <com.dentacoin.dentacare.widgets.DCTextView
                     android:id="@+id/tv_drawer_header_fullname"
                     android:layout_width="match_parent"
@@ -54,7 +50,6 @@
                     app:fontType="light"
                     android:textSize="18sp"
                     android:textColor="@color/white"/>
-
                 <com.dentacoin.dentacare.widgets.DCTextView
                     android:id="@+id/tv_drawer_header_email"
                     android:layout_width="match_parent"

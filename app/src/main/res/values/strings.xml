@@ -4,9 +4,9 @@
  Project: Dentacare
  Release: Working copy
  Locale: en, English
- Tagged: ios, android
+ Tagged: android
  Exported by: atanaschervarov
- Exported at: Wed, 23 May 2018 15:48:52 +0300
+ Exported at: Mon, 04 Jun 2018 22:06:15 +0300
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Dentacare</string>
@@ -334,4 +334,45 @@
     <string name="friend_tab_statistics">Statistics</string>
     <string name="friend_tab_goals">Goals</string>
     <string name="notice_txt_privacy_update">We are updating our privacy policy, please take a few moments to review it</string>
+    <string name="txt_error_invalid_birthyear">Set valid year</string>
+    <string name="txt_last_active_on">Last activity on %1$s</string>
+    <string name="txt_no_activity_yet">No activity yet</string>
+    <string name="child_btn_edit">Edit account</string>
+    <string name="invites_txt_send_via">Send invitation via...</string>
+    <string name="family_txt_added_to_list">%1$s added to friends list!</string>
+    <string name="family_txt_request_declined">Friend request declined!</string>
+    <string name="invites_txt_friend_request">Wants to be your friend and share profile details with you!</string>
+    <string name="invites_txt_friend_request_success">Successfully sent friend request!</string>
+    <string name="server_error_password">Password is too short</string>
+    <string name="server_error_invalid_credentials">Invalid Email or Password</string>
+    <string name="server_error_country">Invalid Country</string>
+    <string name="server_error_birth_date">Invalid Birth Date</string>
+    <string name="server_error_invalid_avatar">Invalid Avatar format</string>
+    <string name="server_error_user_not_exist">User not found!</string>
+    <string name="server_error_no_email">Missing email!</string>
+    <string name="server_error_invalid_email">Invalid email address</string>
+    <string name="server_error_no_password">Missing password!</string>
+    <string name="server_error_email_registered">Email address already registered!</string>
+    <string name="server_error_fb_id">Missing Facebook Id!</string>
+    <string name="server_error_fb_token">Missing Facebook token!</string>
+    <string name="server_error_google_id">Missing Google id!</string>
+    <string name="server_error_google_token">Missing Google token</string>
+    <string name="server_error_twitter_id">Missing Twitter id!</string>
+    <string name="server_error_twitter_token">Missing Twitter token!</string>
+    <string name="server_error_twitter_token_secret">Missing Twitter token secret!</string>
+    <string name="server_error_auth_canceled">Canceled authentication by the user!</string>
+    <string name="server_error_cannot_withdraw">Sorry but you have to use Dentacare app for at least 3 months to be able to withdraw earned DCN!</string>
+    <string name="server_error_email_confirmed">User email already confirmed!</string>
+    <string name="server_error_too_many_verify">Too many email confirmation requests! Please try again later.</string>
+    <string name="server_error_email_not_confirmed">Operation failed due to unconfirmed email address.</string>
+    <string name="server_error_invalid_captcha">Invalid Captcha Code! Please re-enter the captcha code.</string>
+    <string name="server_error_delete_user">Something went wrong, and we couldn\'t delete your profile. Please try again later.</string>
+    <string name="server_error_no_captcha">Missing captcha code!</string>
+    <string name="server_error_no_captcha_id">Internal error: Missing captcha id!</string>
+    <string name="server_error_journey_not_started">User didn\'t start any journey yet!</string>
+    <string name="server_error_invalid_gender">Invalid gender type</string>
+    <string name="server_error_delete_child">Error deleting child!</string>
+    <string name="child_btn_delete">Delete</string>
+    <string name="child_hdl_delete">Delete child account?</string>
+    <string name="friend_hdl_delete">Remove from friends?</string>
 </resources>

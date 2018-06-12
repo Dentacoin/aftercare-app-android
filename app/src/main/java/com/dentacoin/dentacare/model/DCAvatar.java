@@ -3,11 +3,13 @@ package com.dentacoin.dentacare.model;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
+import java.io.Serializable;
+
 /**
  * Created by Atanas Chervarov on 8/6/17.
  */
 
-public class DCAvatar {
+public class DCAvatar implements Serializable {
     private String avatar_id;
     private String avatar_random_id;
     private String xhdpi_link;

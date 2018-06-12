@@ -1,6 +1,7 @@
 package com.dentacoin.dentacare;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -10,6 +11,7 @@ import com.dentacoin.dentacare.activities.DCOnboardingActivity;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
@@ -45,6 +47,7 @@ public class LaunchActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         checkForCrashes();
+        handleDeepLink();
         checkSession();
     }
 
@@ -80,5 +83,21 @@ public class LaunchActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    private void handleDeepLink() {
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(this, pendingDynamicLinkData -> {
+                    if (pendingDynamicLinkData != null && pendingDynamicLinkData.getLink() != null) {
+                        final Uri uri = pendingDynamicLinkData.getLink();
+                        final String path = uri.getPath();
+                        if (path.matches(DCConstants.REGEX_INVITES)) {
+                            final String[] paths = path.split("/");
+                            final String token = paths[paths.length - 1];
+                            DCSession.getInstance().setInvitationToken(token);
+                        }
+                    }
+                });
     }
 }
