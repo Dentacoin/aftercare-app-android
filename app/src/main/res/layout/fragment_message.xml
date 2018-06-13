@@ -46,14 +46,12 @@
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:paddingBottom="20dp"
-            android:textColor="@color/white"
-            android:text="Good morning sunshine. It is a beautiful day. Let’s get you started properly."/>
+            android:textColor="@color/white"/>
 
         <com.dentacoin.dentacare.widgets.DCButton
             android:padding="10dp"
             android:id="@+id/btn_message_activity"
             style="@style/DCButton.Rectangle"
-            android:text="Start morning routine"
             android:layout_gravity="center"
             android:layout_margin="15dp"/>
 

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.model.DCRoutine;
+import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.AudibleMessage;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.Routine;
@@ -50,6 +51,7 @@ public class DCRoutineCompletedFragment extends DCDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_routine_completed, container);
         fbShare = view.findViewById(R.id.fb_share);
+        fbShare.setVisibility(DCSession.getInstance().isChildUser() ? View.GONE : View.VISIBLE);
         tvMessage =  view.findViewById(R.id.tv_message);
         tvCompleted = view.findViewById(R.id.tv_completed);
         ivTooth = view.findViewById(R.id.iv_tooth);

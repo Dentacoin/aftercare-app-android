@@ -375,4 +375,6 @@
     <string name="child_btn_delete">Delete</string>
     <string name="child_hdl_delete">Delete child account?</string>
     <string name="friend_hdl_delete">Remove from friends?</string>
+    <string name="journey_txt_start_child">Completa 90 giorni di routine mattutina e serale consecutive.\n\nCompleta 180 routine con 20 routine di tolleranza.</string>
+    <string name="journey_txt_completed_child">Hai completato il tuo percorso di 90 giorni, congratulazioni!</string>
 </resources>

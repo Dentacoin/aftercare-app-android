@@ -145,12 +145,15 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_drawer_header_userInfo:
-            case R.id.sdv_drawer_header_avatar:
-                drawerLayout.closeDrawer(GravityCompat.START);
-                final Intent profileIntent = new Intent(this, DCProfileActivity.class);
-                startActivity(profileIntent);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            case R.id.sdv_drawer_header_avatar: {
+                if (!DCSession.getInstance().isChildUser()) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    final Intent profileIntent = new Intent(this, DCProfileActivity.class);
+                    startActivity(profileIntent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
                 break;
+            }
         }
     }
 

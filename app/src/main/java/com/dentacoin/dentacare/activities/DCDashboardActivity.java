@@ -267,7 +267,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
         super.onClick(view);
         switch (view.getId()) {
             case R.id.ll_dashboard_dcn_total:
-                if (!inRecord) {
+                if (!inRecord && !DCSession.getInstance().isChildUser()) {
                     final Intent collectIntent = new Intent(this, DCCollectActivity.class);
                     startActivity(collectIntent);
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -469,7 +469,7 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                 DCMessageFragment.create(
                         getString(R.string.journey_hdl_start),
                         getString(R.string.journey_sub_hdl_start),
-                        getString(R.string.journey_txt_start),
+                        getString(DCSession.getInstance().isChildUser() ? R.string.journey_txt_start_child : R.string.journey_txt_start),
                         getString(R.string.journey_btn_start),
                         null,
                         new DCMessageFragment.IDCMessageFragment() {
@@ -497,15 +497,17 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
             DCMessageFragment.create(
                     getString(R.string.journey_hdl_completed),
                     getString(R.string.journey_sub_hdl_completed),
-                    getString(R.string.journey_txt_completed),
+                    getString(DCSession.getInstance().isChildUser() ? R.string.journey_txt_completed_child : R.string.journey_txt_completed),
                     getString(R.string.journey_btn_completed),
                     null,
                     new DCMessageFragment.IDCMessageFragment() {
                         @Override
                         public void onButtonClicked() {
-                            final Intent collectIntent = new Intent(DCDashboardActivity.this, DCCollectActivity.class);
-                            startActivity(collectIntent);
-                            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                            if (!DCSession.getInstance().isChildUser()) {
+                                final Intent collectIntent = new Intent(DCDashboardActivity.this, DCCollectActivity.class);
+                                startActivity(collectIntent);
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                            }
                             popupShown = false;
                         }
 
