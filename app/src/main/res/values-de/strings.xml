@@ -375,4 +375,6 @@
     <string name="child_btn_delete">Delete</string>
     <string name="child_hdl_delete">Delete child account?</string>
     <string name="friend_hdl_delete">Remove from friends?</string>
+    <string name="journey_txt_start_child">Führen Sie 90 Tage morgendliche und abendliche Routinen in Folge durch.\n\nFühren Sie 180 Routinen mit 20 Routinen</string>
+    <string name="journey_txt_completed_child">Sie haben Ihre 90-tägige Reise durchgeführt, Glückwunsch!</string>
 </resources>

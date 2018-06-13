@@ -96,11 +96,13 @@
     <string name="fb_share_evening_routine_completed">I just finished my evening routine!</string>
     <string name="journey_hdl_start">Start your journey</string>
     <string name="journey_sub_hdl_start">towards a beautiful smile</string>
+    <string name="journey_txt_start_child">Complete 90 days of consecutive morning and evening routines.\n\nComplete 180 routines with 20 routines tolerance.</string>
     <string name="journey_txt_start">Complete 90 days of consecutive morning and evening routines.\n\nComplete 180 routines with 20 routines tolerance and collect your\nDCN reward!</string>
     <string name="journey_btn_start">Start journey!</string>
     <string name="journey_hdl_completed">Congratulations!</string>
     <string name="journey_sub_hdl_completed">Journey completed!</string>
     <string name="journey_txt_completed">You have completed your 90 days journey, congratulations! You can collect your reward now!</string>
+    <string name="journey_txt_completed_child">You have completed your 90 days journey, congratulations!</string>
     <string name="journey_btn_completed">Collect reward!</string>
     <string name="journey_hdl_failed">Oh no..</string>
     <string name="journey_sub_hdl_failed">Journey failed!</string>
