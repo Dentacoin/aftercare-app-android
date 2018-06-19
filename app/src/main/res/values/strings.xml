@@ -340,7 +340,7 @@
     <string name="child_btn_edit">Edit account</string>
     <string name="invites_txt_send_via">Send invitation via...</string>
     <string name="drawer_nav_dp">Collect DP</string>
-    <string name="collect_dp_claimable_points">Claimable Points:\u0020</string>
+    <string name="collect_dp_claimable_points">Claimable Points:</string>
     <string name="txt_dp">DP %1$d</string>
     <string name="collect_dp_visit_website">Visit https://dentacare.dentacoin.com \nand login with your account to claim your reward.</string>
     <string name="collect_dp_visit_website_btn">Visit the website</string>
