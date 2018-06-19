@@ -4,9 +4,9 @@
  Project: Dentacare
  Release: Working copy
  Locale: en, English
- Tagged: android
+ Tagged: android, ios
  Exported by: atanaschervarov
- Exported at: Mon, 04 Jun 2018 22:06:15 +0300
+ Exported at: Tue, 19 Jun 2018 09:37:15 +0300
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Dentacare</string>
@@ -96,13 +96,11 @@
     <string name="fb_share_evening_routine_completed">I just finished my evening routine!</string>
     <string name="journey_hdl_start">Start your journey</string>
     <string name="journey_sub_hdl_start">towards a beautiful smile</string>
-    <string name="journey_txt_start_child">Complete 90 days of consecutive morning and evening routines.\n\nComplete 180 routines with 20 routines tolerance.</string>
     <string name="journey_txt_start">Complete 90 days of consecutive morning and evening routines.\n\nComplete 180 routines with 20 routines tolerance and collect your\nDCN reward!</string>
     <string name="journey_btn_start">Start journey!</string>
     <string name="journey_hdl_completed">Congratulations!</string>
     <string name="journey_sub_hdl_completed">Journey completed!</string>
     <string name="journey_txt_completed">You have completed your 90 days journey, congratulations! You can collect your reward now!</string>
-    <string name="journey_txt_completed_child">You have completed your 90 days journey, congratulations!</string>
     <string name="journey_btn_completed">Collect reward!</string>
     <string name="journey_hdl_failed">Oh no..</string>
     <string name="journey_sub_hdl_failed">Journey failed!</string>
@@ -257,42 +255,42 @@
     <string name="message_day_routine_start">Hello sunshine. It is a beautiful day. Let’s get you started properly.</string>
     <string name="message_morning_routine_start">Good morning sunshine. It is a beautiful day. Let’s get you started properly</string>
     <string name="message_evening_routine_end">You have completed your last brush for the day. Amazing job! Have a nice rest and come back in the morning.\nSweet dreams.</string>
-    <string name="notifications_txt_daily_brushing_1">Hey there! Did you brush your teeth yet?</string>
-    <string name="notifications_txt_change_brush_1">When is the last time you changed your toothbrush?</string>
-    <string name="notifications_txt_visit_dentist">When is the last time you visited your dentist? Maybe is time to make an appointment?</string>
-    <string name="notifications_txt_collect_dentacoin">You have %1$d DCN in your account. You can collect them easily form the \"Dentacoin\" screen.</string>
+    <string name="notifications_txt_daily_brushing_1">Hey, it\'s time for your dental routine!</string>
+    <string name="notifications_txt_change_brush_1">When is the last time you changed your toothbrush? Replace toothbrushes every 3 months.</string>
+    <string name="notifications_txt_visit_dentist">When is the last time you visited your dentist? If it\'s more than 6 months ago, we recommend you to make an appointment.</string>
+    <string name="notifications_txt_collect_dentacoin">You have %1$d DCN in your account. You can collect them easily from the \"Dentacoin\" section in the menu.</string>
     <string name="notifications_txt_reminder_to_visit">Hey there! You haven\'t checked in for a while.</string>
     <string name="notifications_hdl_healthy_habits_1">Don\'t go to bed without brushing your teeth</string>
-    <string name="notifications_txt_healthy_habits_1">Brushing before bed gets rid of the germs and plaque that accumulate throughout the day.</string>
-    <string name="notifications_hdl_healthy_habits_2">Brush properly</string>
-    <string name="notifications_txt_healthy_habits_2">The way you brush is equally important — in fact, doing a poor job of brushing your teeth is almost as bad as not brushing at all.</string>
+    <string name="notifications_txt_healthy_habits_1">Brushing before bed helps clean the germs and plaque accumulated throughout the day.</string>
+    <string name="notifications_hdl_healthy_habits_2">Brush properly or not at all :)</string>
+    <string name="notifications_txt_healthy_habits_2">Proper brushing takes at least two minutes (that\'s right, 120 seconds), at least when you wake up and before you go to sleep.</string>
     <string name="notifications_hdl_healthy_habits_3">Don\'t neglect your tongue.</string>
-    <string name="notifications_txt_healthy_habits_3">Plaque can also build up on your tongue. Not only can this lead to bad mouth odor, but it can lead to other oral health problems.</string>
-    <string name="notifications_hdl_healthy_habits_4">Use a fluoride toothpaste.</string>
-    <string name="notifications_txt_healthy_habits_4">When it comes to toothpaste, there are more important elements to look for than whitening power and flavors.</string>
-    <string name="notifications_hdl_healthy_habits_5">Flossing is as important as brushing.</string>
-    <string name="notifications_txt_healthy_habits_5">Flossing once a day is usually enough to reap these benefits.</string>
-    <string name="notifications_hdl_healthy_habits_6">Consider mouthwash</string>
-    <string name="notifications_txt_healthy_habits_6">Mouthwashes are useful as an adjunct tool to help bring things into balance</string>
+    <string name="notifications_txt_healthy_habits_3">Cleaning your tongue, especially the back part, removes bacteria and toxins responsible for plaque, tooth decay, and gum disease.</string>
+    <string name="notifications_hdl_healthy_habits_4">Consider using a fluoride toothpaste.</string>
+    <string name="notifications_txt_healthy_habits_4">When it comes to toothpaste, consider using a fluoride one. Fluoride is a well-known cavity fighter.</string>
+    <string name="notifications_hdl_healthy_habits_5">Flossing is just as important as brushing.</string>
+    <string name="notifications_txt_healthy_habits_5">Flossing once a day helps remove plaque, fights gum disease and tooth decay.</string>
+    <string name="notifications_hdl_healthy_habits_6">Don\'t forget mouthwash</string>
+    <string name="notifications_txt_healthy_habits_6">Mouthwash (rinse) is useful as an adjunct tool in the fight against bad breath, tooth decay, gingivitis.</string>
     <string name="notifications_hdl_healthy_habits_7">Drink more water</string>
-    <string name="notifications_txt_healthy_habits_7">Drink water after every meal. This can help wash out some of the negative effects of sticky and acidic foods and beverages in between brushes.</string>
+    <string name="notifications_txt_healthy_habits_7">Drink at least 8 glasses of water daily. Drinking water after each meal washes out some of the negative effects of sticky and acidic foods &amp; drinks.</string>
     <string name="notifications_hdl_healthy_habits_8">Eat crunchy fruits and vegetable</string>
-    <string name="notifications_txt_healthy_habits_8">Eating fresh, crunchy produce not only contains more healthy fiber, but it is also the best choice as far as your teeth are concerned</string>
+    <string name="notifications_txt_healthy_habits_8">Eating fresh &amp; crunchy products not only contains more healthy fiber, but it also helps you to keep your teeth strong and healthy.</string>
     <string name="notifications_hdl_healthy_habits_9">Limit sugary and acidic foods</string>
     <string name="notifications_txt_healthy_habits_9">Sugar converts into acid in the mouth, which can then erode the enamel of your teeth</string>
-    <string name="notifications_hdl_healthy_habits_10">See your dentist at least twice a year</string>
-    <string name="notifications_txt_healthy_habits_10">At minimum, you should see your dentist for cleanings and checkups twice a year</string>
+    <string name="notifications_hdl_healthy_habits_10">Visit your dentist at least twice a year</string>
+    <string name="notifications_txt_healthy_habits_10">At minimum, you should visit your dentist for a check-up and teeth cleaning twice a year.</string>
     <string name="txt_collect">Collect</string>
     <string name="dashboard_hdl_dentacare">Dentacare</string>
     <string name="error_not_implemented">Feature not yet implemented!</string>
-    <string name="tutorial_txt_withdraws">Watch your withdraw requests</string>
+    <string name="tutorial_txt_withdraws">Check your withdraw requests</string>
     <string name="btn_spotlight_done">Done</string>
     <string name="btn_spotlight_continue">Continue</string>
     <string name="btn_mission_popup_share">Share</string>
     <string name="btn_goal_popup_share">Share</string>
     <string name="btn_settings_reset">Reset</string>
     <string name="tutorial_txt_dashboard_arrow_2">Tap to open statistics</string>
-    <string name="message_brush_congratulations">Now you are done. Congratulations!</string>
+    <string name="message_brush_congratulations">Good job! Brushing completed.</string>
     <string name="profile_wrong_code_error">Wrong Code</string>
     <string name="error_popup_title">Error</string>
     <string name="info_popup_title">Info</string>
@@ -301,9 +299,9 @@
     <string name="profile_upload_avatar_option_2">Library</string>
     <string name="profile_upload_avatar_error">Your device has no %1$s</string>
     <string name="error_txt_last_name_too_short">Last name is too short!</string>
-    <string name="error_txt_wrong_city_country">Wrong City, Country.</string>
-    <string name="error_txt_wrong_zip_code">Wrong Zip Code</string>
-    <string name="error_txt_wrong_format_wallet">Your Wallet address is not in correct format.</string>
+    <string name="error_txt_wrong_city_country">Wrong City/ Country</string>
+    <string name="error_txt_wrong_zip_code">Wrong ZIP Code</string>
+    <string name="error_txt_wrong_format_wallet">Your Wallet address is not in the correct format.</string>
     <string name="error_txt_wrong_phone_number">Phone not valid</string>
     <string name="error_txt_cant_send_emails">Sorry but your device can\'t or isn\'t configured to send emails.</string>
     <string name="user_agreement_title">User Agreement</string>
@@ -313,21 +311,21 @@
     <string name="drawer_nav_family_friends">Family &amp; Friends</string>
     <string name="family_hdl_title">Family &amp; Friends</string>
     <string name="family_menu_itm_invite_friend">Invite friend</string>
-    <string name="family_menu_itm_child_account">Create child account</string>
-    <string name="child_hdl_title">Create child account</string>
+    <string name="family_menu_itm_child_account">Create Child Account</string>
+    <string name="child_hdl_title">Create Child Account</string>
     <string name="child_hnt_name">Name</string>
     <string name="child_hnt_birthyear">Birth year</string>
-    <string name="child_hdl_create">Create a new child account</string>
-    <string name="child_txt_create_account">Create a new child account associated with yours so you can easily track your child\'s dental routines.</string>
+    <string name="child_hdl_create">Create a new Child Account</string>
+    <string name="child_txt_create_account">Create a new Child Account associated with yours so you can easily track your child\'s dental routines!</string>
     <string name="child_btn_create">Create</string>
     <string name="btn_child_use_account">Use account</string>
     <string name="txt_done">Done</string>
-    <string name="child_hdl_account_created">Child account created!</string>
-    <string name="child_txt_account_created">You can enable child mode and start using this account by pressing \"Use Account\" or you can login with your account from another device and enable child mode by navigating to \"Family &amp; Friends\" and selecting the profile you want to use.</string>
+    <string name="child_hdl_account_created">Child Account created!</string>
+    <string name="child_txt_account_created">You can enable Child Mode and start using this account by pressing \"Use Account\". You can also login with your account from another device and enable Child Mode by navigating to \"Family &amp; Friends\" and selecting the profile you\'d like to use.</string>
     <string name="family_hdl_no_friends">You don\'t have any friends yet!</string>
-    <string name="family_txt_no_friends">Invite friends or create a children account from the \"plus\" button</string>
+    <string name="family_txt_no_friends">Invite friends or create a Child Account from the \"plus\" button</string>
     <string name="child_hdl_use_account">Use this account?</string>
-    <string name="child_txt_use_account">Switching to a child account will disable some of the application features. You can switch back to your account from the profile menu. Are you sure you want to switch to this child\'s account?</string>
+    <string name="child_txt_use_account">Switching to a Child Account will disable some of the application features. You can switch back to your account from the profile menu. Are you sure you want to switch to this child\'s account?</string>
     <string name="family_hdl_family">Family</string>
     <string name="family_hdl_friends">Friends</string>
     <string name="btn_accept">Accept</string>
@@ -335,13 +333,31 @@
     <string name="friend_tab_info">Info</string>
     <string name="friend_tab_statistics">Statistics</string>
     <string name="friend_tab_goals">Goals</string>
-    <string name="notice_txt_privacy_update">We are updating our privacy policy, please take a few moments to review it</string>
+    <string name="notice_txt_privacy_update">We have updated our Privacy Policy, please take a few minutes to review it</string>
     <string name="txt_error_invalid_birthyear">Set valid year</string>
     <string name="txt_last_active_on">Last activity on %1$s</string>
     <string name="txt_no_activity_yet">No activity yet</string>
     <string name="child_btn_edit">Edit account</string>
     <string name="invites_txt_send_via">Send invitation via...</string>
-    <string name="family_txt_added_to_list">%1$s added to friends list!</string>
+    <string name="drawer_nav_dp">Collect DP</string>
+    <string name="collect_dp_claimable_points">Claimable Points:</string>
+    <string name="txt_dp">DP %1$d</string>
+    <string name="collect_dp_visit_website">Visit https://dentacare.dentacoin.com \nand login with your account to claim your reward.</string>
+    <string name="collect_dp_visit_website_btn">Visit the website</string>
+    <string name="onboarding_txt_message_2_dp">Complete 90 days of consecutive use (or 180 routines altogether) to collect your DP (Denta Points) reward!</string>
+    <string name="onboarding_txt_message_3_dp">Complete your morning and evening routines and earn DP (Denta Points) daily!</string>
+    <string name="onboarding_txt_message_4_dp">Check your current DP (Denta Points) Balance. Watch it grow each time you complete a routine!</string>
+    <string name="onboarding_txt_message_5_dp">Try completing various achievements and earn even more points!</string>
+    <string name="fb_share_goal_message_dp">I just got DP %1$s for achieving %2$s</string>
+    <string name="journey_txt_start_dp">Welcome to your 90-day journey to proper dental care!\n\nFulfill your daily morning and evening routines and in 90 days\nyou will be able to collect your DP (Denta Points) reward!\n\nDon\'t worry, you can miss up to 20 routines!</string>
+    <string name="tutorial_txt_total_dp">This is the total amount of DP (Denta Points) you\'ve earned.</string>
+    <string name="tutorial_txt_collect_dp">Collect your DP (Denta Points)!</string>
+    <string name="tutorial_txt_goals_menu_dp">Achieve goals &amp; earn DP (Denta Points)</string>
+    <string name="dashboard_lbl_dp_earned">DP Earned</string>
+    <string name="message_hdl_earned_dp">DP %1$s earned!</string>
+    <string name="notifications_txt_collect_dentacoin_dp">Sie haben DP %1$d in ihrem Account. Jetzt einlösen über den \"Collect DP\" Screen.</string>
+    <string name="about_txt_about_ios">Dentacare is a mobile application that assists users to form healthy oral hygiene habits and rewards good results. It is one of the tools developed as part of the Dentacoin ecosystem - the first Blockchain solution for the global dental industry. Through using Dentacare, you are contributing to our mission towards improving dental care and making it accessible for everyone worldwide.\nMore about Dentacoin:</string>
+    <string name="family_txt_added_to_list">%1$s added to your Friend list!</string>
     <string name="family_txt_request_declined">Friend request declined!</string>
     <string name="invites_txt_friend_request">Wants to be your friend and share profile details with you!</string>
     <string name="invites_txt_friend_request_success">Successfully sent friend request!</string>
@@ -363,7 +379,7 @@
     <string name="server_error_twitter_token">Missing Twitter token!</string>
     <string name="server_error_twitter_token_secret">Missing Twitter token secret!</string>
     <string name="server_error_auth_canceled">Canceled authentication by the user!</string>
-    <string name="server_error_cannot_withdraw">Sorry but you have to use Dentacare app for at least 3 months to be able to withdraw earned DCN!</string>
+    <string name="server_error_cannot_withdraw">\u0020In order to collect the DCN tokens earned, you have to finish your 90-day journey</string>
     <string name="server_error_email_confirmed">User email already confirmed!</string>
     <string name="server_error_too_many_verify">Too many email confirmation requests! Please try again later.</string>
     <string name="server_error_email_not_confirmed">Operation failed due to unconfirmed email address.</string>
@@ -376,5 +392,7 @@
     <string name="server_error_delete_child">Error deleting child!</string>
     <string name="child_btn_delete">Delete</string>
     <string name="child_hdl_delete">Delete child account?</string>
+    <string name="journey_txt_start_child">Welcome to your 90-day journey to proper dental care!\n\nFulfill your daily morning and evening routines and in 90 days you will be able to collect your DCN reward! Don\'t worry, you can miss up to 20 routines!</string>
+    <string name="journey_txt_completed_child">Congratulations! You have completed your 90-day journey!</string>
     <string name="friend_hdl_delete">Remove from friends?</string>
 </resources>

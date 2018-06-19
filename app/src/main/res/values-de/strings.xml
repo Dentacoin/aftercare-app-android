@@ -4,9 +4,9 @@
  Project: Dentacare
  Release: Working copy
  Locale: de, German
- Tagged: android
+ Tagged: android, ios
  Exported by: atanaschervarov
- Exported at: Mon, 04 Jun 2018 22:06:15 +0300
+ Exported at: Tue, 19 Jun 2018 09:37:15 +0300
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Dentacare</string>
@@ -333,48 +333,66 @@
     <string name="friend_tab_info">Information</string>
     <string name="friend_tab_statistics">Statistik</string>
     <string name="friend_tab_goals">Ziele</string>
-    <string name="notice_txt_privacy_update">Wir haben unsere Datenschutzerklärung aktualisiert. Bitte nehmen Sie sich kurz Zeit, sie zu prüfen [notice_txt_privacy_update]</string>
-    <string name="txt_error_invalid_birthyear">Set valid year</string>
-    <string name="txt_last_active_on">Last activity on %1$s</string>
+    <string name="notice_txt_privacy_update">Wir haben unsere Datenschutzerklärung aktualisiert. Bitte nehmen Sie sich kurz Zeit, sie zu prüfen</string>
+    <string name="txt_error_invalid_birthyear">geben Sie das gültige Jahr ein</string>
+    <string name="txt_last_active_on">letzte Aktivität auf %1$s</string>
     <string name="txt_no_activity_yet">Bisher keine Aktivitäten</string>
-    <string name="child_btn_edit">Edit account</string>
+    <string name="child_btn_edit">Konto bearbeiten</string>
     <string name="invites_txt_send_via">Sende Einladung via...</string>
-    <string name="family_txt_added_to_list">%1$s added to friends list!</string>
-    <string name="family_txt_request_declined">Friend request declined!</string>
-    <string name="invites_txt_friend_request">Wants to be your friend and share profile details with you!</string>
-    <string name="invites_txt_friend_request_success">Successfully sent friend request!</string>
-    <string name="server_error_password">Password is too short</string>
-    <string name="server_error_invalid_credentials">Invalid Email or Password</string>
-    <string name="server_error_country">Invalid Country</string>
-    <string name="server_error_birth_date">Invalid Birth Date</string>
-    <string name="server_error_invalid_avatar">Invalid Avatar format</string>
-    <string name="server_error_user_not_exist">User not found!</string>
-    <string name="server_error_no_email">Missing email!</string>
-    <string name="server_error_invalid_email">Invalid email address</string>
-    <string name="server_error_no_password">Missing password!</string>
-    <string name="server_error_email_registered">Email address already registered!</string>
-    <string name="server_error_fb_id">Missing Facebook Id!</string>
-    <string name="server_error_fb_token">Missing Facebook token!</string>
-    <string name="server_error_google_id">Missing Google id!</string>
-    <string name="server_error_google_token">Missing Google token</string>
-    <string name="server_error_twitter_id">Missing Twitter id!</string>
-    <string name="server_error_twitter_token">Missing Twitter token!</string>
-    <string name="server_error_twitter_token_secret">Missing Twitter token secret!</string>
-    <string name="server_error_auth_canceled">Canceled authentication by the user!</string>
+    <string name="drawer_nav_dp">DP einsammeln</string>
+    <string name="collect_dp_claimable_points">Bisherige Punkte:</string>
+    <string name="txt_dp">DP %1$d</string>
+    <string name="collect_dp_visit_website">Besuchen Sie https://dentacare.dentacoin.com\nund loggen Sie sich mit Ihrem Konto ein, um Ihre Belohnung zu erhalten.</string>
+    <string name="collect_dp_visit_website_btn">Besuchen Sie die Webseite</string>
+    <string name="onboarding_txt_message_2_dp">Absolvieren Sie 90 Tage hintereinander oder 180 Routinen und beanspruchen Sie Ihre DP (Denta Points) Belohnung!</string>
+    <string name="onboarding_txt_message_3_dp">Vervollständigen Sie Ihre Morgen- und Abendroutine und verdienen Sie täglich DP (Denta Points)!</string>
+    <string name="onboarding_txt_message_4_dp">Überprüfen Sie Ihren aktuellen DP (Denta Points) Stand. Sehen Sie ihn jedes Mal wachsen, wenn Sie eine Routine abschließen!</string>
+    <string name="onboarding_txt_message_5_dp">Versuchen Sie verschiedene Erfolge zu erreichen und verdienen Sie noch mehr DP!</string>
+    <string name="fb_share_goal_message_dp">Ich habe gerade DP %1$s für das Erreichen von %2$s bekommen</string>
+    <string name="journey_txt_start_dp">Schließen Sie 90 Tage aufeinanderfolgende Morgen- und Abendroutinen ab.\n\nSchließen Sie 180 Routinen mit 20 Routinen Toleranz ab und erhalten Sie Ihre\nDP (Denta Points) Belohnung!</string>
+    <string name="tutorial_txt_total_dp">Dies ist die Gesamtmenge an DP (Denta Points), die Sie verdient haben.</string>
+    <string name="tutorial_txt_collect_dp">Sammeln Sie Ihre DP (Denta Punkte)!</string>
+    <string name="tutorial_txt_goals_menu_dp">Ziele erreichen &amp; DP verdienen (Denta Punkte)</string>
+    <string name="dashboard_lbl_dp_earned">DP verdient</string>
+    <string name="message_hdl_earned_dp">DP %1$s verdient!</string>
+    <string name="notifications_txt_collect_dentacoin_dp">Sie haben DP %1$d in ihrem Account. Jetzt einlösen über den\u0020\u0020\"Collect DP\" Screen.</string>
+    <string name="about_txt_about_ios">Dentacare ist eine mobile Anwendung, die den Benutzern hilft, gesunde Mundhygienegewohnheiten zu entwickeln und gute Ergebnisse zu belohnen. Es ist eines der Werkzeuge, die im Rahmen des Dentacoin-Ökosystems entwickelt wurden - die erste Blockchain-Lösung für die globale Dentalindustrie. Durch den Einsatz von Dentacare tragen Sie zu unserer Mission bei, die Zahnpflege zu verbessern und weltweit zugänglich zu machen.\nMehr über Dentacoin:</string>
+    <string name="family_txt_added_to_list">%1$s zur Freundesliste hinzugefügt!</string>
+    <string name="family_txt_request_declined">Freundschaftsanfrage abgelehnt!</string>
+    <string name="invites_txt_friend_request">Möchte Ihr Freund sein und Profildetails mit Ihnen teilen!</string>
+    <string name="invites_txt_friend_request_success">Freundschaftsanfrage erfolgreich gesendet!</string>
+    <string name="server_error_password">Passwort ist zu kurz</string>
+    <string name="server_error_invalid_credentials">Ungültige E-Mail oder Passwort</string>
+    <string name="server_error_country">Ungültiges Land</string>
+    <string name="server_error_birth_date">Ungültiges Geburtsdatum</string>
+    <string name="server_error_invalid_avatar">Ungültiges Avatar-Format</string>
+    <string name="server_error_user_not_exist">Benutzer nicht gefunden!</string>
+    <string name="server_error_no_email">Fehlende E-Mail!</string>
+    <string name="server_error_invalid_email">Ungültige E-Mail-Addresse</string>
+    <string name="server_error_no_password">Fehlendes Passwort!</string>
+    <string name="server_error_email_registered">Die E-Mail-Adresse ist bereits registriert!</string>
+    <string name="server_error_fb_id">Fehlende Facebook ID!</string>
+    <string name="server_error_fb_token">Fehlendes Facebook-Token!</string>
+    <string name="server_error_google_id">Fehlende Google ID!</string>
+    <string name="server_error_google_token">Fehlendes Google-Token</string>
+    <string name="server_error_twitter_id">Fehlende Twitter ID!</string>
+    <string name="server_error_twitter_token">Fehlendes Twitter-Token!</string>
+    <string name="server_error_twitter_token_secret">Fehlendes Twitter-Token-Geheimnis!</string>
+    <string name="server_error_auth_canceled">Die Authentifizierung wurde vom Benutzer abgebrochen!</string>
     <string name="server_error_cannot_withdraw">Tut uns leid, aber Sie müssen die Dentacare App mindestens drei Monate lang benutzen, um die verdienten DCN abheben zu können!</string>
-    <string name="server_error_email_confirmed">User email already confirmed!</string>
-    <string name="server_error_too_many_verify">Too many email confirmation requests! Please try again later.</string>
-    <string name="server_error_email_not_confirmed">Operation failed due to unconfirmed email address.</string>
-    <string name="server_error_invalid_captcha">Invalid Captcha Code! Please re-enter the captcha code.</string>
-    <string name="server_error_delete_user">Something went wrong, and we couldn\'t delete your profile. Please try again later.</string>
-    <string name="server_error_no_captcha">Missing captcha code!</string>
-    <string name="server_error_no_captcha_id">Internal error: Missing captcha id!</string>
-    <string name="server_error_journey_not_started">User didn\'t start any journey yet!</string>
-    <string name="server_error_invalid_gender">Invalid gender type</string>
-    <string name="server_error_delete_child">Error deleting child!</string>
-    <string name="child_btn_delete">Delete</string>
-    <string name="child_hdl_delete">Delete child account?</string>
-    <string name="friend_hdl_delete">Remove from friends?</string>
+    <string name="server_error_email_confirmed">Benutzer-E-Mail bereits bestätigt!</string>
+    <string name="server_error_too_many_verify">Zu viele E-Mail-Bestätigungsanfragen! Bitte versuchen Sie es später erneut.</string>
+    <string name="server_error_email_not_confirmed">Der Vorgang ist aufgrund einer nicht bestätigten E-Mail-Adresse fehlgeschlagen.</string>
+    <string name="server_error_invalid_captcha">Ungültiger Captcha Code! Bitte geben Sie den Captcha-Code erneut ein.</string>
+    <string name="server_error_delete_user">Es ist ein Fehler aufgetreten und wir konnten Ihr Profil nicht löschen. Bitte versuchen Sie es später erneut.</string>
+    <string name="server_error_no_captcha">Fehlender Captcha-Code!</string>
+    <string name="server_error_no_captcha_id">Interner Fehler: Fehlende Captcha-ID!</string>
+    <string name="server_error_journey_not_started">Der Benutzer hat noch keine Reise gestartet!</string>
+    <string name="server_error_invalid_gender">Ungültiger Geschlechtstyp</string>
+    <string name="server_error_delete_child">Fehler beim Löschen des Kindes!</string>
+    <string name="child_btn_delete">Löschen</string>
+    <string name="child_hdl_delete">Kinderkonto löschen?</string>
     <string name="journey_txt_start_child">Führen Sie 90 Tage morgendliche und abendliche Routinen in Folge durch.\n\nFühren Sie 180 Routinen mit 20 Routinen</string>
     <string name="journey_txt_completed_child">Sie haben Ihre 90-tägige Reise durchgeführt, Glückwunsch!</string>
+    <string name="friend_hdl_delete">Von Freunden entfernen?</string>
 </resources>
