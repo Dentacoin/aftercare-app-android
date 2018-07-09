@@ -62,7 +62,7 @@ public class DCAlarmReceiver extends BroadcastReceiver {
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                     .setContentTitle(title)
-                    .setContentText(body)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                     .setSmallIcon(R.drawable.notification_icon)
                     .setAutoCancel(true)
                     .setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.notification))
