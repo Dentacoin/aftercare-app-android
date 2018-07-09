@@ -47,7 +47,7 @@ public class DCFirebaseMessagingService extends FirebaseMessagingService {
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                     .setContentTitle(title)
-                    .setContentText(message)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                     .setSmallIcon(R.drawable.notification_icon)
                     .setAutoCancel(true)
                     .setSound(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.notification))
