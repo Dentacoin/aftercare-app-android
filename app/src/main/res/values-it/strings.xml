@@ -395,4 +395,5 @@
     <string name="journey_txt_start_child">Completa 90 giorni di routine mattutina e serale consecutive.\n\nCompleta 180 routine con 20 routine di tolleranza.</string>
     <string name="journey_txt_completed_child">Hai completato il tuo percorso di 90 giorni, congratulazioni!</string>
     <string name="friend_hdl_delete">Rimuovi dagli amici?</string>
+    <string name="warning_txt_slow_transfer">Due to the temporarily high utilization of the Ethereum blockchain, the transfer of DCN can currently take several days. We apologize and ask for your patience.</string>
 </resources>

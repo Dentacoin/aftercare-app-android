@@ -395,4 +395,5 @@
     <string name="journey_txt_start_child">Welcome to your 90-day journey to proper dental care!\n\nFulfill your daily morning and evening routines and in 90 days you will be able to collect your DCN reward! Don\'t worry, you can miss up to 20 routines!</string>
     <string name="journey_txt_completed_child">Congratulations! You have completed your 90-day journey!</string>
     <string name="friend_hdl_delete">Remove from friends?</string>
+    <string name="warning_txt_slow_transfer">Due to the temporarily high utilization of the Ethereum blockchain, the transfer of DCN can currently take several days. We apologize and ask for your patience.</string>
 </resources>

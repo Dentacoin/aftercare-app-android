@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCCollectActivity;
 import com.dentacoin.dentacare.activities.DCProfileActivity;
+import com.dentacoin.dentacare.activities.DCWithdrawsActivity;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCGasPrice;
 import com.dentacoin.dentacare.model.DCJourney;
 import com.dentacoin.dentacare.model.DCRoutine;
 import com.dentacoin.dentacare.model.DCTransaction;
@@ -55,6 +57,7 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
         btnCollect.setEnabled(false);
         DCDashboardDataProvider.getInstance().updateDashboard(true);
         setupView();
+        checkGasPrice();
         return view;
     }
 
@@ -179,5 +182,32 @@ public class DCCollectDCNFragment extends DCFragment implements View.OnClickList
 
     @Override
     public void onJourneyError(DCError error) {
+    }
+
+    private void checkGasPrice() {
+        DCApiManager.getInstance().getGasPrice(new DCResponseListener<DCGasPrice>() {
+            @Override
+            public void onFailure(DCError error) {
+                //Don't handle that
+            }
+
+            @Override
+            public void onResponse(DCGasPrice object) {
+                if (object != null && object.isOverTreshold()) {
+                    Snacky.builder()
+                            .setActivty(getActivity())
+                            .warning()
+                            .setText(R.string.warning_txt_slow_transfer)
+                            .setDuration(Snacky.LENGTH_INDEFINITE)
+                            .setAction(R.string.txt_ok, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                }
+                            })
+                            .show();
+                }
+            }
+        });
     }
 }

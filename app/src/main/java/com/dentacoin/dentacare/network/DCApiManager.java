@@ -14,6 +14,7 @@ import com.dentacoin.dentacare.model.DCChildLogin;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCFriend;
+import com.dentacoin.dentacare.model.DCGasPrice;
 import com.dentacoin.dentacare.model.DCGoal;
 import com.dentacoin.dentacare.model.DCInvitationAccept;
 import com.dentacoin.dentacare.model.DCInvitationToken;
@@ -104,6 +105,8 @@ public class DCApiManager {
     private static final String ENDPOINT_INVITATIONS_ACCEPT = "invitations/accept";
     private static final String ENDPOINT_INVITATIONS_DECLINE = "invitations/decline";
     private static final String ENDPOINT_LOGIN_CHILD = "children/login";
+
+    private static final String ENDPOINT_GAS_PRICE = "https://dentacoin.net/gas-price";
 
 
     private static final String HEADER_KEY_TOKEN = "Authorization";
@@ -363,6 +366,10 @@ public class DCApiManager {
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCGoal[].class));
     }
 
+    public void getGasPrice(DCResponseListener<DCGasPrice> listener) {
+        Request request = buildRequest(RequestMethod.GET, ENDPOINT_GAS_PRICE, null);
+        client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCGasPrice.class));
+    }
 
     /**
      * Send reset password request for the given email
