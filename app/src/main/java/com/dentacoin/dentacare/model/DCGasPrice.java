@@ -16,7 +16,6 @@ public class DCGasPrice {
     }
 
     public boolean isOverTreshold() {
-//        return gasPrice >= treshold;
-        return true;
+        return gasPrice >= treshold;
     }
 }
