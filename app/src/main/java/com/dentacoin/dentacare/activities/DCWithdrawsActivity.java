@@ -1,5 +1,6 @@
 package com.dentacoin.dentacare.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,12 +12,15 @@ import android.widget.LinearLayout;
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.adapters.DCWithdrawAdapter;
 import com.dentacoin.dentacare.model.DCError;
+import com.dentacoin.dentacare.model.DCGasPrice;
 import com.dentacoin.dentacare.model.DCTransaction;
 import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCResponseListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import de.mateware.snacky.Snacky;
 
 /**
  * Created by Atanas Chervarov on 15.02.18.
@@ -43,11 +47,13 @@ public class DCWithdrawsActivity extends DCToolbarActivity implements SwipeRefre
         rvWithdraws.setAdapter(adapter);
         rvWithdraws.setLayoutManager(new LinearLayoutManager(this));
         loadTransactions();
+        checkGasPrice();
     }
 
     @Override
     public void onRefresh() {
         loadTransactions();
+        checkGasPrice();
     }
 
     private void loadTransactions() {
@@ -71,6 +77,33 @@ public class DCWithdrawsActivity extends DCToolbarActivity implements SwipeRefre
                 } else {
                     adapter.setItems(null);
                     llWithdrawsNoWithdraws.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+    private void checkGasPrice() {
+        DCApiManager.getInstance().getGasPrice(new DCResponseListener<DCGasPrice>() {
+            @Override
+            public void onFailure(DCError error) {
+                //Don't handle that
+            }
+
+            @Override
+            public void onResponse(DCGasPrice object) {
+                if (object != null && object.isOverTreshold()) {
+                    Snacky.builder()
+                            .setActivty(DCWithdrawsActivity.this)
+                            .warning()
+                            .setText(R.string.warning_txt_slow_transfer)
+                            .setDuration(Snacky.LENGTH_INDEFINITE)
+                            .setAction(R.string.txt_ok, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                }
+                            })
+                            .show();
                 }
             }
         });

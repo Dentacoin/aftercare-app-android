@@ -1,17 +1,15 @@
 package com.dentacoin.dentacare.utils;
 
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.dentacoin.dentacare.LaunchActivity;
 import com.dentacoin.dentacare.R;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * Created by Atanas Chervarov on 11/2/17.
@@ -55,25 +53,25 @@ public class DCAlarmReceiver extends BroadcastReceiver {
                 body = context.getString(habit.getMessageId());
             }
 
+            DCUtils.createNotificationChannel(context, DCConstants.NOTIFICATION_CHANNEL_ID);
+
             Intent intent = new Intent(context, LaunchActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, DCConstants.NOTIFICATION_CHANNEL_ID)
                     .setContentTitle(title)
                     .setContentText(body)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
                     .setSmallIcon(R.drawable.notification_icon)
                     .setAutoCancel(true)
                     .setSound(Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.notification))
-                    .setContentIntent(pendingIntent);
+                    .setContentIntent(pendingIntent)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
 
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-            try {
-                notificationManager.notify(DCSharedPreferences.getNotificationId(), notificationBuilder.build());
-            } catch (IllegalAccessError | NullPointerException e) {
-                e.printStackTrace();
-            }
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+            notificationManager.notify(DCSharedPreferences.getNotificationId(), notificationBuilder.build());
         }
     }
 }

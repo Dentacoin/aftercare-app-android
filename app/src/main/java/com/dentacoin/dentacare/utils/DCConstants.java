@@ -57,4 +57,6 @@ public class DCConstants {
     public final static String FRIEND_FRIEND = "friend";
     public final static String FRIEND_FAMILY = "family";
     public final static String FRIEND_CHILD = "child";
+
+    public final static String NOTIFICATION_CHANNEL_ID = "Aftercare";
 }
