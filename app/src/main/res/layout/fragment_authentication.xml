@@ -15,31 +15,75 @@
             android:layout_height="wrap_content"
             android:src="@drawable/dentacoin_logo"
             android:layout_gravity="center"
-            android:paddingTop="50dp"/>
+            android:paddingTop="40dp"/>
         <ImageView
             android:id="@+id/iv_auth_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/login_logo"
             android:layout_gravity="center"
-            android:paddingTop="100dp"/>
+            android:paddingTop="80dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:paddingBottom="50dp">
+        android:paddingBottom="16dp">
         <com.dentacoin.dentacare.widgets.DCButton
-            android:id="@+id/btn_auth_signup"
-            style="@style/DCButton.Auth"
-            android:text="@string/btn_auth_signup"
+            android:id="@+id/btn_auth_civic"
+            style="@style/DCButton.Civic"
+            android:text="Connect with Civic"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"/>
+        <com.dentacoin.dentacare.widgets.DCButton
+            android:id="@+id/btn_auth_facebook"
+            style="@style/DCButton.Facebook"
+            android:text="Connect with Facebook"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"/>
+        <com.dentacoin.dentacare.widgets.DCButton
+            android:id="@+id/btn_auth_google"
+            style="@style/DCButton.Google"
+            android:text="Connect with Google"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"/>
+        <com.dentacoin.dentacare.widgets.DCButton
+            android:id="@+id/btn_auth_twitter"
+            style="@style/DCButton.Twitter"
+            android:text="Connect with Twitter"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"/>
-        <com.dentacoin.dentacare.widgets.DCButton
-            android:id="@+id/btn_auth_login"
-            style="@style/DCButton.Auth"
-            android:layout_gravity="center"
-            android:text="@string/btn_auth_login" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <View
+                android:layout_width="40dp"
+                android:layout_height="1dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
+                android:background="@color/white"/>
+            <com.dentacoin.dentacare.widgets.DCTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Or"
+                android:textColor="@color/white"/>
+            <View
+                android:layout_width="40dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@color/white"/>
+        </LinearLayout>
+
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/txt_auth_signup_login"/>
     </LinearLayout>
 </RelativeLayout>

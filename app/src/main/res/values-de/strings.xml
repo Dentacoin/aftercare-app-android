@@ -12,6 +12,7 @@
     <string name="app_name">Dentacare</string>
     <string name="btn_auth_signup">Anmelden</string>
     <string name="btn_auth_login">Einloggen</string>
+    <string name="txt_auth_signup_login"><b><u>Login</u></b> or <b><u>Signup</u></b> using email</string>
     <string name="txt_login_forgot_password">Passwort vergessen?</string>
     <string name="txt_login_or_connect_with">Oder verknüpfen mit</string>
     <string name="signup_txt_signup">Anmelden</string>

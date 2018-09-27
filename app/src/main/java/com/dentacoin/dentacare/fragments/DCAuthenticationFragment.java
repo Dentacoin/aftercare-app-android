@@ -27,22 +27,22 @@ public class DCAuthenticationFragment extends DCFragment implements View.OnClick
         View view = inflater.inflate(R.layout.fragment_authentication, container, false);
         ivAuthDentacoinLogo = view.findViewById(R.id.iv_auth_dentacoin_logo);
         ivAuthLogo = view.findViewById(R.id.iv_auth_logo);
-        btnAuthSignup = view.findViewById(R.id.btn_auth_signup);
-        btnAuthSignup.setOnClickListener(this);
-        btnAuthLogin = view.findViewById(R.id.btn_auth_login);
-        btnAuthLogin.setOnClickListener(this);
+//        btnAuthSignup = view.findViewById(R.id.btn_auth_signup);
+//        btnAuthSignup.setOnClickListener(this);
+//        btnAuthLogin = view.findViewById(R.id.btn_auth_login);
+//        btnAuthLogin.setOnClickListener(this);
         return view;
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_auth_login:
-                ((DCAuthenticationActivity) getActivity()).showLoginFragment();
-                break;
-            case R.id.btn_auth_signup:
-                ((DCAuthenticationActivity) getActivity()).showSignupFragment();
-                break;
-        }
+//        switch (view.getId()) {
+//            case R.id.btn_auth_login:
+//                ((DCAuthenticationActivity) getActivity()).showLoginFragment();
+//                break;
+//            case R.id.btn_auth_signup:
+//                ((DCAuthenticationActivity) getActivity()).showSignupFragment();
+//                break;
+//        }
     }
 }
