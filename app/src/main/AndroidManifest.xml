@@ -58,14 +58,23 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="dentacare.dentacoin.com" android:scheme="http"/>
-                <data android:host="dentacare.dentacoin.com" android:scheme="https"/>
+
+                <data android:scheme="https"/>
+                <data android:scheme="http"/>
+
+                <data android:host="dentacare.dentacoin.com"/>
+                <data android:host="blocked.dentacoin.com"/>
+
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.DCAuthenticationActivity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/DCAuthentication"/>
+        <activity
+            android:name=".activities.DCCivicAuthenticationActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activities.DCDashboardActivity"
             android:screenOrientation="sensorPortrait"
