@@ -31,9 +31,6 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener,
     public static final String TAG = DCLoginFragment.class.getSimpleName();
     private ImageView ivLoginLogo;
 
-    private DCButton btnLoginFacebook;
-    private DCButton btnLoginTwitter;
-    private DCButton btnLoginGoogle;
     private DCButton btnLogin;
 
     private DCTextInputLayout tilLoginEmail;
@@ -62,15 +59,6 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener,
         logoAnimationSet.addAnimation(logoTranslateAnimation);
 
         ivLoginLogo.startAnimation(logoAnimationSet);
-
-        btnLoginFacebook = view.findViewById(R.id.btn_login_facebook);
-        btnLoginFacebook.setOnClickListener(this);
-
-        btnLoginGoogle = view.findViewById(R.id.btn_login_google);
-        btnLoginGoogle.setOnClickListener(this);
-
-        btnLoginTwitter = view.findViewById(R.id.btn_login_twitter);
-        btnLoginTwitter.setOnClickListener(this);
 
         btnLogin = view.findViewById(R.id.btn_login_login);
         btnLogin.setOnClickListener(this);
@@ -112,15 +100,6 @@ public class DCLoginFragment extends DCFragment implements View.OnClickListener,
         switch (view.getId()) {
             case R.id.btn_login_login:
                 login();
-                break;
-            case R.id.btn_login_facebook:
-                ((DCAuthenticationActivity) getActivity()).onFacebookLogin();
-                break;
-            case R.id.btn_login_twitter:
-                ((DCAuthenticationActivity) getActivity()).onTwitterLogin();
-                break;
-            case R.id.btn_login_google:
-                ((DCAuthenticationActivity) getActivity()).onGoogleLogin();
                 break;
             case R.id.tv_login_forgot_password:
                 ((DCAuthenticationActivity) getActivity()).showPasswordResetFragment();
