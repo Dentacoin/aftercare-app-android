@@ -4,42 +4,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rectangle_gradient_blue">
+    <ImageView
+        android:id="@+id/iv_auth_dentacoin_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/dentacoin_logo"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="16dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentTop="true">
-        <ImageView
-            android:id="@+id/iv_auth_dentacoin_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/dentacoin_logo"
-            android:layout_gravity="center"
-            android:paddingTop="50dp"/>
+        android:layout_below="@id/iv_auth_dentacoin_logo"
+        android:layout_above="@id/ll_auth_buttons">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40"/>
         <ImageView
             android:id="@+id/iv_auth_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/login_logo"
-            android:layout_gravity="center"
-            android:paddingTop="100dp"/>
+            android:layout_gravity="center"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="60"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_auth_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        android:paddingBottom="50dp">
+        android:layout_alignParentBottom="true">
         <com.dentacoin.dentacare.widgets.DCButton
-            android:id="@+id/btn_auth_signup"
-            style="@style/DCButton.Auth"
-            android:text="@string/btn_auth_signup"
+            android:id="@+id/btn_auth_civic"
+            style="@style/DCButton.Civic"
+            android:text="@string/btn_auth_civic"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="16dp"/>
         <com.dentacoin.dentacare.widgets.DCButton
-            android:id="@+id/btn_auth_login"
-            style="@style/DCButton.Auth"
+            android:id="@+id/btn_auth_facebook"
+            style="@style/DCButton.Facebook"
+            android:text="@string/btn_auth_facebook"
             android:layout_gravity="center"
-            android:text="@string/btn_auth_login" />
+            android:layout_marginBottom="16dp"/>
+        <com.dentacoin.dentacare.widgets.DCButton
+            android:id="@+id/btn_auth_google"
+            style="@style/DCButton.Google"
+            android:text="@string/btn_auth_google"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"/>
+        <com.dentacoin.dentacare.widgets.DCButton
+            android:id="@+id/btn_auth_twitter"
+            style="@style/DCButton.Twitter"
+            android:text="@string/btn_auth_twitter"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"/>
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_auth_or"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"/>
+        <com.dentacoin.dentacare.widgets.DCTextView
+            android:id="@+id/tv_auth_email_login"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+
+            android:text="@string/txt_auth_login_with_email"/>
     </LinearLayout>
 </RelativeLayout>

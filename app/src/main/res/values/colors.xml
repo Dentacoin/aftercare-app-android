@@ -26,4 +26,9 @@
     <color name="green">#2bc32b</color>
     <color name="orange">#e57c25</color>
     <color name="warning">#ffa900</color>
+    <color name="civicGreen">#3AB03E</color>
+    <color name="facebookBlue">#3B5998</color>
+    <color name="twitterBlue">#1da1f2</color>
+    <color name="googleWhite">#ffffff</color>
+    <color name="googleTextColor">#80000000</color>
 </resources>

@@ -12,6 +12,7 @@
     <string name="app_name">Dentacare</string>
     <string name="btn_auth_signup">Anmelden</string>
     <string name="btn_auth_login">Einloggen</string>
+    <string name="txt_auth_signup_login"><b><u>Login</u></b> or <b><u>Signup</u></b> using email</string>
     <string name="txt_login_forgot_password">Passwort vergessen?</string>
     <string name="txt_login_or_connect_with">Oder verknüpfen mit</string>
     <string name="signup_txt_signup">Anmelden</string>
@@ -396,4 +397,10 @@
     <string name="journey_txt_completed_child">Sie haben Ihre 90-tägige Reise durchgeführt, Glückwunsch!</string>
     <string name="friend_hdl_delete">Von Freunden entfernen?</string>
     <string name="warning_txt_slow_transfer">Auf Grund der vorübergehend hohen Auslastung der Ethereum-Blockchain kann die Überweisung der DCN derzeit einige Tage lang dauern. Wir bitten um Entschuldigung und Geduld.</string>
+    <string name="btn_auth_civic">Connect with Civic</string>
+    <string name="btn_auth_facebook">Connect with Facebook</string>
+    <string name="btn_auth_google">Connect with Google</string>
+    <string name="btn_auth_twitter">Connect with Twitter</string>
+    <string name="txt_auth_or">OR</string>
+    <string name="txt_auth_login_with_email">Login using email</string>
 </resources>

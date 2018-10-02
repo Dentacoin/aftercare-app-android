@@ -90,6 +90,7 @@ public class DCAuthenticationActivity extends DCActivity {
     /**
      * Shows the signup fragment
      */
+    @Deprecated
     public void showSignupFragment() {
         final FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
@@ -321,6 +322,10 @@ public class DCAuthenticationActivity extends DCActivity {
             if (result.getStatus().getStatusMessage() != null)
                 onError(new DCError(result.getStatus().getStatusMessage()));
         }
+    }
+
+    public void onCivicLogin() {
+
     }
 
     public void loginUser(DCUser user) {

@@ -1,48 +1,32 @@
 package com.dentacoin.dentacare.fragments;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
-import com.dentacoin.dentacare.widgets.DCButton;
+import com.dentacoin.dentacare.widgets.DCTextView;
 
 
 /**
  * Created by Atanas Chervarov on 7/29/17.
  */
 
-public class DCAuthenticationFragment extends DCFragment implements View.OnClickListener {
-
-    private ImageView ivAuthDentacoinLogo;
-    private ImageView ivAuthLogo;
-    private DCButton btnAuthSignup;
-    private DCButton btnAuthLogin;
+public class DCAuthenticationFragment extends DCFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_authentication, container, false);
-        ivAuthDentacoinLogo = view.findViewById(R.id.iv_auth_dentacoin_logo);
-        ivAuthLogo = view.findViewById(R.id.iv_auth_logo);
-        btnAuthSignup = view.findViewById(R.id.btn_auth_signup);
-        btnAuthSignup.setOnClickListener(this);
-        btnAuthLogin = view.findViewById(R.id.btn_auth_login);
-        btnAuthLogin.setOnClickListener(this);
+        view.findViewById(R.id.btn_auth_civic).setOnClickListener(v -> ((DCAuthenticationActivity) getActivity()).onCivicLogin());
+        view.findViewById(R.id.btn_auth_facebook).setOnClickListener(v -> ((DCAuthenticationActivity) getActivity()).onFacebookLogin());
+        view.findViewById(R.id.btn_auth_google).setOnClickListener(v -> ((DCAuthenticationActivity) getActivity()).onGoogleLogin());
+        view.findViewById(R.id.btn_auth_twitter).setOnClickListener(v -> ((DCAuthenticationActivity) getActivity()).onTwitterLogin());
+        DCTextView tvAuthEmailLogin = view.findViewById(R.id.tv_auth_email_login);
+        tvAuthEmailLogin.setOnClickListener(v -> ((DCAuthenticationActivity) getActivity()).showLoginFragment());
+        tvAuthEmailLogin.setPaintFlags(tvAuthEmailLogin.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         return view;
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_auth_login:
-                ((DCAuthenticationActivity) getActivity()).showLoginFragment();
-                break;
-            case R.id.btn_auth_signup:
-                ((DCAuthenticationActivity) getActivity()).showSignupFragment();
-                break;
-        }
     }
 }
