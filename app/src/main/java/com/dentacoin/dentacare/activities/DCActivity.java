@@ -1,5 +1,6 @@
 package com.dentacoin.dentacare.activities;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -124,6 +125,14 @@ public class DCActivity extends AppCompatActivity {
         final DCLoadingFragment loadingFragment = new DCLoadingFragment();
         loadingFragment.show(getFragmentManager(), DCLoadingFragment.TAG);
         return loadingFragment;
+    }
+
+    final public void hideLoading() {
+        Fragment fragment = getFragmentManager().findFragmentByTag(DCLoadingFragment.TAG);
+        if (fragment != null && fragment instanceof DCLoadingFragment) {
+            if (!fragment.isHidden())
+                ((DCLoadingFragment) fragment).dismissAllowingStateLoss();
+        }
     }
 
     @Override

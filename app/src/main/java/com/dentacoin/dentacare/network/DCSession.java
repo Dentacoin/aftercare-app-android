@@ -24,6 +24,7 @@ public class DCSession {
     private DCUser user;
     private String socialAvatar;
     private String invitationToken;
+    private String civicDeeplink;
 
 
     public synchronized static DCSession getInstance() {
@@ -38,6 +39,14 @@ public class DCSession {
 
     public void setInvitationToken(String invitationToken) {
         this.invitationToken = invitationToken;
+    }
+
+    public void setCivicDeeplink(String civicDeeplink) {
+        this.civicDeeplink = civicDeeplink;
+    }
+
+    public String getCivicDeeplink() {
+        return civicDeeplink;
     }
 
     public String getInvitationToken() {

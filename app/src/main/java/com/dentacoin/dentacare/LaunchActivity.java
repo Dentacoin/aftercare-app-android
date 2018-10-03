@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
-import com.dentacoin.dentacare.activities.DCCivicAuthenticationActivity;
 import com.dentacoin.dentacare.activities.DCDashboardActivity;
 import com.dentacoin.dentacare.activities.DCOnboardingActivity;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.utils.DCConstants;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
-import com.dentacoin.dentacare.utils.DCTutorialManager;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 
 import net.hockeyapp.android.CrashManager;
@@ -66,32 +64,30 @@ public class LaunchActivity extends AppCompatActivity {
     }
 
     private void checkSession() {
-//        if (DCSession.getInstance().isValid()) {
-//            if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.SEEN_ONBOARDING, false)) {
-//                final Intent intent = new Intent(this, DCOnboardingActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                startActivity(intent);
-//                finish();
-//            } else {
-//                DCSession.getInstance().loadSocialAvatar(this);
-//                final Intent intent = new Intent(this, DCDashboardActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                startActivity(intent);
-//                finish();
-//            }
-//        } else {
-            final Intent intent = new Intent(this, DCCivicAuthenticationActivity.class);
+        if (DCSession.getInstance().isValid()) {
+            if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.SEEN_ONBOARDING, false)) {
+                final Intent intent = new Intent(this, DCOnboardingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            } else {
+                DCSession.getInstance().loadSocialAvatar(this);
+                final Intent intent = new Intent(this, DCDashboardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish();
+            }
+        } else {
+            final Intent intent = new Intent(this, DCAuthenticationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             finish();
-//        }
+        }
     }
 
-    private void handleDeepLink() {
-        if (getIntent() != null && getIntent().getData() != null) {
-            DCTutorialManager.getInstance().test = getIntent().getDataString();
-        }
+    private static final String CIVIC_PATH_REGEX = ".*/civic*";
 
+    private void handleDeepLink() {
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(getIntent())
                 .addOnSuccessListener(this, pendingDynamicLinkData -> {
@@ -105,5 +101,13 @@ public class LaunchActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+        if (getIntent() != null && getIntent().getData() != null) {
+            final String path = getIntent().getData().getPath();
+            if (path.matches(CIVIC_PATH_REGEX)) {
+                final String url = getIntent().getDataString();
+                DCSession.getInstance().setCivicDeeplink(url);
+            }
+        }
     }
 }

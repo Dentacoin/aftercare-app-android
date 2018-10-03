@@ -127,17 +127,20 @@ android {
             resValue "string", "hockey_app_id", hockeyDebugKey
             resValue "string", "google_client_id", googleClientIDDev
             buildConfigField 'String', 'HOST', hostDev
+            resValue "string", "deep_links_host", "staging.dentacoin.com"
         }
         staging {
             applicationIdSuffix ".stage"
             resValue "string", "hockey_app_id", hockeyStageKey
             resValue "string", "google_client_id", googleClientIDStage
             buildConfigField 'String', 'HOST', hostStage
+            resValue "string", "deep_links_host", "staging.dentacoin.com"
         }
         live {
             resValue "string", "hockey_app_id", hockeyLiveKey
             resValue "string", "google_client_id", googleClientIDLive
             buildConfigField 'String', 'HOST', hostLive
+            resValue "string", "deep_links_host", "dentacare.dentacoin.com"
         }
     }
 

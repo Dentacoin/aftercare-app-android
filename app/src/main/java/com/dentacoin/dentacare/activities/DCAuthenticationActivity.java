@@ -59,6 +59,7 @@ public class DCAuthenticationActivity extends DCActivity {
     private CallbackManager facebookCallbackManager;
     private TwitterAuthClient twitterAuthClient;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -322,10 +323,6 @@ public class DCAuthenticationActivity extends DCActivity {
             if (result.getStatus().getStatusMessage() != null)
                 onError(new DCError(result.getStatus().getStatusMessage()));
         }
-    }
-
-    public void onCivicLogin() {
-
     }
 
     public void loginUser(DCUser user) {

@@ -23,10 +23,16 @@ public class DCFragment extends Fragment {
         }
     }
 
-    public DCLoadingFragment showLoading() {
+    public final DCLoadingFragment showLoading() {
         if (getActivity() instanceof DCActivity) {
             return ((DCActivity) getActivity()).showLoading();
         }
         return null;
+    }
+
+    public final void hideLoading() {
+        if (getActivity() instanceof DCActivity) {
+            ((DCActivity) getActivity()).hideLoading();
+        }
     }
 }
