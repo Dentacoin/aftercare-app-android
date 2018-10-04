@@ -32,6 +32,9 @@ android {
     def googleClientIDStage
     def googleClientIDLive
     def googlePlacesApiKey
+    def deepLinkHostDev
+    def deepLinkHostStage
+    def deepLinkHostLive
 
     if (project.rootProject.file('local.properties').exists()) {
         Properties properties = new Properties()
@@ -56,6 +59,9 @@ android {
         googleClientIDStage = properties.getProperty('google.client.id.stage')
         googleClientIDLive = properties.getProperty('google.client.id.live')
         googlePlacesApiKey = properties.getProperty('google.places.api.key')
+        deepLinkHostDev = properties.getProperty('deep.link.host.dev')
+        deepLinkHostStage = properties.getProperty('deep.link.host.stage')
+        deepLinkHostLive = properties.getProperty('deep.link.host.live')
     } else {
         hockeyDebugKey = System.getenv('HOCKEY_DEBUG_KEY')
         hockeyStageKey = System.getenv('HOCKEY_STAGE_KEY')
@@ -78,6 +84,9 @@ android {
         googleClientIDStage = System.getenv('GOOGLE_CLIENT_ID_STAGE')
         googleClientIDLive = System.getenv('GOOGLE_CLIENT_ID_LIVE')
         googlePlacesApiKey = System.getenv('GOOGLE_PLACES_API_KEY')
+        deepLinkHostDev = System.getenv('DEEP_LINK_HOST_DEV')
+        deepLinkHostStage = System.getenv('DEEP_LINK_HOST_STAGE')
+        deepLinkHostLive = System.getenv('DEEP_LINK_HOST_LIVE')
     }
 
     defaultConfig {
@@ -127,20 +136,20 @@ android {
             resValue "string", "hockey_app_id", hockeyDebugKey
             resValue "string", "google_client_id", googleClientIDDev
             buildConfigField 'String', 'HOST', hostDev
-            resValue "string", "deep_links_host", "staging.dentacoin.com"
+            resValue "string", "deep_links_host", deepLinkHostDev
         }
         staging {
             applicationIdSuffix ".stage"
             resValue "string", "hockey_app_id", hockeyStageKey
             resValue "string", "google_client_id", googleClientIDStage
             buildConfigField 'String', 'HOST', hostStage
-            resValue "string", "deep_links_host", "staging.dentacoin.com"
+            resValue "string", "deep_links_host", deepLinkHostStage
         }
         live {
             resValue "string", "hockey_app_id", hockeyLiveKey
             resValue "string", "google_client_id", googleClientIDLive
             buildConfigField 'String', 'HOST', hostLive
-            resValue "string", "deep_links_host", "dentacare.dentacoin.com"
+            resValue "string", "deep_links_host", deepLinkHostLive
         }
     }
 

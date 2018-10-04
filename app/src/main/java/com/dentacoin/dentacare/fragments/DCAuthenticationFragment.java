@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.dentacoin.dentacare.R;
 import com.dentacoin.dentacare.activities.DCAuthenticationActivity;
+import com.dentacoin.dentacare.network.DCApiManager;
 import com.dentacoin.dentacare.network.DCSession;
 import com.dentacoin.dentacare.widgets.DCButton;
 import com.dentacoin.dentacare.widgets.DCTextView;
@@ -59,10 +60,14 @@ public class DCAuthenticationFragment extends DCFragment {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 Intent intent;
-                if (url.contains("civic://")) {
+                if (url.contains("civic://") || url.contains("market://")) {
                     intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(url));
-                    startActivity(intent);
+                    if (getActivity() != null) {
+                        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                            startActivity(intent);
+                        }
+                    }
                     return true;
                 }
                 return false;
@@ -90,7 +95,7 @@ public class DCAuthenticationFragment extends DCFragment {
         webView.setVisibility(View.GONE);
         ivCloseWebView.setVisibility(View.GONE);
         btnCivic.setEnabled(false);
-        webView.loadUrl("https://staging.dentacoin.com/civic");
+        webView.loadUrl(DCApiManager.getEndpointCivic());
     }
 
     @Override
@@ -103,7 +108,7 @@ public class DCAuthenticationFragment extends DCFragment {
             DCSession.getInstance().setCivicDeeplink(null);
             showLoading();
         } else {
-            webView.loadUrl("https://staging.dentacoin.com/civic");
+            webView.loadUrl(DCApiManager.getEndpointCivic());
         }
     }
 

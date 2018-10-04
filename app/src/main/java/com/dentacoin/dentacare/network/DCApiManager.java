@@ -105,6 +105,7 @@ public class DCApiManager {
     private static final String ENDPOINT_INVITATIONS_ACCEPT = "invitations/accept";
     private static final String ENDPOINT_INVITATIONS_DECLINE = "invitations/decline";
     private static final String ENDPOINT_LOGIN_CHILD = "children/login";
+    private static final String ENDPOINT_CIVIC = "../civic";
 
     private static final String ENDPOINT_GAS_PRICE = "https://dentacoin.net/gas-price";
 
@@ -156,6 +157,10 @@ public class DCApiManager {
             }
         }
         return builder.build().toString();
+    }
+
+    public static String getEndpointCivic() {
+        return buildPath(ENDPOINT_CIVIC, null);
     }
 
     /**
