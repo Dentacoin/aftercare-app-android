@@ -37,6 +37,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/collect_wallet_url_ether"
                     android:textColor="@color/ceruleanBlue"
+                    android:textSize="@dimen/text_size_normal"
+                    android:autoLink="all"
                     android:layout_gravity="center"
                     android:padding="10dp"/>
             </LinearLayout>
