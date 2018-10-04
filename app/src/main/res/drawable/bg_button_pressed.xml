@@ -5,8 +5,8 @@
     <gradient
         android:centerX="0.5"
         android:centerY="1"
-        android:startColor="@color/iceBlue"
-        android:centerColor="@color/paleSkyBlue"
+        android:startColor="@color/paleSkyBlue"
+        android:centerColor="@color/brightSkyBlue"
         android:type="linear"/>
 
     <corners
