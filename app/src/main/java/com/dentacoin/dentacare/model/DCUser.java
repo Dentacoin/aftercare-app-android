@@ -7,9 +7,11 @@ import com.google.gson.annotations.Expose;
 import com.mukesh.countrypicker.Country;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.dentacoin.dentacare.utils.DCConstants.DATE_FORMAT_USER_BIRTHDAY;
 import static com.dentacoin.dentacare.utils.DCConstants.GENDER_FEMALE;
 import static com.dentacoin.dentacare.utils.DCConstants.GENDER_MALE;
 import static com.dentacoin.dentacare.utils.DCConstants.GENDER_UNSPECIFIED;
@@ -25,7 +27,7 @@ public class DCUser implements Serializable {
     @Expose() private String password;
     @Expose() private String firstname;
     @Expose() private String lastname;
-    @Expose() private Date birthday;
+    @Expose() private String birthday;
     @Expose() private Integer postalCode;
     @Expose() private String country;
     @Expose() private String city;
@@ -83,11 +85,24 @@ public class DCUser implements Serializable {
         this.lastname = lastname;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setBirthday(Date date) {
+        if (date != null) {
+            this.birthday = DATE_FORMAT_USER_BIRTHDAY.format(date);
+        } else {
+            this.birthday = null;
+        }
     }
 
-    public Date getBirthday() { return birthday; }
+    public Date getBirthday() {
+        if (birthday != null) {
+            try {
+                return DATE_FORMAT_USER_BIRTHDAY.parse(birthday);
+            } catch (ParseException e) {
+
+            }
+        }
+        return null;
+    }
 
     public void setPostalCode(int postalCode) {
         this.postalCode = postalCode;
@@ -227,12 +242,12 @@ public class DCUser implements Serializable {
      * @return  null if user did not set his burthday
      */
     public Integer getAge() {
-        if (birthday != null) {
+        if (getBirthday() != null) {
             Calendar nowCalendar = Calendar.getInstance();
             nowCalendar.setTime(new Date());
 
             Calendar birthdayCalendar = Calendar.getInstance();
-            birthdayCalendar.setTime(birthday);
+            birthdayCalendar.setTime(getBirthday());
 
             int yearDiff = nowCalendar.get(Calendar.YEAR) - birthdayCalendar.get(Calendar.YEAR);
 

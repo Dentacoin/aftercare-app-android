@@ -117,11 +117,11 @@ public class DCApiManager {
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
             .create();
 
-    public static final Gson gsonExopse = new GsonBuilder()
+    public static final Gson gsonExpose = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz")
             .excludeFieldsWithoutExposeAnnotation()
             .create();
-
+    
     public static synchronized DCApiManager getInstance() {
         if (instance == null)
             instance = new DCApiManager();
@@ -192,7 +192,7 @@ public class DCApiManager {
             return;
 
         String endpoint = buildPath(ENDPOINT_REGISTER_USER, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(user));
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExpose.toJson(user));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(responseListener, DCAuthToken.class));
     }
@@ -207,7 +207,7 @@ public class DCApiManager {
             return;
 
         String endpoint = buildPath(ENDPOINT_LOGIN_USER, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(user));
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExpose.toJson(user));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(responseListener, DCAuthToken.class));
     }
@@ -250,11 +250,11 @@ public class DCApiManager {
             return;
 
         String endpoint = buildPath(ENDPOINT_USER, null);
-        String payload = gsonExopse.toJson(user);
+        String payload = gsonExpose.toJson(user);
 
         //FIXME: fix null values serialization
         try {
-            JsonObject jsonObject = (JsonObject) gsonExopse.toJsonTree(user);
+            JsonObject jsonObject = (JsonObject) gsonExpose.toJsonTree(user);
             if (jsonObject != null) {
                 if (jsonObject.get("avatar_64") == null && jsonObject.get("avatar") == null) {
                     jsonObject.addProperty("avatar_64", false);
@@ -463,7 +463,7 @@ public class DCApiManager {
      */
     public void postRoutine(DCRoutine routine, final DCResponseListener<DCRoutine> listener) {
         String endpoint = buildPath(ENDPOINT_ROUTINE, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(routine));
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExpose.toJson(routine));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCRoutine.class));
     }
@@ -475,7 +475,7 @@ public class DCApiManager {
      */
     public void postChild(DCChild child, final DCResponseListener<DCChild> listener) {
         String endpoint = buildPath(ENDPOINT_CHILDREN, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(child));
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExpose.toJson(child));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCChild.class));
     }
@@ -489,7 +489,7 @@ public class DCApiManager {
     public void patchChild(int id, DCChild child, final DCResponseListener<DCChild> listener) {
         String path = MessageFormat.format(ENDPOINT_PATCH_CHILD, Integer.toString(id));
         String endpoint = buildPath(path, null);
-        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExopse.toJson(child));
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExpose.toJson(child));
         Request request = buildRequest(RequestMethod.PATCH, endpoint, requestBody);
         client.newCall(request).enqueue(new DCResponseHandler<>(listener, DCChild.class));
     }

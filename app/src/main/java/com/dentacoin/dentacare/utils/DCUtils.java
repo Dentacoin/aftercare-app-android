@@ -142,6 +142,7 @@ public class DCUtils {
                     calendar.set(Calendar.YEAR, y);
                     calendar.set(Calendar.MONTH, m);
                     calendar.set(Calendar.DAY_OF_MONTH, d);
+                    calendar.set(Calendar.HOUR, 5);
                     listener.onPickedDate(calendar.getTime());
                 }
             }

@@ -17,6 +17,7 @@ public class DCConstants {
     public static final String BUILD_TYPE_RELEASE = "release";
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+    public static final SimpleDateFormat DATE_FORMAT_USER_BIRTHDAY = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
     public static final int AVATAR_DEFAULT_SIZE_WIDTH = 512;
     public static final int AVATAR_DEFAULT_SIZE_HEIGHT = 512;
