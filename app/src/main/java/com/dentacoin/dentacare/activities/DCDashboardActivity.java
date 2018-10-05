@@ -55,6 +55,7 @@ import com.takusemba.spotlight.Spotlight;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import de.mateware.snacky.Snacky;
 
@@ -622,6 +623,10 @@ public class DCDashboardActivity extends DCDrawerActivity implements IDCFragment
                     DCDashboardDataProvider.getInstance().updateDashboard(true);
                     DCDashboardDataProvider.getInstance().updateJourney(true);
                     DCGoalsDataProvider.getInstance().updateGoals(true);
+
+                    //Save last routine time
+                    Date now = new Date();
+                    DCSharedPreferences.saveDate(DCSharedPreferences.DCSharedKey.LAST_ROUTINE_TIME, now.getTime());
                 }
             });
         }

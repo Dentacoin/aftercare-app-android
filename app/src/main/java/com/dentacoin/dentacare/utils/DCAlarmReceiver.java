@@ -11,6 +11,8 @@ import android.support.v4.app.NotificationManagerCompat;
 import com.dentacoin.dentacare.LaunchActivity;
 import com.dentacoin.dentacare.R;
 
+import java.util.Date;
+
 /**
  * Created by Atanas Chervarov on 11/2/17.
  */
@@ -19,6 +21,7 @@ public class DCAlarmReceiver extends BroadcastReceiver {
 
     public static final String TAG = DCAlarmReceiver.class.getSimpleName();
     public static final String KEY_NOTIFICATION = "KEY_NOTIFICATION";
+    private static final long TIME_SIX_HOURS = 6 * 60 * 60 * 1000;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -51,6 +54,15 @@ public class DCAlarmReceiver extends BroadcastReceiver {
                 DCLocalNotificationsManager.HealthyHabit habit = DCLocalNotificationsManager.HealthyHabit.getRandomHabit();
                 title = context.getString(habit.getTitleId());
                 body = context.getString(habit.getMessageId());
+            } else if (notification == DCLocalNotificationsManager.Notification.DAILY_BRUSHING) {
+                //Check if user already had his routine today
+                Date lastRoutineTime = DCSharedPreferences.loadDate(DCSharedPreferences.DCSharedKey.LAST_ROUTINE_TIME);
+                if (lastRoutineTime != null) {
+                    Date now = new Date();
+                    if (now.getTime() - lastRoutineTime.getTime() < TIME_SIX_HOURS) {
+                        return;
+                    }
+                }
             }
 
             DCUtils.createNotificationChannel(context, DCConstants.NOTIFICATION_CHANNEL_ID);

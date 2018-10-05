@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +37,8 @@ public class DCSharedPreferences {
         FIRST_LOGIN_DATE("FIRST_LOGIN_DATE"),
         SEEN_ONBOARDING("SEEN_ONBOARDING"),
         SHOW_EMAIL_VERIFICATION("SHOW_EMAIL_VERIFICATION"),
-        ROUTINES("ROUTINES");
+        ROUTINES("ROUTINES"),
+        LAST_ROUTINE_TIME("LAST_ROUTINE_TIME");
         
         private String key;
 
@@ -94,6 +96,18 @@ public class DCSharedPreferences {
 
     public static boolean saveInt(DCSharedKey key, int value) {
         return getInstance().preferences.edit().putInt(key.getKey(), value).commit();
+    }
+
+    public static Date loadDate(DCSharedKey key) {
+        long milis = getInstance().preferences.getLong(key.getKey(), -1);
+        if (milis > 0) {
+            return new Date(milis);
+        }
+        return null;
+    }
+
+    public static boolean saveDate(DCSharedKey key, long milis) {
+        return getInstance().preferences.edit().putLong(key.getKey(), milis).commit();
     }
 
     public static Set<String> getShownTutorials() {
