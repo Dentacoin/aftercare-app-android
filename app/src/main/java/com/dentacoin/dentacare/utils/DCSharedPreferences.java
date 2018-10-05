@@ -26,7 +26,6 @@ public class DCSharedPreferences {
         LAST_MESSAGE_TIME("LAST_MESSAGE_TIME"),
         SOUND_ENABLED("SOUND_ENABLED"),
         MUSIC_ENABLED("MUSIC_ENABLED"),
-        LAST_LOGGED_EMAIL("LAST_LOGGED_EMAIL"),
         //Notification keys
         DAILY_BRUSHING("DAILY_BRUSHING"),
         CHANGE_BRUSH("CHANGE_BRUSH"),

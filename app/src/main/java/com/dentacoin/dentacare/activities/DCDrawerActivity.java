@@ -369,7 +369,7 @@ public class DCDrawerActivity extends DCToolbarActivity implements NavigationVie
                     });
                     break;
                 case EMERGENCY_MENU:
-                    final View emergency = nvNavigation.getTouchables().get(8);
+                    final View emergency = nvNavigation.getTouchables().get(9);
                     emergency.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
                         public void onGlobalLayout() {

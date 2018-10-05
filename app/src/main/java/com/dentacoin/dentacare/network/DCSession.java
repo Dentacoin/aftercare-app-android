@@ -74,16 +74,6 @@ public class DCSession {
         if (user != null) {
             DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.USER, DCApiManager.gson.toJson(user));
 
-            String lastLoggedIn = DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.LAST_LOGGED_EMAIL);
-
-            if (user.getEmail() != null) {
-                if (lastLoggedIn != null && lastLoggedIn.compareTo(user.getEmail()) != 0) {
-                    DCSharedPreferences.removeKey(DCSharedPreferences.DCSharedKey.SHOWED_TUTORIALS);
-                    DCSharedPreferences.removeKey(DCSharedPreferences.DCSharedKey.SEEN_ONBOARDING);
-                }
-                DCSharedPreferences.saveString(DCSharedPreferences.DCSharedKey.LAST_LOGGED_EMAIL, user.getEmail());
-            }
-
             if (DCSharedPreferences.loadString(DCSharedPreferences.DCSharedKey.FIRST_LOGIN_DATE) == null) {
                 Date now = new Date();
                 String stringDate = DCConstants.DATE_FORMAT.format(now);
