@@ -6,6 +6,7 @@
     
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -62,6 +63,8 @@
                 <data android:scheme="https"/>
                 <data android:scheme="http"/>
                 <data android:host="@string/deep_links_host"/>
+                <data android:scheme="com.dentacoin.dentacare" android:host="authorise" />
+
 
             </intent-filter>
         </activity>
@@ -161,7 +164,6 @@
                 <action android:name="android.intent.action.NOTIFY"/>
             </intent-filter>
         </receiver>
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}"

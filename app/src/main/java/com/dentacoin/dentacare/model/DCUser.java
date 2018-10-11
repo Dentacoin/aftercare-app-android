@@ -44,6 +44,7 @@ public class DCUser implements Serializable {
     @Expose() private Integer captchaId;
     @Expose() private String captchaCode;
     @Expose() private boolean consent;
+    @Expose() private String civicUserId;
     @Expose(serialize = false, deserialize = true) private boolean confirmed = false;
     @Expose(serialize = false, deserialize = true) private String accountType;
     @Expose(serialize = false, deserialize = true) private boolean isChild;
@@ -51,6 +52,11 @@ public class DCUser implements Serializable {
     //TODO: fix!
     public boolean isChild() {
         return isChild;
+    }
+
+
+    public void setCivicUserId(String civicUserId) {
+        this.civicUserId = civicUserId;
     }
 
     public void setHasConsent(boolean consent) {

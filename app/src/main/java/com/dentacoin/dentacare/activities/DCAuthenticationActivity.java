@@ -13,6 +13,7 @@ import com.dentacoin.dentacare.fragments.DCLoadingFragment;
 import com.dentacoin.dentacare.fragments.DCLoginFragment;
 import com.dentacoin.dentacare.fragments.DCResetPasswordFragment;
 import com.dentacoin.dentacare.fragments.DCSignupFragment;
+import com.dentacoin.dentacare.model.DCCivicToken;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCUser;
 import com.dentacoin.dentacare.network.DCApiManager;
@@ -159,7 +160,7 @@ public class DCAuthenticationActivity extends DCActivity {
                             }
                         }
 
-                        DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
+                        DCApiManager.getInstance().loginUser(user, new DCResponseListener<DCAuthToken>() {
                             @Override
                             public void onFailure(DCError loginError) {
                                 if (loginError.getCode() == 417) {
@@ -197,6 +198,7 @@ public class DCAuthenticationActivity extends DCActivity {
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
     }
 
+    @Deprecated
     public void onTwitterLogin() {
         if (twitterAuthClient == null)
             twitterAuthClient = new TwitterAuthClient();
@@ -220,7 +222,7 @@ public class DCAuthenticationActivity extends DCActivity {
                             user.setTwitterAccessTokenSecret(authResult.data.getAuthToken().secret);
                             user.setFirstname(twitterUser.name);
 
-                            DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
+                            DCApiManager.getInstance().loginUser(user, new DCResponseListener<DCAuthToken>() {
                                 @Override
                                 public void onFailure(DCError error) {
                                     if (error.getCode() == 417) {
@@ -301,7 +303,7 @@ public class DCAuthenticationActivity extends DCActivity {
 
                 final DCLoadingFragment loadingFragment = showLoading();
 
-                DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
+                DCApiManager.getInstance().loginUser(user, new DCResponseListener<DCAuthToken>() {
                     @Override
                     public void onFailure(DCError error) {
                         if (error.getCode() == 417) {
@@ -328,7 +330,7 @@ public class DCAuthenticationActivity extends DCActivity {
     public void loginUser(DCUser user) {
         final DCLoadingFragment loadingFragment = showLoading();
 
-        DCApiManager.getInstance().loginUSer(user, new DCResponseListener<DCAuthToken>() {
+        DCApiManager.getInstance().loginUser(user, new DCResponseListener<DCAuthToken>() {
             @Override
             public void onFailure(DCError error) {
                 onError(error);
@@ -389,16 +391,93 @@ public class DCAuthenticationActivity extends DCActivity {
 
                 @Override
                 public void onResponse(DCUser object) {
-                    if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.SEEN_ONBOARDING, false)) {
-                        final Intent intent = new Intent(DCAuthenticationActivity.this, DCOnboardingActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent);
-                        finish();
+                    onAuthenticationSuccess();
+                }
+            });
+        }
+    }
+
+    private void onAuthenticationSuccess() {
+        if (!DCSharedPreferences.getBoolean(DCSharedPreferences.DCSharedKey.SEEN_ONBOARDING, false)) {
+            final Intent intent = new Intent(DCAuthenticationActivity.this, DCOnboardingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        } else {
+            final Intent intent = new Intent(DCAuthenticationActivity.this, DCDashboardActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    public void loginCivicUser(String token) {
+        if (token != null && !token.isEmpty()) {
+            final DCLoadingFragment loadingFragment = showLoading();
+
+            DCCivicToken civicToken = new DCCivicToken(token);
+
+            DCApiManager.getInstance().loginCivic(civicToken, new DCResponseListener<DCAuthToken>() {
+                @Override
+                public void onFailure(DCError error) {
+                    loadingFragment.dismissAllowingStateLoss();
+                    onError(error);
+                }
+
+                @Override
+                public void onResponse(DCAuthToken object) {
+                    DCSession.getInstance().setAuthToken(object);
+
+                    if (DCSession.getInstance().isValid()) {
+                        DCSession.getInstance().loadSocialAvatar(DCAuthenticationActivity.this);
+                        DCLocalNotificationsManager.getInstance().scheduleNotifications(DCAuthenticationActivity.this, false);
+
+                        DCApiManager.getInstance().getUser(new DCResponseListener<DCUser>() {
+                            @Override
+                            public void onFailure(DCError error) {
+                                loadingFragment.dismissAllowingStateLoss();
+                                onError(error);
+                            }
+
+                            @Override
+                            public void onResponse(DCUser user) {
+                                loadingFragment.dismissAllowingStateLoss();
+
+                                if (!user.hasConsent()) {
+                                    DCAgreementFragment agreementFragment = new DCAgreementFragment();
+                                    agreementFragment.setListener(new DCAgreementFragment.IDCAgreementListener() {
+                                        @Override
+                                        public void onAgreementAccepted() {
+                                            user.setHasConsent(true);
+
+                                            DCApiManager.getInstance().patchUser(user, new DCResponseListener<DCUser>() {
+                                                @Override
+                                                public void onFailure(DCError error) {
+                                                    onError(error);
+                                                }
+
+                                                @Override
+                                                public void onResponse(DCUser object) {
+                                                    DCSession.getInstance().setUser(object);
+                                                    onAuthenticationSuccess();
+                                                }
+                                            });
+                                        }
+                                    });
+
+                                    final FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                    transaction.setCustomAnimations(R.animator.slide_in_right, R.animator.slide_out_left, R.animator.slide_in_left, R.animator.slide_out_right);
+                                    transaction.add(R.id.fragment_container, agreementFragment);
+                                    transaction.addToBackStack(DCAgreementFragment.TAG);
+                                    transaction.commit();
+
+                                } else {
+                                    onAuthenticationSuccess();
+                                }
+                            }
+                        });
                     } else {
-                        final Intent intent = new Intent(DCAuthenticationActivity.this, DCDashboardActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent);
-                        finish();
+                        loadingFragment.dismissAllowingStateLoss();
                     }
                 }
             });

@@ -1,6 +1,8 @@
 package com.dentacoin.dentacare;
 
 import android.app.Application;
+
+import com.civic.connect.library.CivicConnect;
 import com.dentacoin.dentacare.utils.DCSharedPreferences;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.twitter.sdk.android.core.Twitter;
@@ -16,5 +18,6 @@ public class DCApplication extends Application {
         Fresco.initialize(this);
         Twitter.initialize(this);
         DCSharedPreferences.initialize(this);
+        CivicConnect.initialise(this, BuildConfig.CIVIC_APP_ID, BuildConfig.CIVIC_SECRET);
     }
 }

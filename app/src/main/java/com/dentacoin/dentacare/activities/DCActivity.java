@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import com.anthonycr.grant.PermissionsManager;
+import com.civic.connect.library.CivicConnect;
 import com.dentacoin.dentacare.LaunchActivity;
 import com.dentacoin.dentacare.fragments.DCLoadingFragment;
 import com.dentacoin.dentacare.model.DCError;

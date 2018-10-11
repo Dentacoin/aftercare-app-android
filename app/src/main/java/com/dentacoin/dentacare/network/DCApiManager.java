@@ -11,6 +11,7 @@ import com.dentacoin.dentacare.BuildConfig;
 import com.dentacoin.dentacare.model.DCAvatar;
 import com.dentacoin.dentacare.model.DCChild;
 import com.dentacoin.dentacare.model.DCChildLogin;
+import com.dentacoin.dentacare.model.DCCivicToken;
 import com.dentacoin.dentacare.model.DCDashboard;
 import com.dentacoin.dentacare.model.DCError;
 import com.dentacoin.dentacare.model.DCFriend;
@@ -105,7 +106,6 @@ public class DCApiManager {
     private static final String ENDPOINT_INVITATIONS_ACCEPT = "invitations/accept";
     private static final String ENDPOINT_INVITATIONS_DECLINE = "invitations/decline";
     private static final String ENDPOINT_LOGIN_CHILD = "children/login";
-    private static final String ENDPOINT_CIVIC = "../civic";
 
     private static final String ENDPOINT_GAS_PRICE = "https://dentacoin.net/gas-price";
 
@@ -159,10 +159,6 @@ public class DCApiManager {
         return builder.build().toString();
     }
 
-    public static String getEndpointCivic() {
-        return buildPath(ENDPOINT_CIVIC, null);
-    }
-
     /**
      * Uploads an avatar image
      * Returns either the created object or an error
@@ -202,13 +198,29 @@ public class DCApiManager {
      * @param user
      * @param responseListener
      */
-    public void loginUSer(DCUser user, DCResponseListener<DCAuthToken> responseListener) {
+    public void loginUser(DCUser user, DCResponseListener<DCAuthToken> responseListener) {
         if (user == null)
             return;
 
         String endpoint = buildPath(ENDPOINT_LOGIN_USER, null);
         RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gsonExpose.toJson(user));
         Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+        client.newCall(request).enqueue(new DCResponseHandler<>(responseListener, DCAuthToken.class));
+    }
+
+    /**
+     * Login with a civic token
+     * @param civicToken
+     * @param responseListener
+     */
+    public void loginCivic(DCCivicToken civicToken, DCResponseListener<DCAuthToken> responseListener) {
+        if (civicToken == null)
+            return;
+
+        String endpoint = buildPath(ENDPOINT_LOGIN_USER, null);
+        RequestBody requestBody = RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(civicToken));
+        Request request = buildRequest(RequestMethod.POST, endpoint, requestBody);
+
         client.newCall(request).enqueue(new DCResponseHandler<>(responseListener, DCAuthToken.class));
     }
 

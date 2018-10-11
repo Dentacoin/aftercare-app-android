@@ -85,8 +85,6 @@ public class LaunchActivity extends AppCompatActivity {
         }
     }
 
-    private static final String CIVIC_PATH_REGEX = ".*/civic*";
-
     private void handleDeepLink() {
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(getIntent())
@@ -102,11 +100,19 @@ public class LaunchActivity extends AppCompatActivity {
                     }
                 });
 
-        if (getIntent() != null && getIntent().getData() != null) {
-            final String path = getIntent().getData().getPath();
-            if (path.matches(CIVIC_PATH_REGEX)) {
-                final String url = getIntent().getDataString();
-                DCSession.getInstance().setCivicDeeplink(url);
+        checkCivicIntent(getIntent());
+    }
+
+    private void checkCivicIntent(Intent intent) {
+        if (intent != null) {
+            if (Intent.ACTION_VIEW == intent.getAction()) {
+                Uri uri = intent.getData();
+                if (uri != null) {
+                    String uuid = uri.getQueryParameter("uuid");
+                    if (uuid != null) {
+                        DCSession.getInstance().setCivicUUID(uuid);
+                    }
+                }
             }
         }
     }

@@ -20,11 +20,10 @@ public class DCSession {
 
     private static DCSession instance;
     private DCAuthToken authToken;
-
     private DCUser user;
     private String socialAvatar;
     private String invitationToken;
-    private String civicDeeplink;
+    private String civicUUID;
 
 
     public synchronized static DCSession getInstance() {
@@ -41,16 +40,16 @@ public class DCSession {
         this.invitationToken = invitationToken;
     }
 
-    public void setCivicDeeplink(String civicDeeplink) {
-        this.civicDeeplink = civicDeeplink;
-    }
-
-    public String getCivicDeeplink() {
-        return civicDeeplink;
-    }
-
     public String getInvitationToken() {
         return invitationToken;
+    }
+
+    public void setCivicUUID(String civicUUID) {
+        this.civicUUID = civicUUID;
+    }
+
+    public String getCivicUUID() {
+        return civicUUID;
     }
 
     public void loadSocialAvatar(Context context) {

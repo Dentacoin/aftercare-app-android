@@ -56,12 +56,6 @@
             android:text="@string/btn_auth_google"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"/>
-        <com.dentacoin.dentacare.widgets.DCButton
-            android:id="@+id/btn_auth_twitter"
-            style="@style/DCButton.Twitter"
-            android:text="@string/btn_auth_twitter"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"/>
         <com.dentacoin.dentacare.widgets.DCTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,19 +75,4 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/txt_auth_login_with_email"/>
     </LinearLayout>
-    <WebView
-        android:id="@+id/civic_web_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="16dp"
-        android:visibility="gone"/>
-    <ImageView
-        android:id="@+id/iv_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/com_facebook_close"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:padding="8dp"
-        android:visibility="gone"/>
 </RelativeLayout>

@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     repositories {
         jcenter()
@@ -35,6 +35,8 @@ android {
     def deepLinkHostDev
     def deepLinkHostStage
     def deepLinkHostLive
+    def civicAppID
+    def civicSecret
 
     if (project.rootProject.file('local.properties').exists()) {
         Properties properties = new Properties()
@@ -62,6 +64,8 @@ android {
         deepLinkHostDev = properties.getProperty('deep.link.host.dev')
         deepLinkHostStage = properties.getProperty('deep.link.host.stage')
         deepLinkHostLive = properties.getProperty('deep.link.host.live')
+        civicAppID = properties.getProperty('civic.app.id')
+        civicSecret = properties.getProperty('civic.secret')
     } else {
         hockeyDebugKey = System.getenv('HOCKEY_DEBUG_KEY')
         hockeyStageKey = System.getenv('HOCKEY_STAGE_KEY')
@@ -87,12 +91,14 @@ android {
         deepLinkHostDev = System.getenv('DEEP_LINK_HOST_DEV')
         deepLinkHostStage = System.getenv('DEEP_LINK_HOST_STAGE')
         deepLinkHostLive = System.getenv('DEEP_LINK_HOST_LIVE')
+        civicAppID = System.getenv('CIVIC_APP_ID')
+        civicSecret = System.getenv('CIVIC_SECRET')
     }
 
     defaultConfig {
         applicationId "com.dentacoin.dentacare"
-        minSdkVersion 16
-        targetSdkVersion 27
+        minSdkVersion 24
+        targetSdkVersion 28
         versionCode buildCode
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -101,6 +107,8 @@ android {
         resValue "string", "com.twitter.sdk.android.CONSUMER_KEY", twitterConsumerKey
         resValue "string", "com.twitter.sdk.android.CONSUMER_SECRET", twitterConsumerSecret
         resValue "string", "google_places_api_key", googlePlacesApiKey
+        buildConfigField 'String', 'CIVIC_APP_ID', civicAppID
+        buildConfigField 'String', 'CIVIC_SECRET', civicSecret
     }
 
     signingConfigs {
@@ -121,10 +129,11 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            minifyEnabled false
         }
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -132,7 +141,7 @@ android {
     flavorDimensions "default"
     productFlavors {
         dev {
-            applicationIdSuffix ".dev"
+//            applicationIdSuffix ".dev"
             resValue "string", "hockey_app_id", hockeyDebugKey
             resValue "string", "google_client_id", googleClientIDDev
             buildConfigField 'String', 'HOST', hostDev
@@ -164,34 +173,48 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support:support-v13:27.1.1'
-    implementation 'com.android.support:cardview-v7:27.1.1'
-    implementation 'com.android.support:exifinterface:27.1.1'
-    implementation 'com.android.support:customtabs:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    implementation 'com.android.support:support-v13:28.0.0'
+    implementation 'com.civic:civic-connect-android:1.0.2'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:exifinterface:28.0.0'
+    implementation 'com.android.support:customtabs:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'net.hockeyapp.android:HockeySDK:5.0.4'
     implementation 'com.facebook.android:facebook-android-sdk:4.30.0'
-    implementation 'com.facebook.fresco:fresco:1.8.1'
+    implementation 'com.facebook.fresco:fresco:1.10.0'
     implementation 'com.twitter.sdk.android:twitter-core:3.1.0'
-    implementation 'com.google.android.gms:play-services-auth:15.0.1'
-    implementation 'com.google.android.gms:play-services-places:15.0.1'
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    implementation 'com.google.android.gms:play-services-places:16.0.0'
     implementation 'com.github.matecode:Snacky:1.0.2'
-    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.github.jkwiecien:EasyImage:2.0.3'
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.4.7'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
     implementation 'com.anthonycr.grant:permissions:1.1.2'
     implementation 'me.dm7.barcodescanner:zxing:1.9.8'
     implementation 'com.github.mukeshsolanki:country-picker-android:1.1.9'
-    implementation 'com.google.firebase:firebase-core:16.0.0'
-    implementation 'com.google.firebase:firebase-messaging:17.0.0'
-    implementation 'com.google.firebase:firebase-invites:16.0.0'
+    implementation 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-messaging:17.3.3'
+    implementation 'com.google.firebase:firebase-invites:16.0.4'
     implementation 'com.robinhood.ticker:ticker:1.2.1'
     implementation 'com.github.takusemba:spotlight:1.3.1'
     implementation 'org.zakariya.stickyheaders:stickyheaders:0.7.6'
     androidTestImplementation 'junit:junit:4.12'
+
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == "com.android.support") {
+                if (!requested.name.startsWith("multidex")) {
+                    details.useVersion "26.+"
+                }
+            }
+        }
+    }
 }
+
 
 apply plugin: 'com.google.gms.google-services'
